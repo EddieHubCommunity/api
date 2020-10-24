@@ -1,0 +1,25 @@
+{
+  "name": "eddiecommunityapi",
+  "version": "1.0.0",
+  "description": "API for Eddie Jaoude Community",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EddieJaoudeCommunity/EddieCommunityApi.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EddieJaoudeCommunity/EddieCommunityApi/issues"
+  },
+  "homepage": "https://github.com/EddieJaoudeCommunity/EddieCommunityApi#readme",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.5.0",
+    "@typescript-eslint/parser": "^4.5.0",
+    "eslint": "^7.12.0",
+    "typescript": "^4.0.3"
+  }
+}

@@ -1,0 +1,6 @@
+node_modules/
+dist/
+*.tmp.*
+*.key
+# Ignore .env from being accidentally committed.
+.env
