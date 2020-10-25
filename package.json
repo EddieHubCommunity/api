@@ -1,0 +1,78 @@
+{
+  "name": "eddiecommunityapi",
+  "description": "API to manage our community data",
+  "version": "0.1.0",
+  "homepage": "https://github.com/EddieJaoudeCommunity/EddieCommunityApi",
+  "private": true,
+  "main": "src",
+  "keywords": [
+    "feathers"
+  ],
+  "author": {
+    "name": "Eddie Jaoude",
+    "email": "eddie@jaoudestudios.com"
+  },
+  "contributors": [],
+  "bugs": {},
+  "directories": {
+    "lib": "src",
+    "test": "test/",
+    "config": "config/"
+  },
+  "engines": {
+    "node": "^14.0.0",
+    "npm": ">= 3.0.0"
+  },
+  "scripts": {
+    "test": "npm run lint && npm run compile && npm run jest",
+    "lint": "eslint src/. test/. --config .eslintrc.json --ext .ts --fix",
+    "dev": "ts-node-dev --no-notify src/",
+    "start": "npm run compile && node lib/",
+    "jest": "jest  --forceExit",
+    "compile": "shx rm -rf lib/ && tsc"
+  },
+  "standard": {
+    "env": [
+      "jest"
+    ],
+    "ignore": []
+  },
+  "types": "lib/",
+  "dependencies": {
+    "@feathersjs/authentication": "^4.5.9",
+    "@feathersjs/authentication-local": "^4.5.9",
+    "@feathersjs/authentication-oauth": "^4.5.9",
+    "@feathersjs/configuration": "^4.5.9",
+    "@feathersjs/errors": "^4.5.9",
+    "@feathersjs/express": "^4.5.9",
+    "@feathersjs/feathers": "^4.5.9",
+    "@feathersjs/socketio": "^4.5.9",
+    "@feathersjs/transport-commons": "^4.5.9",
+    "compression": "^1.7.4",
+    "cors": "^2.8.5",
+    "feathers-mongoose": "^8.3.1",
+    "helmet": "^4.1.1",
+    "mongodb-core": "^3.2.7",
+    "mongoose": "^5.10.10",
+    "serve-favicon": "^2.5.0",
+    "winston": "^3.3.3"
+  },
+  "devDependencies": {
+    "@types/compression": "^1.7.0",
+    "@types/cors": "^2.8.8",
+    "@types/helmet": "^4.0.0",
+    "@types/jest": "^26.0.15",
+    "@types/jsonwebtoken": "^8.5.0",
+    "@types/mongoose": "^5.7.36",
+    "@types/serve-favicon": "^2.5.1",
+    "@typescript-eslint/eslint-plugin": "^4.5.0",
+    "@typescript-eslint/parser": "^4.5.0",
+    "axios": "^0.21.0",
+    "eslint": "^7.12.0",
+    "jest": "^26.6.1",
+    "shx": "^0.3.2",
+    "ts-jest": "^26.4.2",
+    "ts-node-dev": "^1.0.0",
+    "typescript": "^4.0.3"
+  }
+}
