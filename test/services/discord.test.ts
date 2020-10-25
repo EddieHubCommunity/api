@@ -1,5 +1,7 @@
 import app from '../../src/app';
 
+import faker from 'faker';
+
 describe('\'discord\' service', () => {
   it('registered the service', () => {
     const service = app.service('discord');
@@ -7,7 +9,7 @@ describe('\'discord\' service', () => {
   });
 
   it('create and get users', async () => {
-    const username = 'Test 1';
+    const username = faker.name.findName();
     const discord = await app.service('discord').create({
       username,
     });

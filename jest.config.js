@@ -9,11 +9,11 @@ module.exports = {
   verbose: true,
   collectCoverage: true,
   collectCoverageFrom: [
-    "**/*.{ts,tsx}",
-    "!**/node_modules/**",
-    "!**/vendor/**",
-    "!src/declarations.d.ts",
-    "!src/index.ts",
+    '**/*.{ts,tsx}',
+    '!**/node_modules/**',
+    '!**/vendor/**',
+    '!src/declarations.d.ts',
+    '!src/index.ts',
   ],
   coverageThreshold: {
     global: {
