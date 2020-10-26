@@ -5,6 +5,27 @@
 import { Application } from '../declarations';
 import { Model, Mongoose } from 'mongoose';
 
+export interface DiscordModel {
+  username: string;
+  avatar: string;
+  bio: string;
+  socials: {
+    youtube: string;
+    twitter: string;
+    github: string;
+    facebook: string;
+    blog: string;
+    linkedin: string;
+  };
+  location: {
+    lat: number;
+    lon: number;
+    icon: string;
+    displayName: string;
+  };
+  joinedAt: Date;
+}
+
 export default function (app: Application): Model<any> {
   const modelName = 'discord';
   const mongooseClient: Mongoose = app.get('mongooseClient');
