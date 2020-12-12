@@ -19,6 +19,8 @@ import channels from './channels';
 import { HookContext as FeathersHookContext } from '@feathersjs/feathers';
 import authentication from './authentication';
 import mongoose from './mongoose';
+
+import routes from './routes';
 // Don't remove this comment. It's needed to format import lines nicely.
 
 const app: Application = express(feathers());
@@ -35,8 +37,9 @@ app.use(compress());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(favicon(path.join(app.get('public'), 'favicon.ico')));
-// Host the public folder
-app.use('/', express.static(app.get('public')));
+
+// Set routes folder
+app.use('/', routes);
 
 // Set up Plugins and providers
 app.configure(express.rest());
