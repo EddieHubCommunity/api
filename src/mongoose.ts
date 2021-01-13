@@ -7,11 +7,11 @@ export default function (app: Application): void {
     app.get('mongodb'),
     { useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true }
   )
-  .then(() => console.log('Database connected...'))
-  .catch(err => {
-    logger.error(err);
-    process.exit(1);
-  });
+    .then(() => console.log('Database connected...'))
+    .catch(err => {
+      logger.error(err);
+      process.exit(1);
+    });
   
   mongoose.Promise = global.Promise;
 
