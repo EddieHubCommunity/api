@@ -57,9 +57,6 @@
     "mongodb-core": "^3.2.7",
     "mongoose": "^5.10.10",
     "serve-favicon": "^2.5.0",
-    "swagger-jsdoc": "^6.0.1",
-    "swagger-ui": "^3.39.0",
-    "swagger-ui-express": "^4.1.6",
     "winston": "^3.3.3"
   },
   "devDependencies": {
@@ -71,8 +68,6 @@
     "@types/jsonwebtoken": "^8.5.0",
     "@types/mongoose": "^5.7.36",
     "@types/serve-favicon": "^2.5.1",
-    "@types/swagger-jsdoc": "^6.0.0",
-    "@types/swagger-ui-express": "^4.1.2",
     "@typescript-eslint/eslint-plugin": "^4.5.0",
     "@typescript-eslint/parser": "^4.5.0",
     "axios": "^0.21.1",
