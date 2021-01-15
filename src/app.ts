@@ -48,7 +48,7 @@ app.configure(
     uiIndex: true,
     specs: {
       info: {
-        title: "A test",
+        title: "EddieCommunityApi",
         description: "A Web API to access the community's Discord Server info.",
         version: "1.0.0",
       },
