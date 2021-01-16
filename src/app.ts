@@ -49,7 +49,7 @@ app.configure(
     specs: {
       info: {
         title: 'EddieCommunityApi',
-        description: "A Web API to access the community's Discord Server info.",
+        description: 'A Web API to access the community\'s Discord Server info.',
         version: '1.0.0'
       }
     }
