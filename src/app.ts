@@ -32,14 +32,17 @@ app.configure(configuration());
 // Enable security, CORS, compression, favicon and body parsing
 app.use(
   helmet({
-    contentSecurityPolicy: false
-  })
+    contentSecurityPolicy: false,
+  }),
 );
 app.use(cors());
 app.use(compress());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(favicon(path.join(app.get('public'), 'favicon.ico')));
+
+// Host the public folder
+app.use('/', express.static(app.get('public')));
 
 // Configure Swagger API
 app.configure(
@@ -49,11 +52,11 @@ app.configure(
     specs: {
       info: {
         title: 'EddieCommunityApi',
-        description: 'A Web API to access the community\'s Discord Server info.',
-        version: '1.0.0'
-      }
-    }
-  })
+        description: "A Web API to access the community's Discord Server info.",
+        version: '1.0.0',
+      },
+    },
+  }),
 );
 
 // Set up Plugins and providers
