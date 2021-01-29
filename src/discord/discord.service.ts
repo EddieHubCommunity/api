@@ -1,26 +1,71 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateDiscordDto } from './dto/create-discord.dto';
+import { ReadDiscordDto } from './dto/read-discord.dto';
 import { UpdateDiscordDto } from './dto/update-discord.dto';
 
 @Injectable()
 export class DiscordService {
+  private discord: ReadDiscordDto[] = [];
   create(createDiscordDto: CreateDiscordDto) {
-    return 'This action adds a new discord';
+    const discordUser = {
+      id: Date.now(),
+      username: createDiscordDto.username,
+      bio: { ...createDiscordDto.bio },
+      createdOn: new Date(Date.now()),
+      updatedOn: new Date(Date.now()),
+    };
+    this.discord.push(discordUser);
+    return 'User added successfully!';
   }
 
   findAll() {
-    return `This action returns all discord`;
+    return [...this.discord];
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} discord`;
+    const discordUser = this.discord.find((user) => user.id === id);
+    if (!discordUser) {
+      throw new NotFoundException('User Not Found');
+    }
+    return { ...discordUser };
   }
 
   update(id: number, updateDiscordDto: UpdateDiscordDto) {
-    return `This action updates a #${id} discord`;
+    const {
+      username,
+      bio: { description, twitter, linkedin, github },
+    } = updateDiscordDto;
+
+    const discordUser = this.discord.find((user) => user.id === id);
+    if (!discordUser) {
+      throw new NotFoundException('User Not Found');
+    }
+    const updatedDiscord = { ...discordUser };
+    if (username) {
+      updatedDiscord.username = username;
+    }
+    if (description) {
+      updatedDiscord.bio.description = description;
+    }
+    if (twitter) {
+      updatedDiscord.bio.twitter = twitter;
+    }
+    if (linkedin) {
+      updatedDiscord.bio.linkedin = linkedin;
+    }
+    if (github) {
+      updatedDiscord.bio.github = github;
+    }
+
+    return 'User updated successfully!';
   }
 
   remove(id: number) {
-    return `This action removes a #${id} discord`;
+    const updatedDiscord = this.discord.filter((user) => user.id !== id);
+    if (!updatedDiscord) {
+      throw new NotFoundException('User Not Found');
+    }
+    this.discord = [...updatedDiscord];
+    return 'User deleted successfully!';
   }
 }
