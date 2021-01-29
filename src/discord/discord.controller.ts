@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 import { DiscordService } from './discord.service';
 import { CreateDiscordDto } from './dto/create-discord.dto';
+import { ReadDiscordDto } from './dto/read-discord.dto';
 import { UpdateDiscordDto } from './dto/update-discord.dto';
 
 @Controller('discord')

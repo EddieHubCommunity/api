@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateDiscordDto } from './dto/create-discord.dto';
 import { ReadDiscordDto } from './dto/read-discord.dto';
 import { UpdateDiscordDto } from './dto/update-discord.dto';
@@ -23,7 +23,9 @@ export class DiscordService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} discord`;
+    const discordUser = this.findDiscord(id);
+
+    return { ...discordUser };
   }
 
   update(id: number, updateDiscordDto: UpdateDiscordDto) {
@@ -32,5 +34,15 @@ export class DiscordService {
 
   remove(id: number) {
     return `This action removes a #${id} discord`;
+  }
+
+  private findDiscord(id: number): ReadDiscordDto {
+    const userIndex = this.discord.findIndex((user) => user.id === id);
+    const discordUser = this.discord[userIndex];
+    if (!discordUser) {
+      throw new NotFoundException('User Not Found');
+    }
+
+    return discordUser;
   }
 }
