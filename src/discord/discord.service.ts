@@ -5,7 +5,7 @@ import { UpdateDiscordDto } from './dto/update-discord.dto';
 
 @Injectable()
 export class DiscordService {
-  private readonly discord: ReadDiscordDto[] = [];
+  private discord: ReadDiscordDto[] = [];
   create(createDiscordDto: CreateDiscordDto) {
     const discordUser = {
       id: Date.now(),
@@ -24,7 +24,9 @@ export class DiscordService {
 
   findOne(id: number) {
     const discordUser = this.discord.find((user) => user.id === id);
-    this.DiscordNotFound(discordUser);
+    if (!discordUser) {
+      throw new NotFoundException('User Not Found');
+    }
     return { ...discordUser };
   }
 
@@ -35,7 +37,9 @@ export class DiscordService {
     } = updateDiscordDto;
 
     const discordUser = this.discord.find((user) => user.id === id);
-    this.DiscordNotFound(discordUser);
+    if (!discordUser) {
+      throw new NotFoundException('User Not Found');
+    }
     const updatedDiscord = { ...discordUser };
     if (username) {
       updatedDiscord.username = username;
@@ -57,15 +61,11 @@ export class DiscordService {
   }
 
   remove(id: number) {
-    const userIndex = this.discord.findIndex((user) => user.id === id);
-    this.DiscordNotFound(userIndex);
-    this.discord.splice(userIndex);
-    return 'User deleted successfully!';
-  }
-
-  private DiscordNotFound(discord: ReadDiscordDto | number) {
-    if (!discord || discord < 0) {
+    const updatedDiscord = this.discord.filter((user) => user.id !== id);
+    if (!updatedDiscord) {
       throw new NotFoundException('User Not Found');
     }
+    this.discord = [...updatedDiscord];
+    return 'User deleted successfully!';
   }
 }
