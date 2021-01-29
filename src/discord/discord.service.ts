@@ -23,8 +23,8 @@ export class DiscordService {
   }
 
   findOne(id: number) {
-    const discordUser = this.findDiscord(id);
-
+    const discordUser = this.discord.find((user) => user.id === id);
+    this.DiscordNotFound(discordUser);
     return { ...discordUser };
   }
 
@@ -34,7 +34,8 @@ export class DiscordService {
       bio: { description, twitter, linkedin, github },
     } = updateDiscordDto;
 
-    const discordUser = this.findDiscord(id);
+    const discordUser = this.discord.find((user) => user.id === id);
+    this.DiscordNotFound(discordUser);
     const updatedDiscord = { ...discordUser };
     if (username) {
       updatedDiscord.username = username;
@@ -52,22 +53,19 @@ export class DiscordService {
       updatedDiscord.bio.github = github;
     }
 
-    return `User updated successfully!`;
+    return 'User updated successfully!';
   }
 
   remove(id: number) {
     const userIndex = this.discord.findIndex((user) => user.id === id);
+    this.DiscordNotFound(userIndex);
     this.discord.splice(userIndex);
     return 'User deleted successfully!';
   }
 
-  private findDiscord(id: number): ReadDiscordDto {
-    const userIndex = this.discord.findIndex((user) => user.id === id);
-    const discordUser = this.discord[userIndex];
-    if (!discordUser) {
+  private DiscordNotFound(discord: ReadDiscordDto | number) {
+    if (!discord || discord < 0) {
       throw new NotFoundException('User Not Found');
     }
-
-    return discordUser;
   }
 }
