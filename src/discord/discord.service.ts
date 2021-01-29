@@ -52,11 +52,13 @@ export class DiscordService {
       updatedDiscord.bio.github = github;
     }
 
-    return `This action updates a #${id} discord`;
+    return `User updated successfully!`;
   }
 
   remove(id: number) {
-    return `This action removes a #${id} discord`;
+    const userIndex = this.discord.findIndex((user) => user.id === id);
+    this.discord.splice(userIndex);
+    return 'User deleted successfully!';
   }
 
   private findDiscord(id: number): ReadDiscordDto {
