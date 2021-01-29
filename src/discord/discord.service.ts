@@ -1,15 +1,25 @@
 import { Injectable } from '@nestjs/common';
 import { CreateDiscordDto } from './dto/create-discord.dto';
+import { ReadDiscordDto } from './dto/read-discord.dto';
 import { UpdateDiscordDto } from './dto/update-discord.dto';
 
 @Injectable()
 export class DiscordService {
+  private readonly discord: ReadDiscordDto[] = [];
   create(createDiscordDto: CreateDiscordDto) {
-    return 'This action adds a new discord';
+    const discordUser = {
+      id: Date.now(),
+      username: createDiscordDto.username,
+      bio: { ...createDiscordDto.bio },
+      createdOn: new Date(Date.now()),
+      updatedOn: new Date(Date.now()),
+    };
+    this.discord.push(discordUser);
+    return 'User added successfully!';
   }
 
   findAll() {
-    return `This action returns all discord`;
+    return [...this.discord];
   }
 
   findOne(id: number) {
