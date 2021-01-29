@@ -29,6 +29,29 @@ export class DiscordService {
   }
 
   update(id: number, updateDiscordDto: UpdateDiscordDto) {
+    const {
+      username,
+      bio: { description, twitter, linkedin, github },
+    } = updateDiscordDto;
+
+    const discordUser = this.findDiscord(id);
+    const updatedDiscord = { ...discordUser };
+    if (username) {
+      updatedDiscord.username = username;
+    }
+    if (description) {
+      updatedDiscord.bio.description = description;
+    }
+    if (twitter) {
+      updatedDiscord.bio.twitter = twitter;
+    }
+    if (linkedin) {
+      updatedDiscord.bio.linkedin = linkedin;
+    }
+    if (github) {
+      updatedDiscord.bio.github = github;
+    }
+
     return `This action updates a #${id} discord`;
   }
 
