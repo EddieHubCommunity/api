@@ -25,7 +25,7 @@ export class DiscordService {
   findOne(id: number) {
     const discordUser = this.discord.find((user) => user.id === id);
     if (!discordUser) {
-      throw new HttpException("User Not Found", HttpStatus.NOT_FOUND)
+      throw new HttpException("User Not Found", HttpStatus.NOT_FOUND);
     }
     return { ...discordUser };
   }
@@ -38,7 +38,7 @@ export class DiscordService {
 
     const discordUser = this.discord.find((user) => user.id === id);
     if (!discordUser) {
-      throw new HttpException("User Not Found", HttpStatus.NOT_FOUND)
+      throw new HttpException("User Not Found", HttpStatus.NOT_FOUND);
     }
     const updatedDiscord = { ...discordUser };
     if (username) {
@@ -63,7 +63,7 @@ export class DiscordService {
   remove(id: number) {
     const updatedDiscord = this.discord.filter((user) => user.id !== id);
     if (!updatedDiscord) {
-      throw new HttpException("User Not Found", HttpStatus.NOT_FOUND)
+      throw new HttpException("User Not Found", HttpStatus.NOT_FOUND);
     }
     this.discord = [...updatedDiscord];
     return 'User deleted successfully!';
