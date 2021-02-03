@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { CreateDiscordDto } from './dto/create-discord.dto';
 import { ReadDiscordDto } from './dto/read-discord.dto';
 import { UpdateDiscordDto } from './dto/update-discord.dto';
@@ -25,7 +25,7 @@ export class DiscordService {
   findOne(id: number) {
     const discordUser = this.discord.find((user) => user.id === id);
     if (!discordUser) {
-      throw new NotFoundException('User Not Found');
+      throw new HttpException("User Not Found", HttpStatus.NOT_FOUND)
     }
     return { ...discordUser };
   }
@@ -38,7 +38,7 @@ export class DiscordService {
 
     const discordUser = this.discord.find((user) => user.id === id);
     if (!discordUser) {
-      throw new NotFoundException('User Not Found');
+      throw new HttpException("User Not Found", HttpStatus.NOT_FOUND)
     }
     const updatedDiscord = { ...discordUser };
     if (username) {
@@ -63,7 +63,7 @@ export class DiscordService {
   remove(id: number) {
     const updatedDiscord = this.discord.filter((user) => user.id !== id);
     if (!updatedDiscord) {
-      throw new NotFoundException('User Not Found');
+      throw new HttpException("User Not Found", HttpStatus.NOT_FOUND)
     }
     this.discord = [...updatedDiscord];
     return 'User deleted successfully!';
