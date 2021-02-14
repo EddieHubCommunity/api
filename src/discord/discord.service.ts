@@ -5,7 +5,21 @@ import { UpdateDiscordDto } from './dto/update-discord.dto';
 
 @Injectable()
 export class DiscordService {
-  private discord: ReadDiscordDto[] = [];
+  private discord: ReadDiscordDto[] = [
+    // Dummy data
+    {
+      id: 1613291638892,
+      username: 'eddiejaoude',
+      bio: {
+        description: 'This is a GitHub Star ⭐',
+        twitter: 'eddiejaoude',
+        linkedin: 'eddiejaoude',
+        github: 'eddiejaoude',
+      },
+      createdOn: new Date('2021-02-14T08:33:58.892Z'),
+      updatedOn: new Date('2021-02-14T08:33:58.892Z'),
+    },
+  ];
   create(createDiscordDto: CreateDiscordDto) {
     const discordUser = {
       id: Date.now(),
