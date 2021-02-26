@@ -14,6 +14,9 @@ export class DiscordService {
       createdOn: new Date(Date.now()),
       updatedOn: new Date(Date.now()),
     };
+    if (!discordUser.username) {
+      throw new HttpException('Incomplete Data', HttpStatus.BAD_REQUEST);
+    }
     this.discord.push(discordUser);
     return 'User added successfully!';
   }
@@ -23,7 +26,7 @@ export class DiscordService {
   }
 
   findOne(id: number) {
-    const discordUser = this.discord.find((user) => user.id === id);
+    const discordUser = this.discord.find(user => user.id === id);
     if (!discordUser) {
       throw new HttpException('User Not Found', HttpStatus.NOT_FOUND);
     }
@@ -36,7 +39,7 @@ export class DiscordService {
       bio: { description, twitter, linkedin, github },
     } = updateDiscordDto;
 
-    const discordUser = this.discord.find((user) => user.id === id);
+    const discordUser = this.discord.find(user => user.id === id);
     if (!discordUser) {
       throw new HttpException('User Not Found', HttpStatus.NOT_FOUND);
     }
@@ -61,7 +64,7 @@ export class DiscordService {
   }
 
   remove(id: number) {
-    const updatedDiscord = this.discord.filter((user) => user.id !== id);
+    const updatedDiscord = this.discord.filter(user => user.id !== id);
     if (!updatedDiscord) {
       throw new HttpException('User Not Found', HttpStatus.NOT_FOUND);
     }
