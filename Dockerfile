@@ -1,5 +1,5 @@
 FROM node:15 As development
-LABEL org.opencontainers.image.source https://github.com/EddieHubCommunity/api
+LABEL org.opencontainers.image.source https://github.com/eddiehubcommunity/api
 
 WORKDIR /usr/src/app
 
