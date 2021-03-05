@@ -1,6 +1,6 @@
-Feature: Hello World
+Feature: hello world
 
-  Scenario: Say Hello!
+  Scenario: welcome message
     When make a GET request to "/"
     Then the response status code should be "200"
     And the response should be "Welcome to EddieHub"
