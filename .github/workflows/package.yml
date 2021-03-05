@@ -58,4 +58,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: ghcr.io/eddiehub/api:latest
+          tags: ghcr.io/eddiehubcommunity/api:latest
