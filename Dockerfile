@@ -1,4 +1,5 @@
 FROM node:15 As development
+LABEL org.opencontainers.image.source https://github.com/OWNER/REPO
 
 WORKDIR /usr/src/app
 
