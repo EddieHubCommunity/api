@@ -57,7 +57,5 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          version: latest
-          file: dockerfile
           push: true
-          tags: ghcr.io/${{ github.repository }}:latest
+          tags: ghcr.io/eddiehub/api:latest
