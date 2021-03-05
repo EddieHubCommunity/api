@@ -14,6 +14,9 @@ export class DiscordService {
       createdOn: new Date(Date.now()),
       updatedOn: new Date(Date.now()),
     };
+    if (!discordUser.username) {
+      throw new HttpException('Incomplete Data', HttpStatus.BAD_REQUEST);
+    }
     this.discord.push(discordUser);
     return 'User added successfully!';
   }
