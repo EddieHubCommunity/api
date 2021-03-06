@@ -1,8 +1,9 @@
 export class CreateDiscordDto {
   id: number;
   username: string;
-  bio: {
-    description?: string;
+  bio: string;
+  socials?: {
+    discord?: string;
     twitter?: string;
     linkedin?: string;
     github?: string;
