@@ -58,4 +58,6 @@ jobs:
         with:
           context: .
           push: true
-          tags: ghcr.io/eddiehubcommunity/api:latest
+          tags: |
+            ghcr.io/eddiehubcommunity/api:v0.1.$GITHUB_RUN_NUMBER
+            ghcr.io/eddiehubcommunity/api:latest
