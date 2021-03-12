@@ -1,16 +1,16 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
-import { CreateDiscordDto } from './dto/create-discord.dto';
 import { ReadDiscordDto } from './dto/read-discord.dto';
 import { UpdateDiscordDto } from './dto/update-discord.dto';
 
 @Injectable()
 export class DiscordService {
   private discord: ReadDiscordDto[] = [];
-  create(createDiscordDto: CreateDiscordDto) {
+  create(createDiscordDto: ReadDiscordDto) {
     const discordUser = {
       id: Date.now(),
       username: createDiscordDto.username,
-      bio: { ...createDiscordDto.bio },
+      bio: createDiscordDto.bio,
+      socials: { ...createDiscordDto.socials },
       createdOn: new Date(Date.now()),
       updatedOn: new Date(Date.now()),
     };
@@ -34,10 +34,7 @@ export class DiscordService {
   }
 
   update(id: number, updateDiscordDto: UpdateDiscordDto) {
-    const {
-      username,
-      bio: { description, twitter, linkedin, github },
-    } = updateDiscordDto;
+    const { username, bio, socials } = updateDiscordDto;
 
     const discordUser = this.discord.find((user) => user.id === id);
     if (!discordUser) {
@@ -47,17 +44,21 @@ export class DiscordService {
     if (username) {
       updatedDiscord.username = username;
     }
-    if (description) {
-      updatedDiscord.bio.description = description;
+    if (bio) {
+      updatedDiscord.bio = bio;
     }
-    if (twitter) {
-      updatedDiscord.bio.twitter = twitter;
+
+    if (socials && socials.discord) {
+      updatedDiscord.socials.discord = socials.discord;
     }
-    if (linkedin) {
-      updatedDiscord.bio.linkedin = linkedin;
+    if (socials && socials.twitter) {
+      updatedDiscord.socials.twitter = socials.twitter;
     }
-    if (github) {
-      updatedDiscord.bio.github = github;
+    if (socials && socials.linkedin) {
+      updatedDiscord.socials.linkedin = socials.linkedin;
+    }
+    if (socials && socials.github) {
+      updatedDiscord.socials.github = socials.github;
     }
 
     return 'User updated successfully!';
