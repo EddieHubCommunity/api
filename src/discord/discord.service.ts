@@ -1,13 +1,19 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
+import { Repository } from 'typeorm';
+import { ObjectID } from 'mongodb';
+import { InjectRepository } from '@nestjs/typeorm';
 import { ReadDiscordDto } from './dto/read-discord.dto';
 import { UpdateDiscordDto } from './dto/update-discord.dto';
-
+import { Discord } from './discord.entity';
 @Injectable()
 export class DiscordService {
+  constructor(
+    @InjectRepository(Discord)
+    private readonly discordRepository: Repository<Discord>,
+  ) {}
   private discord: ReadDiscordDto[] = [];
-  create(createDiscordDto: ReadDiscordDto) {
+  async create(createDiscordDto: ReadDiscordDto) {
     const discordUser = {
-      id: Date.now(),
       username: createDiscordDto.username,
       bio: createDiscordDto.bio,
       socials: { ...createDiscordDto.socials },
@@ -17,12 +23,12 @@ export class DiscordService {
     if (!discordUser.username) {
       throw new HttpException('Incomplete Data', HttpStatus.BAD_REQUEST);
     }
-    this.discord.push(discordUser);
+    await this.discordRepository.save(discordUser);
     return 'User added successfully!';
   }
 
-  findAll() {
-    return [...this.discord];
+  async findAll() {
+    return await this.discordRepository.find();
   }
 
   findOne(id: number) {
@@ -33,10 +39,21 @@ export class DiscordService {
     return { ...discordUser };
   }
 
-  update(id: number, updateDiscordDto: UpdateDiscordDto) {
+  async update(id: number, updateDiscordDto: UpdateDiscordDto) {
     const { username, bio, socials } = updateDiscordDto;
 
-    const discordUser = this.discord.find((user) => user.id === id);
+    try {
+      // Valid the ObjectID
+      ObjectID(id);
+    } catch (error) {
+      throw new HttpException('Invalid ID', HttpStatus.BAD_REQUEST);
+    }
+    const discordUser = await this.discordRepository.findOne(id);
+    console.log(discordUser);
+    if (!discordUser) {
+      throw new HttpException('User Not Found', HttpStatus.NOT_FOUND);
+    }
+
     if (!discordUser) {
       throw new HttpException('User Not Found', HttpStatus.NOT_FOUND);
     }
@@ -61,15 +78,28 @@ export class DiscordService {
       updatedDiscord.socials.github = socials.github;
     }
 
+    console.log(updatedDiscord);
+    const updated = await this.discordRepository.update(
+      { id: discordUser.id },
+      updatedDiscord,
+    );
+    console.log(updated);
     return 'User updated successfully!';
   }
 
-  remove(id: number) {
-    const updatedDiscord = this.discord.filter((user) => user.id !== id);
-    if (!updatedDiscord) {
+  async remove(id: string) {
+    try {
+      // Valid the ObjectID
+      ObjectID(id);
+    } catch (error) {
+      throw new HttpException('Invalid ID', HttpStatus.BAD_REQUEST);
+    }
+    const discordUser = await this.discordRepository.findOne(id);
+    console.log(discordUser);
+    if (!discordUser) {
       throw new HttpException('User Not Found', HttpStatus.NOT_FOUND);
     }
-    this.discord = [...updatedDiscord];
-    return 'User deleted successfully!';
+    await this.discordRepository.delete(id);
+    return 'User deleted successfully!!!!';
   }
 }
