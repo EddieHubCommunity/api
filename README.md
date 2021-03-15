@@ -29,7 +29,7 @@ An API to manage our community data
 $ npm install
 ```
 
-## Running the app
+## Running the app locally
 
 ```bash
 # development
@@ -54,6 +54,11 @@ $ npm run test:e2e
 # test coverage
 $ npm run test:cov
 ```
+
+## Running the app via Docker
+
+1. `docker run -p 3000:3000 -d ghcr.io/eddiehubcommunity/api:latest`
+2. Visit `http://localhost:3000/`
 
 ## License
 
