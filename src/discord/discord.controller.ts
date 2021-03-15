@@ -12,10 +12,6 @@ import { CreateDiscordDto } from './dto/create-discord.dto';
 import { UpdateDiscordDto } from './dto/update-discord.dto';
 @Controller('discord')
 export class DiscordController {
-  // constructor(
-  //   @InjectRepository(Discord)
-  //   private readonly discordRepository: Repository<Discord>,
-  // ) {}
   constructor(private readonly discordService: DiscordService) {}
   @Post()
   create(@Body() createDiscordDto: CreateDiscordDto) {
@@ -34,7 +30,7 @@ export class DiscordController {
 
   @Put(':id')
   update(@Param('id') id: string, @Body() updateDiscordDto: UpdateDiscordDto) {
-    return this.discordService.update(+id, updateDiscordDto);
+    return this.discordService.update(id, updateDiscordDto);
   }
 
   @Delete(':id')

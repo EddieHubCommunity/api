@@ -39,7 +39,7 @@ export class DiscordService {
     return { ...discordUser };
   }
 
-  async update(id: number, updateDiscordDto: UpdateDiscordDto) {
+  async update(id: string, updateDiscordDto: UpdateDiscordDto) {
     const { username, bio, socials } = updateDiscordDto;
 
     try {
@@ -49,14 +49,11 @@ export class DiscordService {
       throw new HttpException('Invalid ID', HttpStatus.BAD_REQUEST);
     }
     const discordUser = await this.discordRepository.findOne(id);
-    console.log(discordUser);
-    if (!discordUser) {
-      throw new HttpException('User Not Found', HttpStatus.NOT_FOUND);
-    }
 
     if (!discordUser) {
       throw new HttpException('User Not Found', HttpStatus.NOT_FOUND);
     }
+
     const updatedDiscord = { ...discordUser };
     if (username) {
       updatedDiscord.username = username;
@@ -78,12 +75,7 @@ export class DiscordService {
       updatedDiscord.socials.github = socials.github;
     }
 
-    console.log(updatedDiscord);
-    const updated = await this.discordRepository.update(
-      { id: discordUser.id },
-      updatedDiscord,
-    );
-    console.log(updated);
+    await this.discordRepository.update(id, updatedDiscord);
     return 'User updated successfully!';
   }
 
@@ -95,7 +87,6 @@ export class DiscordService {
       throw new HttpException('Invalid ID', HttpStatus.BAD_REQUEST);
     }
     const discordUser = await this.discordRepository.findOne(id);
-    console.log(discordUser);
     if (!discordUser) {
       throw new HttpException('User Not Found', HttpStatus.NOT_FOUND);
     }

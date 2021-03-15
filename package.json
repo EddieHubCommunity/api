@@ -30,11 +30,8 @@
   },
   "devDependencies": {
     "@nestjs/cli": "^7.5.6",
-<<<<<<< HEAD
     "@nestjs/config": "^0.6.3",
     "@nestjs/mapped-types": "^0.3.0",
-=======
->>>>>>> 58c757cf74007f3d6d2129933878b401f7596d97
     "@nestjs/testing": "7.6.13",
     "@nestjs/typeorm": "^7.1.5",
     "@types/chai": "^4.2.15",
