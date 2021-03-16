@@ -29,6 +29,13 @@ An API to manage our community data
 $ npm install
 ```
 
+Create a `.env` file in the project root folder, with the following content
+
+```
+MONGODB_CONNECTION_STRING=<Connection URI>
+MONGODB_DATABASE=<Database name>
+```
+
 ## Running the app locally
 
 ```bash
