@@ -34,6 +34,7 @@ Create a `.env` file in the project root folder, with the following content
 ```
 MONGODB_CONNECTION_STRING=<Connection URI>
 MONGODB_DATABASE=<Database name>
+MONGODB_DATABASE_TEST=<Database name>
 ```
 
 ## Running the app locally

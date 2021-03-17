@@ -10,11 +10,15 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     TypeOrmModule.forRoot({
       type: 'mongodb',
       url: process.env.MONGODB_CONNECTION_STRING,
-      database: process.env.MONGODB_DATABASE,
+      database:
+        process.env.NODE_ENV === 'test'
+          ? process.env.MONGODB_DATABASE_TEST
+          : process.env.MONGODB_DATABASE,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       ssl: false,
       useUnifiedTopology: true,
       useNewUrlParser: true,
+      keepConnectionAlive: true,
     }),
     DiscordModule,
   ],
