@@ -20,10 +20,12 @@
     "test:e2e": "cross-env NODE_ENV=test cucumber-js -p default"
   },
   "dependencies": {
+    "@astrajs/collections": "0.0.12",
     "@nestjs/common": "^7.6.13",
     "@nestjs/core": "^7.6.13",
     "@nestjs/mapped-types": "^0.3.0",
     "@nestjs/platform-express": "^7.6.13",
+    "cassandra-driver": "^4.6.1",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^6.6.6"

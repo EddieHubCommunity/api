@@ -5,12 +5,30 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ReadDiscordDto } from './dto/read-discord.dto';
 import { UpdateDiscordDto } from './dto/update-discord.dto';
 import { Discord } from './discord.entity';
+import { createClient } from '@astrajs/rest';
 @Injectable()
 export class DiscordService {
+  astraClient;
+  basePath = '/api/rest/v2/KEYSPACES/<namespace>/collections/<collectionName>';
   constructor(
     @InjectRepository(Discord)
     private readonly discordRepository: Repository<Discord>,
-  ) {}
+  ) {
+    (async () => {
+      console.log(process.env.ASTRA_DB_ID);
+      try {
+        this.astraClient = await createClient({
+          astraDatabaseId: process.env.ASTRA_DB_ID,
+          astraDatabaseRegion: process.env.ASTRA_DB_REGION,
+          applicationToken: process.env.ASTRA_DB_APPLICATION_TOKEN,
+        });
+
+        console.log(this.astraClient);
+      } catch (ex) {
+        console.log(ex.message);
+      }
+    })();
+  }
   private discord: ReadDiscordDto[] = [];
   async create(createDiscordDto: ReadDiscordDto) {
     const discordUser = {
@@ -20,11 +38,18 @@ export class DiscordService {
       createdOn: new Date(Date.now()),
       updatedOn: new Date(Date.now()),
     };
+
+    // This doesn't work
+    const usersCollection = this.astraClient
+      .namespace('crud')
+      .collection('users');
+
+    console.log(usersCollection);
     if (!discordUser.username) {
       throw new HttpException('Incomplete Data', HttpStatus.BAD_REQUEST);
     }
     await this.discordRepository.save(discordUser);
-    return 'User added successfully!';
+    return 'User added successfully! ';
   }
 
   async findAll() {
