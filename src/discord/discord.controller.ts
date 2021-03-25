@@ -25,7 +25,7 @@ export class DiscordController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.discordService.findOne(+id);
+    return this.discordService.findOne(id);
   }
 
   @Put(':id')

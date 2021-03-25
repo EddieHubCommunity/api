@@ -11,7 +11,6 @@ export class DiscordService {
     @InjectRepository(Discord)
     private readonly discordRepository: Repository<Discord>,
   ) {}
-  private discord: ReadDiscordDto[] = [];
   async create(createDiscordDto: ReadDiscordDto) {
     const discordUser = {
       username: createDiscordDto.username,
@@ -31,8 +30,8 @@ export class DiscordService {
     return await this.discordRepository.find();
   }
 
-  findOne(id: number) {
-    const discordUser = this.discord.find((user) => user.id === id);
+  async findOne(id: string) {
+    const discordUser = await this.discordRepository.findOne(id);
     if (!discordUser) {
       throw new HttpException('User Not Found', HttpStatus.NOT_FOUND);
     }
@@ -91,6 +90,6 @@ export class DiscordService {
       throw new HttpException('User Not Found', HttpStatus.NOT_FOUND);
     }
     await this.discordRepository.delete(id);
-    return 'User deleted successfully!!!!';
+    return 'User deleted successfully!';
   }
 }
