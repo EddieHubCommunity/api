@@ -1,19 +1,14 @@
-import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
-import { Repository } from 'typeorm';
-import { InjectRepository } from '@nestjs/typeorm';
+import { HttpException, HttpStatus } from '@nestjs/common';
+import { createClient } from '@astrajs/collections';
+
 import { ReadDiscordDto } from './dto/read-discord.dto';
 import { UpdateDiscordDto } from './dto/update-discord.dto';
-import { Discord } from './discord.entity';
-import { createClient } from '@astrajs/collections';
-@Injectable()
+
 export class DiscordService {
   astraClient;
   usersCollection;
   basePath = '/api/rest/v2/KEYSPACES/<namespace>/collections/<collectionName>';
-  constructor(
-    @InjectRepository(Discord)
-    private readonly discordRepository: Repository<Discord>,
-  ) {
+  constructor() {
     (async () => {
       try {
         this.astraClient = await createClient({
@@ -54,7 +49,6 @@ export class DiscordService {
 
   async findOne(id: string) {
     const discordUser = await this.usersCollection.get(id);
-    console.log(discordUser);
     if (!discordUser) {
       throw new HttpException('User Not Found', HttpStatus.NOT_FOUND);
     }
@@ -86,14 +80,12 @@ export class DiscordService {
       discordUser.socials.github = socials.github;
     }
 
-    const updatedUser = await this.usersCollection.update(id, discordUser);
-    console.log(updatedUser);
+    await this.usersCollection.update(id, discordUser);
     return 'User updated successfully!';
   }
 
   async remove(id: string) {
-    const discordUser = await this.usersCollection.delete(id);
-    console.log(discordUser);
+    await this.usersCollection.delete(id);
     return 'User deleted successfully!';
   }
 }
