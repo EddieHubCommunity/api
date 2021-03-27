@@ -1,21 +1,20 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { ObjectID } from 'mongodb';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ReadDiscordDto } from './dto/read-discord.dto';
 import { UpdateDiscordDto } from './dto/update-discord.dto';
 import { Discord } from './discord.entity';
-import { createClient } from '@astrajs/rest';
+import { createClient } from '@astrajs/collections';
 @Injectable()
 export class DiscordService {
   astraClient;
+  usersCollection;
   basePath = '/api/rest/v2/KEYSPACES/<namespace>/collections/<collectionName>';
   constructor(
     @InjectRepository(Discord)
     private readonly discordRepository: Repository<Discord>,
   ) {
     (async () => {
-      console.log(process.env.ASTRA_DB_ID);
       try {
         this.astraClient = await createClient({
           astraDatabaseId: process.env.ASTRA_DB_ID,
@@ -23,13 +22,14 @@ export class DiscordService {
           applicationToken: process.env.ASTRA_DB_APPLICATION_TOKEN,
         });
 
-        console.log(this.astraClient);
+        this.usersCollection = this.astraClient
+          .namespace('crud')
+          .collection('users');
       } catch (ex) {
         console.log(ex.message);
       }
     })();
   }
-  private discord: ReadDiscordDto[] = [];
   async create(createDiscordDto: ReadDiscordDto) {
     const discordUser = {
       username: createDiscordDto.username,
@@ -39,25 +39,22 @@ export class DiscordService {
       updatedOn: new Date(Date.now()),
     };
 
-    // This doesn't work
-    const usersCollection = this.astraClient
-      .namespace('crud')
-      .collection('users');
-
-    console.log(usersCollection);
     if (!discordUser.username) {
       throw new HttpException('Incomplete Data', HttpStatus.BAD_REQUEST);
     }
-    await this.discordRepository.save(discordUser);
+    await this.usersCollection.create({
+      ...discordUser,
+    });
     return 'User added successfully! ';
   }
 
   async findAll() {
-    return await this.discordRepository.find();
+    return await this.usersCollection.find();
   }
 
   async findOne(id: string) {
-    const discordUser = await this.discordRepository.findOne(id);
+    const discordUser = await this.usersCollection.get(id);
+    console.log(discordUser);
     if (!discordUser) {
       throw new HttpException('User Not Found', HttpStatus.NOT_FOUND);
     }
@@ -67,55 +64,36 @@ export class DiscordService {
   async update(id: string, updateDiscordDto: UpdateDiscordDto) {
     const { username, bio, socials } = updateDiscordDto;
 
-    try {
-      // Valid the ObjectID
-      ObjectID(id);
-    } catch (error) {
-      throw new HttpException('Invalid ID', HttpStatus.BAD_REQUEST);
-    }
-    const discordUser = await this.discordRepository.findOne(id);
+    const discordUser = await this.findOne(id);
 
-    if (!discordUser) {
-      throw new HttpException('User Not Found', HttpStatus.NOT_FOUND);
-    }
-
-    const updatedDiscord = { ...discordUser };
     if (username) {
-      updatedDiscord.username = username;
+      discordUser.username = username;
     }
     if (bio) {
-      updatedDiscord.bio = bio;
+      discordUser.bio = bio;
     }
 
     if (socials && socials.discord) {
-      updatedDiscord.socials.discord = socials.discord;
+      discordUser.socials.discord = socials.discord;
     }
     if (socials && socials.twitter) {
-      updatedDiscord.socials.twitter = socials.twitter;
+      discordUser.socials.twitter = socials.twitter;
     }
     if (socials && socials.linkedin) {
-      updatedDiscord.socials.linkedin = socials.linkedin;
+      discordUser.socials.linkedin = socials.linkedin;
     }
     if (socials && socials.github) {
-      updatedDiscord.socials.github = socials.github;
+      discordUser.socials.github = socials.github;
     }
 
-    await this.discordRepository.update(id, updatedDiscord);
+    const updatedUser = await this.usersCollection.update(id, discordUser);
+    console.log(updatedUser);
     return 'User updated successfully!';
   }
 
   async remove(id: string) {
-    try {
-      // Valid the ObjectID
-      ObjectID(id);
-    } catch (error) {
-      throw new HttpException('Invalid ID', HttpStatus.BAD_REQUEST);
-    }
-    const discordUser = await this.discordRepository.findOne(id);
-    if (!discordUser) {
-      throw new HttpException('User Not Found', HttpStatus.NOT_FOUND);
-    }
-    await this.discordRepository.delete(id);
+    const discordUser = await this.usersCollection.delete(id);
+    console.log(discordUser);
     return 'User deleted successfully!';
   }
 }
