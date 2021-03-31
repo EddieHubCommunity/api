@@ -24,6 +24,11 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
+    services:
+      mongo:
+        image: mongo
+        ports:
+          - 27017:27017
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
@@ -33,3 +38,6 @@ jobs:
         run: npm run test
       - name: run e2e tests
         run: npm run test:e2e
+        env:
+          MONGODB_CONNECTION_STRING: 'mongodb://localhost:27017'
+          MONGODB_DATABASE: 'test'
