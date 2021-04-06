@@ -39,5 +39,5 @@ jobs:
       - name: run e2e tests
         run: npm run test:e2e
         env:
-          MONGODB_CONNECTION_STRING: 'mongodb://mongo:27017'
-          MONGODB_DATABASE: 'test'
+          MONGODB_CONNECTION_STRING: 'mongodb://mongodb:27017'
+          MONGODB_DATABASE_TEST: 'test'
