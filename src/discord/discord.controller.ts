@@ -7,10 +7,12 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { DiscordService } from './discord.service';
 import { CreateDiscordDto } from './dto/create-discord.dto';
 import { UpdateDiscordDto } from './dto/update-discord.dto';
 
+@ApiTags('Discord')
 @Controller('discord')
 export class DiscordController {
   constructor(private readonly discordService: DiscordService) {}
