@@ -31,7 +31,7 @@ export class requests {
       .post(url)
       .send({
         username: 'khattakdev',
-        bio: 'This is a GitHub Campus Expert 🚩',
+        bio: 'This is a GitHub Campus Expert',
         socials: {
           discord: 'khattakdev',
           twitter: 'khattakdev',
@@ -58,7 +58,7 @@ export class requests {
     this.context.response = await request(this.context.app.getHttpServer())
       .put(url + `/${user.id}`)
       .send({
-        bio: 'This is Campus Expert 🚩 from Pakistan',
+        bio: 'This is a GitHub Campus Expert from Pakistan',
       });
   }
 
