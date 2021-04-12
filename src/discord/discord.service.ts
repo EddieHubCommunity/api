@@ -62,6 +62,11 @@ export class DiscordService {
       updatedDiscord.socials.github = socials.github;
     }
 
+    const index = this.discord.findIndex(
+      (discordUser) => discordUser.id === id,
+    );
+    this.discord[index] = updatedDiscord;
+
     return 'User updated successfully!';
   }
 
