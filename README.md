@@ -42,6 +42,13 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
+## Swagger docs
+
+1. start the app `npm start`
+2. visit `http://localhost:3000/swagger`
+
+Official docs at https://docs.nestjs.com/openapi/introduction
+
 ## Test
 
 ```bash
