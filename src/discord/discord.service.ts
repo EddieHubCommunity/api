@@ -1,11 +1,12 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { ReadDiscordDto } from './dto/read-discord.dto';
 import { UpdateDiscordDto } from './dto/update-discord.dto';
+import { CreateDiscordDto } from './dto/create-discord.dto';
 
 @Injectable()
 export class DiscordService {
   private discord: ReadDiscordDto[] = [];
-  create(createDiscordDto: ReadDiscordDto) {
+  create(createDiscordDto: CreateDiscordDto) {
     const discordUser = {
       id: Date.now(),
       username: createDiscordDto.username,
