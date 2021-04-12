@@ -29,11 +29,8 @@ export class responses {
   }
 
   @then(/the response should contains:/)
-  public dataResponseTable(data: { rawTable: [] }) {
-    const check = data.rawTable.reduce((result, current) => {
-      result[current[0] as string] = JSON.parse(current[1]);
-      return result;
-    }, {});
-    expect(JSON.parse(this.context.response.text)).to.to.eql(check);
+  public dataResponseTable(table: { rawTable: [] }) {
+    const data = this.context.tableToObject(table);
+    expect(JSON.parse(this.context.response.text)).to.to.eql(data);
   }
 }

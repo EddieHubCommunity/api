@@ -5,7 +5,7 @@ import { CreateDiscordDto } from './dto/create-discord.dto';
 
 @Injectable()
 export class DiscordService {
-  private discord: ReadDiscordDto[] = [];
+  private discords: ReadDiscordDto[] = [];
 
   create(createDiscordDto: CreateDiscordDto): ReadDiscordDto {
     const discordUser = {
@@ -19,17 +19,17 @@ export class DiscordService {
     if (!discordUser.username) {
       throw new HttpException('Incomplete Data', HttpStatus.BAD_REQUEST);
     }
-    this.discord.push(discordUser);
+    this.discords.push(discordUser);
 
     return discordUser;
   }
 
   findAll(): ReadDiscordDto[] {
-    return [...this.discord];
+    return [...this.discords];
   }
 
   findOne(id: number): ReadDiscordDto {
-    const discordUser = this.discord.find((user) => user.id === id);
+    const discordUser = this.discords.find((user) => user.id === id);
     if (!discordUser) {
       throw new HttpException('User Not Found', HttpStatus.NOT_FOUND);
     }
@@ -38,8 +38,7 @@ export class DiscordService {
 
   update(id: number, updateDiscordDto: UpdateDiscordDto): ReadDiscordDto {
     const { username, bio, socials } = updateDiscordDto;
-
-    const discordUser = this.discord.find((user) => user.id === id);
+    const discordUser = this.discords.find((user) => user.id === id);
     if (!discordUser) {
       throw new HttpException('User Not Found', HttpStatus.NOT_FOUND);
     }
@@ -64,20 +63,21 @@ export class DiscordService {
       updatedDiscord.socials.github = socials.github;
     }
 
-    const index = this.discord.findIndex(
+    const index = this.discords.findIndex(
       (discordUser) => discordUser.id === id,
     );
-    this.discord[index] = updatedDiscord;
+    this.discords[index] = updatedDiscord;
 
     return updatedDiscord;
   }
 
   remove(id: number): Record<string, never> {
-    const updatedDiscord = this.discord.filter((user) => user.id !== id);
+    const updatedDiscord = this.discords.filter((user) => user.id !== id);
     if (!updatedDiscord) {
       throw new HttpException('User Not Found', HttpStatus.NOT_FOUND);
     }
-    this.discord = [...updatedDiscord];
+    this.discords = [...updatedDiscord];
+
     return {};
   }
 }
