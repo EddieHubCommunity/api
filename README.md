@@ -70,3 +70,6 @@ $ npm run test:cov
 ## License
 
 [MIT licensed](LICENSE).
+
+
+## MADE WITH :heart: BY EDDIEHUBBERS :sparkles::sparkles:
