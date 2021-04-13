@@ -1,5 +1,4 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { of } from 'rxjs';
 import { CreateStandupDTO } from './dto/CreateStandup.dto';
 import { SearchStandupDTO } from './dto/SearchStandup.dto';
 import { IStandup } from './interfaces/Standup.interface';

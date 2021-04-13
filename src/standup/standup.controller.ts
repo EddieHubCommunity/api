@@ -6,7 +6,6 @@ import {
   Param,
   ParseIntPipe,
   Post,
-  Query,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { CreateStandupDTO } from './dto/CreateStandup.dto';

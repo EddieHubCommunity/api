@@ -4,6 +4,6 @@ import { StandupService } from './standup.service';
 
 @Module({
   controllers: [StandupController],
-  providers: [StandupService]
+  providers: [StandupService],
 })
 export class StandupModule {}
