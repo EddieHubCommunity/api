@@ -71,7 +71,7 @@ export class DiscordService {
   }
 
   remove(id: number) {
-    const deleteElement = this.discord.find((standup) => standup.id == id);
+    const deleteElement = this.discord.find((user) => user.id == id);
     if (!deleteElement) {
       throw new HttpException('User Not Found', HttpStatus.NOT_FOUND);
     }
