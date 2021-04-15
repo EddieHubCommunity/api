@@ -25,48 +25,28 @@ export class requests {
     );
   }
 
-  @given(/make a POST request to "([^"]*)"/)
-  public async postRequestWithBody(url: string) {
+  @given(/make a POST request to "([^"]*)" with:/)
+  public async postRequestWithBody(url: string, table: { rawTable: [] }) {
     this.context.response = await request(this.context.app.getHttpServer())
       .post(url)
-      .send({
-        username: 'khattakdev',
-        bio: 'This is a GitHub Campus Expert 🚩',
-        socials: {
-          discord: 'khattakdev',
-          twitter: 'khattakdev',
-          linkedin: 'khattakdev',
-          github: 'khattakdev',
-        },
-      });
+      .send(this.context.tableToObject(table));
 
     this.context.preRequest = await request(
       this.context.app.getHttpServer(),
     ).get(url);
   }
 
-  @given(/make a POST request without body to "([^"]*)"/)
-  public async postRequest(url: string) {
-    this.context.response = await request(
-      this.context.app.getHttpServer(),
-    ).post(url);
-  }
-
-  @when(/make a PUT request to "([^"]*)" with an ID/)
-  public async putRequest(url: string) {
-    const user = this.context.preRequest.body[0];
+  @when(/make a PUT request to "([^"]*)" with:/)
+  public async putRequest(url: string, table: { rawTable: [] }) {
     this.context.response = await request(this.context.app.getHttpServer())
-      .put(url + `/${user.id}`)
-      .send({
-        bio: 'This is Campus Expert 🚩 from Pakistan',
-      });
+      .put(url)
+      .send(this.context.tableToObject(table));
   }
 
-  @when(/make a DELETE request to "([^"]*)" with an ID/)
+  @when(/make a DELETE request to "([^"]*)"/)
   public async deleteRequest(url: string) {
-    const user = this.context.preRequest.body[0];
     this.context.response = await request(
       this.context.app.getHttpServer(),
-    ).delete(url + `/${user.id}`);
+    ).delete(url);
   }
 }

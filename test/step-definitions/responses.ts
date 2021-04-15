@@ -1,5 +1,5 @@
 import { binding, then, before } from 'cucumber-tsflow';
-import { assert, expect } from 'chai';
+import { expect } from 'chai';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AppModule } from '../../src/app.module';
 import Context from '../support/world';
@@ -18,14 +18,19 @@ export class responses {
     await this.context.app.init();
   }
 
-  @then(/the response status code should be "([^"]*)"/)
+  @then(/the response status code should be (200|201|400|413|500|503)/)
   public statusResponse(status: string) {
-    assert.equal(this.context.response.status, status);
+    expect(this.context.response.status).to.equal(parseInt(status));
   }
 
   @then(/the response should be "([^"]*)"/)
-  @then(/the response should contains:/)
   public dataResponse(data: string) {
-    expect(this.context.response.body, data);
+    expect(this.context.response.text).to.equal(data);
+  }
+
+  @then(/the response should contains:/)
+  public dataResponseTable(table: { rawTable: [] }) {
+    const data = this.context.tableToObject(table);
+    expect(JSON.parse(this.context.response.text)).to.to.eql(data);
   }
 }
