@@ -1,15 +1,15 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateStandupDTO } from './dto/CreateStandup.dto';
 import { SearchStandupDTO } from './dto/SearchStandup.dto';
-import { IStandup } from './interfaces/Standup.interface';
+import { Standup } from './interfaces/Standup.interface';
 
 @Injectable()
 export class StandupService {
-  private standups: Array<IStandup> = [];
-  create(body: CreateStandupDTO): IStandup {
+  private standups: Array<Standup> = [];
+  create(body: CreateStandupDTO): Standup {
     const { discordUser, todayMessage, yesterdayMessage } = body;
 
-    const newStandup: IStandup = {
+    const newStandup: Standup = {
       id: Date.now(),
       yesterdayMessage: yesterdayMessage,
       todayMessage: todayMessage,
@@ -21,11 +21,11 @@ export class StandupService {
     return newStandup;
   }
 
-  findAll(): Array<IStandup> {
+  findAll(): Array<Standup> {
     return [...this.standups];
   }
 
-  findById(id: number): IStandup {
+  findById(id: number): Standup {
     const result = this.standups.find((standup) => standup.id === id);
     if (!result) {
       throw new HttpException('Standup Not Found', HttpStatus.NOT_FOUND);

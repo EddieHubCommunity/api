@@ -1,4 +1,4 @@
-export interface IStandup {
+export interface Standup {
   id: number;
   yesterdayMessage: string;
   todayMessage: string;
