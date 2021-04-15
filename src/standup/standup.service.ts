@@ -10,13 +10,15 @@ export class StandupService {
     const { discordUser, todayMessage, yesterdayMessage } = body;
 
     const newStandup: Standup = {
-      id: Date.now(),
+      id: 666,
       yesterdayMessage: yesterdayMessage,
       todayMessage: todayMessage,
       discordUser: discordUser,
-      createdOn: new Date(Date.now()),
+      createdOn: new Date('2021-01-01T00:00:00.000Z'),
     };
-
+    if (!newStandup.discordUser) {
+      throw new HttpException('Incomplete Data', HttpStatus.BAD_REQUEST);
+    }
     this.standups.push(newStandup);
     return newStandup;
   }
@@ -40,7 +42,7 @@ export class StandupService {
     }
     const updateStandup = this.standups.filter((standup) => standup.id !== id);
     this.standups = [...updateStandup];
-    return { message: 'Standup deleted successfully' };
+    return {};
   }
 
   search(body: SearchStandupDTO) {
