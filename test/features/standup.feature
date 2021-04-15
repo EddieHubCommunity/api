@@ -19,7 +19,6 @@ Feature: Standup-module
             | id               | 666                        |
 
 
-    //TODO Step Definition Array of Objects
     Scenario: search Standup
         Given make a POST request to "/standup" with:
             | discordUser      | "eddiehubber"          |
@@ -28,7 +27,12 @@ Feature: Standup-module
         Then  make a POST request to "/standup/search" with:
             | discordUser | "eddiehubber" |
         Then the response status code should be 201
-        And  the response should be:
+        And  the response in item "0" should contains:
+            | discordUser      | "eddiehubber"              |
+            | yesterdayMessage | "yesterday I did this"     |
+            | todayMessage     | "Today I'll do this"       |
+            | createdOn        | "2021-01-01T00:00:00.000Z" |
+            | id               | 666                        |
 
 
     Scenario: add an empty standup
