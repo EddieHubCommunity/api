@@ -5,39 +5,40 @@ import { CreateDiscordDto } from './dto/create-discord.dto';
 
 @Injectable()
 export class DiscordService {
-  private discord: ReadDiscordDto[] = [];
-  create(createDiscordDto: CreateDiscordDto) {
+  private discords: ReadDiscordDto[] = [];
+
+  create(createDiscordDto: CreateDiscordDto): ReadDiscordDto {
     const discordUser = {
-      id: Date.now(),
+      id: 123,
       username: createDiscordDto.username,
       bio: createDiscordDto.bio,
       socials: { ...createDiscordDto.socials },
-      createdOn: new Date(Date.now()),
-      updatedOn: new Date(Date.now()),
+      createdOn: new Date('2021-01-01T00:00:00.000Z'),
+      updatedOn: new Date('2021-01-01T00:00:00.000Z'),
     };
     if (!discordUser.username) {
       throw new HttpException('Incomplete Data', HttpStatus.BAD_REQUEST);
     }
-    this.discord.push(discordUser);
-    return 'User added successfully!';
+    this.discords.push(discordUser);
+
+    return discordUser;
   }
 
-  findAll() {
-    return [...this.discord];
+  findAll(): ReadDiscordDto[] {
+    return [...this.discords];
   }
 
-  findOne(id: number) {
-    const discordUser = this.discord.find((user) => user.id === id);
+  findOne(id: number): ReadDiscordDto {
+    const discordUser = this.discords.find((user) => user.id === id);
     if (!discordUser) {
       throw new HttpException('User Not Found', HttpStatus.NOT_FOUND);
     }
     return { ...discordUser };
   }
 
-  update(id: number, updateDiscordDto: UpdateDiscordDto) {
+  update(id: number, updateDiscordDto: UpdateDiscordDto): ReadDiscordDto {
     const { username, bio, socials } = updateDiscordDto;
-
-    const discordUser = this.discord.find((user) => user.id === id);
+    const discordUser = this.discords.find((user) => user.id === id);
     if (!discordUser) {
       throw new HttpException('User Not Found', HttpStatus.NOT_FOUND);
     }
@@ -62,21 +63,21 @@ export class DiscordService {
       updatedDiscord.socials.github = socials.github;
     }
 
-    const index = this.discord.findIndex(
+    const index = this.discords.findIndex(
       (discordUser) => discordUser.id === id,
     );
-    this.discord[index] = updatedDiscord;
+    this.discords[index] = updatedDiscord;
 
-    return 'User updated successfully!';
+    return updatedDiscord;
   }
 
   remove(id: number) {
-    const deleteElement = this.discord.find((user) => user.id == id);
+    const deleteElement = this.discords.find((user) => user.id == id);
     if (!deleteElement) {
       throw new HttpException('User Not Found', HttpStatus.NOT_FOUND);
     }
-    const updatedDiscord = this.discord.filter((user) => user.id !== id);
-    this.discord = [...updatedDiscord];
+    const updatedDiscord = this.discords.filter((user) => user.id !== id);
+    this.discords = [...updatedDiscord];
     return 'User deleted successfully!';
   }
 }
