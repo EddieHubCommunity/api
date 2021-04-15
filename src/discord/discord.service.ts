@@ -78,6 +78,7 @@ export class DiscordService {
     }
     const updatedDiscord = this.discords.filter((user) => user.id !== id);
     this.discords = [...updatedDiscord];
-    return 'User deleted successfully!';
+
+    return {};
   }
 }
