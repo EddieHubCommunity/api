@@ -1,6 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateStandupDTO } from './dto/CreateStandup.dto';
-import { SearchStandupDTO } from './dto/SearchStandup.dto';
 import { Standup } from './interfaces/Standup.interface';
 
 @Injectable()
@@ -45,8 +44,8 @@ export class StandupService {
     return {};
   }
 
-  search(body: SearchStandupDTO) {
-    const { discordUser } = body;
+  search(query) {
+    const { discordUser } = query;
     if (!discordUser) {
       throw new HttpException(
         'Please Provice Search Context',
@@ -57,10 +56,6 @@ export class StandupService {
     const results = this.standups.filter(
       (standup) => standup.discordUser === discordUser,
     );
-
-    if (results.length === 0) {
-      throw new HttpException('No Standup found', HttpStatus.NOT_FOUND);
-    }
 
     return [...results];
   }

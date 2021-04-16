@@ -19,20 +19,40 @@ Feature: Standup-module
             | id               | 666                        |
 
 
-    Scenario: search Standup
+    Scenario: search existing Standup
         Given make a POST request to "/standup" with:
             | discordUser      | "eddiehubber"          |
             | yesterdayMessage | "yesterday I did this" |
             | todayMessage     | "Today I'll do this"   |
-        Then  make a POST request to "/standup/search" with:
-            | discordUser | "eddiehubber" |
-        Then the response status code should be 201
+        Then  make a GET request to "/standup/search?discordUser=eddiehubber"
+        Then the response status code should be 200
         And  the response in item "0" should contains:
             | discordUser      | "eddiehubber"              |
             | yesterdayMessage | "yesterday I did this"     |
             | todayMessage     | "Today I'll do this"       |
             | createdOn        | "2021-01-01T00:00:00.000Z" |
             | id               | 666                        |
+
+    Scenario: search non-existing Standup
+        Given make a POST request to "/standup" with:
+            | discordUser      | "eddiehubber"          |
+            | yesterdayMessage | "yesterday I did this" |
+            | todayMessage     | "Today I'll do this"   |
+        Then  make a GET request to "/standup/search?discordUser=hubber"
+        Then the response status code should be 200
+        And  the response should be "[]"
+
+    Scenario: provide no Search Context
+        Given make a POST request to "/standup" with:
+            | discordUser      | "eddiehubber"          |
+            | yesterdayMessage | "yesterday I did this" |
+            | todayMessage     | "Today I'll do this"   |
+        Then  make a GET request to "/standup/search"
+        Then the response status code should be 400
+        And  the response should contains:
+            | statusCode | 400                             |
+            | message    | "Please Provice Search Context" |
+
 
 
     Scenario: add an empty standup
@@ -51,3 +71,15 @@ Feature: Standup-module
         Then make a DELETE request to "/standup/666"
         Then the response status code should be 200
         And the response should be "{}"
+
+
+    Scenario: delete non-existent standup
+        Given make a POST request to "/standup" with:
+            | discordUser      | "eddiehubber"          |
+            | yesterdayMessage | "yesterday I did this" |
+            | todayMessage     | "Today I'll do this"   |
+        Then make a DELETE request to "/standup/66"
+        Then the response status code should be 404
+        And the response should contains:
+            | statusCode | 404                 |
+            | message    | "Standup Not Found" |

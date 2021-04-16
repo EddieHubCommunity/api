@@ -6,10 +6,10 @@ import {
   Param,
   ParseIntPipe,
   Post,
+  Query,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiQuery, ApiTags } from '@nestjs/swagger';
 import { CreateStandupDTO } from './dto/CreateStandup.dto';
-import { SearchStandupDTO } from './dto/SearchStandup.dto';
 import { StandupService } from './standup.service';
 
 @ApiTags('Standup')
@@ -26,6 +26,11 @@ export class StandupController {
   findAllStandups() {
     return this.standupService.findAll();
   }
+  @Get('search')
+  @ApiQuery({ name: 'discordUser', type: 'string' })
+  search(@Query() query) {
+    return this.standupService.search(query);
+  }
 
   @Get(':id')
   findById(@Param('id', new ParseIntPipe()) id) {
@@ -35,10 +40,5 @@ export class StandupController {
   @Delete(':id')
   deleteStandup(@Param('id', new ParseIntPipe()) id: number) {
     return this.standupService.deleteStandup(id);
-  }
-
-  @Post('search')
-  search(@Body() body: SearchStandupDTO) {
-    return this.standupService.search(body);
   }
 }
