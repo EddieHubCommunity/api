@@ -19,7 +19,7 @@ Feature: Standup-module
             | id               | 666                        |
 
 
-    Scenario: search existing Standup
+    Scenario: search existing standup
         Given make a POST request to "/standup" with:
             | discordUser      | "eddiehubber"          |
             | yesterdayMessage | "yesterday I did this" |
@@ -33,7 +33,7 @@ Feature: Standup-module
             | createdOn        | "2021-01-01T00:00:00.000Z" |
             | id               | 666                        |
 
-    Scenario: search non-existing Standup
+    Scenario: search non-existing standup
         Given make a POST request to "/standup" with:
             | discordUser      | "eddiehubber"          |
             | yesterdayMessage | "yesterday I did this" |
@@ -42,7 +42,7 @@ Feature: Standup-module
         Then the response status code should be 200
         And  the response should be "[]"
 
-    Scenario: provide no Search Context
+    Scenario: provide no search context
         Given make a POST request to "/standup" with:
             | discordUser      | "eddiehubber"          |
             | yesterdayMessage | "yesterday I did this" |
@@ -63,7 +63,7 @@ Feature: Standup-module
             | statusCode | 400               |
             | message    | "Incomplete Data" |
 
-    Scenario: Delete Standup
+    Scenario: delete standup
         Given make a POST request to "/standup" with:
             | discordUser      | "eddiehubber"          |
             | yesterdayMessage | "yesterday I did this" |

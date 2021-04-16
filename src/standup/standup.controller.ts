@@ -26,6 +26,7 @@ export class StandupController {
   findAllStandups() {
     return this.standupService.findAll();
   }
+
   @Get('search')
   @ApiQuery({ name: 'discordUser', type: 'string' })
   search(@Query() query) {

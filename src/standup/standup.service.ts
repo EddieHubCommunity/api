@@ -5,6 +5,7 @@ import { Standup } from './interfaces/Standup.interface';
 @Injectable()
 export class StandupService {
   private standups: Array<Standup> = [];
+
   create(body: CreateStandupDTO): Standup {
     const { discordUser, todayMessage, yesterdayMessage } = body;
 
@@ -52,11 +53,9 @@ export class StandupService {
         HttpStatus.BAD_REQUEST,
       );
     }
-
     const results = this.standups.filter(
       (standup) => standup.discordUser === discordUser,
     );
-
     return [...results];
   }
 }
