@@ -71,11 +71,12 @@ export class DiscordService {
     return updatedDiscord;
   }
 
-  remove(id: number): Record<string, never> {
-    const updatedDiscord = this.discords.filter((user) => user.id !== id);
-    if (!updatedDiscord) {
+  remove(id: number) {
+    const deleteElement = this.discords.find((user) => user.id == id);
+    if (!deleteElement) {
       throw new HttpException('User Not Found', HttpStatus.NOT_FOUND);
     }
+    const updatedDiscord = this.discords.filter((user) => user.id !== id);
     this.discords = [...updatedDiscord];
 
     return {};

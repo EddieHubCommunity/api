@@ -51,3 +51,14 @@ Feature: discord module
     When make a DELETE request to "/discord/123"
     Then the response status code should be 200
     And the response should be "{}"
+
+  Scenario: delete non-existing user
+    Given make a POST request to "/discord" with:
+      | bio      | "Delete user"             |
+      | username | "delete-user"             |
+      | socials  | {"discord":"delete-user"} |
+    When make a DELETE request to "/discord/321"
+    Then the response status code should be 404
+    And the response should contains:
+      | statusCode | 404              |
+      | message    | "User Not Found" |
