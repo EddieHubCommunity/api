@@ -10,16 +10,17 @@ export class StandupService {
     const { discordUser, todayMessage, yesterdayMessage } = body;
 
     const newStandup: Standup = {
-      id: 666,
+      id: 123,
       yesterdayMessage: yesterdayMessage,
       todayMessage: todayMessage,
       discordUser: discordUser,
       createdOn: new Date('2021-01-01T00:00:00.000Z'),
     };
     if (!newStandup.discordUser) {
-      throw new HttpException('Incomplete Data', HttpStatus.BAD_REQUEST);
+      throw new HttpException('Incomplete data', HttpStatus.BAD_REQUEST);
     }
     this.standups.push(newStandup);
+
     return newStandup;
   }
 
@@ -30,18 +31,20 @@ export class StandupService {
   findById(id: number): Standup {
     const result = this.standups.find((standup) => standup.id === id);
     if (!result) {
-      throw new HttpException('Standup Not Found', HttpStatus.NOT_FOUND);
+      throw new HttpException('Standup not found', HttpStatus.NOT_FOUND);
     }
+
     return { ...result };
   }
 
   deleteStandup(id: number) {
     const deleteElement = this.standups.find((standup) => standup.id == id);
     if (!deleteElement) {
-      throw new HttpException('Standup Not Found', HttpStatus.NOT_FOUND);
+      throw new HttpException('Standup not found', HttpStatus.NOT_FOUND);
     }
     const updateStandup = this.standups.filter((standup) => standup.id !== id);
     this.standups = [...updateStandup];
+
     return {};
   }
 
@@ -49,13 +52,14 @@ export class StandupService {
     const { discordUser } = query;
     if (!discordUser) {
       throw new HttpException(
-        'Please Provice Search Context',
+        'Please provide search context',
         HttpStatus.BAD_REQUEST,
       );
     }
     const results = this.standups.filter(
       (standup) => standup.discordUser === discordUser,
     );
+
     return [...results];
   }
 }
