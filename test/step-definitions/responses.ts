@@ -28,6 +28,12 @@ export class responses {
     expect(this.context.response.text).to.equal(data);
   }
 
+  @then(/the response in item "([^"]*)" should contains:/)
+  public dataResponseItemTable(item: number, table: { rawTable: [] }) {
+    const data = this.context.tableToObject(table);
+    expect(JSON.parse(this.context.response.text)[item]).to.to.eql(data);
+  }
+
   @then(/the response should contains:/)
   public dataResponseTable(table: { rawTable: [] }) {
     const data = this.context.tableToObject(table);
