@@ -1,21 +1,47 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
+import {
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+  ValidateNested,
+} from 'class-validator';
 
 class CommunityStats {
+  //TODO Validation for CommunityStats
   [key: string]: number;
 }
 
 export class GithubDTO {
-  @ApiProperty()
+  @ApiProperty({ required: true })
+  @IsNotEmpty()
+  @IsString()
   username: string;
-  @ApiProperty()
+
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @IsString()
   bio: string;
-  @ApiProperty()
+
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @IsString()
   avatarUrl: string;
-  @ApiProperty()
+
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @IsNumber()
   followers: number;
-  @ApiProperty()
+
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @IsNumber()
   repos: number;
   // ... any other useful info public info https://docs.github.com/en/rest/reference/users
-  @ApiProperty({ type: CommunityStats })
+  @ApiProperty({ type: CommunityStats, required: false })
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => CommunityStats)
   communityStats: CommunityStats;
 }
