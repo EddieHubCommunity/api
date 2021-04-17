@@ -32,9 +32,11 @@ export class GithubService {
   }
 
   findOne(id: number): GithubProfile {
-    const githubProfile = this.githubProfiles.find((user) => user.id === id);
+    const githubProfile = this.githubProfiles.find(
+      (profile) => profile.id === id,
+    );
     if (!githubProfile) {
-      throw new HttpException('User Not Found', HttpStatus.NOT_FOUND);
+      throw new HttpException('Profile Not Found', HttpStatus.NOT_FOUND);
     }
     return { ...githubProfile };
   }
@@ -74,9 +76,7 @@ export class GithubService {
       updateGithubProfile.followers = followers;
     }
 
-    const index = this.githubProfiles.findIndex(
-      (discordUser) => discordUser.id === id,
-    );
+    const index = this.githubProfiles.findIndex((profile) => profile.id === id);
     this.githubProfiles[index] = updateGithubProfile;
 
     return updateGithubProfile;
@@ -89,7 +89,9 @@ export class GithubService {
     if (!deleteElement) {
       throw new HttpException('Githubprofile Not Found', HttpStatus.NOT_FOUND);
     }
-    const updateProfile = this.githubProfiles.filter((user) => user.id !== id);
+    const updateProfile = this.githubProfiles.filter(
+      (profile) => profile.id !== id,
+    );
     this.githubProfiles = [...updateProfile];
 
     return {};
