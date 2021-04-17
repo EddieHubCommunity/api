@@ -36,7 +36,7 @@ export class GithubService {
       (profile) => profile.id === id,
     );
     if (!githubProfile) {
-      throw new HttpException('Profile Not Found', HttpStatus.NOT_FOUND);
+      throw new HttpException('Githubprofile Not Found', HttpStatus.NOT_FOUND);
     }
     return { ...githubProfile };
   }
