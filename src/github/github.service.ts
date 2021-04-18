@@ -46,7 +46,6 @@ export class GithubService {
     return { ...githubProfile };
   }
 
-  //TODO Event Mapping
   update(id: number, updateDiscordDto: GithubDTO) {
     const {
       username,
