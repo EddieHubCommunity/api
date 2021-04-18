@@ -64,7 +64,22 @@ export class GithubDTO {
   @IsOptional()
   @IsNumber()
   repos: number;
-  // ... any other useful info public info https://docs.github.com/en/rest/reference/users
+
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @IsString()
+  organization: string;
+
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @IsString()
+  location: string;
+
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @IsString()
+  blog: string;
+
   @ApiProperty({ enum: events, required: false })
   @IsString()
   @IsOptional()

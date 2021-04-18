@@ -14,12 +14,17 @@ export class GithubService {
       username: body.username,
       avatarUrl: body.avatarUrl,
       bio: body.bio,
-      communityStats: this.mappingService.mapCommunityState(
-        body.event,
-        {} as CommunityStats,
-      ),
+      communityStats: body.event
+        ? this.mappingService.mapCommunityState(
+            body.event,
+            {} as CommunityStats,
+          )
+        : {},
       followers: body.followers,
       repos: body.repos,
+      blog: body.blog,
+      organization: body.organization,
+      location: { provided: body.location },
       createdOn: new Date('2021-01-01T00:00:00.000Z'),
       updatedOn: new Date('2021-01-01T00:00:00.000Z'),
     };
@@ -54,6 +59,9 @@ export class GithubService {
       repos,
       event,
       followers,
+      location,
+      blog,
+      organization,
     } = updateDiscordDto;
     const githubProfile = this.githubProfiles.find(
       (profile) => profile.id === id,
@@ -82,6 +90,15 @@ export class GithubService {
     }
     if (followers) {
       updateGithubProfile.followers = followers;
+    }
+    if (organization) {
+      updateGithubProfile.organization = organization;
+    }
+    if (blog) {
+      updateGithubProfile.blog = blog;
+    }
+    if (location) {
+      updateGithubProfile.location.provided = location;
     }
     const index = this.githubProfiles.findIndex((profile) => profile.id === id);
     this.githubProfiles[index] = updateGithubProfile;
