@@ -16,7 +16,7 @@ export interface CommunityStats {
   pageBuild?: number;
   project?: number;
   projectCard?: number;
-  projectCollumn?: number;
+  projectColumn?: number;
   public?: number;
   pullRequest?: number;
   pullRequestReview?: number;
