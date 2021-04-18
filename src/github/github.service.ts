@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { GithubProfile } from './interfaces/github.interface';
+import { CommunityStats, GithubProfile } from './interfaces/github.interface';
 import { GithubDTO } from './dto/github.dto';
 import { CommunitystatsMappingService } from './communitystats-mapping.service';
 
@@ -14,7 +14,10 @@ export class GithubService {
       username: body.username,
       avatarUrl: body.avatarUrl,
       bio: body.bio,
-      communityStats: this.mappingService.mapCommunityState(body.event, {}),
+      communityStats: this.mappingService.mapCommunityState(
+        body.event,
+        {} as CommunityStats,
+      ),
       followers: body.followers,
       repos: body.repos,
       createdOn: new Date('2021-01-01T00:00:00.000Z'),

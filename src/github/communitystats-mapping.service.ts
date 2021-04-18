@@ -47,9 +47,9 @@ export class CommunitystatsMappingService {
 
   public mapCommunityState(
     event: string,
-    existingStats: CommunitystatsMappingService | {},
+    existingStats: CommunityStats,
   ): CommunityStats {
-    let stats = { ...existingStats };
+    const stats = { ...existingStats };
     const mappedValue = this.mapEvent(event);
     if (mappedValue in stats) {
       stats[mappedValue] += 1;
