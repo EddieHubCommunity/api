@@ -16,7 +16,7 @@ export class CreateDiscordDto {
   username: string;
   @ApiProperty()
   bio?: string;
-  @ApiProperty({ type: [Socials] })
+  @ApiProperty({ type: Socials })
   socials?: {
     discord?: string;
     twitter?: string;
