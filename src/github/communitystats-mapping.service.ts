@@ -21,7 +21,7 @@ export class CommunitystatsMappingService {
     page_build: 'pageBuild',
     project: 'project',
     project_card: 'projectCard',
-    project_column: 'projectCollumn',
+    project_column: 'projectColumn',
     public: 'public',
     pull_request: 'pullRequest',
     pull_request_review: 'pullRequestReview',
