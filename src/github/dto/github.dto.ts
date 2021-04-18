@@ -1,17 +1,43 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
 import {
+  IsIn,
   IsNotEmpty,
   IsNumber,
   IsOptional,
   IsString,
-  ValidateNested,
 } from 'class-validator';
 
-class CommunityStats {
-  //TODO Validation for CommunityStats
-  [key: string]: number;
-}
+const events = [
+  'workflow_dispatch',
+  'repository_dispatch',
+  'check_run',
+  'check_suite',
+  'create',
+  'delete',
+  'deployment',
+  'deployment_status',
+  'fork',
+  'gollum',
+  'issue_comment',
+  'issues',
+  'label',
+  'milestone',
+  'page_build',
+  'project',
+  'project_card',
+  'project_column',
+  'public',
+  'pull_request',
+  'pull_request_review',
+  'pull_request_review_comment',
+  'pull_request_target',
+  'push',
+  'registry_package',
+  'release',
+  'status',
+  'watch',
+  'workflow_run',
+];
 
 export class GithubDTO {
   @ApiProperty({ required: true })
@@ -39,9 +65,9 @@ export class GithubDTO {
   @IsNumber()
   repos: number;
   // ... any other useful info public info https://docs.github.com/en/rest/reference/users
-  @ApiProperty({ type: CommunityStats, required: false })
+  @ApiProperty({ enum: events, required: false })
+  @IsString()
   @IsOptional()
-  @ValidateNested()
-  @Type(() => CommunityStats)
-  communityStats: CommunityStats;
+  @IsIn(events)
+  event: string;
 }

@@ -1,9 +1,11 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { GithubProfile } from './interfaces/github.interface';
 import { GithubDTO } from './dto/github.dto';
+import { CommunitystatsMappingService } from './communitystats-mapping.service';
 
 @Injectable()
 export class GithubService {
+  constructor(private readonly mappingService: CommunitystatsMappingService) {}
   private githubProfiles: Array<GithubProfile> = [];
 
   createGithub(body: GithubDTO): GithubProfile {
@@ -12,7 +14,7 @@ export class GithubService {
       username: body.username,
       avatarUrl: body.avatarUrl,
       bio: body.bio,
-      communityStats: body.communityStats,
+      communityStats: this.mappingService.mapCommunityState(body.event, {}),
       followers: body.followers,
       repos: body.repos,
       createdOn: new Date('2021-01-01T00:00:00.000Z'),
@@ -41,13 +43,14 @@ export class GithubService {
     return { ...githubProfile };
   }
 
-  update(id: number, updateDiscordDto: GithubDTO): GithubProfile {
+  //TODO Event Mapping
+  update(id: number, updateDiscordDto: GithubDTO) {
     const {
       username,
       bio,
       avatarUrl,
       repos,
-      communityStats,
+      event,
       followers,
     } = updateDiscordDto;
     const githubProfile = this.githubProfiles.find(
@@ -69,16 +72,17 @@ export class GithubService {
     if (repos) {
       updateGithubProfile.repos = repos;
     }
-    if (communityStats) {
-      updateGithubProfile.communityStats = communityStats;
+    if (event) {
+      updateGithubProfile.communityStats = this.mappingService.mapCommunityState(
+        event,
+        updateGithubProfile.communityStats,
+      );
     }
     if (followers) {
       updateGithubProfile.followers = followers;
     }
-
     const index = this.githubProfiles.findIndex((profile) => profile.id === id);
     this.githubProfiles[index] = updateGithubProfile;
-
     return updateGithubProfile;
   }
 

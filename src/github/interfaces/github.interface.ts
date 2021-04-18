@@ -1,4 +1,4 @@
-export interface communityStats {
+export interface CommunityStats {
   workflowDispatch?: number;
   repositoryDispatch?: number;
   checkRun?: number;
@@ -37,7 +37,7 @@ export interface GithubProfile {
   avatarUrl?: string;
   followers?: number;
   repos?: number;
-  communityStats?: communityStats;
+  communityStats?: CommunityStats;
   createdOn: Date;
   updatedOn: Date;
 }

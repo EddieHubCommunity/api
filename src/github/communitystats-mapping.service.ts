@@ -1,4 +1,5 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
+import { CommunityStats } from './interfaces/github.interface';
 
 @Injectable()
 export class CommunitystatsMappingService {
@@ -34,7 +35,7 @@ export class CommunitystatsMappingService {
     workflow_run: 'workflowRun',
   };
 
-  mapCommunityStats(githubEvent: string): string {
+  private mapEvent(githubEvent: string): string {
     let mappedValue: string;
     try {
       mappedValue = this.eventMap[githubEvent];
@@ -42,5 +43,19 @@ export class CommunitystatsMappingService {
       throw new BadRequestException('Please Provide valid Githubevent');
     }
     return mappedValue;
+  }
+
+  public mapCommunityState(
+    event: string,
+    existingStats: CommunitystatsMappingService | {},
+  ): CommunityStats {
+    let stats = { ...existingStats };
+    const mappedValue = this.mapEvent(event);
+    if (mappedValue in stats) {
+      stats[mappedValue] += 1;
+      return stats;
+    }
+    stats[mappedValue] = 1;
+    return stats;
   }
 }
