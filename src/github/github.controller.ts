@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
   Param,
   ParseIntPipe,
   Post,
@@ -31,6 +32,7 @@ export class GithubController {
   }
 
   @Put(':id')
+  @HttpCode(200)
   update(@Param('id', new ParseIntPipe()) id: number, @Body() body: GithubDTO) {
     return this.githubService.update(id, body);
   }
