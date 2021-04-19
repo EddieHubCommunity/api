@@ -1,3 +1,4 @@
+import { HttpModule, HttpService } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { GeocodingService } from './geocoding.service';
 
@@ -6,6 +7,7 @@ describe('GeocodingService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
+      imports: [HttpModule],
       providers: [GeocodingService],
     }).compile();
 
