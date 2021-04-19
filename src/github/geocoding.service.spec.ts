@@ -1,4 +1,4 @@
-import { HttpModule, HttpService } from '@nestjs/common';
+import { HttpModule } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { GeocodingService } from './geocoding.service';
 
