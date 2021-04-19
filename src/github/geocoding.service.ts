@@ -1,8 +1,6 @@
 import { HttpService, Injectable } from '@nestjs/common';
-import { map } from 'rxjs/operators';
 import { AxiosResponse } from 'axios';
 import { GithubLocation } from './interfaces/github.interface';
-import { Observable } from 'rxjs';
 
 interface Address {
   tourism: string;
