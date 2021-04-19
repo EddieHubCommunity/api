@@ -2,10 +2,14 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CommunityStats, GithubProfile } from './interfaces/github.interface';
 import { GithubDTO } from './dto/github.dto';
 import { CommunitystatsMappingService } from './communitystats-mapping.service';
+import { GeocodingService } from './geocoding.service';
 
 @Injectable()
 export class GithubService {
-  constructor(private readonly mappingService: CommunitystatsMappingService) {}
+  constructor(
+    private readonly mappingService: CommunitystatsMappingService,
+    private readonly geocodingService: GeocodingService,
+  ) {}
   private githubProfiles: Array<GithubProfile> = [];
 
   createGithub(body: GithubDTO): GithubProfile {
