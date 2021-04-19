@@ -7,8 +7,10 @@ import {
   ParseIntPipe,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiQuery, ApiTags } from '@nestjs/swagger';
+import { DiscordStrategy, GithubGuard } from 'src/auth/Discord.strategy';
 import { CreateStandupDTO } from './dto/CreateStandup.dto';
 import { StandupService } from './standup.service';
 
@@ -18,6 +20,8 @@ export class StandupController {
   constructor(private readonly standupService: StandupService) {}
 
   @Post()
+  @UseGuards(GithubGuard)
+  @UseGuards(DiscordStrategy)
   createStandup(@Body() body: CreateStandupDTO) {
     return this.standupService.create(body);
   }
@@ -39,6 +43,8 @@ export class StandupController {
   }
 
   @Delete(':id')
+  @UseGuards(GithubGuard)
+  @UseGuards(DiscordStrategy)
   deleteStandup(@Param('id', new ParseIntPipe()) id: number) {
     return this.standupService.deleteStandup(id);
   }
