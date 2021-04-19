@@ -2,13 +2,17 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CommunityStats, GithubProfile } from './interfaces/github.interface';
 import { GithubDTO } from './dto/github.dto';
 import { CommunitystatsMappingService } from './communitystats-mapping.service';
+import { GeocodingService } from './geocoding.service';
 
 @Injectable()
 export class GithubService {
-  constructor(private readonly mappingService: CommunitystatsMappingService) {}
+  constructor(
+    private readonly mappingService: CommunitystatsMappingService,
+    private readonly geocodingService: GeocodingService,
+  ) {}
   private githubProfiles: Array<GithubProfile> = [];
 
-  createGithub(body: GithubDTO): GithubProfile {
+  async createGithub(body: GithubDTO): Promise<GithubProfile> {
     const newGithubProfile: GithubProfile = {
       id: 123,
       username: body.username,
@@ -24,10 +28,15 @@ export class GithubService {
       repos: body.repos,
       blog: body.blog,
       organization: body.organization,
-      location: { provided: body.location },
       createdOn: new Date('2021-01-01T00:00:00.000Z'),
       updatedOn: new Date('2021-01-01T00:00:00.000Z'),
     };
+    if (body.location) {
+      const locationObject = await this.geocodingService.fetchCoordinates(
+        body.location,
+      );
+      newGithubProfile.location = locationObject;
+    }
 
     if (!newGithubProfile.username) {
       throw new HttpException('Incomplete Data', HttpStatus.BAD_REQUEST);
@@ -51,7 +60,10 @@ export class GithubService {
     return { ...githubProfile };
   }
 
-  update(id: number, updateDiscordDto: GithubDTO) {
+  async update(
+    id: number,
+    updateDiscordDto: GithubDTO,
+  ): Promise<GithubProfile> {
     const {
       username,
       bio,
@@ -98,7 +110,10 @@ export class GithubService {
       updateGithubProfile.blog = blog;
     }
     if (location) {
-      updateGithubProfile.location.provided = location;
+      const locationObject = await this.geocodingService.fetchCoordinates(
+        location,
+      );
+      updateGithubProfile.location = locationObject;
     }
     const index = this.githubProfiles.findIndex((profile) => profile.id === id);
     this.githubProfiles[index] = updateGithubProfile;

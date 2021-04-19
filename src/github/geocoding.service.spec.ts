@@ -1,23 +1,17 @@
 import { HttpModule } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
-import { CommunitystatsMappingService } from './communitystats-mapping.service';
 import { GeocodingService } from './geocoding.service';
-import { GithubService } from './github.service';
 
-describe('GithubService', () => {
-  let service: GithubService;
+describe('GeocodingService', () => {
+  let service: GeocodingService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [HttpModule],
-      providers: [
-        GithubService,
-        CommunitystatsMappingService,
-        GeocodingService,
-      ],
+      providers: [GeocodingService],
     }).compile();
 
-    service = module.get<GithubService>(GithubService);
+    service = module.get<GeocodingService>(GeocodingService);
   });
 
   it('should be defined', () => {
