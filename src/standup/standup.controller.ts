@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { ApiQuery, ApiTags } from '@nestjs/swagger';
 import { DiscordGithubGuard } from 'src/auth/discordGithub.strategy';
-import { CreateStandupDTO } from './dto/CreateStandup.dto';
+import { CreateStandupDTO } from './dto/createStandup.dto';
 import { StandupService } from './standup.service';
 
 @ApiTags('Standup')

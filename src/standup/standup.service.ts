@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateStandupDTO } from './dto/CreateStandup.dto';
-import { Standup } from './interfaces/Standup.interface';
+import { Standup } from './interfaces/standup.interface';
 
 @Injectable()
 export class StandupService {
