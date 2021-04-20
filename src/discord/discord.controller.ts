@@ -9,7 +9,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiSecurity, ApiTags } from '@nestjs/swagger';
-import { DiscordGithubGuard } from 'src/auth/discordGithub.strategy';
+import { DiscordGithubGuard } from '../auth/discordGithub.strategy';
 import { DiscordService } from './discord.service';
 import { CreateDiscordDto } from './dto/create-discord.dto';
 import { UpdateDiscordDto } from './dto/update-discord.dto';

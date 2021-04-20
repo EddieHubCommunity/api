@@ -11,7 +11,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiSecurity, ApiTags } from '@nestjs/swagger';
-import { DiscordGithubGuard } from 'src/auth/discordGithub.strategy';
+import { DiscordGithubGuard } from '../auth/discordGithub.strategy';
 import { GithubDTO } from './dto/github.dto';
 import { GithubService } from './github.service';
 @ApiTags('Github')

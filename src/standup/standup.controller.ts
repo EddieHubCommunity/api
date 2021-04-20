@@ -10,7 +10,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiQuery, ApiSecurity, ApiTags } from '@nestjs/swagger';
-import { DiscordGithubGuard } from 'src/auth/discordGithub.strategy';
+import { DiscordGithubGuard } from '../auth/discordGithub.strategy';
 import { CreateStandupDTO } from './dto/createStandup.dto';
 import { StandupService } from './standup.service';
 
