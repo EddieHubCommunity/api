@@ -11,7 +11,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { CombinedGuard } from 'src/auth/Combined.strategy';
+import { DiscordGithubGuard } from 'src/auth/discordGithub.strategy';
 import { GithubDTO } from './dto/github.dto';
 import { GithubService } from './github.service';
 @ApiTags('Github')
@@ -19,7 +19,7 @@ import { GithubService } from './github.service';
 export class GithubController {
   constructor(private readonly githubService: GithubService) {}
   @Post()
-  @UseGuards(CombinedGuard)
+  @UseGuards(DiscordGithubGuard)
   create(@Body() body: GithubDTO) {
     return this.githubService.createGithub(body);
   }
@@ -35,14 +35,14 @@ export class GithubController {
   }
 
   @Put(':id')
-  @UseGuards(CombinedGuard)
+  @UseGuards(DiscordGithubGuard)
   @HttpCode(200)
   update(@Param('id', new ParseIntPipe()) id: number, @Body() body: GithubDTO) {
     return this.githubService.update(id, body);
   }
 
   @Delete(':id')
-  @UseGuards(CombinedGuard)
+  @UseGuards(DiscordGithubGuard)
   remove(@Param('id', new ParseIntPipe()) id: number) {
     return this.githubService.remove(id);
   }

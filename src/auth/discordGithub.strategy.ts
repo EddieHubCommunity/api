@@ -4,19 +4,22 @@ import { AuthGuard, PassportStrategy } from '@nestjs/passport';
 import { UniqueTokenStrategy } from 'passport-unique-token';
 
 @Injectable()
-export class GithubStrategy extends PassportStrategy(
+export class DiscordGithubStrategy extends PassportStrategy(
   UniqueTokenStrategy,
-  'github-strategy',
+  'discordGithub-strategy',
 ) {
   constructor(private config: ConfigService) {
     super({});
   }
 
   async validate(token: string, done) {
-    if (token != this.config.get('APP_GITHUB_TOKEN')) {
+    const approvedTokens: Array<String> = this.config
+      .get('APPROVED_TOKENS')
+      .split(' ');
+    if (!approvedTokens.includes(token)) {
       throw new UnauthorizedException();
     }
     return done(null, token);
   }
 }
-export const GithubGuard = AuthGuard('github-strategy');
+export const DiscordGithubGuard = AuthGuard('discordGithub-strategy');
