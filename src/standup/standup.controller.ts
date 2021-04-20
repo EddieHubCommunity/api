@@ -9,7 +9,7 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiQuery, ApiSecurity, ApiTags } from '@nestjs/swagger';
 import { DiscordGithubGuard } from 'src/auth/discordGithub.strategy';
 import { CreateStandupDTO } from './dto/createStandup.dto';
 import { StandupService } from './standup.service';
@@ -21,6 +21,7 @@ export class StandupController {
 
   @Post()
   @UseGuards(DiscordGithubGuard)
+  @ApiSecurity('token')
   createStandup(@Body() body: CreateStandupDTO) {
     return this.standupService.create(body);
   }
@@ -43,6 +44,7 @@ export class StandupController {
 
   @Delete(':id')
   @UseGuards(DiscordGithubGuard)
+  @ApiSecurity('token')
   deleteStandup(@Param('id', new ParseIntPipe()) id: number) {
     return this.standupService.deleteStandup(id);
   }

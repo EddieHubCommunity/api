@@ -10,7 +10,7 @@ import {
   Put,
   UseGuards,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiSecurity, ApiTags } from '@nestjs/swagger';
 import { DiscordGithubGuard } from 'src/auth/discordGithub.strategy';
 import { GithubDTO } from './dto/github.dto';
 import { GithubService } from './github.service';
@@ -19,6 +19,7 @@ import { GithubService } from './github.service';
 export class GithubController {
   constructor(private readonly githubService: GithubService) {}
   @Post()
+  @ApiSecurity('token')
   @UseGuards(DiscordGithubGuard)
   create(@Body() body: GithubDTO) {
     return this.githubService.createGithub(body);
@@ -37,12 +38,14 @@ export class GithubController {
   @Put(':id')
   @UseGuards(DiscordGithubGuard)
   @HttpCode(200)
+  @ApiSecurity('token')
   update(@Param('id', new ParseIntPipe()) id: number, @Body() body: GithubDTO) {
     return this.githubService.update(id, body);
   }
 
   @Delete(':id')
   @UseGuards(DiscordGithubGuard)
+  @ApiSecurity('token')
   remove(@Param('id', new ParseIntPipe()) id: number) {
     return this.githubService.remove(id);
   }

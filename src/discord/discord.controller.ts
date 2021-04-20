@@ -8,7 +8,7 @@ import {
   Delete,
   UseGuards,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiSecurity, ApiTags } from '@nestjs/swagger';
 import { DiscordGithubGuard } from 'src/auth/discordGithub.strategy';
 import { DiscordService } from './discord.service';
 import { CreateDiscordDto } from './dto/create-discord.dto';
@@ -21,6 +21,7 @@ export class DiscordController {
 
   @Post()
   @UseGuards(DiscordGithubGuard)
+  @ApiSecurity('token')
   create(@Body() createDiscordDto: CreateDiscordDto) {
     return this.discordService.create(createDiscordDto);
   }
@@ -36,12 +37,14 @@ export class DiscordController {
   }
 
   @Put(':id')
+  @ApiSecurity('token')
   @UseGuards(DiscordGithubGuard)
   update(@Param('id') id: string, @Body() updateDiscordDto: UpdateDiscordDto) {
     return this.discordService.update(+id, updateDiscordDto);
   }
 
   @Delete(':id')
+  @ApiSecurity('token')
   @UseGuards(DiscordGithubGuard)
   remove(@Param('id') id: string) {
     return this.discordService.remove(+id);
