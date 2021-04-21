@@ -18,6 +18,11 @@ export class requests {
     await this.context.app.init();
   }
 
+  @given(/authorisation/)
+  public async authorisation() {
+    this.context.token = 'abc';
+  }
+
   @given(/make a GET request to "([^"]*)"/)
   public async getRequest(url: string) {
     this.context.response = await request(this.context.app.getHttpServer()).get(
@@ -27,9 +32,13 @@ export class requests {
 
   @given(/make a POST request to "([^"]*)" with:/)
   public async postRequestWithBody(url: string, table: { rawTable: [] }) {
-    this.context.response = await request(this.context.app.getHttpServer())
-      .post(url)
-      .send(this.context.tableToObject(table));
+    const post = request(this.context.app.getHttpServer()).post(url)
+
+    if (this.context.token) {
+      post.set('token', 'abc');
+    }
+
+    this.context.response = await post.send(this.context.tableToObject(table));
 
     this.context.preRequest = await request(
       this.context.app.getHttpServer(),

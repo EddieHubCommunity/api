@@ -15,7 +15,7 @@ export class DiscordGithubStrategy extends PassportStrategy(
   async validate(token: string, done) {
     const approvedTokens: Array<string> = this.config
       .get('APPROVED_TOKENS')
-      .split(' ');
+      .split(',');
     if (!approvedTokens.includes(token)) {
       throw new UnauthorizedException();
     }

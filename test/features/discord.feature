@@ -6,7 +6,8 @@ Feature: discord module
     And the response should be "[]"
 
   Scenario: add a new user
-    Given make a POST request to "/discord" with:
+    Given authorisation
+    And make a POST request to "/discord" with:
       | bio      | "This is a GitHub Campus Expert"                                                              |
       | username | "khattakdev"                                                                                  |
       | socials  | {"discord":"khattakdev","github":"khattakdev","linkedin":"khattakdev","twitter":"khattakdev"} |
