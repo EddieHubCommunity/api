@@ -32,7 +32,7 @@ export class requests {
 
   @given(/make a POST request to "([^"]*)" with:/)
   public async postRequestWithBody(url: string, table: { rawTable: [] }) {
-    const post = request(this.context.app.getHttpServer()).post(url)
+    const post = request(this.context.app.getHttpServer()).post(url);
 
     if (this.context.token) {
       post.set('token', 'abc');
