@@ -27,11 +27,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
-      - name: Create .env file
-        uses: SpicyPizza/create-envfile@v1.1
-        with:
-          envkey_APPROVED_TOKENS: 'abc,def'
-          file_name: .env
       - name: install dependencies
         run: npm ci
       - name: run unit tests
