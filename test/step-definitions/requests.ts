@@ -47,15 +47,25 @@ export class requests {
 
   @when(/make a PUT request to "([^"]*)" with:/)
   public async putRequest(url: string, table: { rawTable: [] }) {
-    this.context.response = await request(this.context.app.getHttpServer())
-      .put(url)
-      .send(this.context.tableToObject(table));
+    const putReq = request(this.context.app.getHttpServer()).put(url);
+
+    if (this.context.token) {
+      putReq.set('token', 'abc');
+    }
+
+    this.context.response = await putReq.send(
+      this.context.tableToObject(table),
+    );
   }
 
   @when(/make a DELETE request to "([^"]*)"/)
   public async deleteRequest(url: string) {
-    this.context.response = await request(
-      this.context.app.getHttpServer(),
-    ).delete(url);
+    const deleteReq = request(this.context.app.getHttpServer()).delete(url);
+
+    if (this.context.token) {
+      deleteReq.set('token', 'abc');
+    }
+
+    this.context.response = await deleteReq.send();
   }
 }

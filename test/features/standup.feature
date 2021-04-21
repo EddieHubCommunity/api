@@ -1,12 +1,14 @@
 Feature: Standup-module
 
     Scenario: get list of standups
-        Given make a GET request to "/standup"
+        Given authorisation
+        And make a GET request to "/standup"
         Then the response status code should be 200
         And the response should be "[]"
 
     Scenario: add a new standup
-        Given make a POST request to "/standup" with:
+        Given authorisation
+        And make a POST request to "/standup" with:
             | discordUser      | "eddiehubber"          |
             | yesterdayMessage | "Yesterday I did this" |
             | todayMessage     | "Today I'll do this"   |
@@ -19,7 +21,8 @@ Feature: Standup-module
             | createdOn        | "2021-01-01T00:00:00.000Z" |
 
     Scenario: search existing standup
-        Given make a POST request to "/standup" with:
+        Given authorisation
+        And make a POST request to "/standup" with:
             | discordUser      | "eddiehubber"          |
             | yesterdayMessage | "Yesterday I did this" |
             | todayMessage     | "Today I'll do this"   |
@@ -33,7 +36,8 @@ Feature: Standup-module
             | createdOn        | "2021-01-01T00:00:00.000Z" |
 
     Scenario: search non-existing standup
-        Given make a POST request to "/standup" with:
+        Given authorisation
+        And make a POST request to "/standup" with:
             | discordUser      | "eddiehubber"          |
             | yesterdayMessage | "Yesterday I did this" |
             | todayMessage     | "Today I'll do this"   |
@@ -42,7 +46,8 @@ Feature: Standup-module
         And  the response should be "[]"
 
     Scenario: provide no search context
-        Given make a POST request to "/standup" with:
+        Given authorisation
+        And make a POST request to "/standup" with:
             | discordUser      | "eddiehubber"          |
             | yesterdayMessage | "Yesterday I did this" |
             | todayMessage     | "Today I'll do this"   |
@@ -53,7 +58,8 @@ Feature: Standup-module
             | message    | "Please provide search context" |
 
     Scenario: add an empty standup
-        Given make a POST request to "/standup" with:
+        Given authorisation
+        And make a POST request to "/standup" with:
             | test | "test" |
         Then the response status code should be 400
         And the response should contains:
@@ -61,7 +67,8 @@ Feature: Standup-module
             | message    | "Incomplete data" |
 
     Scenario: delete standup
-        Given make a POST request to "/standup" with:
+        Given authorisation
+        And make a POST request to "/standup" with:
             | discordUser      | "eddiehubber"          |
             | yesterdayMessage | "Yesterday I did this" |
             | todayMessage     | "Today I'll do this"   |
@@ -70,7 +77,8 @@ Feature: Standup-module
         And the response should be "{}"
 
     Scenario: delete non-existent standup
-        Given make a POST request to "/standup" with:
+        Given authorisation
+        And make a POST request to "/standup" with:
             | discordUser      | "eddiehubber"          |
             | yesterdayMessage | "Yesterday I did this" |
             | todayMessage     | "Today I'll do this"   |

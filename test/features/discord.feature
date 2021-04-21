@@ -21,7 +21,8 @@ Feature: discord module
       | createdOn | "2021-01-01T00:00:00.000Z"                                                                    |
 
   Scenario: add an empty user
-    Given make a POST request to "/discord" with:
+    Given authorisation
+    And make a POST request to "/discord" with:
       | test | "test" |
     Then the response status code should be 400
     And the response should contains:
@@ -29,7 +30,8 @@ Feature: discord module
       | message    | "Incomplete Data" |
 
   Scenario: update a user
-    Given make a POST request to "/discord" with:
+    Given authorisation
+    And make a POST request to "/discord" with:
       | bio      | "Update user"             |
       | username | "update-user"             |
       | socials  | {"discord":"update-user"} |
@@ -45,7 +47,8 @@ Feature: discord module
       | createdOn | "2021-01-01T00:00:00.000Z" |
 
   Scenario: delete a user
-    Given make a POST request to "/discord" with:
+    Given authorisation
+    And make a POST request to "/discord" with:
       | bio      | "Delete user"             |
       | username | "delete-user"             |
       | socials  | {"discord":"delete-user"} |
@@ -54,7 +57,8 @@ Feature: discord module
     And the response should be "{}"
 
   Scenario: delete non-existing user
-    Given make a POST request to "/discord" with:
+    Given authorisation
+    And make a POST request to "/discord" with:
       | bio      | "Delete user"             |
       | username | "delete-user"             |
       | socials  | {"discord":"delete-user"} |
