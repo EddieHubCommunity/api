@@ -1,7 +1,6 @@
 Feature: Standup-module
 
     Scenario: get list of standups
-        Given authorisation
         And make a GET request to "/standup"
         Then the response status code should be 200
         And the response should be "[]"
