@@ -18,7 +18,7 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "cucumber-js -p default",
-    "postinstall": "node ./postinstall"
+    "postinstall": "cp-cli ./.env.example ./.env"
   },
   "dependencies": {
     "@nestjs/common": "^7.6.13",
@@ -49,6 +49,7 @@
     "@typescript-eslint/eslint-plugin": "^4.6.1",
     "@typescript-eslint/parser": "^4.6.1",
     "chai": "^4.3.0",
+    "cp-cli": "^2.0.0",
     "cucumber": "^5.1.0",
     "cucumber-pretty": "^1.5.2",
     "cucumber-tsflow": "^3.4.1",
