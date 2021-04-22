@@ -1,21 +1,48 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
+import {
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  ValidateNested,
+} from 'class-validator';
 
 export class SocialsDTO {
-  @ApiProperty()
+  @IsString()
+  @IsOptional()
+  @ApiProperty({ required: false })
   discord?: string;
-  @ApiProperty()
+
+  @IsString()
+  @IsOptional()
+  @ApiProperty({ required: false })
   twitter?: string;
-  @ApiProperty()
+
+  @IsString()
+  @IsOptional()
+  @ApiProperty({ required: false })
   linkedin?: string;
-  @ApiProperty()
+
+  @IsString()
+  @IsOptional()
+  @ApiProperty({ required: false })
   github?: string;
 }
 
 export class DiscordDTO {
-  @ApiProperty()
+  @IsNotEmpty()
+  @IsString()
+  @ApiProperty({ required: true })
   username: string;
+
   @ApiProperty({ required: false })
+  @IsOptional()
+  @IsString()
   bio?: string;
-  @ApiProperty({ type: SocialsDTO })
+
+  @ApiProperty({ type: SocialsDTO, required: false })
+  @Type(() => SocialsDTO)
+  @ValidateNested()
+  @IsOptional()
   socials?: SocialsDTO;
 }
