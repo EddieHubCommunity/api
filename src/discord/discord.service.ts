@@ -1,13 +1,12 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
-import { ReadDiscordDto } from './dto/read-discord.dto';
-import { UpdateDiscordDto } from './dto/update-discord.dto';
-import { CreateDiscordDto } from './dto/create-discord.dto';
+import { DiscordDTO } from './dto/discord.dto';
+import { DiscordProfile } from './interfaces/discord.interface';
 
 @Injectable()
 export class DiscordService {
-  private discords: ReadDiscordDto[] = [];
+  private discords: DiscordProfile[] = [];
 
-  create(createDiscordDto: CreateDiscordDto): ReadDiscordDto {
+  create(createDiscordDto: DiscordDTO): DiscordProfile {
     const discordUser = {
       id: 123,
       username: createDiscordDto.username,
@@ -24,11 +23,11 @@ export class DiscordService {
     return discordUser;
   }
 
-  findAll(): ReadDiscordDto[] {
+  findAll(): DiscordProfile[] {
     return [...this.discords];
   }
 
-  findOne(id: number): ReadDiscordDto {
+  findOne(id: number): DiscordProfile {
     const discordUser = this.discords.find((user) => user.id === id);
     if (!discordUser) {
       throw new HttpException('User Not Found', HttpStatus.NOT_FOUND);
@@ -36,7 +35,7 @@ export class DiscordService {
     return { ...discordUser };
   }
 
-  update(id: number, updateDiscordDto: UpdateDiscordDto): ReadDiscordDto {
+  update(id: number, updateDiscordDto: DiscordDTO): DiscordProfile {
     const { username, bio, socials } = updateDiscordDto;
     const discordUser = this.discords.find((user) => user.id === id);
     if (!discordUser) {

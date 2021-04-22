@@ -1,12 +1,12 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { CreateStandupDTO } from './dto/createStandup.dto';
+import { StandupDTO } from './dto/standup.dto';
 import { Standup } from './interfaces/standup.interface';
 
 @Injectable()
 export class StandupService {
   private standups: Array<Standup> = [];
 
-  create(body: CreateStandupDTO): Standup {
+  create(body: StandupDTO): Standup {
     const { discordUser, todayMessage, yesterdayMessage } = body;
 
     const newStandup: Standup = {
