@@ -1,4 +1,9 @@
-import { HttpService, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpService,
+  HttpStatus,
+  Injectable,
+} from '@nestjs/common';
 import { AxiosResponse } from 'axios';
 import { GithubLocation } from './interfaces/github.interface';
 
@@ -42,11 +47,18 @@ export class GeocodingService {
 
     const response: AxiosResponse = await this.http.get(url).toPromise();
     const data: GeocodedResponse = response.data[0];
-    const locationObject: GithubLocation = {
-      provided: location,
-      lat: parseFloat(data.lat),
-      long: parseFloat(data.lon),
-    };
-    return locationObject;
+    try {
+      const locationObject: GithubLocation = {
+        provided: location,
+        lat: parseFloat(data.lat),
+        long: parseFloat(data.lon),
+      };
+      return locationObject;
+    } catch {
+      throw new HttpException(
+        'Please provide a valid Location',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
   }
 }

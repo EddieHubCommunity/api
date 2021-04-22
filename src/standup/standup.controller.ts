@@ -7,9 +7,11 @@ import {
   ParseIntPipe,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
-import { ApiQuery, ApiTags } from '@nestjs/swagger';
-import { CreateStandupDTO } from './dto/CreateStandup.dto';
+import { ApiQuery, ApiSecurity, ApiTags } from '@nestjs/swagger';
+import { TokenGuard } from '../auth/token.strategy';
+import { CreateStandupDTO } from './dto/createStandup.dto';
 import { StandupService } from './standup.service';
 
 @ApiTags('Standup')
@@ -18,6 +20,8 @@ export class StandupController {
   constructor(private readonly standupService: StandupService) {}
 
   @Post()
+  @UseGuards(TokenGuard)
+  @ApiSecurity('token')
   createStandup(@Body() body: CreateStandupDTO) {
     return this.standupService.create(body);
   }
@@ -39,6 +43,8 @@ export class StandupController {
   }
 
   @Delete(':id')
+  @UseGuards(TokenGuard)
+  @ApiSecurity('token')
   deleteStandup(@Param('id', new ParseIntPipe()) id: number) {
     return this.standupService.deleteStandup(id);
   }

@@ -18,7 +18,7 @@ export class responses {
     await this.context.app.init();
   }
 
-  @then(/the response status code should be (200|201|400|404|413|500|503)/)
+  @then(/the response status code should be (200|201|400|401|404|413|500|503)/)
   public statusResponse(status: string) {
     expect(this.context.response.status).to.equal(parseInt(status));
   }
