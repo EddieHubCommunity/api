@@ -4,7 +4,7 @@ import { AuthGuard, PassportStrategy } from '@nestjs/passport';
 import { UniqueTokenStrategy } from 'passport-unique-token';
 
 @Injectable()
-export class DiscordGithubStrategy extends PassportStrategy(
+export class TokenStrategy extends PassportStrategy(
   UniqueTokenStrategy,
   'discordGithub-strategy',
 ) {
@@ -22,4 +22,4 @@ export class DiscordGithubStrategy extends PassportStrategy(
     return done(null, token);
   }
 }
-export const DiscordGithubGuard = AuthGuard('discordGithub-strategy');
+export const TokenGuard = AuthGuard('discordGithub-strategy');

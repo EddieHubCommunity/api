@@ -67,3 +67,31 @@ Feature: discord module
     And the response should contains:
       | statusCode | 404              |
       | message    | "User Not Found" |
+
+
+  Scenario: get users with authenticated request
+    Given authorisation
+    And make a POST request to "/discord" with:
+      | bio      | "created user bio"        |
+      | username | "create-user"             |
+      | socials  | {"discord":"create-user"} |
+    When make a GET request to "/discord/123"
+    Then the response status code should be 200
+    And the response should contains:
+      | id        | 123                        |
+      | bio       | "created user bio"         |
+      | username  | "create-user"              |
+      | socials   | {"discord":"create-user"}  |
+      | updatedOn | "2021-01-01T00:00:00.000Z" |
+      | createdOn | "2021-01-01T00:00:00.000Z" |
+
+
+  Scenario: create a user without authorization
+    Given make a POST request to "/discord" with:
+      | bio      | "This is a GitHub Campus Expert"                                                              |
+      | username | "khattakdev"                                                                                  |
+      | socials  | {"discord":"khattakdev","github":"khattakdev","linkedin":"khattakdev","twitter":"khattakdev"} |
+    Then the response status code should be 401
+    And the response should contains:
+      | statusCode | 401            |
+      | message    | "Unauthorized" |

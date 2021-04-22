@@ -35,7 +35,7 @@ export class requests {
     const post = request(this.context.app.getHttpServer()).post(url);
 
     if (this.context.token) {
-      post.set('token', 'abc');
+      post.set('token', this.context.token);
     }
 
     this.context.response = await post.send(this.context.tableToObject(table));
@@ -50,7 +50,7 @@ export class requests {
     const putReq = request(this.context.app.getHttpServer()).put(url);
 
     if (this.context.token) {
-      putReq.set('token', 'abc');
+      putReq.set('token', this.context.token);
     }
 
     this.context.response = await putReq.send(
@@ -63,7 +63,7 @@ export class requests {
     const deleteReq = request(this.context.app.getHttpServer()).delete(url);
 
     if (this.context.token) {
-      deleteReq.set('token', 'abc');
+      deleteReq.set('token', this.context.token);
     }
 
     this.context.response = await deleteReq.send();

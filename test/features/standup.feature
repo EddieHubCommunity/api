@@ -86,3 +86,28 @@ Feature: Standup-module
         And the response should contains:
             | statusCode | 404                 |
             | message    | "Standup not found" |
+
+    Scenario: get standup with authenticated request
+        Given authorisation
+        And make a POST request to "/standup" with:
+            | discordUser      | "eddiehubber"          |
+            | yesterdayMessage | "Yesterday I did this" |
+            | todayMessage     | "Today I'll do this"   |
+        When make a GET request to "/standup/123"
+        Then the response status code should be 200
+        And the response should contains:
+            | id               | 123                        |
+            | discordUser      | "eddiehubber"              |
+            | yesterdayMessage | "Yesterday I did this"     |
+            | todayMessage     | "Today I'll do this"       |
+            | createdOn        | "2021-01-01T00:00:00.000Z" |
+
+    Scenario: create standup without authorization
+        Given make a POST request to "/standup" with:
+            | discordUser      | "eddiehubber"          |
+            | yesterdayMessage | "Yesterday I did this" |
+            | todayMessage     | "Today I'll do this"   |
+        Then the response status code should be 401
+        And the response should contains:
+            | statusCode | 401            |
+            | message    | "Unauthorized" |

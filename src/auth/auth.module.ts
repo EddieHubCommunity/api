@@ -1,4 +1,4 @@
 import { Module } from '@nestjs/common';
-import { DiscordGithubStrategy } from './discordGithub.strategy';
-@Module({ providers: [DiscordGithubStrategy] })
+import { TokenStrategy } from './token.strategy';
+@Module({ providers: [TokenStrategy] })
 export class AuthModule {}
