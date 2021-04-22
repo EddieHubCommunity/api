@@ -7,13 +7,12 @@ import {
   Param,
   Delete,
   UseGuards,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { ApiSecurity, ApiTags } from '@nestjs/swagger';
 import { TokenGuard } from '../auth/token.strategy';
 import { DiscordService } from './discord.service';
-import { CreateDiscordDto } from './dto/create-discord.dto';
-import { UpdateDiscordDto } from './dto/update-discord.dto';
-
+import { DiscordDTO } from './dto/discord.dto';
 @ApiTags('Discord')
 @Controller('discord')
 export class DiscordController {
@@ -22,7 +21,7 @@ export class DiscordController {
   @Post()
   @UseGuards(TokenGuard)
   @ApiSecurity('token')
-  create(@Body() createDiscordDto: CreateDiscordDto) {
+  create(@Body() createDiscordDto: DiscordDTO) {
     return this.discordService.create(createDiscordDto);
   }
 
@@ -39,8 +38,11 @@ export class DiscordController {
   @Put(':id')
   @ApiSecurity('token')
   @UseGuards(TokenGuard)
-  update(@Param('id') id: string, @Body() updateDiscordDto: UpdateDiscordDto) {
-    return this.discordService.update(+id, updateDiscordDto);
+  update(
+    @Param('id', new ParseIntPipe()) id: number,
+    @Body() updateDiscordDto: DiscordDTO,
+  ) {
+    return this.discordService.update(id, updateDiscordDto);
   }
 
   @Delete(':id')

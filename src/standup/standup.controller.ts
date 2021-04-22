@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { ApiQuery, ApiSecurity, ApiTags } from '@nestjs/swagger';
 import { TokenGuard } from '../auth/token.strategy';
-import { CreateStandupDTO } from './dto/createStandup.dto';
+import { StandupDTO } from './dto/standup.dto';
 import { StandupService } from './standup.service';
 
 @ApiTags('Standup')
@@ -22,7 +22,7 @@ export class StandupController {
   @Post()
   @UseGuards(TokenGuard)
   @ApiSecurity('token')
-  createStandup(@Body() body: CreateStandupDTO) {
+  createStandup(@Body() body: StandupDTO) {
     return this.standupService.create(body);
   }
 

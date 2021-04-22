@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-class Socials {
+export class SocialsDTO {
   @ApiProperty()
   discord?: string;
   @ApiProperty()
@@ -11,16 +11,11 @@ class Socials {
   github?: string;
 }
 
-export class CreateDiscordDto {
+export class DiscordDTO {
   @ApiProperty()
   username: string;
-  @ApiProperty()
+  @ApiProperty({ required: false })
   bio?: string;
-  @ApiProperty({ type: Socials })
-  socials?: {
-    discord?: string;
-    twitter?: string;
-    linkedin?: string;
-    github?: string;
-  };
+  @ApiProperty({ type: SocialsDTO })
+  socials?: SocialsDTO;
 }

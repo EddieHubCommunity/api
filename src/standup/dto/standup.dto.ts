@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class CreateStandupDTO {
+export class StandupDTO {
   @ApiProperty()
   discordUser: string;
   @ApiProperty()
