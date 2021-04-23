@@ -62,6 +62,13 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
+## Logging
+
+Logging can be turned on by settings an environmentvariable `DEBUG=true`
+If this variables is not true or undefiend no Logs will be made.
+
+When set to `true` the App will Log every incoming request.
+
 ## Running the app via Docker
 
 1. `docker run -p 3000:3000 -d ghcr.io/eddiehubcommunity/api:latest`
@@ -70,6 +77,5 @@ $ npm run test:cov
 ## License
 
 [MIT licensed](LICENSE).
-
 
 ## MADE WITH :heart: BY EDDIEHUBBERS :sparkles::sparkles:
