@@ -19,8 +19,8 @@ export class LoggerMiddleware implements NestMiddleware {
             )}`,
           );
         });
-        next();
       }
+      next();
     } catch {
       next();
     }
