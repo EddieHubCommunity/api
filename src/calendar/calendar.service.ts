@@ -8,7 +8,6 @@ import { isFuture } from 'date-fns';
 
 @Injectable()
 export class CalendarService {
-  constructor() {}
   private calendarEvents: CalendarEvent[] = [];
 
   createCalendarEvent(calendarEventBody: CalendarEventDTO): CalendarEvent {
@@ -38,7 +37,7 @@ export class CalendarService {
       return;
     });
 
-    let ongoing = this.calendarEvents.filter((event) => {
+    const ongoing = this.calendarEvents.filter((event) => {
       if (isFuture(event.endDate) && !isFuture(event.startDate)) {
         return event;
       }
