@@ -7,6 +7,7 @@ import { GithubModule } from './github/github.module';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { LoggerMiddleware } from './logger/logger.middleware';
+import { CalendarModule } from './calendar/calendar.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { LoggerMiddleware } from './logger/logger.middleware';
       isGlobal: true,
     }),
     AuthModule,
+    CalendarModule,
   ],
   controllers: [AppController],
   providers: [AppService],
