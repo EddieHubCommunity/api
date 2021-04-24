@@ -70,15 +70,16 @@ export class CalendarService {
 
     const updateEvent = { ...existingEvent };
 
-    const {
-      description,
-      endDate,
-      startDate,
-      name,
-      platform,
-      url,
-      author,
-    } = calendarDTO;
+    const { description, name, platform, url, author } = calendarDTO;
+
+    let { startDate, endDate } = calendarDTO;
+
+    if (typeof startDate === 'string') {
+      startDate = parseISO(startDate);
+    }
+    if (typeof endDate === 'string') {
+      endDate = parseISO(endDate);
+    }
 
     if (name) {
       updateEvent.name = name;
