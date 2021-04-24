@@ -4,20 +4,13 @@ import {
   CalendarEvent,
   SortedEventResponse,
 } from './interfaces/calendar.interface';
-import { isFuture, parseISO } from 'date-fns';
+import { isFuture } from 'date-fns';
 
 @Injectable()
 export class CalendarService {
   private calendarEvents: CalendarEvent[] = [];
 
   createCalendarEvent(calendarEventBody: CalendarEventDTO): CalendarEvent {
-    if (typeof calendarEventBody.startDate === 'string') {
-      calendarEventBody.startDate = parseISO(calendarEventBody.startDate);
-    }
-    if (typeof calendarEventBody.endDate === 'string') {
-      calendarEventBody.endDate = parseISO(calendarEventBody.endDate);
-    }
-
     const newEvent: CalendarEvent = {
       id: 123,
       name: calendarEventBody.name,
@@ -70,16 +63,15 @@ export class CalendarService {
 
     const updateEvent = { ...existingEvent };
 
-    const { description, name, platform, url, author } = calendarDTO;
-
-    let { startDate, endDate } = calendarDTO;
-
-    if (typeof startDate === 'string') {
-      startDate = parseISO(startDate);
-    }
-    if (typeof endDate === 'string') {
-      endDate = parseISO(endDate);
-    }
+    const {
+      description,
+      name,
+      platform,
+      url,
+      author,
+      startDate,
+      endDate,
+    } = calendarDTO;
 
     if (name) {
       updateEvent.name = name;

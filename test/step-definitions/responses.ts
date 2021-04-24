@@ -16,7 +16,7 @@ export class responses {
     }).compile();
 
     this.context.app = moduleFixture.createNestApplication();
-    this.context.app.useGlobalPipes(new ValidationPipe());
+    this.context.app.useGlobalPipes(new ValidationPipe({ transform: true }));
     await this.context.app.init();
   }
 
