@@ -37,8 +37,10 @@ Feature: calendar module
             | test | "test" |
         Then the response status code should be 400
         And the response should contains:
-            | statusCode | 400               |
-            | message    | "Incomplete Data" |
+            | statusCode | 400                                                                                                                                                                                                                                                                                                                                              |
+            | message    | ["name must be a string","name should not be empty","platform must be one of the following values: YouTube, Twitch","platform must be a string","platform should not be empty","author should not be empty","startDate should not be empty","startDate must be a Date instance","endDate must be a Date instance","endDate should not be empty"] |
+            | error      | "Bad Request"                                                                                                                                                                                                                                                                                                                                    |
+
 
 
     Scenario: update an event

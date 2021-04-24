@@ -38,8 +38,9 @@ Feature: github-module
             | test | "test" |
         Then the response status code should be 400
         And the response should contains:
-            | statusCode | 400               |
-            | message    | "Incomplete Data" |
+            | statusCode | 400                                                          |
+            | message    | ["username must be a string","username should not be empty"] |
+            | error      | "Bad Request"                                                |
 
     Scenario: delete a githubprofile
         Given authorisation

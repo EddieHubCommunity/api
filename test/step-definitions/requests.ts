@@ -3,6 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import * as request from 'supertest';
 import { AppModule } from '../../src/app.module';
 import Context from '../support/world';
+import { ValidationPipe } from '@nestjs/common';
 
 @binding([Context])
 export class requests {
@@ -15,6 +16,7 @@ export class requests {
     }).compile();
 
     this.context.app = moduleFixture.createNestApplication();
+    this.context.app.useGlobalPipes(new ValidationPipe());
     await this.context.app.init();
   }
 

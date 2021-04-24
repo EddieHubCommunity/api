@@ -38,9 +38,6 @@ export class GithubService {
       newGithubProfile.location = locationObject;
     }
 
-    if (!newGithubProfile.username) {
-      throw new HttpException('Incomplete Data', HttpStatus.BAD_REQUEST);
-    }
     this.githubProfiles.push(newGithubProfile);
 
     return newGithubProfile;

@@ -26,8 +26,10 @@ Feature: discord module
       | test | "test" |
     Then the response status code should be 400
     And the response should contains:
-      | statusCode | 400               |
-      | message    | "Incomplete Data" |
+      | statusCode | 400                                                          |
+      | message    | ["username must be a string","username should not be empty"] |
+      | error      | "Bad Request"                                                |
+
 
   Scenario: update a user
     Given authorisation
@@ -36,12 +38,14 @@ Feature: discord module
       | username | "update-user"             |
       | socials  | {"discord":"update-user"} |
     When make a PUT request to "/discord/123" with:
-      | bio | "Updated user bio" |
+      | bio      | "Updated user bio"        |
+      | username | "updated-user"            |
+      | socials  | {"discord":"update-user"} |
     Then the response status code should be 200
     And the response should contains:
       | id        | 123                        |
       | bio       | "Updated user bio"         |
-      | username  | "update-user"              |
+      | username  | "updated-user"             |
       | socials   | {"discord":"update-user"}  |
       | updatedOn | "2021-01-01T00:00:00.000Z" |
       | createdOn | "2021-01-01T00:00:00.000Z" |

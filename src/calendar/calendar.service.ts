@@ -1,9 +1,4 @@
-import {
-  HttpException,
-  HttpModule,
-  HttpStatus,
-  Injectable,
-} from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CalendarEventDTO } from './dto/calendar.dto';
 import {
   CalendarEvent,
@@ -35,16 +30,6 @@ export class CalendarService {
       createdOn: new Date('2021-01-01T00:00:00.000Z'),
       updatedOn: new Date('2021-01-01T00:00:00.000Z'),
     };
-
-    if (
-      !newEvent.startDate ||
-      !newEvent.endDate ||
-      !newEvent.author ||
-      !newEvent.name ||
-      !newEvent.platform
-    ) {
-      throw new HttpException('Incomplete Data', HttpStatus.BAD_REQUEST);
-    }
 
     this.calendarEvents.push(newEvent);
 

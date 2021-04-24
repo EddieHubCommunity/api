@@ -16,9 +16,7 @@ export class StandupService {
       discordUser: discordUser,
       createdOn: new Date('2021-01-01T00:00:00.000Z'),
     };
-    if (!newStandup.discordUser) {
-      throw new HttpException('Incomplete data', HttpStatus.BAD_REQUEST);
-    }
+
     this.standups.push(newStandup);
 
     return newStandup;
