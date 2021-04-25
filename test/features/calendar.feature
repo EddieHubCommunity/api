@@ -41,8 +41,6 @@ Feature: calendar module
             | message    | ["name must be a string","name should not be empty","platform must be one of the following values: YouTube, Twitch","platform must be a string","platform should not be empty","author should not be empty","startDate should not be empty","startDate must be a Date instance","endDate must be a Date instance","endDate should not be empty"] |
             | error      | "Bad Request"                                                                                                                                                                                                                                                                                                                                    |
 
-
-
     Scenario: update an event
         Given authorisation
         And make a POST request to "/calendar" with:
@@ -73,6 +71,29 @@ Feature: calendar module
             | endDate     | "2021-01-01T00:00:00.000Z"           |
             | createdOn   | "2021-01-01T00:00:00.000Z"           |
             | updatedOn   | "2021-01-01T00:00:00.000Z"           |
+
+    Scenario: update an non-existing event
+        Given authorisation
+        And make a POST request to "/calendar" with:
+            | name        | "Livestream XY"                       |
+            | description | "descriptive Description"             |
+            | url         | "https://domain.com"                  |
+            | platform    | "YouTube"                             |
+            | author      | {"platform":"discord","uid":"hubber"} |
+            | startDate   | "2021-01-01T00:00:00.000Z"            |
+            | endDate     | "2021-01-01T00:00:00.000Z"            |
+        When make a PUT request to "/calendar/321" with:
+            | name        | "Livestream YZ"                      |
+            | description | "undescriptive Description"          |
+            | url         | "https://mydomain.com"               |
+            | platform    | "Twitch"                             |
+            | author      | {"platform":"discord","uid":"hubby"} |
+            | startDate   | "2021-01-01T00:00:00.000Z"           |
+            | endDate     | "2021-01-01T00:00:00.000Z"           |
+        Then the response status code should be 404
+        And the response should contains:
+            | message    | "Event Not Found" |
+            | statusCode | 404               |
 
     Scenario: delete an event
         Given authorisation
