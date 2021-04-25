@@ -18,7 +18,7 @@ Feature: github-module
             | organization | "Eddiehub"                 |
             | location     | "London"                   |
         Then the response status code should be 201
-        And the response should contains:
+        And the response should contain:
             | id             | 123                                                         |
             | username       | "eddiehubber"                                               |
             | bio            | "I love to code"                                            |
@@ -37,7 +37,7 @@ Feature: github-module
         And make a POST request to "/github" with:
             | test | "test" |
         Then the response status code should be 400
-        And the response should contains:
+        And the response should contain:
             | statusCode | 400                                                          |
             | message    | ["username must be a string","username should not be empty"] |
             | error      | "Bad Request"                                                |
@@ -72,7 +72,7 @@ Feature: github-module
             | event        | "push"                     |
         Then make a DELETE request to "/github/66"
         Then the response status code should be 404
-        And the response should contains:
+        And the response should contain:
             | statusCode | 404                       |
             | message    | "Githubprofile Not Found" |
 
@@ -99,7 +99,7 @@ Feature: github-module
             | location     | "London"                   |
             | event        | "push"                     |
         Then the response status code should be 200
-        And the response should contains:
+        And the response should contain:
             | id             | 123                                                         |
             | username       | "eddiehubber"                                               |
             | bio            | "I love to code"                                            |
@@ -136,7 +136,7 @@ Feature: github-module
             | location     | "London"                   |
             | event        | "label"                    |
         Then the response status code should be 200
-        And the response should contains:
+        And the response should contain:
             | id             | 123                                                         |
             | username       | "eddiehubber"                                               |
             | bio            | "I love to code"                                            |
@@ -164,7 +164,7 @@ Feature: github-module
             | location     | "London"                   |
         When make a GET request to "/github/123"
         Then the response status code should be 200
-        And the response should contains:
+        And the response should contain:
             | id             | 123                                                         |
             | username       | "eddiehubber"                                               |
             | bio            | "I love to code"                                            |
@@ -190,6 +190,6 @@ Feature: github-module
             | organization | "Eddiehub"                 |
             | location     | "London"                   |
         Then the response status code should be 401
-        And the response should contains:
+        And the response should contain:
             | statusCode | 401            |
             | message    | "Unauthorized" |
