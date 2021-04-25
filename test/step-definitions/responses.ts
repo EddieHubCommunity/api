@@ -30,15 +30,43 @@ export class responses {
     expect(this.context.response.text).to.equal(data);
   }
 
-  @then(/the response in item "([^"]*)" should contain:/)
+  @then(/the response in property "([^"]*)" should contain:/)
   public dataResponseItemTable(item: number, table: { rawTable: [] }) {
     const data = this.context.tableToObject(table);
-    expect(JSON.parse(this.context.response.text)[item]).to.to.eql(data);
+    Object.keys(data).forEach((key) => {
+      expect(JSON.parse(this.context.response.text)[item][key]).to.eql(
+        data[key],
+      );
+    });
+  }
+
+  @then(/the response in property "([^"]*)" and item "([^"]*)" should contain:/)
+  public dataResponsePropertyItemTable(
+    property: string,
+    item: number,
+    table: { rawTable: [] },
+  ) {
+    const data = this.context.tableToObject(table);
+    console.log(JSON.parse(this.context.response.text)[property][item]);
+    console.log(data);
+    Object.keys(data).forEach((key) => {
+      expect(
+        JSON.parse(this.context.response.text)[property][item][key],
+      ).to.eql(data[key]);
+    });
+  }
+
+  @then(/the response property "([^"]*)" has items:/)
+  public dataResponsePropertyTable(property: string, table: { rawTable: [] }) {
+    const data = this.context.tableToArray(table);
+    expect(JSON.parse(this.context.response.text)[property]).to.eql(data);
   }
 
   @then(/the response should contain:/)
   public dataResponseTable(table: { rawTable: [] }) {
     const data = this.context.tableToObject(table);
-    expect(JSON.parse(this.context.response.text)).to.to.eql(data);
+    Object.keys(data).forEach((key) =>
+      expect(JSON.parse(this.context.response.text)[key]).to.eql(data[key]),
+    );
   }
 }

@@ -27,7 +27,7 @@ Feature: Standup-module
             | todayMessage     | "Today I'll do this"   |
         Then  make a GET request to "/standup/search?discordUser=eddiehubber"
         Then the response status code should be 200
-        And  the response in item "0" should contain:
+        And  the response in property "0" should contain:
             | id               | 123                        |
             | discordUser      | "eddiehubber"              |
             | yesterdayMessage | "Yesterday I did this"     |
@@ -62,9 +62,15 @@ Feature: Standup-module
             | test | "test" |
         Then the response status code should be 400
         And the response should contain:
-            | statusCode | 400                                                                                                                                                                                                              |
-            | message    | ["discordUser should not be empty","discordUser must be a string","yesterdayMessage should not be empty","yesterdayMessage must be a string","todayMessage should not be empty","todayMessage must be a string"] |
-            | error      | "Bad Request"                                                                                                                                                                                                    |
+            | statusCode | 400           |
+            | error      | "Bad Request" |
+        And the response property "message" has items:
+            | discordUser should not be empty      |
+            | discordUser must be a string         |
+            | yesterdayMessage should not be empty |
+            | yesterdayMessage must be a string    |
+            | todayMessage should not be empty     |
+            | todayMessage must be a string        |
 
     Scenario: delete standup
         Given authorisation

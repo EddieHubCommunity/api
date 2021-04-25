@@ -10,4 +10,8 @@ export default class Context {
       return result;
     }, {});
   }
+
+  public tableToArray(table) {
+    return table.rawTable.map((item) => item[0]);
+  }
 }

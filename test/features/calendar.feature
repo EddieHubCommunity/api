@@ -37,9 +37,19 @@ Feature: calendar module
             | test | "test" |
         Then the response status code should be 400
         And the response should contain:
-            | statusCode | 400                                                                                                                                                                                                                                                                                                                                              |
-            | message    | ["name must be a string","name should not be empty","platform must be one of the following values: YouTube, Twitch","platform must be a string","platform should not be empty","author should not be empty","startDate should not be empty","startDate must be a Date instance","endDate must be a Date instance","endDate should not be empty"] |
-            | error      | "Bad Request"                                                                                                                                                                                                                                                                                                                                    |
+            | statusCode | 400           |
+            | error      | "Bad Request" |
+        And the response property "message" has items:
+            | name must be a string                                         |
+            | name should not be empty                                      |
+            | platform must be one of the following values: YouTube, Twitch |
+            | platform must be a string                                     |
+            | platform should not be empty                                  |
+            | author should not be empty                                    |
+            | startDate should not be empty                                 |
+            | startDate must be a Date instance                             |
+            | endDate must be a Date instance                               |
+            | endDate should not be empty                                   |
 
     Scenario: update an event
         Given authorisation
@@ -183,6 +193,25 @@ Feature: calendar module
             | endDate     | "2022-01-01T00:00:00.000Z"           |
         When make a GET request to "/calendar"
         Then the response status code should be 200
-        And the response should contain:
-            | future  | [{"id":123,"name":"Livestream XY","description":"descriptive Description","url":"https://domain.com","platform":"YouTube","author":{"platform":"discord","uid":"hubber"},"startDate":"2022-01-01T00:00:00.000Z","endDate":"2023-01-01T00:00:00.000Z","createdOn":"2021-01-01T00:00:00.000Z","updatedOn":"2021-01-01T00:00:00.000Z"}]   |
-            | ongoing | [{"id":123,"name":"Livestream YZ","description":"undescriptive Description","url":"https://mydomain.com","platform":"Twitch","author":{"platform":"discord","uid":"hubby"},"startDate":"2021-01-01T00:00:00.000Z","endDate":"2022-01-01T00:00:00.000Z","createdOn":"2021-01-01T00:00:00.000Z","updatedOn":"2021-01-01T00:00:00.000Z"}] |
+        And the response in property "future" and item "0" should contain:
+            | id          | 123                                   |
+            | name        | "Livestream XY"                       |
+            | description | "descriptive Description"             |
+            | url         | "https://domain.com"                  |
+            | platform    | "YouTube"                             |
+            | author      | {"platform":"discord","uid":"hubber"} |
+            | startDate   | "2022-01-01T00:00:00.000Z"            |
+            | endDate     | "2023-01-01T00:00:00.000Z"            |
+            | createdOn   | "2021-01-01T00:00:00.000Z"            |
+            | updatedOn   | "2021-01-01T00:00:00.000Z"            |
+        And the response in property "ongoing" and item "0" should contain:
+            | id          | 123                                  |
+            | name        | "Livestream YZ"                      |
+            | description | "undescriptive Description"          |
+            | url         | "https://mydomain.com"               |
+            | platform    | "Twitch"                             |
+            | author      | {"platform":"discord","uid":"hubby"} |
+            | startDate   | "2021-01-01T00:00:00.000Z"           |
+            | endDate     | "2022-01-01T00:00:00.000Z"           |
+            | createdOn   | "2021-01-01T00:00:00.000Z"           |
+            | updatedOn   | "2021-01-01T00:00:00.000Z"           |
