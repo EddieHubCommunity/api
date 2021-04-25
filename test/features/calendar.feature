@@ -3,7 +3,7 @@ Feature: calendar module
     Scenario: get list of events
         Given make a GET request to "/calendar"
         Then the response status code should be 200
-        And the response should contains:
+        And the response should contain:
             | future  | [] |
             | ongoing | [] |
 
@@ -19,7 +19,7 @@ Feature: calendar module
             | endDate     | "2021-01-01T00:00:00.000Z"            |
 
         Then the response status code should be 201
-        And the response should contains:
+        And the response should contain:
             | id          | 123                                   |
             | name        | "Livestream XY"                       |
             | description | "descriptive Description"             |
@@ -36,7 +36,7 @@ Feature: calendar module
         And make a POST request to "/calendar" with:
             | test | "test" |
         Then the response status code should be 400
-        And the response should contains:
+        And the response should contain:
             | statusCode | 400                                                                                                                                                                                                                                                                                                                                              |
             | message    | ["name must be a string","name should not be empty","platform must be one of the following values: YouTube, Twitch","platform must be a string","platform should not be empty","author should not be empty","startDate should not be empty","startDate must be a Date instance","endDate must be a Date instance","endDate should not be empty"] |
             | error      | "Bad Request"                                                                                                                                                                                                                                                                                                                                    |
@@ -60,7 +60,7 @@ Feature: calendar module
             | startDate   | "2021-01-01T00:00:00.000Z"           |
             | endDate     | "2021-01-01T00:00:00.000Z"           |
         Then the response status code should be 200
-        And the response should contains:
+        And the response should contain:
             | id          | 123                                  |
             | name        | "Livestream YZ"                      |
             | description | "undescriptive Description"          |
@@ -91,7 +91,7 @@ Feature: calendar module
             | startDate   | "2021-01-01T00:00:00.000Z"           |
             | endDate     | "2021-01-01T00:00:00.000Z"           |
         Then the response status code should be 404
-        And the response should contains:
+        And the response should contain:
             | message    | "Event Not Found" |
             | statusCode | 404               |
 
@@ -121,7 +121,7 @@ Feature: calendar module
             | endDate     | "2021-01-01T00:00:00.000Z"            |
         When make a DELETE request to "/calendar/321"
         Then the response status code should be 404
-        And the response should contains:
+        And the response should contain:
             | statusCode | 404               |
             | message    | "Event Not Found" |
 
@@ -137,7 +137,7 @@ Feature: calendar module
             | endDate     | "2021-01-01T00:00:00.000Z"            |
         When make a GET request to "/calendar/123"
         Then the response status code should be 200
-        And the response should contains:
+        And the response should contain:
             | id          | 123                                   |
             | name        | "Livestream XY"                       |
             | description | "descriptive Description"             |
@@ -159,7 +159,7 @@ Feature: calendar module
             | startDate   | "2021-01-01T00:00:00.000Z"            |
             | endDate     | "2021-01-01T00:00:00.000Z"            |
         Then the response status code should be 401
-        And the response should contains:
+        And the response should contain:
             | statusCode | 401            |
             | message    | "Unauthorized" |
 
@@ -183,6 +183,6 @@ Feature: calendar module
             | endDate     | "2022-01-01T00:00:00.000Z"           |
         When make a GET request to "/calendar"
         Then the response status code should be 200
-        And the response should contains:
+        And the response should contain:
             | future  | [{"id":123,"name":"Livestream XY","description":"descriptive Description","url":"https://domain.com","platform":"YouTube","author":{"platform":"discord","uid":"hubber"},"startDate":"2022-01-01T00:00:00.000Z","endDate":"2023-01-01T00:00:00.000Z","createdOn":"2021-01-01T00:00:00.000Z","updatedOn":"2021-01-01T00:00:00.000Z"}]   |
             | ongoing | [{"id":123,"name":"Livestream YZ","description":"undescriptive Description","url":"https://mydomain.com","platform":"Twitch","author":{"platform":"discord","uid":"hubby"},"startDate":"2021-01-01T00:00:00.000Z","endDate":"2022-01-01T00:00:00.000Z","createdOn":"2021-01-01T00:00:00.000Z","updatedOn":"2021-01-01T00:00:00.000Z"}] |
