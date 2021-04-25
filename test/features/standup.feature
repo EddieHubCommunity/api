@@ -62,8 +62,9 @@ Feature: Standup-module
             | test | "test" |
         Then the response status code should be 400
         And the response should contains:
-            | statusCode | 400               |
-            | message    | "Incomplete data" |
+            | statusCode | 400                                                                                                                                                                                                              |
+            | message    | ["discordUser should not be empty","discordUser must be a string","yesterdayMessage should not be empty","yesterdayMessage must be a string","todayMessage should not be empty","todayMessage must be a string"] |
+            | error      | "Bad Request"                                                                                                                                                                                                    |
 
     Scenario: delete standup
         Given authorisation

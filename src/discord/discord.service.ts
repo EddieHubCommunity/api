@@ -15,9 +15,7 @@ export class DiscordService {
       createdOn: new Date('2021-01-01T00:00:00.000Z'),
       updatedOn: new Date('2021-01-01T00:00:00.000Z'),
     };
-    if (!discordUser.username) {
-      throw new HttpException('Incomplete Data', HttpStatus.BAD_REQUEST);
-    }
+
     this.discords.push(discordUser);
 
     return discordUser;
