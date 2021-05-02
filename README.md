@@ -30,6 +30,11 @@ $ npm install
 ```
 
 ## Running the app locally
+For connecting to Datastax Astra or a local stargate docker container the `nestjs-astra`-package is required. Its hosted in the Github-Package-Repository. For this reason you need to add the following sample to your local `.npmrc`.
+```
+//npm.pkg.github.com/:_authToken=<Your personal Token>
+```
+The Token can be generated in Github and needs the permission `package - read`. After this step you can run `npm install` as usual.
 
 ```bash
 # development
