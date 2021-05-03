@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
   Param,
   ParseIntPipe,
   Post,
@@ -38,14 +39,15 @@ export class StandupController {
   }
 
   @Get(':id')
-  findById(@Param('id', new ParseIntPipe()) id) {
+  findById(@Param('id') id: string) {
     return this.standupService.findById(id);
   }
 
   @Delete(':id')
   @UseGuards(TokenGuard)
   @ApiSecurity('token')
-  deleteStandup(@Param('id', new ParseIntPipe()) id: number) {
+  @HttpCode(204)
+  deleteStandup(@Param('id') id: string) {
     return this.standupService.deleteStandup(id);
   }
 }

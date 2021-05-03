@@ -1,0 +1,17 @@
+POST http://localhost:8081/v1/auth
+Content-Type: application/json
+
+{
+    "username": "cassandra",
+    "password": "cassandra"
+}
+
+###
+
+POST http://localhost:8082/v2/schemas/namespaces
+X-Cassandra-Token: <Cassandra-Token from request above>
+Content-Type: application/json
+
+{
+    "name": "eddiehub"
+}
