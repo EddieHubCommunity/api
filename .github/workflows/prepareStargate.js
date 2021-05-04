@@ -1,4 +1,4 @@
-import axios from 'axios';
+const axios = require('axios');
 
 export async function prepareStargate() {
   const response = await axios.post('http://localhost:8081/v1/auth', {
