@@ -2,7 +2,7 @@ import { AstraService, documentId } from '@cahllagerfeld/nestjs-astra';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { StandupDTO } from './dto/standup.dto';
 import { Standup } from './interfaces/standup.interface';
-import { tap } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 
 @Injectable()
 export class StandupService {
@@ -20,13 +20,14 @@ export class StandupService {
 
     // this.standups.push(newStandup);
     return this.astraService.create<Standup>(newStandup).pipe(
-      tap((data: documentId) => {
+      filter((data: documentId) => {
         if (data === null) {
           throw new HttpException(
             'Creation didnt pass as expected',
             HttpStatus.BAD_REQUEST,
           );
         }
+        return true;
       }),
     );
   }
@@ -37,13 +38,14 @@ export class StandupService {
 
   findById(id: string) {
     return this.astraService.get<Standup>(id).pipe(
-      tap((data: Standup) => {
+      filter((data: Standup) => {
         if (data === null) {
           throw new HttpException(
             `no standup for ${id} found`,
             HttpStatus.NOT_FOUND,
           );
         }
+        return true;
       }),
     );
   }
@@ -56,13 +58,14 @@ export class StandupService {
     return this.astraService
       .find<Standup>({ discordUser: { $eq: query.discordUser } })
       .pipe(
-        tap((data) => {
+        filter((data) => {
           if (data === null) {
             throw new HttpException(
               `no data found for ${query}`,
               HttpStatus.NOT_FOUND,
             );
           }
+          return true;
         }),
       );
   }
