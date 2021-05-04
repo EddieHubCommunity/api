@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-export async function prepareStargate() {
+async function prepareStargate() {
   const response = await axios.post('http://localhost:8081/v1/auth', {
     username: 'cassandra',
     password: 'cassandra',
@@ -19,3 +19,7 @@ export async function prepareStargate() {
     },
   );
 }
+
+module.exports = {
+  prepareStargate,
+};
