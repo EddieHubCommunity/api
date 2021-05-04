@@ -61,11 +61,6 @@ jobs:
         run: npm ci
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
-      - uses: actions/github-script@v4
-        with:
-          script: |
-            const {prepareStargate} = require('./.github/workflows/prepareStargate.js')
-            await prepareStargate()
       - name: run unit tests
         run: npm run test
       - name: run e2e tests
