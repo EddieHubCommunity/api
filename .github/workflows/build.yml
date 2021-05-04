@@ -64,7 +64,7 @@ jobs:
       - uses: actions/github-script@v4
         with:
           script: |
-            const {prepareStargate} = require('./prepareStargate.js')
+            const {prepareStargate} = require('./.github/workflows/prepareStargate.js')
             await prepareStargate()
       - name: run unit tests
         run: npm run test
