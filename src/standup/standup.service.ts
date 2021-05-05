@@ -1,8 +1,12 @@
-import { AstraService, documentId } from '@cahllagerfeld/nestjs-astra';
+import {
+  AstraService,
+  deleteItem,
+  documentId,
+} from '@cahllagerfeld/nestjs-astra';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { StandupDTO } from './dto/standup.dto';
 import { Standup } from './interfaces/standup.interface';
-import { filter } from 'rxjs/operators';
+import { concatMap, filter } from 'rxjs/operators';
 
 @Injectable()
 export class StandupService {
@@ -51,7 +55,22 @@ export class StandupService {
   }
 
   deleteStandup(id: string) {
-    return this.astraService.delete(id);
+    return this.astraService.get<Standup>(id).pipe(
+      filter((data: Standup) => {
+        if (data === null) {
+          throw new HttpException(
+            `no standup for ${id} found`,
+            HttpStatus.NOT_FOUND,
+          );
+        }
+        return true;
+      }),
+      concatMap(() =>
+        this.astraService
+          .delete(id)
+          .pipe(filter((data: deleteItem) => data.deleted === true)),
+      ),
+    );
   }
 
   search(query) {
