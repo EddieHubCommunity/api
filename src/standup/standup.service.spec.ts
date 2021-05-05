@@ -1,4 +1,4 @@
-import { AstraModule, AstraService } from '@cahllagerfeld/nestjs-astra';
+import { AstraModule } from '@cahllagerfeld/nestjs-astra';
 import { ConfigModule } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AstraConfigService } from '../astra/astra-config.service';
