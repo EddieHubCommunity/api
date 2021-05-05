@@ -23,6 +23,12 @@ An API to manage our community data
 - Commits follow the standard [Conventional Commit](https://www.conventionalcommits.org/en/v1.0.0/)
 - Branches should be named as `issue-<issue no>` (e.g. [NestJs](https://github.com/EddieHubCommunity/api/issues/12) issue number is 12)
 
+## Requirements
+
+- docker
+- node
+- npm
+
 ## Installation
 
 ```bash
@@ -37,6 +43,9 @@ For connecting to Datastax Astra or a local stargate docker container the `nestj
 The Token can be generated in Github and needs the permission `package - read`. After this step you can run `npm install` as usual.
 
 ```bash
+# database
+$ docker-compose up
+
 # development
 $ npm run start
 
