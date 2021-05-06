@@ -4,6 +4,7 @@ import * as request from 'supertest';
 import { AppModule } from '../../src/app.module';
 import Context from '../support/world';
 import { ValidationPipe } from '@nestjs/common';
+import { prepareStargate } from '../scripts/setupStargate';
 
 @binding([Context])
 export class requests {
@@ -11,6 +12,7 @@ export class requests {
 
   @before()
   public async before(): Promise<void> {
+    await prepareStargate();
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
     }).compile();

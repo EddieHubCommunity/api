@@ -1,7 +1,7 @@
 Feature: github-module
 
     Scenario: get list of githubprofiles
-        Given make a GET request to "/standup"
+        Given make a GET request to "/github"
         Then the response status code should be 200
         And the response should be "[]"
 
