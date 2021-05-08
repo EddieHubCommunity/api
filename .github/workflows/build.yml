@@ -17,7 +17,7 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
       - name: lint check
-        run: npx eslint . --ext .js,.jsx,.ts,.tsx
+        run: npm run lint
 
   build:
     runs-on: ubuntu-latest
