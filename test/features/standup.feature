@@ -21,10 +21,10 @@ Feature: Standup-module
         Then  make a GET request to "/standup/search?discordUser=eddiehubber"
         Then the response status code should be 200
         And the response in item where field "discordUser" is equal to "eddiehubber" should contain:
-            | discordUser      | "TYPE:STRING" |
-            | todayMessage     | "TYPE:STRING" |
-            | yesterdayMessage | "TYPE:STRING" |
-            | createdOn        | "TYPE:DATE"   |
+            | discordUser      | "eddiehubber"          |
+            | todayMessage     | "Today I'll do this"   |
+            | yesterdayMessage | "Yesterday I did this" |
+            | createdOn        | "TYPE:DATE"            |
 
     Scenario: search non-existing standup
         Given authorisation
@@ -49,8 +49,8 @@ Feature: Standup-module
         Then  make a GET request to "/standup/search"
         Then the response status code should be 400
         And  the response should contain:
-            | statusCode | "TYPE:NUMBER" |
-            | message    | "TYPE:STRING" |
+            | statusCode | 400                             |
+            | message    | "Please provide search context" |
 
     Scenario: add an empty standup
         Given authorisation
@@ -58,8 +58,8 @@ Feature: Standup-module
             | test | "test" |
         Then the response status code should be 400
         And the response should contain:
-            | statusCode | "TYPE:NUMBER" |
-            | error      | "TYPE:STRING" |
+            | statusCode | 400           |
+            | error      | "Bad Request" |
         And the response property "message" has items:
             | discordUser should not be empty      |
             | discordUser must be a string         |
@@ -90,8 +90,8 @@ Feature: Standup-module
         Then make a DELETE request to "/standup/66"
         Then the response status code should be 404
         And  the response should contain:
-            | statusCode | "TYPE:NUMBER" |
-            | message    | "TYPE:STRING" |
+            | statusCode | 404                       |
+            | message    | "no standup for 66 found" |
 
     Scenario: get standup with authenticated request
         Given authorisation
@@ -104,10 +104,10 @@ Feature: Standup-module
         When make a GET request to "/standup/{id}"
         Then the response status code should be 200
         And the response should contain:
-            | discordUser      | "TYPE:STRING" |
-            | todayMessage     | "TYPE:STRING" |
-            | yesterdayMessage | "TYPE:STRING" |
-            | createdOn        | "TYPE:DATE"   |
+            | discordUser      | "eddiehubber"          |
+            | yesterdayMessage | "Yesterday I did this" |
+            | todayMessage     | "Today I'll do this"   |
+            | createdOn        | "TYPE:DATE"            |
 
     Scenario: create standup without authorization
         Given make a POST request to "/standup" with:
@@ -116,5 +116,5 @@ Feature: Standup-module
             | todayMessage     | "Today I'll do this"   |
         Then the response status code should be 401
         And the response should contain:
-            | statusCode | "TYPE:NUMBER" |
-            | message    | "TYPE:STRING" |
+            | statusCode | 401            |
+            | message    | "Unauthorized" |

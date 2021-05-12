@@ -22,7 +22,6 @@ export class StandupService {
       createdOn: new Date(Date.now()),
     };
 
-    // this.standups.push(newStandup);
     return this.astraService.create<Standup>(newStandup).pipe(
       filter((data: documentId) => {
         if (data === null) {

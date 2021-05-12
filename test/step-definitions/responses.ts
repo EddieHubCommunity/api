@@ -37,8 +37,16 @@ export class responses {
   public dataResponseItemTable(item: number, table: { rawTable: [] }) {
     const data = this.context.tableToObject(table);
     Object.keys(data).forEach((key) => {
-      const regex = getRegex(data[key]);
-      expect(JSON.parse(this.context.response.text)[item][key]).to.match(regex);
+      if (/TYPE:/.test(data[key])) {
+        const regex = getRegex(data[key]);
+        expect(JSON.parse(this.context.response.text)[item][key]).to.match(
+          regex,
+        );
+      } else {
+        expect(JSON.parse(this.context.response.text)[item][key]).to.eql(
+          data[key],
+        );
+      }
     });
   }
 
@@ -50,10 +58,16 @@ export class responses {
   ) {
     const data = this.context.tableToObject(table);
     Object.keys(data).forEach((key) => {
-      const regex = getRegex(data[key]);
-      expect(
-        JSON.parse(this.context.response.text)[property][item][key],
-      ).to.match(regex);
+      if (/TYPE:/.test(data[key])) {
+        const regex = getRegex(data[key]);
+        expect(
+          JSON.parse(this.context.response.text)[property][item][key],
+        ).to.match(regex);
+      } else {
+        expect(
+          JSON.parse(this.context.response.text)[property][item][key],
+        ).to.eql(data[key]);
+      }
     });
   }
 
@@ -67,11 +81,15 @@ export class responses {
   public dataResponseTable(table: { rawTable: [] }) {
     const data = this.context.tableToObject(table);
     Object.keys(data).forEach((key) => {
-      if (data[key] === 'TYPE:ID') {
-        this.context.documentId = JSON.parse(this.context.response.text)[key];
+      if (/TYPE:/.test(data[key])) {
+        if (data[key] === 'TYPE:ID') {
+          this.context.documentId = JSON.parse(this.context.response.text)[key];
+        }
+        const regex = getRegex(data[key]);
+        expect(JSON.parse(this.context.response.text)[key]).to.match(regex);
+      } else {
+        expect(JSON.parse(this.context.response.text)[key]).to.eql(data[key]);
       }
-      const regex = getRegex(data[key]);
-      expect(JSON.parse(this.context.response.text)[key]).to.match(regex);
     });
   }
 
@@ -88,8 +106,12 @@ export class responses {
       JSON.parse(this.context.response.text),
     ).find((el) => el[field] === value);
     Object.keys(data).forEach((key) => {
-      const regex = getRegex(data[key]);
-      expect(workObject[key]).to.match(regex);
+      if (/TYPE:/.test(data[key])) {
+        const regex = getRegex(data[key]);
+        expect(workObject[key]).to.match(regex);
+      } else {
+        expect(workObject[key]).to.eql(data[key]);
+      }
     });
   }
 }
