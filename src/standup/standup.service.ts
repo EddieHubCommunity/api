@@ -74,6 +74,12 @@ export class StandupService {
   }
 
   search(query) {
+    if (!query.discordUser) {
+      throw new HttpException(
+        'Please provide search context',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
     return this.astraService
       .find<Standup>({ discordUser: { $eq: query.discordUser } })
       .pipe(

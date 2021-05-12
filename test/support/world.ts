@@ -3,6 +3,7 @@ export default class Context {
   public response;
   public preRequest;
   public token;
+  public documentId: string;
 
   public tableToObject(table) {
     return table.rawTable.reduce((result, current) => {

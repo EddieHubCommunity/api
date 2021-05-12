@@ -19,6 +19,7 @@ export async function prepareStargate() {
         },
       },
     );
+    console.log('stargate initialized successfully');
   } catch {
     console.log("couldn't create stargate namespace");
   }

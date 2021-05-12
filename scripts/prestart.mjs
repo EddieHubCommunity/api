@@ -19,6 +19,7 @@ import axios from 'axios';
         },
       },
     );
+    console.log('stargate initialized successfully');
   } catch {
     console.log("couldn't create stargate namespace");
   }

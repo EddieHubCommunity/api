@@ -29,6 +29,9 @@ export class requests {
 
   @given(/make a GET request to "([^"]*)"/)
   public async getRequest(url: string) {
+    if (/\/{id}/.test(url)) {
+      url = url.replace(/{id}/, this.context.documentId);
+    }
     this.context.response = await request(this.context.app.getHttpServer()).get(
       url,
     );
@@ -36,6 +39,10 @@ export class requests {
 
   @given(/make a POST request to "([^"]*)" with:/)
   public async postRequestWithBody(url: string, table: { rawTable: [] }) {
+    if (/\/{id}/.test(url)) {
+      url = url.replace(/{id}/, this.context.documentId);
+    }
+
     const post = request(this.context.app.getHttpServer()).post(url);
 
     if (this.context.token) {
@@ -51,6 +58,9 @@ export class requests {
 
   @when(/make a PUT request to "([^"]*)" with:/)
   public async putRequest(url: string, table: { rawTable: [] }) {
+    if (/\/{id}/.test(url)) {
+      url = url.replace(/{id}/, this.context.documentId);
+    }
     const putReq = request(this.context.app.getHttpServer()).put(url);
 
     if (this.context.token) {
@@ -64,6 +74,9 @@ export class requests {
 
   @when(/make a DELETE request to "([^"]*)"/)
   public async deleteRequest(url: string) {
+    if (/\/{id}/.test(url)) {
+      url = url.replace(/{id}/, this.context.documentId);
+    }
     const deleteReq = request(this.context.app.getHttpServer()).delete(url);
 
     if (this.context.token) {
