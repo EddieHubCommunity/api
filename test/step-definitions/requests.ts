@@ -4,15 +4,29 @@ import * as request from 'supertest';
 import { AppModule } from '../../src/app.module';
 import Context from '../support/world';
 import { ValidationPipe } from '@nestjs/common';
-import { prepareStargate } from '../scripts/setupStargate';
+import { setup, cliOptions } from '@cahllagerfeld/setup-stargate';
 
 @binding([Context])
 export class requests {
   constructor(protected context: Context) {}
 
+  private prepareURL(url: string): string {
+    if (/\/{id}/.test(url)) {
+      url = url.replace(/{id}/, this.context.documentId);
+    }
+    return url;
+  }
+
   @before()
   public async before(): Promise<void> {
-    await prepareStargate();
+    const options: cliOptions = {
+      namespaceUrl: 'http://localhost:8082/v2/schemas/namespaces',
+      authUrl: process.env.STARGATE_AUTH_URL,
+      keyspace: 'eddiehub',
+      password: 'cassandra',
+      username: 'cassandra',
+    };
+    await setup(options);
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
     }).compile();
@@ -29,9 +43,7 @@ export class requests {
 
   @given(/make a GET request to "([^"]*)"/)
   public async getRequest(url: string) {
-    if (/\/{id}/.test(url)) {
-      url = url.replace(/{id}/, this.context.documentId);
-    }
+    url = this.prepareURL(url);
     this.context.response = await request(this.context.app.getHttpServer()).get(
       url,
     );
@@ -39,9 +51,7 @@ export class requests {
 
   @given(/make a POST request to "([^"]*)" with:/)
   public async postRequestWithBody(url: string, table: { rawTable: [] }) {
-    if (/\/{id}/.test(url)) {
-      url = url.replace(/{id}/, this.context.documentId);
-    }
+    url = this.prepareURL(url);
 
     const post = request(this.context.app.getHttpServer()).post(url);
 
@@ -58,9 +68,7 @@ export class requests {
 
   @when(/make a PUT request to "([^"]*)" with:/)
   public async putRequest(url: string, table: { rawTable: [] }) {
-    if (/\/{id}/.test(url)) {
-      url = url.replace(/{id}/, this.context.documentId);
-    }
+    url = this.prepareURL(url);
     const putReq = request(this.context.app.getHttpServer()).put(url);
 
     if (this.context.token) {
@@ -74,9 +82,7 @@ export class requests {
 
   @when(/make a DELETE request to "([^"]*)"/)
   public async deleteRequest(url: string) {
-    if (/\/{id}/.test(url)) {
-      url = url.replace(/{id}/, this.context.documentId);
-    }
+    url = this.prepareURL(url);
     const deleteReq = request(this.context.app.getHttpServer()).delete(url);
 
     if (this.context.token) {
