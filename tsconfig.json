@@ -12,5 +12,5 @@
     "incremental": true,
     "allowSyntheticDefaultImports": true
   },
-  "exclude": ["node_modules", "dist", "scripts"]
+  "exclude": ["node_modules", "dist"]
 }
