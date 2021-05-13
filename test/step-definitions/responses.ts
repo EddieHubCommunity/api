@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AppModule } from '../../src/app.module';
 import Context from '../support/world';
+import { getRegex } from '../support/regexes';
 import { ValidationPipe } from '@nestjs/common';
 
 @binding([Context])
@@ -20,7 +21,9 @@ export class responses {
     await this.context.app.init();
   }
 
-  @then(/the response status code should be (200|201|400|401|404|413|500|503)/)
+  @then(
+    /the response status code should be (200|201|204|400|401|404|413|500|503)/,
+  )
   public statusResponse(status: string) {
     expect(this.context.response.status).to.equal(parseInt(status));
   }
@@ -34,9 +37,16 @@ export class responses {
   public dataResponseItemTable(item: number, table: { rawTable: [] }) {
     const data = this.context.tableToObject(table);
     Object.keys(data).forEach((key) => {
-      expect(JSON.parse(this.context.response.text)[item][key]).to.eql(
-        data[key],
-      );
+      if (/TYPE:/.test(data[key])) {
+        const regex = getRegex(data[key]);
+        expect(JSON.parse(this.context.response.text)[item][key]).to.match(
+          regex,
+        );
+      } else {
+        expect(JSON.parse(this.context.response.text)[item][key]).to.eql(
+          data[key],
+        );
+      }
     });
   }
 
@@ -47,12 +57,17 @@ export class responses {
     table: { rawTable: [] },
   ) {
     const data = this.context.tableToObject(table);
-    console.log(JSON.parse(this.context.response.text)[property][item]);
-    console.log(data);
     Object.keys(data).forEach((key) => {
-      expect(
-        JSON.parse(this.context.response.text)[property][item][key],
-      ).to.eql(data[key]);
+      if (/TYPE:/.test(data[key])) {
+        const regex = getRegex(data[key]);
+        expect(
+          JSON.parse(this.context.response.text)[property][item][key],
+        ).to.match(regex);
+      } else {
+        expect(
+          JSON.parse(this.context.response.text)[property][item][key],
+        ).to.eql(data[key]);
+      }
     });
   }
 
@@ -65,8 +80,38 @@ export class responses {
   @then(/the response should contain:/)
   public dataResponseTable(table: { rawTable: [] }) {
     const data = this.context.tableToObject(table);
-    Object.keys(data).forEach((key) =>
-      expect(JSON.parse(this.context.response.text)[key]).to.eql(data[key]),
-    );
+    Object.keys(data).forEach((key) => {
+      if (/TYPE:/.test(data[key])) {
+        if (data[key] === 'TYPE:ID') {
+          this.context.documentId = JSON.parse(this.context.response.text)[key];
+        }
+        const regex = getRegex(data[key]);
+        expect(JSON.parse(this.context.response.text)[key]).to.match(regex);
+      } else {
+        expect(JSON.parse(this.context.response.text)[key]).to.eql(data[key]);
+      }
+    });
+  }
+
+  @then(
+    /the response in item where field "([^"]*)" is equal to "([^"]*)" should contain:/,
+  )
+  public dataResponseFieldInItem(
+    field: string,
+    value: string,
+    table: { rawTable: [] },
+  ) {
+    const data = this.context.tableToObject(table);
+    const workObject = Object.values(
+      JSON.parse(this.context.response.text),
+    ).find((el) => el[field] === value);
+    Object.keys(data).forEach((key) => {
+      if (/TYPE:/.test(data[key])) {
+        const regex = getRegex(data[key]);
+        expect(workObject[key]).to.match(regex);
+      } else {
+        expect(workObject[key]).to.eql(data[key]);
+      }
+    });
   }
 }
