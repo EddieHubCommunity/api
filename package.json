@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "prebuild": "rimraf dist",
-    "prestart": "node scripts/prestart.mjs",
+    "prestart": "setup-stargate -k eddiehub",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "@cahllagerfeld/nestjs-astra": "0.0.2",
+    "@cahllagerfeld/setup-stargate": "0.0.9",
     "@nestjs/common": "^7.6.13",
     "@nestjs/config": "^0.6.3",
     "@nestjs/core": "^7.6.13",
