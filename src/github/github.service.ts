@@ -55,6 +55,18 @@ export class GithubService {
   }
 
   async update(id: string, body: GithubDTO): Promise<documentId> {
+    const {
+      username,
+      bio,
+      avatarUrl,
+      repos,
+      event,
+      followers,
+      location,
+      blog,
+      organization,
+    } = body;
+
     const oldDocument = await this.astraService
       .get<GithubProfile>(id)
       .toPromise();
@@ -65,11 +77,45 @@ export class GithubService {
         HttpStatus.NOT_FOUND,
       );
     }
+    const updateGithubProfile: GithubProfile = { ...oldDocument };
+    if (username) {
+      updateGithubProfile.username = username;
+    }
+    if (bio) {
+      updateGithubProfile.bio = bio;
+    }
+    if (avatarUrl) {
+      updateGithubProfile.avatarUrl = avatarUrl;
+    }
+    if (repos) {
+      updateGithubProfile.repos = repos;
+    }
+    if (event) {
+      updateGithubProfile.communityStats = this.mappingService.mapCommunityState(
+        event,
+        updateGithubProfile.communityStats,
+      );
+    }
+    if (followers) {
+      updateGithubProfile.followers = followers;
+    }
+    if (organization) {
+      updateGithubProfile.organization = organization;
+    }
+    if (blog) {
+      updateGithubProfile.blog = blog;
+    }
+    if (location) {
+      const locationObject = await this.geocodingService.fetchCoordinates(
+        location,
+      );
+      updateGithubProfile.location = locationObject;
+    }
 
-    const updatedDocument = await this.createGithub(body);
+    updateGithubProfile.updatedOn = new Date(Date.now());
 
     const updateResponse = await this.astraService
-      .replace<GithubProfile>(id, updatedDocument)
+      .replace<GithubProfile>(id, updateGithubProfile)
       .toPromise();
 
     if (updateResponse === null) {
