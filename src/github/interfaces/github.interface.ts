@@ -37,7 +37,6 @@ export interface GithubLocation {
 }
 
 export interface GithubProfile {
-  id: number;
   username: string;
   bio?: string;
   avatarUrl?: string;
