@@ -89,7 +89,7 @@ Authentication is handled via an environment-variable called `APPROVED_TOKENS`.
 The approved tokens which are validated by the API are put there.
 In case there should be multiple tokens, for multiple clients, they need to be **comma-seperated**.
 
-To use Authetication the token needs to be passed in the `token`-header of the client-request.
+To use Authentication the token needs to be passed in the `token`-header of the client-request.
 
 ## Running the app via Docker
 
