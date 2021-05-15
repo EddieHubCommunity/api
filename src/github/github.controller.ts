@@ -5,7 +5,6 @@ import {
   Get,
   HttpCode,
   Param,
-  ParseIntPipe,
   Post,
   Put,
   UseGuards,
@@ -21,8 +20,8 @@ export class GithubController {
   @Post()
   @ApiSecurity('token')
   @UseGuards(TokenGuard)
-  create(@Body() body: GithubDTO) {
-    return this.githubService.createGithub(body);
+  async create(@Body() body: GithubDTO) {
+    return await this.githubService.create(body);
   }
 
   @Get()
@@ -31,7 +30,7 @@ export class GithubController {
   }
 
   @Get(':id')
-  findOne(@Param('id', new ParseIntPipe()) id: number) {
+  findOne(@Param('id') id: string) {
     return this.githubService.findOne(id);
   }
 
@@ -39,14 +38,15 @@ export class GithubController {
   @UseGuards(TokenGuard)
   @HttpCode(200)
   @ApiSecurity('token')
-  update(@Param('id', new ParseIntPipe()) id: number, @Body() body: GithubDTO) {
-    return this.githubService.update(id, body);
+  async update(@Param('id') id: string, @Body() body: GithubDTO) {
+    return await this.githubService.update(id, body);
   }
 
   @Delete(':id')
   @UseGuards(TokenGuard)
   @ApiSecurity('token')
-  remove(@Param('id', new ParseIntPipe()) id: number) {
+  @HttpCode(204)
+  remove(@Param('id') id: string) {
     return this.githubService.remove(id);
   }
 }
