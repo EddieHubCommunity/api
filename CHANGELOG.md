@@ -1,3 +1,12 @@
+## [0.3.2](https://github.com/EddieHubCommunity/api/compare/v0.3.1...v0.3.2) (2021-05-15)
+
+
+### Bug Fixes
+
+* docker file to use gh token ([6e9ea84](https://github.com/EddieHubCommunity/api/commit/6e9ea849be0f29f286f43895855ac2d78823503b))
+
+
+
 ## [0.3.1](https://github.com/EddieHubCommunity/api/compare/v0.3.0...v0.3.1) (2021-05-15)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * disable husky for docker build ([e66c6b7](https://github.com/EddieHubCommunity/api/commit/e66c6b7c5925a975062a2a3aa0291cf1a34fd7b8))
-
-
-
-## [0.2.4](https://github.com/EddieHubCommunity/api/compare/v0.2.3...v0.2.4) (2021-05-15)
-
-
-### Bug Fixes
-
-* npm auth ([266ec56](https://github.com/EddieHubCommunity/api/commit/266ec560fe6031670fd3dd98c3e5af978cbcf260))
 
 
 
