@@ -1,4 +1,13 @@
-# 0.2.0 (2021-05-15)
+## [0.2.1](https://github.com/EddieHubCommunity/api/compare/v0.2.0...v0.2.1) (2021-05-15)
+
+
+### Bug Fixes
+
+* husky on CI ([#103](https://github.com/EddieHubCommunity/api/issues/103)) ([8cd4f82](https://github.com/EddieHubCommunity/api/commit/8cd4f820aae744541f90e59cf73f0b7d1914376b))
+
+
+
+# [0.2.0](https://github.com/EddieHubCommunity/api/compare/b1f674608dd0e0e7554f1572e2120e2ab03829c6...v0.2.0) (2021-05-15)
 
 
 ### Bug Fixes
