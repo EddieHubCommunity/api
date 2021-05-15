@@ -3,8 +3,8 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
   Param,
-  ParseIntPipe,
   Post,
   Put,
   UseGuards,
@@ -32,24 +32,22 @@ export class CalendarController {
   }
 
   @Get(':id')
-  findOne(@Param('id', new ParseIntPipe()) id: number) {
+  findOne(@Param('id') id: string) {
     return this.service.findOne(id);
   }
 
   @Put(':id')
   @UseGuards(TokenGuard)
   @ApiSecurity('token')
-  updateOne(
-    @Param('id', new ParseIntPipe()) id: number,
-    @Body() calendarEvent: CalendarEventDTO,
-  ) {
+  updateOne(@Param('id') id: string, @Body() calendarEvent: CalendarEventDTO) {
     return this.service.updateOne(id, calendarEvent);
   }
 
   @Delete(':id')
   @UseGuards(TokenGuard)
+  @HttpCode(204)
   @ApiSecurity('token')
-  remove(@Param('id', new ParseIntPipe()) id: number) {
+  remove(@Param('id') id: string) {
     return this.service.remove(id);
   }
 }
