@@ -1,3 +1,12 @@
+# [0.3.0](https://github.com/EddieHubCommunity/api/compare/v0.2.6...v0.3.0) (2021-05-15)
+
+
+### Features
+
+* github to database ([#100](https://github.com/EddieHubCommunity/api/issues/100)) ([824432d](https://github.com/EddieHubCommunity/api/commit/824432de9034839a5df06a7cfd5a2214fde5ff49))
+
+
+
 ## [0.2.6](https://github.com/EddieHubCommunity/api/compare/v0.2.5...v0.2.6) (2021-05-15)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * auth for dependency ([78f660c](https://github.com/EddieHubCommunity/api/commit/78f660c67752b0d0a3acac580f47925adb1f4fe9))
-
-
-
-## [0.2.2](https://github.com/EddieHubCommunity/api/compare/v0.2.1...v0.2.2) (2021-05-15)
-
-
-### Bug Fixes
-
-* update docker action ([63c5828](https://github.com/EddieHubCommunity/api/commit/63c5828e32fa087aa1ec01858090147d56ba04ab))
 
 
 
