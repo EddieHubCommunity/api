@@ -1,3 +1,12 @@
+## [0.2.4](https://github.com/EddieHubCommunity/api/compare/v0.2.3...v0.2.4) (2021-05-15)
+
+
+### Bug Fixes
+
+* npm auth ([266ec56](https://github.com/EddieHubCommunity/api/commit/266ec560fe6031670fd3dd98c3e5af978cbcf260))
+
+
+
 ## [0.2.3](https://github.com/EddieHubCommunity/api/compare/v0.2.2...v0.2.3) (2021-05-15)
 
 
