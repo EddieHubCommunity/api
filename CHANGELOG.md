@@ -1,3 +1,12 @@
+## [0.2.3](https://github.com/EddieHubCommunity/api/compare/v0.2.2...v0.2.3) (2021-05-15)
+
+
+### Bug Fixes
+
+* auth for dependency ([78f660c](https://github.com/EddieHubCommunity/api/commit/78f660c67752b0d0a3acac580f47925adb1f4fe9))
+
+
+
 ## [0.2.2](https://github.com/EddieHubCommunity/api/compare/v0.2.1...v0.2.2) (2021-05-15)
 
 
