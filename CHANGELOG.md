@@ -1,3 +1,12 @@
+## [0.2.6](https://github.com/EddieHubCommunity/api/compare/v0.2.5...v0.2.6) (2021-05-15)
+
+
+### Bug Fixes
+
+* stargate local service ([18e4714](https://github.com/EddieHubCommunity/api/commit/18e47148e7840bbc67fd45cd8764dc86295d29e2))
+
+
+
 ## [0.2.5](https://github.com/EddieHubCommunity/api/compare/v0.2.4...v0.2.5) (2021-05-15)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * update docker action ([63c5828](https://github.com/EddieHubCommunity/api/commit/63c5828e32fa087aa1ec01858090147d56ba04ab))
-
-
-
-## [0.2.1](https://github.com/EddieHubCommunity/api/compare/v0.2.0...v0.2.1) (2021-05-15)
-
-
-### Bug Fixes
-
-* husky on CI ([#103](https://github.com/EddieHubCommunity/api/issues/103)) ([8cd4f82](https://github.com/EddieHubCommunity/api/commit/8cd4f820aae744541f90e59cf73f0b7d1914376b))
 
 
 
