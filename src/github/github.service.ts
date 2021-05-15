@@ -45,7 +45,7 @@ export class GithubService {
       filter((data: GithubProfile) => {
         if (data === null) {
           throw new HttpException(
-            `no standup for ${id} found`,
+            `no github-profile for ${id} found`,
             HttpStatus.NOT_FOUND,
           );
         }
@@ -73,7 +73,7 @@ export class GithubService {
 
     if (oldDocument === null) {
       throw new HttpException(
-        `no standup for ${id} found`,
+        `no github-profile for ${id} found`,
         HttpStatus.NOT_FOUND,
       );
     }
@@ -112,7 +112,7 @@ export class GithubService {
       updateGithubProfile.location = locationObject;
     }
 
-    updateGithubProfile.updatedOn = new Date(Date.now());
+    updateGithubProfile.updatedOn = new Date();
 
     const updateResponse = await this.astraService
       .replace<GithubProfile>(id, updateGithubProfile)
@@ -120,7 +120,7 @@ export class GithubService {
 
     if (updateResponse === null) {
       throw new HttpException(
-        `no standup for ${id} found`,
+        `no github-profile for ${id} found`,
         HttpStatus.NOT_FOUND,
       );
     }
@@ -133,7 +133,7 @@ export class GithubService {
       filter((data: GithubProfile) => {
         if (data === null) {
           throw new HttpException(
-            `no standup for ${id} found`,
+            `no github-profile for ${id} found`,
             HttpStatus.NOT_FOUND,
           );
         }
@@ -162,8 +162,8 @@ export class GithubService {
       repos: body.repos,
       blog: body.blog,
       organization: body.organization,
-      createdOn: new Date(Date.now()),
-      updatedOn: new Date(Date.now()),
+      createdOn: new Date(),
+      updatedOn: new Date(),
     };
     if (body.location) {
       const locationObject = await this.geocodingService.fetchCoordinates(

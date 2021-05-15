@@ -93,8 +93,8 @@ Feature: github-module
         Then make a DELETE request to "/github/66"
         Then the response status code should be 404
         And the response should contain:
-            | statusCode | 404                       |
-            | message    | "no standup for 66 found" |
+            | statusCode | 404                              |
+            | message    | "no github-profile for 66 found" |
 
     Scenario: update githubprofile with previously used event
         Given authorisation
