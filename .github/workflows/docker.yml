@@ -8,6 +8,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Authenticate with GitHub package registry
+        run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" > ~/.npmrc
       - name: npm install
         run: npm ci
         env:
@@ -27,6 +29,8 @@ jobs:
         node-version: [15.x]
     steps:
       - uses: actions/checkout@v2
+      - name: Authenticate with GitHub package registry
+        run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" > ~/.npmrc
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
