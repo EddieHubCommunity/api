@@ -8,10 +8,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: npm install and build
-        run: |
-          npm ci
-          npm run build
+      - name: npm install
+        run: npm ci
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      - name: npm build
+        run: npm run build
       - uses: actions/upload-artifact@main
         with:
           name: artifacts
@@ -33,10 +35,12 @@ jobs:
         with:
           name: artifacts
           path: dist
-      - name: npm install and test
-        run: |
-          npm ci
-          npm test
+      - name: npm install
+        run: npm ci
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      - name: test
+        run: npm test
   push_to_registry:
     name: Push Docker image to GitHub Packages
     needs: test
