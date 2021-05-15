@@ -90,6 +90,8 @@ export class DiscordService {
       updatedDiscord.socials.github = socials.github;
     }
 
+    updatedDiscord.updatedOn = new Date();
+
     const updateResponse = await this.astraService
       .replace<DiscordProfile>(id, updatedDiscord)
       .toPromise();
