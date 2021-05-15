@@ -1,3 +1,12 @@
+## [0.3.1](https://github.com/EddieHubCommunity/api/compare/v0.3.0...v0.3.1) (2021-05-15)
+
+
+### Bug Fixes
+
+* docker build to have gh token ([5e3475a](https://github.com/EddieHubCommunity/api/commit/5e3475a8841a3526762abd281764725f71995d6c))
+
+
+
 # [0.3.0](https://github.com/EddieHubCommunity/api/compare/v0.2.6...v0.3.0) (2021-05-15)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * npm auth ([266ec56](https://github.com/EddieHubCommunity/api/commit/266ec560fe6031670fd3dd98c3e5af978cbcf260))
-
-
-
-## [0.2.3](https://github.com/EddieHubCommunity/api/compare/v0.2.2...v0.2.3) (2021-05-15)
-
-
-### Bug Fixes
-
-* auth for dependency ([78f660c](https://github.com/EddieHubCommunity/api/commit/78f660c67752b0d0a3acac580f47925adb1f4fe9))
 
 
 
