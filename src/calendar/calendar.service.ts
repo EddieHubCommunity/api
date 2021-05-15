@@ -1,11 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CalendarEventDTO } from './dto/calendar.dto';
-import {
-  CalendarEvent,
-  SortedEventResponse,
-} from './interfaces/calendar.interface';
-import { isFuture } from 'date-fns';
-import { concatMap, filter, map, tap } from 'rxjs/operators';
+import { CalendarEvent } from './interfaces/calendar.interface';
+import { concatMap, filter } from 'rxjs/operators';
 import {
   AstraService,
   deleteItem,
@@ -16,7 +12,6 @@ import { forkJoin, Observable } from 'rxjs';
 @Injectable()
 export class CalendarService {
   constructor(private readonly astraService: AstraService) {}
-  private calendarEvents: CalendarEvent[] = [];
 
   createCalendarEvent(
     calendarEventBody: CalendarEventDTO,
