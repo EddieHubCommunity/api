@@ -5,7 +5,7 @@ WORKDIR /usr/src/app
 
 COPY package*.json ./
 
-RUN npm install --only=development
+RUN npm install
 
 COPY . .
 
@@ -18,9 +18,14 @@ ENV NODE_ENV=${NODE_ENV}
 ENV HUSKY=0
 ENV VERSION="v0.0.0"
 
+RUN --mount=type=secret,id=github_token \
+  cat /run/secrets/github_token
+RUN echo "//npm.pkg.github.com/:_authToken=$github_token" > ~/.npmrc
+
 WORKDIR /usr/src/app
 
 COPY package*.json ./
+
 
 RUN npm install --only=production
 
