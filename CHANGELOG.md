@@ -1,3 +1,12 @@
+## [0.2.2](https://github.com/EddieHubCommunity/api/compare/v0.2.1...v0.2.2) (2021-05-15)
+
+
+### Bug Fixes
+
+* update docker action ([63c5828](https://github.com/EddieHubCommunity/api/commit/63c5828e32fa087aa1ec01858090147d56ba04ab))
+
+
+
 ## [0.2.1](https://github.com/EddieHubCommunity/api/compare/v0.2.0...v0.2.1) (2021-05-15)
 
 
