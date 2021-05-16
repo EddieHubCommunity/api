@@ -1,44 +1,73 @@
+import {
+  AstraService,
+  deleteItem,
+  documentId,
+  findResult,
+} from '@cahllagerfeld/nestjs-astra';
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
+import { Observable } from 'rxjs';
+import { concatMap, filter } from 'rxjs/operators';
 import { DiscordDTO } from './dto/discord.dto';
 import { DiscordProfile } from './interfaces/discord.interface';
 
 @Injectable()
 export class DiscordService {
-  private discords: DiscordProfile[] = [];
+  constructor(private readonly astraService: AstraService) {}
 
-  create(createDiscordDto: DiscordDTO): DiscordProfile {
+  create(createDiscordDto: DiscordDTO): Observable<documentId> {
     const discordUser = {
-      id: 123,
       username: createDiscordDto.username,
       bio: createDiscordDto.bio,
       socials: { ...createDiscordDto.socials },
-      createdOn: new Date('2021-01-01T00:00:00.000Z'),
-      updatedOn: new Date('2021-01-01T00:00:00.000Z'),
+      createdOn: new Date(),
+      updatedOn: new Date(),
     };
 
-    this.discords.push(discordUser);
-
-    return discordUser;
+    return this.astraService.create<DiscordProfile>(discordUser).pipe(
+      filter((data: documentId) => {
+        if (data === null) {
+          throw new HttpException(
+            'Creation didnt pass as expected',
+            HttpStatus.BAD_REQUEST,
+          );
+        }
+        return true;
+      }),
+    );
   }
 
-  findAll(): DiscordProfile[] {
-    return [...this.discords];
+  findAll(): Observable<findResult<DiscordProfile>> {
+    return this.astraService.find<DiscordProfile>();
   }
 
-  findOne(id: number): DiscordProfile {
-    const discordUser = this.discords.find((user) => user.id === id);
-    if (!discordUser) {
-      throw new HttpException('User Not Found', HttpStatus.NOT_FOUND);
-    }
-    return { ...discordUser };
+  findOne(id: string) {
+    return this.astraService.get<DiscordProfile>(id).pipe(
+      filter((data: DiscordProfile) => {
+        if (data === null) {
+          throw new HttpException(
+            `no discord-profile for ${id} found`,
+            HttpStatus.NOT_FOUND,
+          );
+        }
+        return true;
+      }),
+    );
   }
 
-  update(id: number, updateDiscordDto: DiscordDTO): DiscordProfile {
+  async update(id: string, updateDiscordDto: DiscordDTO) {
     const { username, bio, socials } = updateDiscordDto;
-    const discordUser = this.discords.find((user) => user.id === id);
-    if (!discordUser) {
-      throw new HttpException('User Not Found', HttpStatus.NOT_FOUND);
+
+    const discordUser = await this.astraService
+      .get<DiscordProfile>(id)
+      .toPromise();
+
+    if (discordUser === null) {
+      throw new HttpException(
+        `no discord-profile for ${id} found`,
+        HttpStatus.NOT_FOUND,
+      );
     }
+
     const updatedDiscord = { ...discordUser };
     if (username) {
       updatedDiscord.username = username;
@@ -60,22 +89,38 @@ export class DiscordService {
       updatedDiscord.socials.github = socials.github;
     }
 
-    const index = this.discords.findIndex(
-      (discordUser) => discordUser.id === id,
-    );
-    this.discords[index] = updatedDiscord;
+    updatedDiscord.updatedOn = new Date();
 
-    return updatedDiscord;
+    const updateResponse = await this.astraService
+      .replace<DiscordProfile>(id, updatedDiscord)
+      .toPromise();
+
+    if (updateResponse === null) {
+      throw new HttpException(
+        `no discord-profile for ${id} found`,
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    return updateResponse;
   }
 
-  remove(id: number) {
-    const deleteElement = this.discords.find((user) => user.id == id);
-    if (!deleteElement) {
-      throw new HttpException('User Not Found', HttpStatus.NOT_FOUND);
-    }
-    const updatedDiscord = this.discords.filter((user) => user.id !== id);
-    this.discords = [...updatedDiscord];
-
-    return {};
+  remove(id: string) {
+    return this.astraService.get<DiscordProfile>(id).pipe(
+      filter((data: DiscordProfile) => {
+        if (data === null) {
+          throw new HttpException(
+            `no discord-profile for ${id} found`,
+            HttpStatus.NOT_FOUND,
+          );
+        }
+        return true;
+      }),
+      concatMap(() =>
+        this.astraService
+          .delete(id)
+          .pipe(filter((data: deleteItem) => data.deleted === true)),
+      ),
+    );
   }
 }

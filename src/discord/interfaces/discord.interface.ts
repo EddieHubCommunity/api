@@ -1,5 +1,4 @@
 export interface DiscordProfile {
-  id: number;
   username: string;
   bio?: string;
   socials?: DiscordProfileSocials;
