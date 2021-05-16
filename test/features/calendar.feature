@@ -14,6 +14,18 @@ Feature: calendar module
             | endDate     | "2021-01-01T00:00:00.000Z"            |
         And the response should contain:
             | documentId | "TYPE:ID" |
+        When make a GET request to "/calendar/{id}"
+        Then the response status code should be 200
+        And the response should contain:
+            | name        | "Livestream XY"                       |
+            | description | "descriptive Description"             |
+            | url         | "https://domain.com"                  |
+            | platform    | "YouTube"                             |
+            | author      | {"platform":"discord","uid":"hubber"} |
+            | startDate   | "2021-01-01T00:00:00.000Z"            |
+            | endDate     | "2021-01-01T00:00:00.000Z"            |
+            | createdOn   | "TYPE:DATE"                           |
+            | updatedOn   | "TYPE:DATE"                           |
 
     Scenario: get list of events
         Given make a GET request to "/calendar"
@@ -78,16 +90,6 @@ Feature: calendar module
 
     Scenario: update an non-existing event
         Given authorisation
-        When make a POST request to "/calendar" with:
-            | name        | "Livestream XY"                       |
-            | description | "descriptive Description"             |
-            | url         | "https://domain.com"                  |
-            | platform    | "YouTube"                             |
-            | author      | {"platform":"discord","uid":"hubber"} |
-            | startDate   | "2021-01-01T00:00:00.000Z"            |
-            | endDate     | "2021-01-01T00:00:00.000Z"            |
-        And the response should contain:
-            | documentId | "TYPE:ID" |
         When make a PUT request to "/calendar/321" with:
             | name        | "Livestream YZ"                      |
             | description | "undescriptive Description"          |
