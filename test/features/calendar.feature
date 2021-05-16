@@ -63,8 +63,18 @@ Feature: calendar module
             | startDate   | "2021-01-01T00:00:00.000Z"           |
             | endDate     | "2021-01-01T00:00:00.000Z"           |
         Then the response status code should be 200
+        When make a GET request to "/calendar/{id}"
+        Then the response status code should be 200
         And the response should contain:
-            | documentId | "TYPE:ID" |
+            | name        | "Livestream YZ"                      |
+            | description | "undescriptive Description"          |
+            | url         | "https://mydomain.com"               |
+            | platform    | "Twitch"                             |
+            | author      | {"platform":"discord","uid":"hubby"} |
+            | startDate   | "2021-01-01T00:00:00.000Z"           |
+            | endDate     | "2021-01-01T00:00:00.000Z"           |
+            | createdOn   | "TYPE:DATE"                          |
+            | updatedOn   | "TYPE:DATE"                          |
 
     Scenario: update an non-existing event
         Given authorisation
@@ -109,23 +119,13 @@ Feature: calendar module
 
     Scenario: delete non-existing event
         Given authorisation
-        When make a POST request to "/calendar" with:
-            | name        | "Livestream XY"                       |
-            | description | "descriptive Description"             |
-            | url         | "https://domain.com"                  |
-            | platform    | "YouTube"                             |
-            | author      | {"platform":"discord","uid":"hubber"} |
-            | startDate   | "2021-01-01T00:00:00.000Z"            |
-            | endDate     | "2021-01-01T00:00:00.000Z"            |
-        And the response should contain:
-            | documentId | "TYPE:ID" |
         When make a DELETE request to "/calendar/321"
         Then the response status code should be 404
         And the response should contain:
             | statusCode | 404                      |
             | message    | "no event for 321 found" |
 
-    Scenario: get events with authenticated request
+    Scenario: get event with authenticated request
         Given authorisation
         When make a POST request to "/calendar" with:
             | name        | "Livestream XY"                       |
@@ -164,45 +164,43 @@ Feature: calendar module
             | statusCode | 401            |
             | message    | "Unauthorized" |
 
-# Scenario: get sorted ongoing and future events
-#     Given authorisation
-#     And make a POST request to "/calendar" with:
-#         | name        | "Livestream XY"                       |
-#         | description | "descriptive Description"             |
-#         | url         | "https://domain.com"                  |
-#         | platform    | "YouTube"                             |
-#         | author      | {"platform":"discord","uid":"hubber"} |
-#         | startDate   | "2022-01-01T00:00:00.000Z"            |
-#         | endDate     | "2023-01-01T00:00:00.000Z"            |
-#     When make a POST request to "/calendar" with:
-#         | name        | "Livestream YZ"                      |
-#         | description | "undescriptive Description"          |
-#         | url         | "https://mydomain.com"               |
-#         | platform    | "Twitch"                             |
-#         | author      | {"platform":"discord","uid":"hubby"} |
-#         | startDate   | "2021-01-01T00:00:00.000Z"           |
-#         | endDate     | "2022-01-01T00:00:00.000Z"           |
-#     When make a GET request to "/calendar"
-#     Then the response status code should be 200
-#     And the response in property "future" and item "0" should contain:
-#         | id          | 123                                   |
-#         | name        | "Livestream XY"                       |
-#         | description | "descriptive Description"             |
-#         | url         | "https://domain.com"                  |
-#         | platform    | "YouTube"                             |
-#         | author      | {"platform":"discord","uid":"hubber"} |
-#         | startDate   | "2022-01-01T00:00:00.000Z"            |
-#         | endDate     | "2023-01-01T00:00:00.000Z"            |
-#         | createdOn   | "2021-01-01T00:00:00.000Z"            |
-#         | updatedOn   | "2021-01-01T00:00:00.000Z"            |
-#     And the response in property "ongoing" and item "0" should contain:
-#         | id          | 123                                  |
-#         | name        | "Livestream YZ"                      |
-#         | description | "undescriptive Description"          |
-#         | url         | "https://mydomain.com"               |
-#         | platform    | "Twitch"                             |
-#         | author      | {"platform":"discord","uid":"hubby"} |
-#         | startDate   | "2021-01-01T00:00:00.000Z"           |
-#         | endDate     | "2022-01-01T00:00:00.000Z"           |
-#         | createdOn   | "2021-01-01T00:00:00.000Z"           |
-#         | updatedOn   | "2021-01-01T00:00:00.000Z"           |
+    Scenario: get sorted ongoing and future events
+        Given authorisation
+        And make a POST request to "/calendar" with:
+            | name        | "Livestream XY"                       |
+            | description | "descriptive Description"             |
+            | url         | "https://domain.com"                  |
+            | platform    | "YouTube"                             |
+            | author      | {"platform":"discord","uid":"hubber"} |
+            | startDate   | "2022-01-01T00:00:00.000Z"            |
+            | endDate     | "2023-01-01T00:00:00.000Z"            |
+        When make a POST request to "/calendar" with:
+            | name        | "Livestream YZ"                      |
+            | description | "undescriptive Description"          |
+            | url         | "https://mydomain.com"               |
+            | platform    | "Twitch"                             |
+            | author      | {"platform":"discord","uid":"hubby"} |
+            | startDate   | "2021-01-01T00:00:00.000Z"           |
+            | endDate     | "2022-01-01T00:00:00.000Z"           |
+        When make a GET request to "/calendar"
+        Then the response status code should be 200
+        And the response property "future" has a subobject with a field "name" that is equal to "Livestream XY" should contain:
+            | name        | "Livestream XY"                       |
+            | description | "descriptive Description"             |
+            | url         | "https://domain.com"                  |
+            | platform    | "YouTube"                             |
+            | author      | {"platform":"discord","uid":"hubber"} |
+            | startDate   | "2022-01-01T00:00:00.000Z"            |
+            | endDate     | "2023-01-01T00:00:00.000Z"            |
+            | createdOn   | "TYPE:DATE"                           |
+            | updatedOn   | "TYPE:DATE"                           |
+        And the response property "ongoing" has a subobject with a field "name" that is equal to "Livestream YZ" should contain:
+            | name        | "Livestream YZ"                      |
+            | description | "undescriptive Description"          |
+            | url         | "https://mydomain.com"               |
+            | platform    | "Twitch"                             |
+            | author      | {"platform":"discord","uid":"hubby"} |
+            | startDate   | "2021-01-01T00:00:00.000Z"           |
+            | endDate     | "2022-01-01T00:00:00.000Z"           |
+            | createdOn   | "TYPE:DATE"                          |
+            | updatedOn   | "TYPE:DATE"                          |

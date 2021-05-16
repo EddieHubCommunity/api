@@ -114,4 +114,30 @@ export class responses {
       }
     });
   }
+
+  @then(
+    /the response property "([^"]*)" has a subobject with a field "([^"]*)" that is equal to "([^"]*)" should contain:/,
+  )
+  public dataResponseNestedProperty(
+    propertyString: string,
+    field: string,
+    value: string,
+    table: { rawTable: [] },
+  ) {
+    const data = this.context.tableToObject(table);
+    const topProperty = JSON.parse(this.context.response.text)[propertyString];
+
+    const workObject = Object.values(topProperty).find(
+      (element) => element[field] === value,
+    );
+
+    Object.keys(data).forEach((key) => {
+      if (/TYPE:/.test(data[key])) {
+        const regex = getRegex(data[key]);
+        expect(workObject[key]).to.match(regex);
+      } else {
+        expect(workObject[key]).to.eql(data[key]);
+      }
+    });
+  }
 }
