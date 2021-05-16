@@ -16,7 +16,6 @@ export class DiscordService {
 
   create(createDiscordDto: DiscordDTO): Observable<documentId> {
     const discordUser = {
-      id: 123,
       username: createDiscordDto.username,
       bio: createDiscordDto.bio,
       socials: { ...createDiscordDto.socials },

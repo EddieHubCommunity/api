@@ -18,7 +18,7 @@ Feature: github-module
         And the response should contain:
             | documentId | "TYPE:ID" |
 
-    Scenario: get list of githubprofilesGiven authorisation
+    Scenario: get list of githubprofiles
         Given authorisation
         And make a POST request to "/github" with:
             | username     | "eddiehubber"              |

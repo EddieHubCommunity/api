@@ -52,9 +52,14 @@ Feature: discord module
             | bio      | "Updated user bio"        |
             | username | "updated-user"            |
             | socials  | {"discord":"update-user"} |
+        Then make a GET request to "/discord/{id}"
         Then the response status code should be 200
         And the response should contain:
-            | documentId | "TYPE:ID" |
+            | bio       | "Updated user bio"                                                                             |
+            | username  | "updated-user"                                                                                 |
+            | socials   | {"discord":"update-user","github":"khattakdev","linkedin":"khattakdev","twitter":"khattakdev"} |
+            | updatedOn | "TYPE:DATE"                                                                                    |
+            | createdOn | "TYPE:DATE"                                                                                    |
 
     Scenario: delete a user
         Given authorisation
@@ -69,12 +74,6 @@ Feature: discord module
 
     Scenario: delete non-existing user
         Given authorisation
-        And make a POST request to "/discord" with:
-            | bio      | "This is a GitHub Campus Expert"                                                              |
-            | username | "khattakdev"                                                                                  |
-            | socials  | {"discord":"khattakdev","github":"khattakdev","linkedin":"khattakdev","twitter":"khattakdev"} |
-        Then the response should contain:
-            | documentId | "TYPE:ID" |
         When make a DELETE request to "/discord/321"
         Then the response status code should be 404
         And the response should contain:
@@ -83,7 +82,7 @@ Feature: discord module
 
 
 
-    Scenario: get users with authenticated request
+    Scenario: get user with authenticated request
         Given authorisation
         And make a POST request to "/discord" with:
             | bio      | "This is a GitHub Campus Expert"                                                              |
