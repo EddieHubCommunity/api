@@ -7,7 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
-  ParseIntPipe,
+  HttpCode,
 } from '@nestjs/common';
 import { ApiSecurity, ApiTags } from '@nestjs/swagger';
 import { TokenGuard } from '../auth/token.strategy';
@@ -32,23 +32,21 @@ export class DiscordController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.discordService.findOne(+id);
+    return this.discordService.findOne(id);
   }
 
   @Put(':id')
   @ApiSecurity('token')
   @UseGuards(TokenGuard)
-  update(
-    @Param('id', new ParseIntPipe()) id: number,
-    @Body() updateDiscordDto: DiscordDTO,
-  ) {
+  update(@Param('id') id: string, @Body() updateDiscordDto: DiscordDTO) {
     return this.discordService.update(id, updateDiscordDto);
   }
 
   @Delete(':id')
   @ApiSecurity('token')
+  @HttpCode(204)
   @UseGuards(TokenGuard)
   remove(@Param('id') id: string) {
-    return this.discordService.remove(+id);
+    return this.discordService.remove(id);
   }
 }
