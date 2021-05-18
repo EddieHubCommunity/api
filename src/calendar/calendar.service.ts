@@ -1,18 +1,22 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CalendarEventDTO } from './dto/calendar.dto';
+import { CalendarEvent } from './interfaces/calendar.interface';
+import { concatMap, filter } from 'rxjs/operators';
 import {
-  CalendarEvent,
-  SortedEventResponse,
-} from './interfaces/calendar.interface';
-import { isFuture } from 'date-fns';
+  AstraService,
+  deleteItem,
+  documentId,
+} from '@cahllagerfeld/nestjs-astra';
+import { forkJoin, Observable } from 'rxjs';
 
 @Injectable()
 export class CalendarService {
-  private calendarEvents: CalendarEvent[] = [];
+  constructor(private readonly astraService: AstraService) {}
 
-  createCalendarEvent(calendarEventBody: CalendarEventDTO): CalendarEvent {
+  createCalendarEvent(
+    calendarEventBody: CalendarEventDTO,
+  ): Observable<documentId> {
     const newEvent: CalendarEvent = {
-      id: 123,
       name: calendarEventBody.name,
       description: calendarEventBody.description,
       url: calendarEventBody.url,
@@ -20,48 +24,61 @@ export class CalendarService {
       author: { ...calendarEventBody.author },
       startDate: calendarEventBody.startDate,
       endDate: calendarEventBody.endDate,
-      createdOn: new Date('2021-01-01T00:00:00.000Z'),
-      updatedOn: new Date('2021-01-01T00:00:00.000Z'),
+      createdOn: new Date(),
+      updatedOn: new Date(),
     };
 
-    this.calendarEvents.push(newEvent);
-
-    return newEvent;
+    return this.astraService.create<CalendarEvent>(newEvent).pipe(
+      filter((data: documentId) => {
+        if (data === null) {
+          throw new HttpException(
+            'Creation didnt pass as expected',
+            HttpStatus.BAD_REQUEST,
+          );
+        }
+        return true;
+      }),
+    );
   }
 
-  findAllEvents(): SortedEventResponse {
-    const future = this.calendarEvents.filter((event: CalendarEvent) => {
-      if (isFuture(event.startDate) && isFuture(event.endDate)) {
-        return event;
-      }
-      return;
+  findAllEvents() {
+    const future = this.astraService.find<CalendarEvent>({
+      startDate: { $gt: new Date() },
+      endDate: { $gt: new Date() },
     });
 
-    const ongoing = this.calendarEvents.filter((event) => {
-      if (isFuture(event.endDate) && !isFuture(event.startDate)) {
-        return event;
-      }
-      return;
+    const ongoing = this.astraService.find<CalendarEvent>({
+      startDate: { $lt: new Date() },
+      endDate: { $gt: new Date() },
     });
 
-    return { future: [...future], ongoing: [...ongoing] };
+    return forkJoin({ future, ongoing });
   }
 
-  findOne(id: number): CalendarEvent {
-    const event = this.calendarEvents.find((event) => event.id === id);
-    if (!event) {
-      throw new HttpException('Event Not Found', HttpStatus.NOT_FOUND);
-    }
-    return { ...event };
+  findOne(id: string) {
+    return this.astraService.get<CalendarEvent>(id).pipe(
+      filter((data: CalendarEvent) => {
+        if (data === null) {
+          throw new HttpException(
+            `no event for ${id} found`,
+            HttpStatus.NOT_FOUND,
+          );
+        }
+        return true;
+      }),
+    );
   }
 
-  updateOne(id: number, calendarDTO: CalendarEventDTO): CalendarEvent {
-    const existingEvent = this.calendarEvents.find((event) => event.id === id);
-    if (!existingEvent) {
-      throw new HttpException('Event Not Found', HttpStatus.NOT_FOUND);
+  async updateOne(id: string, calendarDTO: CalendarEventDTO) {
+    const oldDocument = await this.astraService
+      .get<CalendarEvent>(id)
+      .toPromise();
+
+    if (oldDocument === null) {
+      throw new HttpException(`no event for ${id} found`, HttpStatus.NOT_FOUND);
     }
 
-    const updateEvent = { ...existingEvent };
+    const updateEvent = { ...oldDocument };
 
     const {
       description,
@@ -98,22 +115,35 @@ export class CalendarService {
       updateEvent.endDate = endDate;
     }
 
-    const index = this.calendarEvents.findIndex((event) => event.id === id);
-    this.calendarEvents[index] = updateEvent;
+    updateEvent.updatedOn = new Date();
 
-    return updateEvent;
+    const updateResponse = await this.astraService
+      .replace<CalendarEvent>(id, updateEvent)
+      .toPromise();
+
+    if (updateResponse === null) {
+      throw new HttpException(`no event for ${id} found`, HttpStatus.NOT_FOUND);
+    }
+
+    return updateResponse;
   }
 
-  remove(id: number) {
-    const deleteElement = this.calendarEvents.find((event) => event.id == id);
-    if (!deleteElement) {
-      throw new HttpException('Event Not Found', HttpStatus.NOT_FOUND);
-    }
-    const updatedDiscord = this.calendarEvents.filter(
-      (event) => event.id !== id,
+  remove(id: string) {
+    return this.astraService.get<CalendarEvent>(id).pipe(
+      filter((data: CalendarEvent) => {
+        if (data === null) {
+          throw new HttpException(
+            `no event for ${id} found`,
+            HttpStatus.NOT_FOUND,
+          );
+        }
+        return true;
+      }),
+      concatMap(() =>
+        this.astraService
+          .delete(id)
+          .pipe(filter((data: deleteItem) => data.deleted === true)),
+      ),
     );
-    this.calendarEvents = [...updatedDiscord];
-
-    return {};
   }
 }
