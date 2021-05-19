@@ -1,5 +1,5 @@
 export interface DiscordProfile {
-  username: string;
+  author: DiscordProfileAuthor;
   bio?: string;
   socials?: DiscordProfileSocials;
   createdOn: Date;
@@ -11,4 +11,9 @@ export interface DiscordProfileSocials {
   twitter?: string;
   linkedin?: string;
   github?: string;
+}
+
+export interface DiscordProfileAuthor {
+  platform: string;
+  uid: string;
 }

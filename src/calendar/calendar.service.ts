@@ -8,10 +8,15 @@ import {
   documentId,
 } from '@cahllagerfeld/nestjs-astra';
 import { forkJoin, Observable } from 'rxjs';
+import { Author } from '../util/getAuthorFromHeaders.decorator';
+import { ValidationService } from '../commons/validation.service';
 
 @Injectable()
 export class CalendarService {
-  constructor(private readonly astraService: AstraService) {}
+  constructor(
+    private readonly astraService: AstraService,
+    private readonly validationService: ValidationService,
+  ) {}
 
   createCalendarEvent(
     calendarEventBody: CalendarEventDTO,
@@ -69,13 +74,30 @@ export class CalendarService {
     );
   }
 
-  async updateOne(id: string, calendarDTO: CalendarEventDTO) {
+  async updateOne(
+    id: string,
+    calendarDTO: CalendarEventDTO,
+    authorObject: Author,
+  ) {
     const oldDocument = await this.astraService
       .get<CalendarEvent>(id)
       .toPromise();
 
     if (oldDocument === null) {
       throw new HttpException(`no event for ${id} found`, HttpStatus.NOT_FOUND);
+    }
+
+    if (
+      !this.validationService.validateAuthor(
+        authorObject,
+        oldDocument.author.uid,
+        oldDocument.author.platform,
+      )
+    ) {
+      throw new HttpException(
+        `deletion failed: author doesn't match`,
+        HttpStatus.BAD_REQUEST,
+      );
     }
 
     const updateEvent = { ...oldDocument };
@@ -128,13 +150,25 @@ export class CalendarService {
     return updateResponse;
   }
 
-  remove(id: string) {
+  remove(id: string, authorObject: Author) {
     return this.astraService.get<CalendarEvent>(id).pipe(
       filter((data: CalendarEvent) => {
         if (data === null) {
           throw new HttpException(
             `no event for ${id} found`,
             HttpStatus.NOT_FOUND,
+          );
+        }
+        if (
+          !this.validationService.validateAuthor(
+            authorObject,
+            data.author.uid,
+            data.author.platform,
+          )
+        ) {
+          throw new HttpException(
+            `deletion failed: author doesn't match`,
+            HttpStatus.BAD_REQUEST,
           );
         }
         return true;

@@ -1,11 +1,27 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString } from 'class-validator';
+import { Type } from 'class-transformer';
+import { IsIn, IsNotEmpty, IsString, ValidateNested } from 'class-validator';
 
-export class StandupDTO {
+const authorPlatforms = ['discord', 'github'];
+export class StandupAuthor {
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty({ required: true, enum: authorPlatforms })
+  @IsIn(authorPlatforms)
+  platform: string;
+
   @IsString()
   @IsNotEmpty()
   @ApiProperty({ required: true })
-  discordUser: string;
+  uid: string;
+}
+
+export class StandupDTO {
+  @ApiProperty({ required: true, type: StandupAuthor })
+  @ValidateNested()
+  @IsNotEmpty()
+  @Type(() => StandupAuthor)
+  author: StandupAuthor;
 
   @IsString()
   @IsNotEmpty()

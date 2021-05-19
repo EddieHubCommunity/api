@@ -9,8 +9,9 @@ import {
   Put,
   UseGuards,
 } from '@nestjs/common';
-import { ApiSecurity, ApiTags } from '@nestjs/swagger';
+import { ApiHeader, ApiSecurity, ApiTags } from '@nestjs/swagger';
 import { TokenGuard } from '../auth/token.strategy';
+import { Author, AuthorObject } from '../util/getAuthorFromHeaders.decorator';
 import { CalendarService } from './calendar.service';
 import { CalendarEventDTO } from './dto/calendar.dto';
 
@@ -39,15 +40,23 @@ export class CalendarController {
   @Put(':id')
   @UseGuards(TokenGuard)
   @ApiSecurity('token')
-  updateOne(@Param('id') id: string, @Body() calendarEvent: CalendarEventDTO) {
-    return this.service.updateOne(id, calendarEvent);
+  @ApiHeader({ name: 'User-Uid', required: true })
+  @ApiHeader({ name: 'Platform', required: true })
+  updateOne(
+    @Param('id') id: string,
+    @Body() calendarEvent: CalendarEventDTO,
+    @AuthorObject() author: Author,
+  ) {
+    return this.service.updateOne(id, calendarEvent, author);
   }
 
   @Delete(':id')
   @UseGuards(TokenGuard)
   @HttpCode(204)
   @ApiSecurity('token')
-  remove(@Param('id') id: string) {
-    return this.service.remove(id);
+  @ApiHeader({ name: 'User-Uid', required: true })
+  @ApiHeader({ name: 'Platform', required: true })
+  remove(@Param('id') id: string, @AuthorObject() author: Author) {
+    return this.service.remove(id, author);
   }
 }

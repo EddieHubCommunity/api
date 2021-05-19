@@ -10,6 +10,7 @@ import { LoggerMiddleware } from './logger/logger.middleware';
 import { CalendarModule } from './calendar/calendar.module';
 import { AstraModule } from '@cahllagerfeld/nestjs-astra';
 import { AstraConfigService } from './astra/astra-config.service';
+import { CommonsModule } from './commons/commons.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { AstraConfigService } from './astra/astra-config.service';
     }),
     AuthModule,
     CalendarModule,
+    CommonsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -9,7 +9,8 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { ApiQuery, ApiSecurity, ApiTags } from '@nestjs/swagger';
+import { ApiHeader, ApiQuery, ApiSecurity, ApiTags } from '@nestjs/swagger';
+import { Author, AuthorObject } from '../util/getAuthorFromHeaders.decorator';
 import { TokenGuard } from '../auth/token.strategy';
 import { StandupDTO } from './dto/standup.dto';
 import { StandupService } from './standup.service';
@@ -32,9 +33,9 @@ export class StandupController {
   }
 
   @Get('search')
-  @ApiQuery({ name: 'discordUser', type: 'string' })
-  search(@Query() query) {
-    return this.standupService.search(query);
+  @ApiQuery({ name: 'uid', type: 'string' })
+  search(@Query('uid') uid: string) {
+    return this.standupService.search(uid);
   }
 
   @Get(':id')
@@ -46,7 +47,9 @@ export class StandupController {
   @UseGuards(TokenGuard)
   @ApiSecurity('token')
   @HttpCode(204)
-  deleteStandup(@Param('id') id: string) {
-    return this.standupService.deleteStandup(id);
+  @ApiHeader({ name: 'User-Uid', required: true })
+  // @ApiHeader({ name: 'Platform', required: true })
+  deleteStandup(@Param('id') id: string, @AuthorObject() author: Author) {
+    return this.standupService.deleteStandup(id, author);
   }
 }

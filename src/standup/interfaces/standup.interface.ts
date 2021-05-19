@@ -1,6 +1,10 @@
 export interface Standup {
   yesterdayMessage: string;
   todayMessage: string;
-  discordUser: string;
+  author: StandupAuthor;
   createdOn: Date;
+}
+export interface StandupAuthor {
+  platform: string;
+  uid: string;
 }

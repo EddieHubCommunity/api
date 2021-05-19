@@ -1,11 +1,27 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import {
+  IsIn,
   IsNotEmpty,
   IsOptional,
   IsString,
   ValidateNested,
 } from 'class-validator';
+
+const authorPlatforms = ['discord', 'github'];
+
+export class DiscordProfileAuthor {
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty({ required: true, enum: authorPlatforms })
+  @IsIn(authorPlatforms)
+  platform: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty({ required: true })
+  uid: string;
+}
 
 export class SocialsDTO {
   @IsString()
@@ -30,10 +46,11 @@ export class SocialsDTO {
 }
 
 export class DiscordDTO {
+  @ApiProperty({ required: true, type: DiscordProfileAuthor })
+  @ValidateNested()
   @IsNotEmpty()
-  @IsString()
-  @ApiProperty({ required: true })
-  username: string;
+  @Type(() => DiscordProfileAuthor)
+  author: DiscordProfileAuthor;
 
   @ApiProperty({ required: false })
   @IsOptional()

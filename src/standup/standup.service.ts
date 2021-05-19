@@ -7,18 +7,23 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { StandupDTO } from './dto/standup.dto';
 import { Standup } from './interfaces/standup.interface';
 import { concatMap, filter } from 'rxjs/operators';
+import { Author } from '../util/getAuthorFromHeaders.decorator';
+import { ValidationService } from '../commons/validation.service';
 
 @Injectable()
 export class StandupService {
-  constructor(private readonly astraService: AstraService) {}
+  constructor(
+    private readonly astraService: AstraService,
+    private readonly validationService: ValidationService,
+  ) {}
 
   create(body: StandupDTO) {
-    const { discordUser, todayMessage, yesterdayMessage } = body;
+    const { author, todayMessage, yesterdayMessage } = body;
 
     const newStandup: Standup = {
       yesterdayMessage: yesterdayMessage,
       todayMessage: todayMessage,
-      discordUser: discordUser,
+      author: { ...author },
       createdOn: new Date(Date.now()),
     };
 
@@ -53,13 +58,19 @@ export class StandupService {
     );
   }
 
-  deleteStandup(id: string) {
+  deleteStandup(id: string, author: Author) {
     return this.astraService.get<Standup>(id).pipe(
       filter((data: Standup) => {
         if (data === null) {
           throw new HttpException(
             `no standup for ${id} found`,
             HttpStatus.NOT_FOUND,
+          );
+        }
+        if (!this.validationService.validateAuthor(author, data.author.uid)) {
+          throw new HttpException(
+            `deletion failed: author doesn't match`,
+            HttpStatus.BAD_REQUEST,
           );
         }
         return true;
@@ -72,20 +83,20 @@ export class StandupService {
     );
   }
 
-  search(query) {
-    if (!query.discordUser) {
+  search(uid: string) {
+    if (!uid) {
       throw new HttpException(
         'Please provide search context',
         HttpStatus.BAD_REQUEST,
       );
     }
     return this.astraService
-      .find<Standup>({ discordUser: { $eq: query.discordUser } })
+      .find<Standup>({ 'author.uid': { $eq: uid } })
       .pipe(
         filter((data) => {
           if (data === null) {
             throw new HttpException(
-              `no data found for ${query}`,
+              `no data found for ${uid}`,
               HttpStatus.NOT_FOUND,
             );
           }
