@@ -95,7 +95,7 @@ export class CalendarService {
       )
     ) {
       throw new HttpException(
-        `deletion failed: author doesn't match`,
+        `update failed: author doesn't match`,
         HttpStatus.BAD_REQUEST,
       );
     }
