@@ -56,7 +56,7 @@ export class requests {
     const post = request(this.context.app.getHttpServer()).post(url);
 
     if (this.context.token) {
-      post.set('token', this.context.token);
+      post.set('Client-Token', this.context.token);
     }
 
     this.context.response = await post.send(this.context.tableToObject(table));
@@ -66,13 +66,23 @@ export class requests {
     ).get(url);
   }
 
+  @when(/set header "([^"]*)" with value "([^"]*)"/)
+  public async setHeader(field: string, value: string) {
+    const headerObject = {};
+    headerObject[field] = value;
+    this.context.headers = { ...this.context.headers, ...headerObject };
+  }
+
   @when(/make a PUT request to "([^"]*)" with:/)
   public async putRequest(url: string, table: { rawTable: [] }) {
     url = this.prepareURL(url);
     const putReq = request(this.context.app.getHttpServer()).put(url);
 
     if (this.context.token) {
-      putReq.set('token', this.context.token);
+      putReq.set('Client-Token', this.context.token);
+    }
+    if (this.context.headers) {
+      putReq.set(this.context.headers);
     }
 
     this.context.response = await putReq.send(
@@ -86,7 +96,11 @@ export class requests {
     const deleteReq = request(this.context.app.getHttpServer()).delete(url);
 
     if (this.context.token) {
-      deleteReq.set('token', this.context.token);
+      deleteReq.set('Client-Token', this.context.token);
+    }
+
+    if (this.context.headers) {
+      deleteReq.set(this.context.headers);
     }
 
     this.context.response = await deleteReq.send();

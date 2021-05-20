@@ -89,9 +89,9 @@ export class CalendarService {
 
     if (
       !this.validationService.validateAuthor(
-        authorObject,
-        oldDocument.author.uid,
-        oldDocument.author.platform,
+        oldDocument.author,
+        authorObject.uid,
+        authorObject.platform,
       )
     ) {
       throw new HttpException(
@@ -161,9 +161,9 @@ export class CalendarService {
         }
         if (
           !this.validationService.validateAuthor(
-            authorObject,
-            data.author.uid,
-            data.author.platform,
+            data.author,
+            authorObject.uid,
+            authorObject.platform,
           )
         ) {
           throw new HttpException(

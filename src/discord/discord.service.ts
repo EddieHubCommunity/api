@@ -75,22 +75,23 @@ export class DiscordService {
 
     if (
       !this.validationService.validateAuthor(
-        authorObject,
-        discordUser.author.uid,
+        discordUser.author,
+        authorObject.uid,
+        'discord',
       )
     ) {
       throw new HttpException(
-        `deletion failed: author doesn't match`,
+        `update failed: author doesn't match`,
         HttpStatus.BAD_REQUEST,
       );
     }
 
     const updatedDiscord = { ...discordUser };
     if (author && author.platform) {
-      updateDiscordDto.author.platform = author.platform;
+      updatedDiscord.author.platform = author.platform;
     }
     if (author && author.uid) {
-      updateDiscordDto.author.uid = author.uid;
+      updatedDiscord.author.uid = author.uid;
     }
     if (bio) {
       updatedDiscord.bio = bio;
@@ -135,7 +136,11 @@ export class DiscordService {
           );
         }
         if (
-          !this.validationService.validateAuthor(authorObject, data.author.uid)
+          !this.validationService.validateAuthor(
+            data.author,
+            authorObject.uid,
+            'discord',
+          )
         ) {
           throw new HttpException(
             `deletion failed: author doesn't match`,

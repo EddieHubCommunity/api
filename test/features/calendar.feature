@@ -66,6 +66,8 @@ Feature: calendar module
             | endDate     | "2021-01-01T00:00:00.000Z"            |
         And the response should contain:
             | documentId | "TYPE:ID" |
+        Then set header "User-Uid" with value "hubber"
+        Then set header "Platform" with value "discord"
         When make a PUT request to "/calendar/{id}" with:
             | name        | "Livestream YZ"                      |
             | description | "undescriptive Description"          |
@@ -115,6 +117,8 @@ Feature: calendar module
             | endDate     | "2021-01-01T00:00:00.000Z"            |
         And the response should contain:
             | documentId | "TYPE:ID" |
+        Then set header "User-Uid" with value "hubber"
+        Then set header "Platform" with value "discord"
         When make a DELETE request to "/calendar/{id}"
         Then the response status code should be 204
 

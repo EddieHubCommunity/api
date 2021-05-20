@@ -40,7 +40,6 @@ export class DiscordController {
   @ApiSecurity('token')
   @UseGuards(TokenGuard)
   @ApiHeader({ name: 'User-Uid', required: true })
-  @ApiHeader({ name: 'Platform', required: true })
   update(
     @Param('id') id: string,
     @Body() updateDiscordDto: DiscordDTO,
@@ -53,7 +52,6 @@ export class DiscordController {
   @ApiSecurity('token')
   @HttpCode(204)
   @ApiHeader({ name: 'User-Uid', required: true })
-  @ApiHeader({ name: 'Platform', required: true })
   @UseGuards(TokenGuard)
   remove(@Param('id') id: string, @AuthorObject() author: Author) {
     return this.discordService.remove(id, author);

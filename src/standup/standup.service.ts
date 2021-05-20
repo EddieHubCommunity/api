@@ -58,7 +58,7 @@ export class StandupService {
     );
   }
 
-  deleteStandup(id: string, author: Author) {
+  deleteStandup(id: string, authorObject: Author) {
     return this.astraService.get<Standup>(id).pipe(
       filter((data: Standup) => {
         if (data === null) {
@@ -67,7 +67,13 @@ export class StandupService {
             HttpStatus.NOT_FOUND,
           );
         }
-        if (!this.validationService.validateAuthor(author, data.author.uid)) {
+        if (
+          !this.validationService.validateAuthor(
+            data.author,
+            authorObject.uid,
+            authorObject.platform,
+          )
+        ) {
           throw new HttpException(
             `deletion failed: author doesn't match`,
             HttpStatus.BAD_REQUEST,

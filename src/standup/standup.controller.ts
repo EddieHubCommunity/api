@@ -48,7 +48,7 @@ export class StandupController {
   @ApiSecurity('token')
   @HttpCode(204)
   @ApiHeader({ name: 'User-Uid', required: true })
-  // @ApiHeader({ name: 'Platform', required: true })
+  @ApiHeader({ name: 'Platform', required: true })
   deleteStandup(@Param('id') id: string, @AuthorObject() author: Author) {
     return this.standupService.deleteStandup(id, author);
   }
