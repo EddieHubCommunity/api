@@ -7,7 +7,7 @@ import {
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { concatMap, filter } from 'rxjs/operators';
-import { ValidationService } from '../commons/validation.service';
+import { ValidationService } from '../auth/header-validation.service';
 import { Author } from '../util/getAuthorFromHeaders.decorator';
 import { DiscordDTO } from './dto/discord.dto';
 import { DiscordProfile } from './interfaces/discord.interface';
@@ -81,7 +81,7 @@ export class DiscordService {
       )
     ) {
       throw new HttpException(
-        `update failed: author doesn't match`,
+        "update failed: author doesn't match",
         HttpStatus.BAD_REQUEST,
       );
     }
@@ -143,7 +143,7 @@ export class DiscordService {
           )
         ) {
           throw new HttpException(
-            `deletion failed: author doesn't match`,
+            "deletion failed: author doesn't match",
             HttpStatus.BAD_REQUEST,
           );
         }

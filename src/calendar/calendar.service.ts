@@ -9,7 +9,7 @@ import {
 } from '@cahllagerfeld/nestjs-astra';
 import { forkJoin, Observable } from 'rxjs';
 import { Author } from '../util/getAuthorFromHeaders.decorator';
-import { ValidationService } from '../commons/validation.service';
+import { ValidationService } from '../auth/header-validation.service';
 
 @Injectable()
 export class CalendarService {
@@ -95,7 +95,7 @@ export class CalendarService {
       )
     ) {
       throw new HttpException(
-        `update failed: author doesn't match`,
+        "update failed: author doesn't match",
         HttpStatus.BAD_REQUEST,
       );
     }
@@ -167,7 +167,7 @@ export class CalendarService {
           )
         ) {
           throw new HttpException(
-            `deletion failed: author doesn't match`,
+            "deletion failed: author doesn't match",
             HttpStatus.BAD_REQUEST,
           );
         }

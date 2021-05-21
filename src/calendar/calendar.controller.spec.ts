@@ -3,7 +3,6 @@ import { ConfigModule } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AstraConfigService } from '../astra/astra-config.service';
 import { AuthModule } from '../auth/auth.module';
-import { CommonsModule } from '../commons/commons.module';
 import { CalendarController } from './calendar.controller';
 import { CalendarService } from './calendar.service';
 
@@ -13,7 +12,6 @@ describe('CalendarController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
-        CommonsModule,
         AuthModule,
         ConfigModule.forRoot({
           isGlobal: true,

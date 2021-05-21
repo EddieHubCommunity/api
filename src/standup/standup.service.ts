@@ -8,7 +8,7 @@ import { StandupDTO } from './dto/standup.dto';
 import { Standup } from './interfaces/standup.interface';
 import { concatMap, filter } from 'rxjs/operators';
 import { Author } from '../util/getAuthorFromHeaders.decorator';
-import { ValidationService } from '../commons/validation.service';
+import { ValidationService } from '../auth/header-validation.service';
 
 @Injectable()
 export class StandupService {
@@ -75,7 +75,7 @@ export class StandupService {
           )
         ) {
           throw new HttpException(
-            `deletion failed: author doesn't match`,
+            "deletion failed: author doesn't match",
             HttpStatus.BAD_REQUEST,
           );
         }
