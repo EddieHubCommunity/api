@@ -80,6 +80,20 @@ Feature: Standup-module
         Then make a DELETE request to "/standup/{id}"
         Then the response status code should be 204
 
+    Scenario: delete standup with wrong credentials
+        Given authorisation
+        And make a POST request to "/standup" with:
+            | author           | {"platform":"discord","uid":"hubber"} |
+            | yesterdayMessage | "Yesterday I did this"                |
+            | todayMessage     | "Today I'll do this"                  |
+        Then the response should contain:
+            | documentId | "TYPE:ID" |
+        Then make a DELETE request to "/standup/{id}"
+        Then the response status code should be 400
+        And the response should contain:
+            | statusCode | 400                                     |
+            | message    | "deletion failed: author doesn't match" |
+
     Scenario: delete non-existent standup
         Given authorisation
         And make a POST request to "/standup" with:

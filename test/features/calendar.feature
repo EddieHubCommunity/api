@@ -90,6 +90,33 @@ Feature: calendar module
             | createdOn   | "TYPE:DATE"                          |
             | updatedOn   | "TYPE:DATE"                          |
 
+    Scenario: update an event with wrong author
+        Given authorisation
+        When make a POST request to "/calendar" with:
+            | name        | "Livestream XY"                       |
+            | description | "descriptive Description"             |
+            | url         | "https://domain.com"                  |
+            | platform    | "YouTube"                             |
+            | author      | {"platform":"discord","uid":"hubber"} |
+            | startDate   | "2021-01-01T00:00:00.000Z"            |
+            | endDate     | "2021-01-01T00:00:00.000Z"            |
+        And the response should contain:
+            | documentId | "TYPE:ID" |
+        When make a PUT request to "/calendar/{id}" with:
+            | name        | "Livestream YZ"                      |
+            | description | "undescriptive Description"          |
+            | url         | "https://mydomain.com"               |
+            | platform    | "Twitch"                             |
+            | author      | {"platform":"discord","uid":"hubby"} |
+            | startDate   | "2021-01-01T00:00:00.000Z"           |
+            | endDate     | "2021-01-01T00:00:00.000Z"           |
+        Then the response status code should be 400
+        And the response should contain:
+            | statusCode | 400                                   |
+            | message    | "update failed: author doesn't match" |
+
+
+
     Scenario: update an non-existing event
         Given authorisation
         When make a PUT request to "/calendar/321" with:
@@ -121,6 +148,25 @@ Feature: calendar module
         Then set header "Platform" with value "discord"
         When make a DELETE request to "/calendar/{id}"
         Then the response status code should be 204
+
+    Scenario: delete an event with wrong author
+        Given authorisation
+        When make a POST request to "/calendar" with:
+            | name        | "Livestream XY"                       |
+            | description | "descriptive Description"             |
+            | url         | "https://domain.com"                  |
+            | platform    | "YouTube"                             |
+            | author      | {"platform":"discord","uid":"hubber"} |
+            | startDate   | "2021-01-01T00:00:00.000Z"            |
+            | endDate     | "2021-01-01T00:00:00.000Z"            |
+        And the response should contain:
+            | documentId | "TYPE:ID" |
+        When make a DELETE request to "/calendar/{id}"
+        Then the response status code should be 400
+        And the response should contain:
+            | statusCode | 400                                     |
+            | message    | "deletion failed: author doesn't match" |
+
 
 
     Scenario: delete non-existing event

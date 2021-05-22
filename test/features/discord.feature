@@ -61,6 +61,24 @@ Feature: discord module
             | updatedOn | "TYPE:DATE"                                                                                    |
             | createdOn | "TYPE:DATE"                                                                                    |
 
+    Scenario: update a user with wrong author
+        Given authorisation
+        And make a POST request to "/discord" with:
+            | bio     | "This is a GitHub Campus Expert"                                                              |
+            | author  | {"platform":"discord","uid":"hubber"}                                                         |
+            | socials | {"discord":"khattakdev","github":"khattakdev","linkedin":"khattakdev","twitter":"khattakdev"} |
+        Then the response should contain:
+            | documentId | "TYPE:ID" |
+        When make a PUT request to "/discord/{id}" with:
+            | author  | {"platform":"discord","uid":"hubby"} |
+            | bio     | "Updated user bio"                   |
+            | socials | {"discord":"update-user"}            |
+        Then the response status code should be 400
+        And the response should contain:
+            | statusCode | 400                                   |
+            | message    | "update failed: author doesn't match" |
+
+
     Scenario: delete a user
         Given authorisation
         And make a POST request to "/discord" with:
@@ -72,6 +90,21 @@ Feature: discord module
         Then set header "User-Uid" with value "hubber"
         When make a DELETE request to "/discord/{id}"
         Then the response status code should be 204
+
+    Scenario: delete a user with wrong author
+        Given authorisation
+        And make a POST request to "/discord" with:
+            | bio     | "This is a GitHub Campus Expert"                                                              |
+            | author  | {"platform":"discord","uid":"hubber"}                                                         |
+            | socials | {"discord":"khattakdev","github":"khattakdev","linkedin":"khattakdev","twitter":"khattakdev"} |
+        Then the response should contain:
+            | documentId | "TYPE:ID" |
+        When make a DELETE request to "/discord/{id}"
+        Then the response status code should be 400
+        And the response should contain:
+            | statusCode | 400                                     |
+            | message    | "deletion failed: author doesn't match" |
+
 
     Scenario: delete non-existing user
         Given authorisation
