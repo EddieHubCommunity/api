@@ -1,12 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { CalendarEventAuthor } from '../calendar/interfaces/calendar.interface';
-import { DiscordProfileAuthor } from '../discord/interfaces/discord.interface';
-import { StandupAuthor } from '../standup/interfaces/standup.interface';
+import { Author } from '../util/getAuthorFromHeaders.decorator';
 
 @Injectable()
 export class ValidationService {
   public validateAuthor(
-    objectAuthor: CalendarEventAuthor | DiscordProfileAuthor | StandupAuthor,
+    objectAuthor: Author,
     headerUid: string | string[],
     headerPlatform: string | string[],
   ) {
