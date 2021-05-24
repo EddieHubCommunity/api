@@ -8,7 +8,7 @@ import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { concatMap, filter } from 'rxjs/operators';
 import { ValidationService } from '../auth/header-validation.service';
-import { Author } from '../util/getAuthorFromHeaders.decorator';
+import { Author } from '../auth/getAuthorFromHeaders.decorator';
 import { DiscordDTO } from './dto/discord.dto';
 import { DiscordProfile } from './interfaces/discord.interface';
 

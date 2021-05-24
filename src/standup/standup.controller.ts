@@ -10,7 +10,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiHeader, ApiQuery, ApiSecurity, ApiTags } from '@nestjs/swagger';
-import { Author, AuthorObject } from '../util/getAuthorFromHeaders.decorator';
+import { Author, AuthorObject } from '../auth/getAuthorFromHeaders.decorator';
 import { TokenGuard } from '../auth/token.strategy';
 import { StandupDTO } from './dto/standup.dto';
 import { StandupService } from './standup.service';

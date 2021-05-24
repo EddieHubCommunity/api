@@ -1,4 +1,4 @@
-import { Author } from '../../util/getAuthorFromHeaders.decorator';
+import { Author } from '../../auth/getAuthorFromHeaders.decorator';
 
 export interface Standup {
   yesterdayMessage: string;
