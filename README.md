@@ -91,10 +91,18 @@ In case there should be multiple tokens, for multiple clients, they need to be *
 
 To use Authentication the token needs to be passed in the `token`-header of the client-request.
 
-## Running the app via Docker
+## Docker
+
+### Build the Docker container
+
+1. `docker build -t eddiehub-api .`
+1. `docker run -p 3000:3000 -d eddiehub-api`
+1. Visit `http://localhost:3000/`
+
+## Running the app via Docker on GitHub Container Registry
 
 1. `docker run -p 3000:3000 -d ghcr.io/eddiehubcommunity/api:latest`
-2. Visit `http://localhost:3000/`
+1. Visit `http://localhost:3000/`
 
 ## License
 

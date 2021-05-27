@@ -15,7 +15,6 @@ FROM node:15 as production
 
 ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
-ENV HUSKY=0
 ENV VERSION="v0.0.0"
 
 RUN --mount=type=secret,id=github_token \
@@ -27,7 +26,7 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 
-RUN npm install --only=production
+RUN npm install --production --ignore-scripts
 
 COPY . .
 
