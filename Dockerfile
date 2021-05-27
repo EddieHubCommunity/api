@@ -12,7 +12,7 @@ COPY .npmrc .npmrc
 
 RUN echo "//npm.pkg.github.com/:_authToken=${github_token}" > ~/.npmrc
 
-RUN npm install
+RUN npm install --ignore-scripts
 
 
 RUN rm -f .npmrc
