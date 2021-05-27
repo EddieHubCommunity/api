@@ -84,10 +84,8 @@ jobs:
         with:
           context: .
           push: true
-          # secrets: |
-          #   "github_token=${{ secrets.GITHUB_TOKEN }}"
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          secrets: |
+            "github_token=${{ secrets.GITHUB_TOKEN }}"
           tags: |
             ghcr.io/eddiehubcommunity/api:v${{ steps.package-version.outputs.current-version}}
             ghcr.io/eddiehubcommunity/api:latest

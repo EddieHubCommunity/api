@@ -17,9 +17,8 @@ ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
 ENV VERSION="v0.0.0"
 
-# RUN --mount=type=secret,id=github_token \
-#   cat /run/secrets/github_token
-RUN echo "//npm.pkg.github.com/:_authToken=${secrets.GITHUB_TOKEN}" > ~/.npmrc
+RUN --mount=type=secret,id=github_token \
+  cat /run/secrets/github_token
 
 WORKDIR /usr/src/app
 
@@ -27,9 +26,11 @@ COPY package*.json ./
 
 COPY .npmrc .npmrc
 
-RUN echo "//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}" > ~/.npmrc
+RUN echo "//npm.pkg.github.com/:_authToken=${github_token}" > ~/.npmrc
 
 RUN npm install --production --ignore-scripts
+
+RUN rm -f .npmrc
 
 COPY . .
 
