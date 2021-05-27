@@ -1,3 +1,12 @@
+## [0.5.1](https://github.com/EddieHubCommunity/api/compare/v0.5.0...v0.5.1) (2021-05-27)
+
+
+### Bug Fixes
+
+* husky check ([#114](https://github.com/EddieHubCommunity/api/issues/114))  ([33a3b7d](https://github.com/EddieHubCommunity/api/commit/33a3b7de38aa016fb4a3d18d614e122fc7258ab4))
+
+
+
 # [0.5.0](https://github.com/EddieHubCommunity/api/compare/v0.4.0...v0.5.0) (2021-05-27)
 
 
@@ -32,15 +41,6 @@
 ### Bug Fixes
 
 * docker build to have gh token ([5e3475a](https://github.com/EddieHubCommunity/api/commit/5e3475a8841a3526762abd281764725f71995d6c))
-
-
-
-# [0.3.0](https://github.com/EddieHubCommunity/api/compare/v0.2.6...v0.3.0) (2021-05-15)
-
-
-### Features
-
-* github to database ([#100](https://github.com/EddieHubCommunity/api/issues/100)) ([824432d](https://github.com/EddieHubCommunity/api/commit/824432de9034839a5df06a7cfd5a2214fde5ff49))
 
 
 
