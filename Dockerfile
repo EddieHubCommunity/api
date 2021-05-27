@@ -1,11 +1,21 @@
 FROM node:15 As development
 LABEL org.opencontainers.image.source https://github.com/eddiehubcommunity/api
 
+ARG github_token  
+
 WORKDIR /usr/src/app
 
 COPY package*.json ./
 
+
+COPY .npmrc .npmrc
+
+RUN echo "//npm.pkg.github.com/:_authToken=${github_token}" > ~/.npmrc
+
 RUN npm install
+
+
+RUN rm -f .npmrc
 
 COPY . .
 
