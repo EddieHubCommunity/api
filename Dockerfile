@@ -19,7 +19,7 @@ ENV VERSION="v0.0.0"
 
 # RUN --mount=type=secret,id=github_token \
 #   cat /run/secrets/github_token
-RUN echo "//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}" > ~/.npmrc
+RUN echo "//npm.pkg.github.com/:_authToken=${secrets.GITHUB_TOKEN}" > ~/.npmrc
 
 WORKDIR /usr/src/app
 
