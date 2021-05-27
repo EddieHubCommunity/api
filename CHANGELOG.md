@@ -1,3 +1,12 @@
+# [0.5.0](https://github.com/EddieHubCommunity/api/compare/v0.4.0...v0.5.0) (2021-05-27)
+
+
+### Features
+
+* data author ([#107](https://github.com/EddieHubCommunity/api/issues/107)) ([ae135e4](https://github.com/EddieHubCommunity/api/commit/ae135e465fdd6ac7e635eb2d79e4b4dcdd35c17d))
+
+
+
 # [0.4.0](https://github.com/EddieHubCommunity/api/compare/v0.3.2...v0.4.0) (2021-05-18)
 
 
@@ -32,15 +41,6 @@
 ### Features
 
 * github to database ([#100](https://github.com/EddieHubCommunity/api/issues/100)) ([824432d](https://github.com/EddieHubCommunity/api/commit/824432de9034839a5df06a7cfd5a2214fde5ff49))
-
-
-
-## [0.2.6](https://github.com/EddieHubCommunity/api/compare/v0.2.5...v0.2.6) (2021-05-15)
-
-
-### Bug Fixes
-
-* stargate local service ([18e4714](https://github.com/EddieHubCommunity/api/commit/18e47148e7840bbc67fd45cd8764dc86295d29e2))
 
 
 
