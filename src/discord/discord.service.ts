@@ -7,16 +7,21 @@ import {
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { concatMap, filter } from 'rxjs/operators';
+import { ValidationService } from '../auth/header-validation.service';
+import { Author } from '../auth/getAuthorFromHeaders.decorator';
 import { DiscordDTO } from './dto/discord.dto';
 import { DiscordProfile } from './interfaces/discord.interface';
 
 @Injectable()
 export class DiscordService {
-  constructor(private readonly astraService: AstraService) {}
+  constructor(
+    private readonly astraService: AstraService,
+    private readonly validationService: ValidationService,
+  ) {}
 
   create(createDiscordDto: DiscordDTO): Observable<documentId> {
-    const discordUser = {
-      username: createDiscordDto.username,
+    const discordUser: DiscordProfile = {
+      author: { ...createDiscordDto.author },
       bio: createDiscordDto.bio,
       socials: { ...createDiscordDto.socials },
       createdOn: new Date(),
@@ -54,8 +59,8 @@ export class DiscordService {
     );
   }
 
-  async update(id: string, updateDiscordDto: DiscordDTO) {
-    const { username, bio, socials } = updateDiscordDto;
+  async update(id: string, updateDiscordDto: DiscordDTO, authorObject: Author) {
+    const { author, bio, socials } = updateDiscordDto;
 
     const discordUser = await this.astraService
       .get<DiscordProfile>(id)
@@ -68,9 +73,25 @@ export class DiscordService {
       );
     }
 
+    if (
+      !this.validationService.validateAuthor(
+        discordUser.author,
+        authorObject.uid,
+        'discord',
+      )
+    ) {
+      throw new HttpException(
+        "update failed: author doesn't match",
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
     const updatedDiscord = { ...discordUser };
-    if (username) {
-      updatedDiscord.username = username;
+    if (author && author.platform) {
+      updatedDiscord.author.platform = author.platform;
+    }
+    if (author && author.uid) {
+      updatedDiscord.author.uid = author.uid;
     }
     if (bio) {
       updatedDiscord.bio = bio;
@@ -105,13 +126,25 @@ export class DiscordService {
     return updateResponse;
   }
 
-  remove(id: string) {
+  remove(id: string, authorObject: Author) {
     return this.astraService.get<DiscordProfile>(id).pipe(
       filter((data: DiscordProfile) => {
         if (data === null) {
           throw new HttpException(
             `no discord-profile for ${id} found`,
             HttpStatus.NOT_FOUND,
+          );
+        }
+        if (
+          !this.validationService.validateAuthor(
+            data.author,
+            authorObject.uid,
+            'discord',
+          )
+        ) {
+          throw new HttpException(
+            "deletion failed: author doesn't match",
+            HttpStatus.BAD_REQUEST,
           );
         }
         return true;

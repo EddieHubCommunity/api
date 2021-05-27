@@ -9,8 +9,9 @@ import {
   UseGuards,
   HttpCode,
 } from '@nestjs/common';
-import { ApiSecurity, ApiTags } from '@nestjs/swagger';
+import { ApiHeader, ApiSecurity, ApiTags } from '@nestjs/swagger';
 import { TokenGuard } from '../auth/token.strategy';
+import { Author, AuthorObject } from '../auth/getAuthorFromHeaders.decorator';
 import { DiscordService } from './discord.service';
 import { DiscordDTO } from './dto/discord.dto';
 @ApiTags('Discord')
@@ -38,15 +39,21 @@ export class DiscordController {
   @Put(':id')
   @ApiSecurity('token')
   @UseGuards(TokenGuard)
-  update(@Param('id') id: string, @Body() updateDiscordDto: DiscordDTO) {
-    return this.discordService.update(id, updateDiscordDto);
+  @ApiHeader({ name: 'User-Uid', required: true })
+  update(
+    @Param('id') id: string,
+    @Body() updateDiscordDto: DiscordDTO,
+    @AuthorObject() author: Author,
+  ) {
+    return this.discordService.update(id, updateDiscordDto, author);
   }
 
   @Delete(':id')
   @ApiSecurity('token')
   @HttpCode(204)
+  @ApiHeader({ name: 'User-Uid', required: true })
   @UseGuards(TokenGuard)
-  remove(@Param('id') id: string) {
-    return this.discordService.remove(id);
+  remove(@Param('id') id: string, @AuthorObject() author: Author) {
+    return this.discordService.remove(id, author);
   }
 }

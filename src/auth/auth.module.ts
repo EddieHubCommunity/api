@@ -1,4 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TokenStrategy } from './token.strategy';
-@Module({ providers: [TokenStrategy] })
+import { ValidationService } from './header-validation.service';
+@Module({
+  providers: [TokenStrategy, ValidationService],
+  exports: [ValidationService],
+})
 export class AuthModule {}

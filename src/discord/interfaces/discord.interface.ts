@@ -1,5 +1,7 @@
+import { Author } from '../../auth/getAuthorFromHeaders.decorator';
+
 export interface DiscordProfile {
-  username: string;
+  author: DiscordProfileAuthor;
   bio?: string;
   socials?: DiscordProfileSocials;
   createdOn: Date;
@@ -11,4 +13,9 @@ export interface DiscordProfileSocials {
   twitter?: string;
   linkedin?: string;
   github?: string;
+}
+
+export interface DiscordProfileAuthor extends Author {
+  platform: string;
+  uid: string;
 }

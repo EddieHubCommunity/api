@@ -2,6 +2,7 @@ export default class Context {
   public app;
   public response;
   public preRequest;
+  public headers: { [field: string]: string } = {};
   public token;
   public documentId: string;
 

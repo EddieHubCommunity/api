@@ -1,3 +1,5 @@
+import { Author } from '../../auth/getAuthorFromHeaders.decorator';
+
 export interface CalendarEvent {
   name: string;
   description?: string;
@@ -10,7 +12,7 @@ export interface CalendarEvent {
   updatedOn: Date;
 }
 
-export interface CalendarEventAuthor {
+export interface CalendarEventAuthor extends Author {
   platform: string;
   uid: string;
 }

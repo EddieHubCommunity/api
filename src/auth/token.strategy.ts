@@ -9,7 +9,7 @@ export class TokenStrategy extends PassportStrategy(
   'discordGithub-strategy',
 ) {
   constructor(private config: ConfigService) {
-    super({});
+    super({ tokenHeader: 'Client-Token' });
   }
 
   async validate(token: string, done) {

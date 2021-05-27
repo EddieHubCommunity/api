@@ -116,6 +116,29 @@ export class responses {
   }
 
   @then(
+    /the response in item where property "([^"]*)" has a subobject "([^"]*)" which contains a field that is equal to "([^"]*)" should contain:/,
+  )
+  public unknownResponseNestedProperty(
+    property: string,
+    subproperty: string,
+    value: string,
+    table: { rawTable: [] },
+  ) {
+    const data = this.context.tableToObject(table);
+    const workObject = Object.values(
+      JSON.parse(this.context.response.text),
+    ).find((el) => el[property][subproperty] === value);
+    Object.keys(data).forEach((key) => {
+      if (/TYPE:/.test(data[key])) {
+        const regex = getRegex(data[key]);
+        expect(workObject[key]).to.match(regex);
+      } else {
+        expect(workObject[key]).to.eql(data[key]);
+      }
+    });
+  }
+
+  @then(
     /the response property "([^"]*)" has a subobject with a field "([^"]*)" that is equal to "([^"]*)" should contain:/,
   )
   public dataResponseNestedProperty(
