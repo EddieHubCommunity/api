@@ -84,6 +84,8 @@ jobs:
         with:
           context: .
           push: true
+          build-args:
+            github_token: ${{ secrets.GITHUB_TOKEN }}
           secrets: |
             "github_token=${{ secrets.GITHUB_TOKEN }}"
           tags: |

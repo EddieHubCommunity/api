@@ -17,8 +17,10 @@ ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
 ENV VERSION="v0.0.0"
 
-RUN --mount=type=secret,id=github_token \
-  cat /run/secrets/github_token
+# RUN --mount=type=secret,id=github_token \
+#   cat /run/secrets/github_token
+
+ARG github_token  
 
 WORKDIR /usr/src/app
 
