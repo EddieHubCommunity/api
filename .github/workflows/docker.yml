@@ -62,6 +62,9 @@ jobs:
   push_to_registry:
     name: Push Docker image to GitHub Packages
     needs: test
+    permissions:
+      contents: read
+      packages: write
     runs-on: ubuntu-latest
     steps:
       - name: check out the repo
