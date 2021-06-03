@@ -14,6 +14,8 @@ RUN npm run build
 FROM node:15 
 
 WORKDIR /usr/src/app
-COPY --from=building /usr/src/app ./
+COPY --from=building /usr/src/app/dist ./dist
+COPY --from=building /usr/src/app/node_modules ./node_modules
+COPY --from=building /usr/src/app/package.json ./package.json
 EXPOSE 3000
 CMD ["npm", "run", "start:prod"]
