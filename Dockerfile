@@ -1,35 +1,21 @@
-FROM node:15 As development
+FROM node:15 As building
 LABEL org.opencontainers.image.source https://github.com/eddiehubcommunity/api
-
+ARG github_token  
 WORKDIR /usr/src/app
-
 COPY package*.json ./
-
-RUN npm install
-
+COPY .npmrc .npmrc
+RUN echo "//npm.pkg.github.com/:_authToken=${github_token}" > ~/.npmrc
+RUN npm install --ignore-scripts
+RUN rm -f .npmrc
 COPY . .
-
 RUN npm run build
 
-FROM node:15 as production
 
-ARG NODE_ENV=production
-ENV NODE_ENV=${NODE_ENV}
-ENV VERSION="v0.0.0"
-
-RUN --mount=type=secret,id=github_token \
-  cat /run/secrets/github_token
-RUN echo "//npm.pkg.github.com/:_authToken=$github_token" > ~/.npmrc
+FROM node:15 
 
 WORKDIR /usr/src/app
-
-COPY package*.json ./
-
-
-RUN npm install --production --ignore-scripts
-
-COPY . .
-
-COPY --from=development /usr/src/app/dist ./dist
-
+COPY --from=building /usr/src/app/dist ./dist
+COPY --from=building /usr/src/app/node_modules ./node_modules
+COPY --from=building /usr/src/app/package.json ./package.json
+EXPOSE 3000
 CMD ["npm", "run", "start:prod"]
