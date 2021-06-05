@@ -19,14 +19,16 @@ export class requests {
 
   @before()
   public async before(): Promise<void> {
-    const options: cliOptions = {
-      namespaceUrl: 'http://localhost:8082/v2/schemas/namespaces',
-      authUrl: process.env.STARGATE_AUTH_URL,
-      keyspace: 'eddiehub',
-      password: 'cassandra',
-      username: 'cassandra',
-    };
-    await setup(options);
+    if (process.env.STARGATE_BASEURL) {
+      const options: cliOptions = {
+        namespaceUrl: 'http://localhost:8082/v2/schemas/namespaces',
+        authUrl: process.env.STARGATE_AUTH_URL,
+        keyspace: 'eddiehub',
+        password: 'cassandra',
+        username: 'cassandra',
+      };
+      await setup(options);
+    }
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
     }).compile();
