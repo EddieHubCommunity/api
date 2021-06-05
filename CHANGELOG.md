@@ -1,3 +1,12 @@
+## [0.5.2](https://github.com/EddieHubCommunity/api/compare/v0.5.1...v0.5.2) (2021-06-05)
+
+
+### Bug Fixes
+
+* docker-file for private packages ([#50](https://github.com/EddieHubCommunity/api/issues/50)) ([e40027d](https://github.com/EddieHubCommunity/api/commit/e40027dfde761903be03aaac4fc8605a9cb87eca))
+
+
+
 ## [0.5.1](https://github.com/EddieHubCommunity/api/compare/v0.5.0...v0.5.1) (2021-05-27)
 
 
@@ -32,15 +41,6 @@
 ### Bug Fixes
 
 * docker file to use gh token ([6e9ea84](https://github.com/EddieHubCommunity/api/commit/6e9ea849be0f29f286f43895855ac2d78823503b))
-
-
-
-## [0.3.1](https://github.com/EddieHubCommunity/api/compare/v0.3.0...v0.3.1) (2021-05-15)
-
-
-### Bug Fixes
-
-* docker build to have gh token ([5e3475a](https://github.com/EddieHubCommunity/api/commit/5e3475a8841a3526762abd281764725f71995d6c))
 
 
 
