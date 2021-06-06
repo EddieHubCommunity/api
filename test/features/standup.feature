@@ -1,4 +1,5 @@
-Feature: Standup-module
+@standup
+Feature: Standup module
 
     Scenario: add a new standup
         Given authorisation

@@ -1,3 +1,4 @@
+@hello
 Feature: hello world
 
     Scenario: welcome message
