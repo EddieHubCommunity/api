@@ -56,4 +56,12 @@ export class DiscordController {
   remove(@Param('id') id: string, @AuthorObject() author: Author) {
     return this.discordService.remove(id, author);
   }
+
+  @Get(':id/github')
+  @ApiSecurity('token')
+  @UseGuards(TokenGuard)
+  github(@Param('id') id: string) {
+    console.log(id);
+    return '';
+  }
 }
