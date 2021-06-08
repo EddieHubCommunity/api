@@ -1,3 +1,12 @@
+## [0.6.1](https://github.com/EddieHubCommunity/api/compare/v0.6.0...v0.6.1) (2021-06-08)
+
+
+### Bug Fixes
+
+* display current version ([#125](https://github.com/EddieHubCommunity/api/issues/125)) ([89492df](https://github.com/EddieHubCommunity/api/commit/89492dfaf45885546655662f85e6abe18b563099))
+
+
+
 # [0.6.0](https://github.com/EddieHubCommunity/api/compare/v0.5.3...v0.6.0) (2021-06-08)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * husky check ([#114](https://github.com/EddieHubCommunity/api/issues/114))  ([33a3b7d](https://github.com/EddieHubCommunity/api/commit/33a3b7de38aa016fb4a3d18d614e122fc7258ab4))
-
-
-
-# [0.5.0](https://github.com/EddieHubCommunity/api/compare/v0.4.0...v0.5.0) (2021-05-27)
-
-
-### Features
-
-* data author ([#107](https://github.com/EddieHubCommunity/api/issues/107)) ([ae135e4](https://github.com/EddieHubCommunity/api/commit/ae135e465fdd6ac7e635eb2d79e4b4dcdd35c17d))
 
 
 
