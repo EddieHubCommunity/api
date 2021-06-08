@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eddiehub-api-deployment
+  labels:
+    app: eddiehub-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: eddiehub-api
+  template:
+    metadata:
+      labels:
+        app: eddiehub-api
+    spec:
+      containers:
+      - name: api
+        image: ghcr.io/eddiehubcommunity/api:latest
+        ports:
+        - containerPort: 3000
+        env:
+          - name: ASTRA_APPLICATION_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: astra-application-token
+                key: ASTRA_APPLICATION_TOKEN
+          - name: ASTRA_DATABASE_ID
+            valueFrom:
+              secretKeyRef:
+                name: astra-database-id
+                key: ASTRA_DATABASE_ID
+          - name: ASTRA_DATABASE_REGION
+            valueFrom:
+              secretKeyRef:
+                name: astra-database-region
+                key: ASTRA_DATABASE_REGION
+          - name: APPROVED_TOKENS
+            valueFrom:
+              secretKeyRef:
+                name: approved-tokens
+                key: APPROVED_TOKENS
