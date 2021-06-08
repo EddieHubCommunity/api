@@ -1,3 +1,12 @@
+# [0.6.0](https://github.com/EddieHubCommunity/api/compare/v0.5.3...v0.6.0) (2021-06-08)
+
+
+### Features
+
+* deploy to kubernetes ([#125](https://github.com/EddieHubCommunity/api/issues/125)) ([5a93b21](https://github.com/EddieHubCommunity/api/commit/5a93b216bf8da1499302872e7939eefdb00ac73b))
+
+
+
 ## [0.5.3](https://github.com/EddieHubCommunity/api/compare/v0.5.2...v0.5.3) (2021-06-06)
 
 
@@ -31,16 +40,6 @@
 ### Features
 
 * data author ([#107](https://github.com/EddieHubCommunity/api/issues/107)) ([ae135e4](https://github.com/EddieHubCommunity/api/commit/ae135e465fdd6ac7e635eb2d79e4b4dcdd35c17d))
-
-
-
-# [0.4.0](https://github.com/EddieHubCommunity/api/compare/v0.3.2...v0.4.0) (2021-05-18)
-
-
-### Features
-
-* calendar-module to database ([#97](https://github.com/EddieHubCommunity/api/issues/97)) ([296be0c](https://github.com/EddieHubCommunity/api/commit/296be0c277f9f5319c316876f5ca7bcb84e803f6))
-* discord-module to database ([#96](https://github.com/EddieHubCommunity/api/issues/96)) ([5ba013c](https://github.com/EddieHubCommunity/api/commit/5ba013c2e7a57e182afdf31b1a72d8756bc3ce3f))
 
 
 
