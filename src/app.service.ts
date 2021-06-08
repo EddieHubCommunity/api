@@ -6,8 +6,8 @@ export class AppService {
   constructor(private config: ConfigService) {}
 
   getHello(): string {
-    return `Welcome to EddieHub! Currently running version "${this.config.get(
-      'VERSION',
-    )}"`;
+    return `Welcome to EddieHub! Currently running version "${
+      this.config.get('VERSION') || '-'
+    }"`;
   }
 }
