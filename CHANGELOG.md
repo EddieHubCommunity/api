@@ -1,3 +1,12 @@
+## [0.6.2](https://github.com/EddieHubCommunity/api/compare/v0.6.1...v0.6.2) (2021-06-08)
+
+
+### Bug Fixes
+
+* display default version ([#125](https://github.com/EddieHubCommunity/api/issues/125)) ([7edd95a](https://github.com/EddieHubCommunity/api/commit/7edd95ac597bdaf16ea4136fa5d2ed0b0ce497c2))
+
+
+
 ## [0.6.1](https://github.com/EddieHubCommunity/api/compare/v0.6.0...v0.6.1) (2021-06-08)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * docker-file for private packages ([#50](https://github.com/EddieHubCommunity/api/issues/50)) ([e40027d](https://github.com/EddieHubCommunity/api/commit/e40027dfde761903be03aaac4fc8605a9cb87eca))
-
-
-
-## [0.5.1](https://github.com/EddieHubCommunity/api/compare/v0.5.0...v0.5.1) (2021-05-27)
-
-
-### Bug Fixes
-
-* husky check ([#114](https://github.com/EddieHubCommunity/api/issues/114))  ([33a3b7d](https://github.com/EddieHubCommunity/api/commit/33a3b7de38aa016fb4a3d18d614e122fc7258ab4))
 
 
 
