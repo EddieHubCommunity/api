@@ -25,7 +25,7 @@ describe('AppController', () => {
   describe('root', () => {
     it('should return "Welcome to EddieHub"', () => {
       expect(appController.getHello()).toBe(
-        'Welcome to EddieHub! Currently running version "-"',
+        'Welcome to EddieHub! Currently running version: v0.0.0',
       );
     });
   });
