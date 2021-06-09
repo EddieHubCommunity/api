@@ -1,3 +1,12 @@
+## [0.6.6](https://github.com/EddieHubCommunity/api/compare/v0.6.5...v0.6.6) (2021-06-09)
+
+
+### Bug Fixes
+
+* display default version ([#125](https://github.com/EddieHubCommunity/api/issues/125)) ([bcd6aec](https://github.com/EddieHubCommunity/api/commit/bcd6aecd57ec6a01fc0f41e4bfea31f699f1d0f6))
+
+
+
 ## [0.6.5](https://github.com/EddieHubCommunity/api/compare/v0.6.4...v0.6.5) (2021-06-08)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * display default version ([#125](https://github.com/EddieHubCommunity/api/issues/125)) ([7edd95a](https://github.com/EddieHubCommunity/api/commit/7edd95ac597bdaf16ea4136fa5d2ed0b0ce497c2))
-
-
-
-## [0.6.1](https://github.com/EddieHubCommunity/api/compare/v0.6.0...v0.6.1) (2021-06-08)
-
-
-### Bug Fixes
-
-* display current version ([#125](https://github.com/EddieHubCommunity/api/issues/125)) ([89492df](https://github.com/EddieHubCommunity/api/commit/89492dfaf45885546655662f85e6abe18b563099))
 
 
 
