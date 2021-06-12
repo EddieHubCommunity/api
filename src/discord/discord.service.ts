@@ -156,4 +156,23 @@ export class DiscordService {
       ),
     );
   }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  async github(id: string, authorObject: Author) {
+    const discordUser = await this.astraService
+      .get<DiscordProfile>(id)
+      .toPromise();
+
+    if (discordUser === null) {
+      throw new HttpException(
+        `no discord-profile for ${id} found`,
+        HttpStatus.NOT_FOUND,
+      );
+    }
+    if (discordUser.socials.github) {
+      return discordUser.socials.github;
+    } else {
+      //fetch the socials from the discord API and update the database
+    }
+  }
 }

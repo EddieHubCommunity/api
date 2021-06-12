@@ -59,8 +59,10 @@ export class DiscordController {
 
   @Get(':id/github')
   @ApiSecurity('token')
+  @ApiHeader({ name: 'User-Uid', required: true })
   @UseGuards(TokenGuard)
-  github(@Param('id') id: string) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  github(@Param('id') id: string, @AuthorObject() author: Author) {
     console.log(id);
     return '';
   }
