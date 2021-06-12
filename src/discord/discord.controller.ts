@@ -64,6 +64,6 @@ export class DiscordController {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   github(@Param('id') id: string, @AuthorObject() author: Author) {
     console.log(id);
-    return '';
+    return this.discordService.github(id, author);
   }
 }
