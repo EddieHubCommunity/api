@@ -1,6 +1,5 @@
-Feature: github-module
-
-
+@github
+Feature: github module
 
     Scenario: add a new githubprofile
         Given authorisation
@@ -180,7 +179,6 @@ Feature: github-module
             | location       | {"provided": "London","lat": 51.5073219,"long": -0.1276474} |
             | updatedOn      | "TYPE:DATE"                                                 |
             | createdOn      | "TYPE:DATE"                                                 |
-
 
     Scenario: create a githubprofile without authentication
         Given make a POST request to "/github" with:

@@ -1,6 +1,5 @@
+@calendar
 Feature: calendar module
-
-
 
     Scenario: add a new event
         Given authorisation
@@ -115,8 +114,6 @@ Feature: calendar module
             | statusCode | 400                                   |
             | message    | "update failed: author doesn't match" |
 
-
-
     Scenario: update an non-existing event
         Given authorisation
         When make a PUT request to "/calendar/321" with:
@@ -166,8 +163,6 @@ Feature: calendar module
         And the response should contain:
             | statusCode | 400                                     |
             | message    | "deletion failed: author doesn't match" |
-
-
 
     Scenario: delete non-existing event
         Given authorisation

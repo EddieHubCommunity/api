@@ -1,5 +1,5 @@
+@discord
 Feature: discord module
-
 
     Scenario: add a new user
         Given authorisation
@@ -78,7 +78,6 @@ Feature: discord module
             | statusCode | 400                                   |
             | message    | "update failed: author doesn't match" |
 
-
     Scenario: delete a user
         Given authorisation
         And make a POST request to "/discord" with:
@@ -105,7 +104,6 @@ Feature: discord module
             | statusCode | 400                                     |
             | message    | "deletion failed: author doesn't match" |
 
-
     Scenario: delete non-existing user
         Given authorisation
         When make a DELETE request to "/discord/321"
@@ -113,8 +111,6 @@ Feature: discord module
         And the response should contain:
             | statusCode | 404                                |
             | message    | "no discord-profile for 321 found" |
-
-
 
     Scenario: get user with authenticated request
         Given authorisation
@@ -132,7 +128,6 @@ Feature: discord module
             | socials   | {"discord":"khattakdev","github":"khattakdev","linkedin":"khattakdev","twitter":"khattakdev"} |
             | updatedOn | "TYPE:DATE"                                                                                   |
             | createdOn | "TYPE:DATE"                                                                                   |
-
 
     Scenario: create a user without authorization
         Given make a POST request to "/discord" with:
