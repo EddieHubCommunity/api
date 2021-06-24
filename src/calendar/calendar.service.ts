@@ -1,13 +1,13 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CalendarEventDTO } from './dto/calendar.dto';
 import { CalendarEvent } from './interfaces/calendar.interface';
-import { concatMap, filter } from 'rxjs/operators';
+import { catchError, concatMap, filter } from 'rxjs/operators';
 import {
   AstraService,
   deleteItem,
   documentId,
 } from '@cahllagerfeld/nestjs-astra';
-import { forkJoin, Observable } from 'rxjs';
+import { forkJoin, from, Observable } from 'rxjs';
 import { Author } from '../auth/getAuthorFromHeaders.decorator';
 import { ValidationService } from '../auth/header-validation.service';
 
@@ -57,7 +57,10 @@ export class CalendarService {
       endDate: { $gt: new Date() },
     });
 
-    return forkJoin({ future, ongoing });
+    return forkJoin({ future, ongoing })
+      .pipe(
+        catchError(() => from([{}]))
+      );
   }
 
   findOne(id: string) {

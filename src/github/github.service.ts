@@ -9,8 +9,8 @@ import {
   documentId,
   findResult,
 } from '@cahllagerfeld/nestjs-astra';
-import { Observable } from 'rxjs';
-import { concatMap, filter } from 'rxjs/operators';
+import { from, Observable } from 'rxjs';
+import { catchError, concatMap, filter } from 'rxjs/operators';
 
 @Injectable()
 export class GithubService {
@@ -36,8 +36,11 @@ export class GithubService {
     return creationResponse;
   }
 
-  findAll(): Observable<findResult<GithubProfile>> {
-    return this.astraService.find<GithubProfile>();
+  findAll() {
+    return this.astraService.find<GithubProfile>()
+      .pipe(
+        catchError(() => from([{}]))
+      );
   }
 
   findOne(id: string): Observable<GithubProfile> {

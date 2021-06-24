@@ -2,11 +2,10 @@ import {
   AstraService,
   deleteItem,
   documentId,
-  findResult,
 } from '@cahllagerfeld/nestjs-astra';
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
-import { Observable } from 'rxjs';
-import { concatMap, filter } from 'rxjs/operators';
+import { from, Observable } from 'rxjs';
+import { catchError, concatMap, filter } from 'rxjs/operators';
 import { ValidationService } from '../auth/header-validation.service';
 import { Author } from '../auth/getAuthorFromHeaders.decorator';
 import { DiscordDTO } from './dto/discord.dto';
@@ -41,8 +40,11 @@ export class DiscordService {
     );
   }
 
-  findAll(): Observable<findResult<DiscordProfile>> {
-    return this.astraService.find<DiscordProfile>();
+  findAll() {
+      return this.astraService.find<DiscordProfile>()
+        .pipe(
+          catchError(() => from([{}]))
+        );
   }
 
   findOne(id: string) {

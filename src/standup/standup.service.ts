@@ -6,9 +6,10 @@ import {
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { StandupDTO } from './dto/standup.dto';
 import { Standup } from './interfaces/standup.interface';
-import { concatMap, filter } from 'rxjs/operators';
+import { catchError, concatMap, filter } from 'rxjs/operators';
 import { Author } from '../auth/getAuthorFromHeaders.decorator';
 import { ValidationService } from '../auth/header-validation.service';
+import { from } from 'rxjs';
 
 @Injectable()
 export class StandupService {
@@ -41,7 +42,10 @@ export class StandupService {
   }
 
   findAll() {
-    return this.astraService.find<Standup>();
+    return this.astraService.find<Standup>()
+      .pipe(
+        catchError(() => from([{}]))
+      );
   }
 
   findById(id: string) {
