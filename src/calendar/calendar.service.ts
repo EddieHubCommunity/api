@@ -57,10 +57,7 @@ export class CalendarService {
       endDate: { $gt: new Date() },
     });
 
-    return forkJoin({ future, ongoing })
-      .pipe(
-        catchError(() => from([{}]))
-      );
+    return forkJoin({ future, ongoing }).pipe(catchError(() => from([{}])));
   }
 
   findOne(id: string) {

@@ -41,10 +41,9 @@ export class DiscordService {
   }
 
   findAll() {
-      return this.astraService.find<DiscordProfile>()
-        .pipe(
-          catchError(() => from([{}]))
-        );
+    return this.astraService
+      .find<DiscordProfile>()
+      .pipe(catchError(() => from([{}])));
   }
 
   findOne(id: string) {

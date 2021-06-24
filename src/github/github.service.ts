@@ -37,10 +37,9 @@ export class GithubService {
   }
 
   findAll() {
-    return this.astraService.find<GithubProfile>()
-      .pipe(
-        catchError(() => from([{}]))
-      );
+    return this.astraService
+      .find<GithubProfile>()
+      .pipe(catchError(() => from([{}])));
   }
 
   findOne(id: string): Observable<GithubProfile> {

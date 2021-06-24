@@ -42,10 +42,7 @@ export class StandupService {
   }
 
   findAll() {
-    return this.astraService.find<Standup>()
-      .pipe(
-        catchError(() => from([{}]))
-      );
+    return this.astraService.find<Standup>().pipe(catchError(() => from([{}])));
   }
 
   findById(id: string) {
