@@ -1,3 +1,12 @@
+## [0.6.7](https://github.com/EddieHubCommunity/api/compare/v0.6.6...v0.6.7) (2021-06-24)
+
+
+### Bug Fixes
+
+* no data, empty result ([#134](https://github.com/EddieHubCommunity/api/issues/134))  ([e94450b](https://github.com/EddieHubCommunity/api/commit/e94450b21b3dc93a447ab8468a107ef9f3b353d3))
+
+
+
 ## [0.6.6](https://github.com/EddieHubCommunity/api/compare/v0.6.5...v0.6.6) (2021-06-09)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * display default version ([#125](https://github.com/EddieHubCommunity/api/issues/125)) ([ae4dc84](https://github.com/EddieHubCommunity/api/commit/ae4dc84e44876c7f9bf7f792ef772eced63b2482))
-
-
-
-## [0.6.2](https://github.com/EddieHubCommunity/api/compare/v0.6.1...v0.6.2) (2021-06-08)
-
-
-### Bug Fixes
-
-* display default version ([#125](https://github.com/EddieHubCommunity/api/issues/125)) ([7edd95a](https://github.com/EddieHubCommunity/api/commit/7edd95ac597bdaf16ea4136fa5d2ed0b0ce497c2))
 
 
 
