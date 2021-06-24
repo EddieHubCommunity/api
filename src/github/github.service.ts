@@ -7,7 +7,6 @@ import {
   AstraService,
   deleteItem,
   documentId,
-  findResult,
 } from '@cahllagerfeld/nestjs-astra';
 import { from, Observable } from 'rxjs';
 import { catchError, concatMap, filter } from 'rxjs/operators';
