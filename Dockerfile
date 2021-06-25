@@ -20,7 +20,6 @@ LABEL org.opencontainers.image.source https://github.com/eddiehubcommunity/api
 ARG github_token
 ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
-ENV VERSION="v0.0.0"
 
 WORKDIR /usr/src/app
 
