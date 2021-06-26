@@ -1,8 +1,4 @@
-import {
-  AstraService,
-  deleteItem,
-  documentId,
-} from '@cahllagerfeld/nestjs-astra';
+import { deleteItem, documentId } from '@cahllagerfeld/nestjs-astra';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { StandupDTO } from './dto/standup.dto';
 import { Standup } from './interfaces/standup.interface';
@@ -10,6 +6,7 @@ import { catchError, concatMap, filter } from 'rxjs/operators';
 import { Author } from '../auth/getAuthorFromHeaders.decorator';
 import { ValidationService } from '../auth/header-validation.service';
 import { from } from 'rxjs';
+import { AstraService } from '../astra/astra.service';
 
 @Injectable()
 export class StandupService {
@@ -28,25 +25,29 @@ export class StandupService {
       createdOn: new Date(Date.now()),
     };
 
-    return this.astraService.create<Standup>(newStandup).pipe(
-      filter((data: documentId) => {
-        if (data === null) {
-          throw new HttpException(
-            'Creation didnt pass as expected',
-            HttpStatus.BAD_REQUEST,
-          );
-        }
-        return true;
-      }),
-    );
+    return this.astraService
+      .create<Standup>(newStandup, 'eddiehub', 'standup')
+      .pipe(
+        filter((data: documentId) => {
+          if (data === null) {
+            throw new HttpException(
+              'Creation didnt pass as expected',
+              HttpStatus.BAD_REQUEST,
+            );
+          }
+          return true;
+        }),
+      );
   }
 
   findAll() {
-    return this.astraService.find<Standup>().pipe(catchError(() => from([{}])));
+    return this.astraService
+      .find<Standup>('eddiehub', 'standup')
+      .pipe(catchError(() => from([{}])));
   }
 
   findById(id: string) {
-    return this.astraService.get<Standup>(id).pipe(
+    return this.astraService.get<Standup>(id, 'eddiehub', 'standup').pipe(
       filter((data: Standup) => {
         if (data === null) {
           throw new HttpException(
@@ -60,7 +61,7 @@ export class StandupService {
   }
 
   deleteStandup(id: string, authorObject: Author) {
-    return this.astraService.get<Standup>(id).pipe(
+    return this.astraService.get<Standup>(id, 'eddiehub', 'standup').pipe(
       filter((data: Standup) => {
         if (data === null) {
           throw new HttpException(
@@ -84,7 +85,7 @@ export class StandupService {
       }),
       concatMap(() =>
         this.astraService
-          .delete(id)
+          .delete(id, 'eddiehub', 'standup')
           .pipe(filter((data: deleteItem) => data.deleted === true)),
       ),
     );
@@ -98,7 +99,7 @@ export class StandupService {
       );
     }
     return this.astraService
-      .find<Standup>({ 'author.uid': { $eq: uid } })
+      .find<Standup>('eddiehub', 'standup', { 'author.uid': { $eq: uid } })
       .pipe(
         filter((data) => {
           if (data === null) {
