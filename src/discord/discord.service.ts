@@ -11,7 +11,6 @@ import { ValidationService } from '../auth/header-validation.service';
 import { Author } from '../auth/getAuthorFromHeaders.decorator';
 import { DiscordDTO } from './dto/discord.dto';
 import { DiscordProfile } from './interfaces/discord.interface';
-import Axios from 'axios';
 
 @Injectable()
 export class DiscordService {
@@ -159,48 +158,17 @@ export class DiscordService {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  async github(id: string, authorObject: Author) {
+  async github(uid: string) {
     const discordUser = await this.astraService
-      .get<DiscordProfile>(id)
+      .get<DiscordProfile>(uid)
       .toPromise();
 
     if (discordUser === null) {
       throw new HttpException(
-        `no discord-profile for ${id} found`,
+        `no discord-profile for ${uid} found`,
         HttpStatus.NOT_FOUND,
       );
     }
-    if (discordUser.socials.github) {
-      return discordUser.socials.github;
-    } else {
-      //fetch the socials from the discord API and update the database
-      const response = await Axios({
-        url: `https://discord.com/api/users/${authorObject.uid}/connections`,
-        method: 'GET',
-      });
-
-      const githubUsername = response.data.filter((conn: any) => {
-        if (conn.type === 'github') return conn.name;
-      });
-
-      const updatedUser = { ...discordUser };
-
-      updatedUser.updatedOn = new Date();
-
-      updatedUser.socials.github = githubUsername;
-
-      const updatedResponse = await this.astraService
-        .update<DiscordProfile>(id, updatedUser)
-        .toPromise();
-
-      if (updatedResponse === null) {
-        throw new HttpException(
-          `no discord-profile for ${id} found`,
-          HttpStatus.NOT_FOUND,
-        );
-      }
-
-      return githubUsername;
-    }
+    return discordUser.socials.github;
   }
 }
