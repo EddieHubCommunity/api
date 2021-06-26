@@ -14,7 +14,6 @@ export class AstraService {
 
   private setupClient(namespace: string, collection: string) {
     this.collection = this.client.namespace(namespace).collection(collection);
-    console.log(this.collection);
   }
 
   /**
