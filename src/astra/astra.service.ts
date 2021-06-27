@@ -19,6 +19,8 @@ export class AstraService {
   /**
    * Gets a document from a collection by its ID.
    * @param id ID of the document, that should be retrieved
+   * @param namespace Namespace in Database
+   * @param collection Collection-Name in Database
    * @returns
    */
   public get<T>(
@@ -34,7 +36,9 @@ export class AstraService {
   /**
    * Creates a new Document
    * @param document The document that should be created
-   * @param id The desired ID
+   * @param namespace Namespace in Database
+   * @param collection Collection-Name in Database
+   * @param id The desired ID *
    * @returns document ID of created document
    */
   public create<T>(
@@ -55,6 +59,8 @@ export class AstraService {
 
   /**
    * Search a collection
+   * @param namespace Namespace in Database
+   * @param collection Collection-Name in Database
    * @param query The query for searching the collection
    * @param options Possible searchoptions
    * @returns
@@ -76,6 +82,8 @@ export class AstraService {
   /**
    * Find a single document
    * @param query The query for searching the collection
+   * @param namespace Namespace in Database
+   * @param collection Collection-Name in Database
    * @param options Possible searchoptions
    * @returns
    */
@@ -94,6 +102,8 @@ export class AstraService {
    * Partially update a existing document
    * @param path Path to document, may also be path to a subdocument
    * @param document Document with which the existing should be updated
+   * @param namespace Namespace in Database
+   * @param collection Collection-Name in Database
    * @returns
    */
   public update<T>(
@@ -114,6 +124,8 @@ export class AstraService {
    *
    * @param path Path to document, that should be replaced
    * @param document Document with which the specified docuent should be updated
+   * @param namespace Namespace in Database
+   * @param collection Collection-Name in Database
    * @returns
    */
   public replace<T>(
@@ -133,6 +145,8 @@ export class AstraService {
   /**
    *
    * @param path Path to document, that should be deleted
+   * @param namespace Namespace in Database
+   * @param collection Collection-Name in Database
    * @returns
    */
   public delete(
