@@ -1,10 +1,10 @@
 import { binding, given, when, before } from 'cucumber-tsflow';
 import { Test, TestingModule } from '@nestjs/testing';
 import * as request from 'supertest';
+import { exec } from 'child_process';
 import { AppModule } from '../../src/app.module';
 import Context from '../support/world';
 import { ValidationPipe } from '@nestjs/common';
-import { setup, cliOptions } from '@cahllagerfeld/setup-stargate';
 
 @binding([Context])
 export class requests {
@@ -19,14 +19,16 @@ export class requests {
 
   @before()
   public async before(): Promise<void> {
-    const options: cliOptions = {
-      namespaceUrl: 'http://localhost:8082/v2/schemas/namespaces',
-      authUrl: process.env.STARGATE_AUTH_URL,
-      keyspace: 'eddiehub',
-      password: 'cassandra',
-      username: 'cassandra',
-    };
-    await setup(options);
+    if (process.env.STARGATE_BASEURL) {
+      await new Promise((resolve) => {
+        exec('npm run prestart', (error, stdout, stderr) => {
+          if (error) {
+            console.warn(error);
+          }
+          resolve(stdout ? stdout : stderr);
+        });
+      });
+    }
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
     }).compile();

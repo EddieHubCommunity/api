@@ -20,18 +20,21 @@ export class GithubService {
   ) {}
 
   async create(body: GithubDTO): Promise<documentId> {
-    const newGithubProfile: GithubProfile = await this.createGithub(body);
+    let newGithubProfile: GithubProfile;
+    let creationResponse;
+    try {
+      newGithubProfile = await this.createGithub(body);
 
-    const creationResponse = await this.astraService
-      .create<GithubProfile>(newGithubProfile)
-      .toPromise();
-
-    if (creationResponse === null) {
+      creationResponse = await this.astraService
+        .create<GithubProfile>(newGithubProfile)
+        .toPromise();
+    } catch (e) {
       throw new HttpException(
         'Creation didnt pass as expected',
         HttpStatus.BAD_REQUEST,
       );
     }
+
     return creationResponse;
   }
 
@@ -43,14 +46,11 @@ export class GithubService {
 
   findOne(id: string): Observable<GithubProfile> {
     return this.astraService.get<GithubProfile>(id).pipe(
-      filter((data: GithubProfile) => {
-        if (data === null) {
-          throw new HttpException(
-            `no github-profile for ${id} found`,
-            HttpStatus.NOT_FOUND,
-          );
-        }
-        return true;
+      catchError(() => {
+        throw new HttpException(
+          `no github-profile for ${id} found`,
+          HttpStatus.NOT_FOUND,
+        );
       }),
     );
   }
@@ -68,16 +68,16 @@ export class GithubService {
       organization,
     } = body;
 
-    const oldDocument = await this.astraService
-      .get<GithubProfile>(id)
-      .toPromise();
-
-    if (oldDocument === null) {
+    let oldDocument;
+    try {
+      oldDocument = await this.astraService.get<GithubProfile>(id).toPromise();
+    } catch (e) {
       throw new HttpException(
         `no github-profile for ${id} found`,
         HttpStatus.NOT_FOUND,
       );
     }
+
     const updateGithubProfile: GithubProfile = { ...oldDocument };
     if (username) {
       updateGithubProfile.username = username;
@@ -115,11 +115,12 @@ export class GithubService {
 
     updateGithubProfile.updatedOn = new Date();
 
-    const updateResponse = await this.astraService
-      .replace<GithubProfile>(id, updateGithubProfile)
-      .toPromise();
-
-    if (updateResponse === null) {
+    let updateResponse;
+    try {
+      updateResponse = await this.astraService
+        .replace<GithubProfile>(id, updateGithubProfile)
+        .toPromise();
+    } catch (e) {
       throw new HttpException(
         `no github-profile for ${id} found`,
         HttpStatus.NOT_FOUND,
@@ -131,14 +132,11 @@ export class GithubService {
 
   remove(id: string): Observable<deleteItem> {
     return this.astraService.get<GithubProfile>(id).pipe(
-      filter((data: GithubProfile) => {
-        if (data === null) {
-          throw new HttpException(
-            `no github-profile for ${id} found`,
-            HttpStatus.NOT_FOUND,
-          );
-        }
-        return true;
+      catchError(() => {
+        throw new HttpException(
+          `no github-profile for ${id} found`,
+          HttpStatus.NOT_FOUND,
+        );
       }),
       concatMap(() =>
         this.astraService

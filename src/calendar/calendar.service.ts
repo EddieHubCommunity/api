@@ -34,14 +34,11 @@ export class CalendarService {
     };
 
     return this.astraService.create<CalendarEvent>(newEvent).pipe(
-      filter((data: documentId) => {
-        if (data === null) {
-          throw new HttpException(
-            'Creation didnt pass as expected',
-            HttpStatus.BAD_REQUEST,
-          );
-        }
-        return true;
+      catchError(() => {
+        throw new HttpException(
+          'Creation didnt pass as expected',
+          HttpStatus.BAD_REQUEST,
+        );
       }),
     );
   }
@@ -62,14 +59,11 @@ export class CalendarService {
 
   findOne(id: string) {
     return this.astraService.get<CalendarEvent>(id).pipe(
-      filter((data: CalendarEvent) => {
-        if (data === null) {
-          throw new HttpException(
-            `no event for ${id} found`,
-            HttpStatus.NOT_FOUND,
-          );
-        }
-        return true;
+      catchError(() => {
+        throw new HttpException(
+          'Creation didnt pass as expected',
+          HttpStatus.BAD_REQUEST,
+        );
       }),
     );
   }
@@ -79,11 +73,11 @@ export class CalendarService {
     calendarDTO: CalendarEventDTO,
     authorObject: Author,
   ) {
-    const oldDocument = await this.astraService
-      .get<CalendarEvent>(id)
-      .toPromise();
+    let oldDocument;
 
-    if (oldDocument === null) {
+    try {
+      oldDocument = await this.astraService.get<CalendarEvent>(id).toPromise();
+    } catch (e) {
       throw new HttpException(`no event for ${id} found`, HttpStatus.NOT_FOUND);
     }
 
@@ -139,11 +133,12 @@ export class CalendarService {
 
     updateEvent.updatedOn = new Date();
 
-    const updateResponse = await this.astraService
-      .replace<CalendarEvent>(id, updateEvent)
-      .toPromise();
-
-    if (updateResponse === null) {
+    let updateResponse;
+    try {
+      updateResponse = await this.astraService
+        .replace<CalendarEvent>(id, updateEvent)
+        .toPromise();
+    } catch (e) {
       throw new HttpException(`no event for ${id} found`, HttpStatus.NOT_FOUND);
     }
 
@@ -152,13 +147,13 @@ export class CalendarService {
 
   remove(id: string, authorObject: Author) {
     return this.astraService.get<CalendarEvent>(id).pipe(
+      catchError(() => {
+        throw new HttpException(
+          `no event for ${id} found`,
+          HttpStatus.NOT_FOUND,
+        );
+      }),
       filter((data: CalendarEvent) => {
-        if (data === null) {
-          throw new HttpException(
-            `no event for ${id} found`,
-            HttpStatus.NOT_FOUND,
-          );
-        }
         if (
           !this.validationService.validateAuthor(
             data.author,

@@ -47,7 +47,11 @@ The Token can be generated in Github and needs the permission `package - read`. 
 ```bash
 # database
 $ docker-compose up
+```
 
+*OR manually with docker `docker pull stargateio/stargate-3_11:v1.0.25`*
+
+```bash
 # development
 $ npm run start
 

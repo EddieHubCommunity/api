@@ -28,14 +28,11 @@ export class DiscordService {
     };
 
     return this.astraService.create<DiscordProfile>(discordUser).pipe(
-      filter((data: documentId) => {
-        if (data === null) {
-          throw new HttpException(
-            'Creation didnt pass as expected',
-            HttpStatus.BAD_REQUEST,
-          );
-        }
-        return true;
+      catchError(() => {
+        throw new HttpException(
+          'Creation didnt pass as expected',
+          HttpStatus.BAD_REQUEST,
+        );
       }),
     );
   }
@@ -48,14 +45,11 @@ export class DiscordService {
 
   findOne(id: string) {
     return this.astraService.get<DiscordProfile>(id).pipe(
-      filter((data: DiscordProfile) => {
-        if (data === null) {
-          throw new HttpException(
-            `no discord-profile for ${id} found`,
-            HttpStatus.NOT_FOUND,
-          );
-        }
-        return true;
+      catchError(() => {
+        throw new HttpException(
+          'Creation didnt pass as expected',
+          HttpStatus.BAD_REQUEST,
+        );
       }),
     );
   }
@@ -63,11 +57,11 @@ export class DiscordService {
   async update(id: string, updateDiscordDto: DiscordDTO, authorObject: Author) {
     const { author, bio, socials } = updateDiscordDto;
 
-    const discordUser = await this.astraService
-      .get<DiscordProfile>(id)
-      .toPromise();
+    let discordUser;
 
-    if (discordUser === null) {
+    try {
+      discordUser = await this.astraService.get<DiscordProfile>(id).toPromise();
+    } catch (e) {
       throw new HttpException(
         `no discord-profile for ${id} found`,
         HttpStatus.NOT_FOUND,
@@ -113,11 +107,13 @@ export class DiscordService {
 
     updatedDiscord.updatedOn = new Date();
 
-    const updateResponse = await this.astraService
-      .replace<DiscordProfile>(id, updatedDiscord)
-      .toPromise();
+    let updateResponse;
 
-    if (updateResponse === null) {
+    try {
+      updateResponse = await this.astraService
+        .replace<DiscordProfile>(id, updatedDiscord)
+        .toPromise();
+    } catch (e) {
       throw new HttpException(
         `no discord-profile for ${id} found`,
         HttpStatus.NOT_FOUND,
@@ -129,13 +125,13 @@ export class DiscordService {
 
   remove(id: string, authorObject: Author) {
     return this.astraService.get<DiscordProfile>(id).pipe(
+      catchError(() => {
+        throw new HttpException(
+          `no discord-profile for ${id} found`,
+          HttpStatus.NOT_FOUND,
+        );
+      }),
       filter((data: DiscordProfile) => {
-        if (data === null) {
-          throw new HttpException(
-            `no discord-profile for ${id} found`,
-            HttpStatus.NOT_FOUND,
-          );
-        }
         if (
           !this.validationService.validateAuthor(
             data.author,
