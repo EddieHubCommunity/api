@@ -51,6 +51,8 @@ $ docker-compose up
 
 *OR manually with docker `docker pull stargateio/stargate-3_11:v1.0.25`*
 
+**Note: if you do not have Docker locally, you can run it against your FREE cloud on AstraDB, by [signing up](http://links.eddiejaoude.io/t/CiEQRydj4GdT) for FREE! You will need to comment out the `stargate` environment variables in `.env` and add your Astra credentials**
+
 ```bash
 # development
 $ npm run start
