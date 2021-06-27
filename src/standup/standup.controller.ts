@@ -1,4 +1,5 @@
 import {
+  Headers,
   Body,
   Controller,
   Delete,
@@ -23,24 +24,31 @@ export class StandupController {
   @Post()
   @UseGuards(TokenGuard)
   @ApiSecurity('token')
-  createStandup(@Body() body: StandupDTO) {
-    return this.standupService.create(body);
+  @ApiHeader({ name: 'keyspace', required: true })
+  createStandup(
+    @Body() body: StandupDTO,
+    @Headers('keyspace') keyspace: string,
+  ) {
+    return this.standupService.create(body, keyspace);
   }
 
   @Get()
-  findAllStandups() {
-    return this.standupService.findAll();
+  @ApiHeader({ name: 'keyspace', required: true })
+  findAllStandups(@Headers('keyspace') keyspace: string) {
+    return this.standupService.findAll(keyspace);
   }
 
   @Get('search')
   @ApiQuery({ name: 'uid', type: 'string' })
-  search(@Query('uid') uid: string) {
-    return this.standupService.search(uid);
+  @ApiHeader({ name: 'keyspace', required: true })
+  search(@Query('uid') uid: string, @Headers('keyspace') keyspace: string) {
+    return this.standupService.search(uid, keyspace);
   }
 
   @Get(':id')
-  findById(@Param('id') id: string) {
-    return this.standupService.findById(id);
+  @ApiHeader({ name: 'keyspace', required: true })
+  findById(@Param('id') id: string, @Headers('keyspace') keyspace: string) {
+    return this.standupService.findById(id, keyspace);
   }
 
   @Delete(':id')
@@ -49,7 +57,12 @@ export class StandupController {
   @HttpCode(204)
   @ApiHeader({ name: 'User-Uid', required: true })
   @ApiHeader({ name: 'Platform', required: true })
-  deleteStandup(@Param('id') id: string, @AuthorObject() author: Author) {
-    return this.standupService.deleteStandup(id, author);
+  @ApiHeader({ name: 'keyspace', required: true })
+  deleteStandup(
+    @Param('id') id: string,
+    @AuthorObject() author: Author,
+    @Headers('keyspace') keyspace: string,
+  ) {
+    return this.standupService.deleteStandup(id, author, keyspace);
   }
 }

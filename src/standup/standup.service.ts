@@ -15,7 +15,7 @@ export class StandupService {
     private readonly validationService: ValidationService,
   ) {}
 
-  create(body: StandupDTO) {
+  create(body: StandupDTO, keyspaceName: string) {
     const { author, todayMessage, yesterdayMessage } = body;
 
     const newStandup: Standup = {
@@ -26,7 +26,7 @@ export class StandupService {
     };
 
     return this.astraService
-      .create<Standup>(newStandup, 'eddiehub', 'standup')
+      .create<Standup>(newStandup, keyspaceName, 'standup')
       .pipe(
         filter((data: documentId) => {
           if (data === null) {
@@ -40,14 +40,14 @@ export class StandupService {
       );
   }
 
-  findAll() {
+  findAll(keyspaceName: string) {
     return this.astraService
-      .find<Standup>('eddiehub', 'standup')
+      .find<Standup>(keyspaceName, 'standup')
       .pipe(catchError(() => from([{}])));
   }
 
-  findById(id: string) {
-    return this.astraService.get<Standup>(id, 'eddiehub', 'standup').pipe(
+  findById(id: string, keyspaceName: string) {
+    return this.astraService.get<Standup>(id, keyspaceName, 'standup').pipe(
       filter((data: Standup) => {
         if (data === null) {
           throw new HttpException(
@@ -60,8 +60,8 @@ export class StandupService {
     );
   }
 
-  deleteStandup(id: string, authorObject: Author) {
-    return this.astraService.get<Standup>(id, 'eddiehub', 'standup').pipe(
+  deleteStandup(id: string, authorObject: Author, keyspaceName: string) {
+    return this.astraService.get<Standup>(id, keyspaceName, 'standup').pipe(
       filter((data: Standup) => {
         if (data === null) {
           throw new HttpException(
@@ -91,7 +91,7 @@ export class StandupService {
     );
   }
 
-  search(uid: string) {
+  search(uid: string, keyspaceName: string) {
     if (!uid) {
       throw new HttpException(
         'Please provide search context',
@@ -99,7 +99,7 @@ export class StandupService {
       );
     }
     return this.astraService
-      .find<Standup>('eddiehub', 'standup', { 'author.uid': { $eq: uid } })
+      .find<Standup>(keyspaceName, 'standup', { 'author.uid': { $eq: uid } })
       .pipe(
         filter((data) => {
           if (data === null) {
