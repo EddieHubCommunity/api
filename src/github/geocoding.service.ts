@@ -45,9 +45,9 @@ export class GeocodingService {
       location,
     )}&format=json&limit=1`;
 
-    const response: AxiosResponse = await this.http.get(url).toPromise();
-    const data: GeocodedResponse = response.data[0];
     try {
+      const response: AxiosResponse = await this.http.get(url).toPromise();
+      const data: GeocodedResponse = response.data[0];
       const locationObject: GithubLocation = {
         provided: location,
         lat: parseFloat(data.lat),

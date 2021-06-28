@@ -1,8 +1,4 @@
-import {
-  AstraService,
-  deleteItem,
-  documentId,
-} from '@cahllagerfeld/nestjs-astra';
+import { AstraService, deleteItem } from '@cahllagerfeld/nestjs-astra';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { StandupDTO } from './dto/standup.dto';
 import { Standup } from './interfaces/standup.interface';
@@ -29,14 +25,11 @@ export class StandupService {
     };
 
     return this.astraService.create<Standup>(newStandup).pipe(
-      filter((data: documentId) => {
-        if (data === null) {
-          throw new HttpException(
-            'Creation didnt pass as expected',
-            HttpStatus.BAD_REQUEST,
-          );
-        }
-        return true;
+      catchError(() => {
+        throw new HttpException(
+          'Creation didnt pass as expected',
+          HttpStatus.BAD_REQUEST,
+        );
       }),
     );
   }
@@ -47,27 +40,31 @@ export class StandupService {
 
   findById(id: string) {
     return this.astraService.get<Standup>(id).pipe(
-      filter((data: Standup) => {
-        if (data === null) {
-          throw new HttpException(
-            `no standup for ${id} found`,
-            HttpStatus.NOT_FOUND,
-          );
-        }
-        return true;
+      catchError(() => {
+        throw new HttpException(
+          `no standup for ${id} found`,
+          HttpStatus.NOT_FOUND,
+        );
       }),
     );
   }
 
   deleteStandup(id: string, authorObject: Author) {
     return this.astraService.get<Standup>(id).pipe(
+      catchError(() => {
+        throw new HttpException(
+          `no standup for ${id} found`,
+          HttpStatus.NOT_FOUND,
+        );
+      }),
       filter((data: Standup) => {
-        if (data === null) {
+        if (!data) {
           throw new HttpException(
             `no standup for ${id} found`,
             HttpStatus.NOT_FOUND,
           );
         }
+
         if (
           !this.validationService.validateAuthor(
             data.author,
@@ -90,24 +87,21 @@ export class StandupService {
     );
   }
 
-  search(uid: string) {
-    if (!uid) {
+  search(id: string) {
+    if (!id) {
       throw new HttpException(
         'Please provide search context',
         HttpStatus.BAD_REQUEST,
       );
     }
     return this.astraService
-      .find<Standup>({ 'author.uid': { $eq: uid } })
+      .find<Standup>({ 'author.uid': { $eq: id } })
       .pipe(
-        filter((data) => {
-          if (data === null) {
-            throw new HttpException(
-              `no data found for ${uid}`,
-              HttpStatus.NOT_FOUND,
-            );
-          }
-          return true;
+        catchError(() => {
+          throw new HttpException(
+            `no standup for ${id} found`,
+            HttpStatus.NOT_FOUND,
+          );
         }),
       );
   }

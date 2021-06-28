@@ -34,14 +34,11 @@ export class CalendarService {
     };
 
     return this.astraService.create<CalendarEvent>(newEvent).pipe(
-      filter((data: documentId) => {
-        if (data === null) {
-          throw new HttpException(
-            'Creation didnt pass as expected',
-            HttpStatus.BAD_REQUEST,
-          );
-        }
-        return true;
+      catchError(() => {
+        throw new HttpException(
+          'Creation didnt pass as expected',
+          HttpStatus.BAD_REQUEST,
+        );
       }),
     );
   }
@@ -62,14 +59,11 @@ export class CalendarService {
 
   findOne(id: string) {
     return this.astraService.get<CalendarEvent>(id).pipe(
-      filter((data: CalendarEvent) => {
-        if (data === null) {
-          throw new HttpException(
-            `no event for ${id} found`,
-            HttpStatus.NOT_FOUND,
-          );
-        }
-        return true;
+      catchError(() => {
+        throw new HttpException(
+          'Creation didnt pass as expected',
+          HttpStatus.BAD_REQUEST,
+        );
       }),
     );
   }
@@ -81,9 +75,17 @@ export class CalendarService {
   ) {
     const oldDocument = await this.astraService
       .get<CalendarEvent>(id)
+      .pipe(
+        catchError(() => {
+          throw new HttpException(
+            `no event for ${id} found`,
+            HttpStatus.NOT_FOUND,
+          );
+        }),
+      )
       .toPromise();
 
-    if (oldDocument === null) {
+    if (!oldDocument) {
       throw new HttpException(`no event for ${id} found`, HttpStatus.NOT_FOUND);
     }
 
@@ -141,24 +143,35 @@ export class CalendarService {
 
     const updateResponse = await this.astraService
       .replace<CalendarEvent>(id, updateEvent)
+      .pipe(
+        catchError(() => {
+          throw new HttpException(
+            `no event for ${id} found`,
+            HttpStatus.NOT_FOUND,
+          );
+        }),
+      )
       .toPromise();
-
-    if (updateResponse === null) {
-      throw new HttpException(`no event for ${id} found`, HttpStatus.NOT_FOUND);
-    }
 
     return updateResponse;
   }
 
   remove(id: string, authorObject: Author) {
     return this.astraService.get<CalendarEvent>(id).pipe(
+      catchError(() => {
+        throw new HttpException(
+          `no event for ${id} found`,
+          HttpStatus.NOT_FOUND,
+        );
+      }),
       filter((data: CalendarEvent) => {
-        if (data === null) {
+        if (!data) {
           throw new HttpException(
             `no event for ${id} found`,
             HttpStatus.NOT_FOUND,
           );
         }
+
         if (
           !this.validationService.validateAuthor(
             data.author,
@@ -171,13 +184,11 @@ export class CalendarService {
             HttpStatus.BAD_REQUEST,
           );
         }
+
         return true;
       }),
-      concatMap(() =>
-        this.astraService
-          .delete(id)
-          .pipe(filter((data: deleteItem) => data.deleted === true)),
-      ),
+      concatMap(() => this.astraService.delete(id)),
+      filter((data: deleteItem) => data.deleted === true),
     );
   }
 }
