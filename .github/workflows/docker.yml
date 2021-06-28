@@ -26,7 +26,7 @@ jobs:
     needs: build
     services:
       stargate:
-        image: stargateio/stargate-3_11:v1.0.13
+        image: stargateio/stargate-3_11:v1.0.25
         ports:
           - 8080:8080
           - 8081:8081
@@ -37,13 +37,13 @@ jobs:
           DEVELOPER_MODE: true
     strategy:
       matrix:
-        node-version: [15.x]
+        node-version: [16.x]
     steps:
       - uses: actions/checkout@v2
       - name: Authenticate with GitHub package registry
         run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" > ~/.npmrc
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
       - uses: actions/download-artifact@main
