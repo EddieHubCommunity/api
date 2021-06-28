@@ -1,4 +1,4 @@
-import { Author } from '../../auth/getAuthorFromHeaders.decorator';
+import { Author } from '../../auth/author-headers';
 
 export interface CalendarEvent {
   name: string;

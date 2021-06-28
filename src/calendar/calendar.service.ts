@@ -8,7 +8,7 @@ import {
   documentId,
 } from '@cahllagerfeld/nestjs-astra';
 import { forkJoin, from, Observable } from 'rxjs';
-import { Author } from '../auth/getAuthorFromHeaders.decorator';
+import { Author } from '../auth/author-headers';
 import { ValidationService } from '../auth/header-validation.service';
 
 @Injectable()
