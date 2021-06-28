@@ -132,6 +132,13 @@ export class DiscordService {
         );
       }),
       filter((data: DiscordProfile) => {
+        if (!data) {
+          throw new HttpException(
+            `no discord-profile for ${id} found`,
+            HttpStatus.NOT_FOUND,
+          );
+        }
+
         if (
           !this.validationService.validateAuthor(
             data.author,

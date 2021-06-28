@@ -58,6 +58,13 @@ export class StandupService {
         );
       }),
       filter((data: Standup) => {
+        if (!data) {
+          throw new HttpException(
+            `no standup for ${id} found`,
+            HttpStatus.NOT_FOUND,
+          );
+        }
+
         if (
           !this.validationService.validateAuthor(
             data.author,

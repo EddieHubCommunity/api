@@ -138,6 +138,16 @@ export class GithubService {
           HttpStatus.NOT_FOUND,
         );
       }),
+      filter((data) => {
+        if (!data) {
+          throw new HttpException(
+            `no github-profile for ${id} found`,
+            HttpStatus.NOT_FOUND,
+          );
+        }
+
+        return true;
+      }),
       concatMap(() =>
         this.astraService
           .delete(id)
