@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CalendarEventDTO } from './dto/calendar.dto';
 import { CalendarEvent } from './interfaces/calendar.interface';
-import { catchError, concatMap, filter } from 'rxjs/operators';
+import { catchError, concatMap, filter, map } from 'rxjs/operators';
 import {
   AstraService,
   deleteItem,
@@ -84,6 +84,10 @@ export class CalendarService {
         }),
       )
       .toPromise();
+
+    if (!oldDocument) {
+      throw new HttpException(`no event for ${id} found`, HttpStatus.NOT_FOUND);
+    }
 
     if (
       !this.validationService.validateAuthor(
