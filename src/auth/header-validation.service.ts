@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Author } from './getAuthorFromHeaders.decorator';
+import { Author } from './author-headers';
 
 @Injectable()
 export class ValidationService {

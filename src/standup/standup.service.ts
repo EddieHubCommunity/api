@@ -7,7 +7,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { StandupDTO } from './dto/standup.dto';
 import { Standup } from './interfaces/standup.interface';
 import { catchError, concatMap, filter } from 'rxjs/operators';
-import { Author } from '../auth/getAuthorFromHeaders.decorator';
+import { Author } from '../auth/author-headers';
 import { ValidationService } from '../auth/header-validation.service';
 import { from } from 'rxjs';
 
