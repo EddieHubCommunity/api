@@ -73,13 +73,17 @@ export class CalendarService {
     calendarDTO: CalendarEventDTO,
     authorObject: Author,
   ) {
-    let oldDocument;
-
-    try {
-      oldDocument = await this.astraService.get<CalendarEvent>(id).toPromise();
-    } catch (e) {
-      throw new HttpException(`no event for ${id} found`, HttpStatus.NOT_FOUND);
-    }
+    const oldDocument = await this.astraService
+      .get<CalendarEvent>(id)
+      .pipe(
+        catchError(() => {
+          throw new HttpException(
+            `no event for ${id} found`,
+            HttpStatus.NOT_FOUND,
+          );
+        }),
+      )
+      .toPromise();
 
     if (
       !this.validationService.validateAuthor(
@@ -133,14 +137,17 @@ export class CalendarService {
 
     updateEvent.updatedOn = new Date();
 
-    let updateResponse;
-    try {
-      updateResponse = await this.astraService
-        .replace<CalendarEvent>(id, updateEvent)
-        .toPromise();
-    } catch (e) {
-      throw new HttpException(`no event for ${id} found`, HttpStatus.NOT_FOUND);
-    }
+    const updateResponse = await this.astraService
+      .replace<CalendarEvent>(id, updateEvent)
+      .pipe(
+        catchError(() => {
+          throw new HttpException(
+            `no event for ${id} found`,
+            HttpStatus.NOT_FOUND,
+          );
+        }),
+      )
+      .toPromise();
 
     return updateResponse;
   }
@@ -168,11 +175,8 @@ export class CalendarService {
         }
         return true;
       }),
-      concatMap(() =>
-        this.astraService
-          .delete(id)
-          .pipe(filter((data: deleteItem) => data.deleted === true)),
-      ),
+      concatMap(() => this.astraService.delete(id)),
+      filter((data: deleteItem) => data.deleted === true),
     );
   }
 }
