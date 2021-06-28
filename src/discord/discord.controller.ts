@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { ApiHeader, ApiSecurity, ApiTags } from '@nestjs/swagger';
 import { TokenGuard } from '../auth/token.strategy';
-import { Author, AuthorObject } from '../auth/getAuthorFromHeaders.decorator';
+import { Author, AuthorObject } from '../auth/author-headers';
 import { DiscordService } from './discord.service';
 import { DiscordDTO } from './dto/discord.dto';
 @ApiTags('Discord')
