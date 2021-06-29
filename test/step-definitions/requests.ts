@@ -5,7 +5,28 @@ import { exec } from 'child_process';
 import { AppModule } from '../../src/app.module';
 import Context from '../support/world';
 import { ValidationPipe } from '@nestjs/common';
+import { BeforeAll } from 'cucumber';
 
+BeforeAll(async () => {
+  if (process.env.STARGATE_BASEURL) {
+    await new Promise((resolve) => {
+      exec('npm run stargate:keyspace:delete', (error, stdout, stderr) => {
+        if (error) {
+          console.warn(error);
+        }
+        resolve(stdout ? stdout : stderr);
+      });
+    });
+    await new Promise((resolve) => {
+      exec('npm run stargate:keyspace:create', (error, stdout, stderr) => {
+        if (error) {
+          console.warn(error);
+        }
+        resolve(stdout ? stdout : stderr);
+      });
+    });
+  }
+});
 @binding([Context])
 export class requests {
   constructor(protected context: Context) {}
@@ -19,16 +40,6 @@ export class requests {
 
   @before()
   public async before(): Promise<void> {
-    if (process.env.STARGATE_BASEURL) {
-      await new Promise((resolve) => {
-        exec('npm run prestart', (error, stdout, stderr) => {
-          if (error) {
-            console.warn(error);
-          }
-          resolve(stdout ? stdout : stderr);
-        });
-      });
-    }
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
     }).compile();
