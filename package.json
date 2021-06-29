@@ -11,7 +11,7 @@
     "stargate:keyspace:delete": "setup-stargate d eddiehub",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
-    "start:dev": "npm stargate:keypspace:create && nest start --watch",
+    "start:dev": "npm run stargate:keyspace:create && nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\"",
