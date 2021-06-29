@@ -10,7 +10,7 @@ import { BeforeAll } from 'cucumber';
 BeforeAll(async () => {
   if (process.env.STARGATE_BASEURL) {
     await new Promise((resolve) => {
-      exec('npm run delete:keyspace', (error, stdout, stderr) => {
+      exec('npm run stargate:keyspace:delete', (error, stdout, stderr) => {
         if (error) {
           console.warn(error);
         }
