@@ -7,11 +7,11 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
-    "prestart": "setup-stargate c eddiehub",
+    "stargate:keyspace:create": "setup-stargate c eddiehub",
     "stargate:keyspace:delete": "setup-stargate d eddiehub",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
-    "start:dev": "nest start --watch",
+    "start:dev": "npm stargate:keypspace:create && nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\"",

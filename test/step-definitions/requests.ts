@@ -18,7 +18,7 @@ BeforeAll(async () => {
       });
     });
     await new Promise((resolve) => {
-      exec('npm run prestart', (error, stdout, stderr) => {
+      exec('npm run stargate:keyspace:create', (error, stdout, stderr) => {
         if (error) {
           console.warn(error);
         }
