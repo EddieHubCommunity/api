@@ -5,7 +5,9 @@ import { exec } from 'child_process';
 import { AppModule } from '../../src/app.module';
 import Context from '../support/world';
 import { ValidationPipe } from '@nestjs/common';
-import { BeforeAll } from 'cucumber';
+import { BeforeAll, setDefaultTimeout } from 'cucumber';
+
+setDefaultTimeout(60 * 1000);
 
 BeforeAll(async () => {
   if (process.env.STARGATE_BASEURL) {
@@ -27,6 +29,7 @@ BeforeAll(async () => {
     });
   }
 });
+
 @binding([Context])
 export class requests {
   constructor(protected context: Context) {}
