@@ -163,4 +163,12 @@ export class responses {
       }
     });
   }
+
+  @then(/the response should contain the Version/)
+  public validateAPIVersion() {
+    const versionString = this.context.response.text;
+    expect(versionString).to.match(
+      /Currently running version: \d{1,3}.\d{1,3}.\d{1,3}/,
+    );
+  }
 }
