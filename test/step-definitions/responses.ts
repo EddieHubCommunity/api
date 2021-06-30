@@ -163,4 +163,15 @@ export class responses {
       }
     });
   }
+
+  @then(/the response-text should contain "([^"]*)"/)
+  public validateAPIVersion(text: string) {
+    const responseString = this.context.response.text;
+    if (/TYPE:/.test(text)) {
+      const regex = getRegex(text);
+      expect(responseString).to.match(regex);
+      return;
+    }
+    expect(responseString).to.equal(text);
+  }
 }
