@@ -164,11 +164,14 @@ export class responses {
     });
   }
 
-  @then(/the response should contain the Version/)
-  public validateAPIVersion() {
-    const versionString = this.context.response.text;
-    expect(versionString).to.match(
-      /Currently running version: \d{1,3}.\d{1,3}.\d{1,3}/,
-    );
+  @then(/the response-text should contain "([^"]*)"/)
+  public validateAPIVersion(text: string) {
+    const responseString = this.context.response.text;
+    if (/TYPE:/.test(text)) {
+      const regex = getRegex(text);
+      expect(responseString).to.match(regex);
+      return;
+    }
+    expect(responseString).to.equal(text);
   }
 }

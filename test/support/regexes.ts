@@ -4,6 +4,9 @@ const numberRegex = new RegExp(/[0-9]+/);
 const dateRegex = new RegExp(
   /\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+([+-][0-2]\d:[0-5]\d|Z)/,
 );
+const versionRegex = new RegExp(
+  /Currently running version: \d{1,3}.\d{1,3}.\d{1,3}/,
+);
 
 export function getRegex(type: string): RegExp {
   switch (type) {
@@ -18,6 +21,8 @@ export function getRegex(type: string): RegExp {
 
     case 'TYPE:DATE':
       return dateRegex;
+    case 'TYPE:VERSION':
+      return versionRegex;
     default:
       break;
   }
