@@ -3,7 +3,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { StandupDTO } from './dto/standup.dto';
 import { Standup } from './interfaces/standup.interface';
 import { catchError, concatMap, filter } from 'rxjs/operators';
-import { Author } from '../auth/getAuthorFromHeaders.decorator';
+import { Author } from '../auth/author-headers';
 import { ValidationService } from '../auth/header-validation.service';
 import { from } from 'rxjs';
 import { AstraService } from '../astra/astra.service';
@@ -63,12 +63,13 @@ export class StandupService {
   deleteStandup(id: string, authorObject: Author, keyspaceName: string) {
     return this.astraService.get<Standup>(id, keyspaceName, 'standup').pipe(
       filter((data: Standup) => {
-        if (data === null) {
+        if (!data) {
           throw new HttpException(
             `no standup for ${id} found`,
             HttpStatus.NOT_FOUND,
           );
         }
+
         if (
           !this.validationService.validateAuthor(
             data.author,
@@ -101,14 +102,11 @@ export class StandupService {
     return this.astraService
       .find<Standup>(keyspaceName, 'standup', { 'author.uid': { $eq: uid } })
       .pipe(
-        filter((data) => {
-          if (data === null) {
-            throw new HttpException(
-              `no data found for ${uid}`,
-              HttpStatus.NOT_FOUND,
-            );
-          }
-          return true;
+        catchError(() => {
+          throw new HttpException(
+            `no standup for ${uid} found`,
+            HttpStatus.NOT_FOUND,
+          );
         }),
       );
   }

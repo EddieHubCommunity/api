@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { ApiHeader, ApiSecurity, ApiTags } from '@nestjs/swagger';
 import { TokenGuard } from '../auth/token.strategy';
-import { Author, AuthorObject } from '../auth/getAuthorFromHeaders.decorator';
+import { Author, AuthorObject } from '../auth/author-headers';
 import { CalendarService } from './calendar.service';
 import { CalendarEventDTO } from './dto/calendar.dto';
 
