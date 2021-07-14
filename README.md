@@ -5,15 +5,6 @@
 [circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
 [circleci-url]: https://circleci.com/gh/nestjs/nest
 
-<p align="center">
-<img src="https://img.shields.io/badge/License-MIT-brightgreen" alt="License" />
-<img alt="GitHub issues" src="https://img.shields.io/github/issues/EddieHubCommunity/api">
-<img alt="GitHub pull requests" src="https://img.shields.io/github/issues-pr/EddieHubCommunity/api">
-<a href="https://discord.gg/jZQs6Wu" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<img alt="GitHub forks" src="https://img.shields.io/github/forks/EddieHubCommunity/api?style=social">
-<img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/EddieHubCommunity/api?style=social">
-</p>
-
 Stargate - sign up with GitHub login for [FREE on DataStax Stargate](http://links.eddiejaoude.io/t/CiEQRydj4GdT) and get a NoSQL DB up in minutes with approximately `30 million reads, 5 million writes, and 40GB of storage per month for free` (Docker container also available)
 
 ## Description
