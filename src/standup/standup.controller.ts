@@ -9,9 +9,18 @@ import {
   Post,
   Query,
   UseGuards,
+  Req,
 } from '@nestjs/common';
-import { ApiHeader, ApiQuery, ApiSecurity, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiHeader,
+  ApiQuery,
+  ApiSecurity,
+  ApiTags,
+} from '@nestjs/swagger';
 import { Author, AuthorObject } from '../auth/author-headers';
+import { TokenPayload } from '../auth/interfaces/token-payload.interface';
+import { JWTGuard, MyAuthGuard } from '../auth/jwt.strategy';
 import { TokenGuard } from '../auth/token.strategy';
 import { StandupDTO } from './dto/standup.dto';
 import { StandupService } from './standup.service';
@@ -33,22 +42,29 @@ export class StandupController {
   }
 
   @Get()
-  @ApiHeader({ name: 'keyspace', required: true })
-  findAllStandups(@Headers('keyspace') keyspace: string) {
-    return this.standupService.findAll(keyspace);
+  @ApiBearerAuth()
+  @ApiSecurity('token')
+  @UseGuards(new MyAuthGuard())
+  findAllStandups(@Req() req) {
+    const user: TokenPayload = req.user;
+    return this.standupService.findAll(user.keyspace);
   }
 
   @Get('search')
   @ApiQuery({ name: 'uid', type: 'string' })
-  @ApiHeader({ name: 'keyspace', required: true })
-  search(@Query('uid') uid: string, @Headers('keyspace') keyspace: string) {
-    return this.standupService.search(uid, keyspace);
+  @ApiBearerAuth()
+  @UseGuards(JWTGuard)
+  search(@Query('uid') uid: string, @Req() req) {
+    const user: TokenPayload = req.user;
+    return this.standupService.search(uid, user.keyspace);
   }
 
   @Get(':id')
-  @ApiHeader({ name: 'keyspace', required: true })
-  findById(@Param('id') id: string, @Headers('keyspace') keyspace: string) {
-    return this.standupService.findById(id, keyspace);
+  @ApiQuery({ name: 'uid', type: 'string' })
+  @ApiBearerAuth()
+  findById(@Param('id') id: string, @Req() req) {
+    const user: TokenPayload = req.user;
+    return this.standupService.findById(id, user.keyspace);
   }
 
   @Delete(':id')

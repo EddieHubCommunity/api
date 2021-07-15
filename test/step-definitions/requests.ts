@@ -4,8 +4,9 @@ import * as request from 'supertest';
 import { exec } from 'child_process';
 import { AppModule } from '../../src/app.module';
 import Context from '../support/world';
-import { ValidationPipe } from '@nestjs/common';
+import { ExecutionContext, ValidationPipe } from '@nestjs/common';
 import { BeforeAll, setDefaultTimeout } from 'cucumber';
+import { JWTGuard } from '../../src/auth/jwt.strategy';
 
 setDefaultTimeout(60 * 1000);
 
@@ -45,7 +46,17 @@ export class requests {
   public async before(): Promise<void> {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
-    }).compile();
+    })
+      .overrideGuard(JWTGuard)
+      .useValue({
+        canActivate: (ctx: ExecutionContext) => {
+          const req = ctx.switchToHttp().getRequest();
+          //TODO add predefined user here
+          req.user = {};
+          return true;
+        },
+      })
+      .compile();
 
     this.context.app = moduleFixture.createNestApplication();
     this.context.app.useGlobalPipes(new ValidationPipe({ transform: true }));
