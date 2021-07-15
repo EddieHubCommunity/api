@@ -27,11 +27,11 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
 export const JWTGuard = AuthGuard('jwt');
 
-export class MyAuthGuard extends AuthGuard(['jwt', 'discordGithub-strategy']) {
-  constructor() {
-    super();
-  }
-  canActivate(ctx: ExecutionContext) {
-    return super.canActivate(ctx);
-  }
-}
+// export class MyAuthGuard extends AuthGuard(['jwt', 'discordGithub-strategy']) {
+//   constructor() {
+//     super();
+//   }
+//   canActivate(ctx: ExecutionContext) {
+//     return super.canActivate(ctx);
+//   }
+// }

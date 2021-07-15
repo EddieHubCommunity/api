@@ -6,15 +6,18 @@ import { v4 as uuidv4 } from 'uuid';
 @Injectable()
 export class AuthService {
   //TODO move configCollection to database => own ConfigDataModule
-  private configCollection: { [id: string]: { knownClients: String[] } } = {};
+  private configCollection: { [id: string]: { knownClients: string[] } } = {};
   constructor(private readonly JwtService: JwtService) {}
 
   public register(serverId: string, keyspace: string): { accessToken: string } {
     const clientId = uuidv4();
+    //TODO scopes need to by dynamic
+    const scopes = ['Data.Read'];
     const payload: TokenPayload = {
       clientId,
       keyspace,
       serverId,
+      scopes,
     };
     if (!this.configCollection[serverId]) {
       this.configCollection[serverId] = { knownClients: [] };

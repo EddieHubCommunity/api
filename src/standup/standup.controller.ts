@@ -19,9 +19,13 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { Author, AuthorObject } from '../auth/author-headers';
-import { TokenPayload } from '../auth/interfaces/token-payload.interface';
-import { JWTGuard, MyAuthGuard } from '../auth/jwt.strategy';
-import { TokenGuard } from '../auth/token.strategy';
+import { Scopes } from '../auth/decorators/scopes.decorator';
+import { ScopesGuard } from '../auth/guards/scopes.guard';
+import {
+  ScopesDictionary,
+  TokenPayload,
+} from '../auth/interfaces/token-payload.interface';
+import { JWTGuard } from '../auth/jwt.strategy';
 import { StandupDTO } from './dto/standup.dto';
 import { StandupService } from './standup.service';
 
@@ -31,8 +35,9 @@ export class StandupController {
   constructor(private readonly standupService: StandupService) {}
 
   @Post()
-  @UseGuards(TokenGuard)
-  @ApiSecurity('token')
+  @UseGuards(JWTGuard, ScopesGuard)
+  @ApiBearerAuth()
+  @Scopes(ScopesDictionary.WRITE)
   @ApiHeader({ name: 'keyspace', required: true })
   createStandup(
     @Body() body: StandupDTO,
@@ -43,8 +48,8 @@ export class StandupController {
 
   @Get()
   @ApiBearerAuth()
-  @ApiSecurity('token')
-  @UseGuards(new MyAuthGuard())
+  @UseGuards(JWTGuard, ScopesGuard)
+  @Scopes(ScopesDictionary.READ)
   findAllStandups(@Req() req) {
     const user: TokenPayload = req.user;
     return this.standupService.findAll(user.keyspace);
@@ -53,7 +58,8 @@ export class StandupController {
   @Get('search')
   @ApiQuery({ name: 'uid', type: 'string' })
   @ApiBearerAuth()
-  @UseGuards(JWTGuard)
+  @UseGuards(JWTGuard, ScopesGuard)
+  @Scopes(ScopesDictionary.READ)
   search(@Query('uid') uid: string, @Req() req) {
     const user: TokenPayload = req.user;
     return this.standupService.search(uid, user.keyspace);
@@ -62,14 +68,18 @@ export class StandupController {
   @Get(':id')
   @ApiQuery({ name: 'uid', type: 'string' })
   @ApiBearerAuth()
+  @UseGuards(JWTGuard, ScopesGuard)
+  @Scopes(ScopesDictionary.READ)
   findById(@Param('id') id: string, @Req() req) {
     const user: TokenPayload = req.user;
     return this.standupService.findById(id, user.keyspace);
   }
 
   @Delete(':id')
-  @UseGuards(TokenGuard)
-  @ApiSecurity('token')
+  @UseGuards(JWTGuard, ScopesGuard)
+  // @ApiSecurity('token')
+  @ApiBearerAuth()
+  @Scopes(ScopesDictionary.WRITE)
   @HttpCode(204)
   @ApiHeader({ name: 'User-Uid', required: true })
   @ApiHeader({ name: 'Platform', required: true })
