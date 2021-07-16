@@ -10,6 +10,7 @@ import {
 } from '@nestjs/common';
 import { ApiHeader, ApiQuery, ApiSecurity, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
+import { AuthDTO } from './dto/auth.dto';
 import { TokenGuard } from './token.strategy';
 
 @ApiTags('Auth')
@@ -20,10 +21,9 @@ export class AuthController {
   @Post()
   @UseGuards(TokenGuard)
   @ApiSecurity('token')
-  @ApiHeader({ name: 'keyspace', description: 'Keyspace' })
-  register(@Req() req) {
-    //TODO Hardcoded ServerID
-    return this.authService.register('123456', req.user.keyspace);
+  // @ApiHeader({ name: 'keyspace', description: 'Keyspace', required: true })
+  register(@Body() body: AuthDTO) {
+    return this.authService.register(body);
   }
 
   @Delete()

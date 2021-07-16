@@ -2,6 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { TokenPayload } from './interfaces/token-payload.interface';
 import { JwtService } from '@nestjs/jwt';
 import { v4 as uuidv4 } from 'uuid';
+import { AuthDTO } from './dto/auth.dto';
 
 @Injectable()
 export class AuthService {
@@ -9,14 +10,13 @@ export class AuthService {
   private configCollection: { [id: string]: { knownClients: string[] } } = {};
   constructor(private readonly JwtService: JwtService) {}
 
-  public register(serverId: string, keyspace: string): { accessToken: string } {
+  public register(body: AuthDTO): { accessToken: string } {
     const clientId = uuidv4();
-    //TODO scopes need to by dynamic
-    const scopes = ['Data.Read'];
+    const { serverId, scopes } = body;
+
     const payload: TokenPayload = {
       clientId,
-      keyspace,
-      serverId,
+      keyspace: serverId,
       scopes,
     };
     if (!this.configCollection[serverId]) {
@@ -27,16 +27,14 @@ export class AuthService {
       clientId,
     ];
     const signedToken = this.JwtService.sign(payload);
-    console.log(JSON.stringify(payload));
-    console.log(this.configCollection);
-    return { accessToken: signedToken };
+    return { ...payload, accessToken: signedToken };
   }
 
   public validateClient(payload: TokenPayload): boolean {
-    const { serverId, clientId } = payload;
+    const { keyspace, clientId } = payload;
     if (
-      this.configCollection[serverId] &&
-      this.configCollection[serverId].knownClients.includes(clientId)
+      this.configCollection[keyspace] &&
+      this.configCollection[keyspace].knownClients.includes(clientId)
     ) {
       return true;
     }
@@ -51,9 +49,9 @@ export class AuthService {
 
     try {
       this.configCollection[
-        decoded.serverId
+        decoded.keyspace
       ].knownClients = this.configCollection[
-        decoded.serverId
+        decoded.keyspace
       ].knownClients.filter((client) => client !== decoded.clientId);
       console.log(this.configCollection);
       return;

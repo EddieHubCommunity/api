@@ -20,7 +20,8 @@ export class ScopesGuard implements CanActivate {
     return this.matchScopes(scopes, user);
   }
   private matchScopes(scopes: string[], user: any) {
-    if (user.scopes.some((scope) => scopes.includes(scope))) return true;
+    if (scopes.every((scope: string) => user.scopes.includes(scope)))
+      return true;
     throw new ForbiddenException();
   }
 }

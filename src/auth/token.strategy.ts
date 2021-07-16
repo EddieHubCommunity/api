@@ -14,7 +14,6 @@ export class TokenStrategy extends PassportStrategy(
       tokenHeader: 'Client-Token',
       tokenQuery: 'Client-Token',
       passReqToCallback: true,
-      failOnMissing: false,
     });
   }
 
