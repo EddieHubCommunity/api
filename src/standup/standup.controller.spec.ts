@@ -11,7 +11,6 @@ describe('StandupController', () => {
   let controller: StandupController;
 
   beforeEach(async () => {
-    process.env.SECRET = 'Test';
     const module: TestingModule = await Test.createTestingModule({
       imports: [
         AstraApiModule,

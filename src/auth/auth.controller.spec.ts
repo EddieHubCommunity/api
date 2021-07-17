@@ -7,7 +7,6 @@ describe('AuthController', () => {
   let controller: AuthController;
 
   beforeEach(async () => {
-    process.env.SECRET = 'Test';
     const module: TestingModule = await Test.createTestingModule({
       imports: [JwtModule.register({ secret: 'Test' })],
       controllers: [AuthController],

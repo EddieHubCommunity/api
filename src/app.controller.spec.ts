@@ -8,7 +8,6 @@ describe('AppController', () => {
   let appController: AppController;
 
   beforeEach(async () => {
-    process.env.SECRET = 'Test';
     const app: TestingModule = await Test.createTestingModule({
       imports: [
         AuthModule,
