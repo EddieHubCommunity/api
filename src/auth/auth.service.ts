@@ -26,6 +26,7 @@ export class AuthService {
       ...this.configCollection[serverId].knownClients,
       clientId,
     ];
+    //TODO token-expiry
     const signedToken = this.jwtService.sign(payload, { expiresIn: '1y' });
     const decoded: any = this.jwtService.decode(signedToken);
     const expiresIn: number = decoded.exp - Math.round(Date.now() / 1000);

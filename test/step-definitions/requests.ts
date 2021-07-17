@@ -7,6 +7,7 @@ import Context from '../support/world';
 import { ExecutionContext, ValidationPipe } from '@nestjs/common';
 import { BeforeAll, setDefaultTimeout } from 'cucumber';
 import { JWTGuard } from '../../src/auth/jwt.strategy';
+import { TokenPayload } from '../../src/auth/interfaces/token-payload.interface';
 
 setDefaultTimeout(60 * 1000);
 
@@ -52,7 +53,7 @@ export class requests {
         canActivate: (ctx: ExecutionContext) => {
           const req = ctx.switchToHttp().getRequest();
           //TODO add predefined user here
-          req.user = {};
+          req.user = {} as TokenPayload;
           return true;
         },
       })
