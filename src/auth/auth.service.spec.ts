@@ -6,6 +6,7 @@ describe('AuthService', () => {
   let service: AuthService;
 
   beforeEach(async () => {
+    process.env.SECRET = 'Test';
     const module: TestingModule = await Test.createTestingModule({
       imports: [JwtModule.register({ secret: 'Test' })],
       providers: [AuthService],
