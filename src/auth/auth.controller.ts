@@ -5,10 +5,9 @@ import {
   HttpCode,
   Post,
   Query,
-  Req,
   UseGuards,
 } from '@nestjs/common';
-import { ApiHeader, ApiQuery, ApiSecurity, ApiTags } from '@nestjs/swagger';
+import { ApiQuery, ApiSecurity, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { AuthDTO } from './dto/auth.dto';
 import { TokenGuard } from './token.strategy';

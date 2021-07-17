@@ -8,9 +8,9 @@ import { AuthDTO } from './dto/auth.dto';
 export class AuthService {
   //TODO move configCollection to database => own ConfigDataModule
   private configCollection: { [id: string]: { knownClients: string[] } } = {};
-  constructor(private readonly JwtService: JwtService) {}
+  constructor(private readonly jwtService: JwtService) {}
 
-  public register(body: AuthDTO): { accessToken: string } {
+  public register(body: AuthDTO) {
     const clientId = uuidv4();
     const { serverId, scopes } = body;
 
@@ -26,8 +26,10 @@ export class AuthService {
       ...this.configCollection[serverId].knownClients,
       clientId,
     ];
-    const signedToken = this.JwtService.sign(payload);
-    return { ...payload, accessToken: signedToken };
+    const signedToken = this.jwtService.sign(payload, { expiresIn: '1y' });
+    const decoded: any = this.jwtService.decode(signedToken);
+    const expiresIn: number = decoded.exp - Math.round(Date.now() / 1000);
+    return { ...payload, accessToken: signedToken, expiresIn };
   }
 
   public validateClient(payload: TokenPayload): boolean {
@@ -45,7 +47,7 @@ export class AuthService {
     if (!token)
       throw new HttpException('Please provide token', HttpStatus.BAD_REQUEST);
 
-    const decoded = this.JwtService.decode(token) as TokenPayload;
+    const decoded = this.jwtService.decode(token) as TokenPayload;
 
     try {
       this.configCollection[
