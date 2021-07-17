@@ -9,6 +9,7 @@ describe('CalendarService', () => {
   let service: CalendarService;
 
   beforeEach(async () => {
+    process.env.SECRET = 'Test';
     const module: TestingModule = await Test.createTestingModule({
       imports: [
         AuthModule,

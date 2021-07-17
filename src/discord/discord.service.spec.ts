@@ -9,6 +9,7 @@ describe('DiscordService', () => {
   let service: DiscordService;
 
   beforeEach(async () => {
+    process.env.SECRET = 'Test';
     const module: TestingModule = await Test.createTestingModule({
       imports: [
         AuthModule,

@@ -12,6 +12,7 @@ describe('GithubService', () => {
   let service: GithubService;
 
   beforeEach(async () => {
+    process.env.SECRET = 'Test';
     const module: TestingModule = await Test.createTestingModule({
       imports: [
         AuthModule,
