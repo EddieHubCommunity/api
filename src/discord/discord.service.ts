@@ -1,8 +1,4 @@
-import {
-  AstraService,
-  deleteItem,
-  documentId,
-} from '@cahllagerfeld/nestjs-astra';
+import { deleteItem, documentId } from '@cahllagerfeld/nestjs-astra';
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { from, Observable } from 'rxjs';
 import { catchError, concatMap, filter } from 'rxjs/operators';
@@ -10,6 +6,7 @@ import { ValidationService } from '../auth/header-validation.service';
 import { Author } from '../auth/author-headers';
 import { DiscordDTO } from './dto/discord.dto';
 import { DiscordProfile } from './interfaces/discord.interface';
+import { AstraService } from '../astra/astra.service';
 
 @Injectable()
 export class DiscordService {
@@ -18,7 +15,11 @@ export class DiscordService {
     private readonly validationService: ValidationService,
   ) {}
 
-  create(createDiscordDto: DiscordDTO): Observable<documentId> {
+  create(
+    createDiscordDto: DiscordDTO,
+    keyspaceName: string,
+  ): Observable<documentId> {
+    console.log(keyspaceName);
     const discordUser: DiscordProfile = {
       author: { ...createDiscordDto.author },
       bio: createDiscordDto.bio,
@@ -27,40 +28,51 @@ export class DiscordService {
       updatedOn: new Date(),
     };
 
-    return this.astraService.create<DiscordProfile>(discordUser).pipe(
-      catchError(() => {
-        throw new HttpException(
-          'Creation didnt pass as expected',
-          HttpStatus.BAD_REQUEST,
-        );
-      }),
-    );
+    return this.astraService
+      .create<DiscordProfile>(discordUser, keyspaceName, 'discord')
+      .pipe(
+        catchError(() => {
+          throw new HttpException(
+            'Creation didnt pass as expected',
+            HttpStatus.BAD_REQUEST,
+          );
+        }),
+      );
   }
 
-  findAll() {
+  findAll(keyspaceName: string) {
     return this.astraService
-      .find<DiscordProfile>()
+      .find<DiscordProfile>(keyspaceName, 'discord')
       .pipe(catchError(() => from([{}])));
   }
 
-  findOne(id: string) {
-    return this.astraService.get<DiscordProfile>(id).pipe(
-      catchError(() => {
-        throw new HttpException(
-          'Creation didnt pass as expected',
-          HttpStatus.BAD_REQUEST,
-        );
-      }),
-    );
+  findOne(id: string, keyspaceName: string) {
+    return this.astraService
+      .get<DiscordProfile>(id, keyspaceName, 'discord')
+      .pipe(
+        catchError(() => {
+          throw new HttpException(
+            'Creation didnt pass as expected',
+            HttpStatus.BAD_REQUEST,
+          );
+        }),
+      );
   }
 
-  async update(id: string, updateDiscordDto: DiscordDTO, authorObject: Author) {
+  async update(
+    id: string,
+    updateDiscordDto: DiscordDTO,
+    authorObject: Author,
+    keyspaceName: string,
+  ) {
     const { author, bio, socials } = updateDiscordDto;
 
     let discordUser;
 
     try {
-      discordUser = await this.astraService.get<DiscordProfile>(id).toPromise();
+      discordUser = await this.astraService
+        .get<DiscordProfile>(id, keyspaceName, 'discord')
+        .toPromise();
     } catch (e) {
       throw new HttpException(
         `no discord-profile for ${id} found`,
@@ -111,7 +123,7 @@ export class DiscordService {
 
     try {
       updateResponse = await this.astraService
-        .replace<DiscordProfile>(id, updatedDiscord)
+        .replace<DiscordProfile>(id, updatedDiscord, keyspaceName, 'discord')
         .toPromise();
     } catch (e) {
       throw new HttpException(
@@ -123,41 +135,43 @@ export class DiscordService {
     return updateResponse;
   }
 
-  remove(id: string, authorObject: Author) {
-    return this.astraService.get<DiscordProfile>(id).pipe(
-      catchError(() => {
-        throw new HttpException(
-          `no discord-profile for ${id} found`,
-          HttpStatus.NOT_FOUND,
-        );
-      }),
-      filter((data: DiscordProfile) => {
-        if (!data) {
+  remove(id: string, authorObject: Author, keyspaceName: string) {
+    return this.astraService
+      .get<DiscordProfile>(id, keyspaceName, 'discord')
+      .pipe(
+        catchError(() => {
           throw new HttpException(
             `no discord-profile for ${id} found`,
             HttpStatus.NOT_FOUND,
           );
-        }
+        }),
+        filter((data: DiscordProfile) => {
+          if (!data) {
+            throw new HttpException(
+              `no discord-profile for ${id} found`,
+              HttpStatus.NOT_FOUND,
+            );
+          }
 
-        if (
-          !this.validationService.validateAuthor(
-            data.author,
-            authorObject.uid,
-            'discord',
-          )
-        ) {
-          throw new HttpException(
-            "deletion failed: author doesn't match",
-            HttpStatus.BAD_REQUEST,
-          );
-        }
-        return true;
-      }),
-      concatMap(() =>
-        this.astraService
-          .delete(id)
-          .pipe(filter((data: deleteItem) => data.deleted === true)),
-      ),
-    );
+          if (
+            !this.validationService.validateAuthor(
+              data.author,
+              authorObject.uid,
+              'discord',
+            )
+          ) {
+            throw new HttpException(
+              "deletion failed: author doesn't match",
+              HttpStatus.BAD_REQUEST,
+            );
+          }
+          return true;
+        }),
+        concatMap(() =>
+          this.astraService
+            .delete(id, keyspaceName, 'discord')
+            .pipe(filter((data: deleteItem) => data.deleted === true)),
+        ),
+      );
   }
 }
