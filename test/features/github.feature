@@ -2,7 +2,7 @@
 Feature: github module
 
     Scenario: add a new githubprofile
-        Given authorisation
+        Given authorization with Writing-Scopes
         And make a POST request to "/github" with:
             | username     | "eddiehubber"              |
             | bio          | "I love to code"           |
@@ -18,7 +18,7 @@ Feature: github module
             | documentId | "TYPE:ID" |
 
     Scenario: get list of githubprofiles
-        Given authorisation
+        Given authorization with Writing-Scopes
         And make a POST request to "/github" with:
             | username     | "eddiehubber"              |
             | bio          | "I love to code"           |
@@ -47,7 +47,7 @@ Feature: github module
             | createdOn      | "TYPE:DATE"                                                 |
 
     Scenario: add an empty githubprofile
-        Given authorisation
+        Given authorization with Writing-Scopes
         And make a POST request to "/github" with:
             | test | "test" |
         Then the response status code should be 400
@@ -59,7 +59,7 @@ Feature: github module
             | username should not be empty |
 
     Scenario: delete a githubprofile
-        Given authorisation
+        Given authorization with Writing-Scopes
         And make a POST request to "/github" with:
             | username     | "eddiehubber"              |
             | bio          | "I love to code"           |
@@ -76,7 +76,7 @@ Feature: github module
         Then the response status code should be 204
 
     Scenario: delete non-existent githubprofile
-        Given authorisation
+        Given authorization with Writing-Scopes
         And make a POST request to "/github" with:
             | username     | "eddiehubber"              |
             | bio          | "I love to code"           |
@@ -96,7 +96,7 @@ Feature: github module
             | message    | "no github-profile for 66 found" |
 
     Scenario: update githubprofile with previously used event
-        Given authorisation
+        Given authorization with Writing-Scopes
         And make a POST request to "/github" with:
             | username     | "eddiehubber"              |
             | bio          | "I love to code"           |
@@ -124,7 +124,7 @@ Feature: github module
             | documentId | "TYPE:ID" |
 
     Scenario: update githubprofile with previously unused event
-        Given authorisation
+        Given authorization with Writing-Scopes
         And make a POST request to "/github" with:
             | username     | "eddiehubber"              |
             | bio          | "I love to code"           |
@@ -152,7 +152,7 @@ Feature: github module
             | documentId | "TYPE:ID" |
 
     Scenario: get githubprofile with authenticated request
-        Given authorisation
+        Given authorization with Writing-Scopes
         And make a POST request to "/github" with:
             | username     | "eddiehubber"              |
             | bio          | "I love to code"           |

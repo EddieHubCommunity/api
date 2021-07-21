@@ -1,18 +1,19 @@
 import { HttpModule, Module } from '@nestjs/common';
-import { GithubController } from './github.controller';
-import { GithubService } from './github.service';
+import { AstraService } from '../astra/astra.service';
+import { AuthModule } from '../auth/auth.module';
 import { CommunitystatsMappingService } from './communitystats-mapping.service';
 import { GeocodingService } from './geocoding.service';
-import { AuthModule } from '../auth/auth.module';
-import { AstraModule } from '@cahllagerfeld/nestjs-astra';
+import { GithubController } from './github.controller';
+import { GithubService } from './github.service';
 
 @Module({
-  imports: [
-    HttpModule,
-    AuthModule,
-    AstraModule.forFeature({ namespace: 'eddiehub', collection: 'github' }),
-  ],
+  imports: [HttpModule, AuthModule],
   controllers: [GithubController],
-  providers: [GithubService, CommunitystatsMappingService, GeocodingService],
+  providers: [
+    GithubService,
+    CommunitystatsMappingService,
+    GeocodingService,
+    AstraService,
+  ],
 })
 export class GithubModule {}

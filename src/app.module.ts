@@ -13,6 +13,7 @@ import { AstraConfigService } from './astra/astra-config.service';
 
 @Module({
   imports: [
+    AuthModule,
     AstraModule.forRootAsync({
       useClass: AstraConfigService,
     }),
@@ -22,7 +23,6 @@ import { AstraConfigService } from './astra/astra-config.service';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    AuthModule,
     CalendarModule,
   ],
   controllers: [AppController],

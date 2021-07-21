@@ -1,15 +1,12 @@
 import { Module } from '@nestjs/common';
 import { DiscordService } from './discord.service';
 import { DiscordController } from './discord.controller';
-import { AstraModule } from '@cahllagerfeld/nestjs-astra';
 import { AuthModule } from '../auth/auth.module';
+import { AstraService } from '../astra/astra.service';
 
 @Module({
-  imports: [
-    AuthModule,
-    AstraModule.forFeature({ namespace: 'eddiehub', collection: 'discord' }),
-  ],
+  imports: [AuthModule],
   controllers: [DiscordController],
-  providers: [DiscordService],
+  providers: [DiscordService, AstraService],
 })
 export class DiscordModule {}

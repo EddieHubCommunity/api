@@ -8,10 +8,19 @@ import {
   Post,
   Query,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
-import { ApiHeader, ApiQuery, ApiSecurity, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiHeader, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { KeyspaceInterceptor } from '../astra/keyspace.interceptor';
 import { Author, AuthorObject } from '../auth/author-headers';
-import { TokenGuard } from '../auth/token.strategy';
+import { Scopes } from '../auth/decorators/scopes.decorator';
+import { User } from '../auth/decorators/user.decorator';
+import { ScopesGuard } from '../auth/guards/scopes.guard';
+import {
+  ScopesDictionary,
+  TokenPayload,
+} from '../auth/interfaces/token-payload.interface';
+import { JWTGuard } from '../auth/jwt.strategy';
 import { StandupDTO } from './dto/standup.dto';
 import { StandupService } from './standup.service';
 
@@ -21,35 +30,52 @@ export class StandupController {
   constructor(private readonly standupService: StandupService) {}
 
   @Post()
-  @UseGuards(TokenGuard)
-  @ApiSecurity('token')
-  createStandup(@Body() body: StandupDTO) {
-    return this.standupService.create(body);
+  @UseGuards(JWTGuard, ScopesGuard)
+  @ApiBearerAuth()
+  @Scopes(ScopesDictionary.WRITE)
+  createStandup(@Body() body: StandupDTO, @User() user: TokenPayload) {
+    return this.standupService.create(body, user.keyspace);
   }
 
   @Get()
-  findAllStandups() {
-    return this.standupService.findAll();
+  @ApiBearerAuth()
+  @UseInterceptors(KeyspaceInterceptor)
+  @UseGuards(JWTGuard, ScopesGuard)
+  @Scopes(ScopesDictionary.READ)
+  findAllStandups(@User() user) {
+    return this.standupService.findAll(user.keyspace);
   }
 
   @Get('search')
   @ApiQuery({ name: 'uid', type: 'string' })
-  search(@Query('uid') uid: string) {
-    return this.standupService.search(uid);
+  @ApiBearerAuth()
+  @UseGuards(JWTGuard, ScopesGuard)
+  @Scopes(ScopesDictionary.READ)
+  search(@Query('uid') uid: string, @User() user: TokenPayload) {
+    return this.standupService.search(uid, user.keyspace);
   }
 
   @Get(':id')
-  findById(@Param('id') id: string) {
-    return this.standupService.findById(id);
+  @ApiQuery({ name: 'uid', type: 'string' })
+  @ApiBearerAuth()
+  @UseGuards(JWTGuard, ScopesGuard)
+  @Scopes(ScopesDictionary.READ)
+  findById(@Param('id') id: string, @User() user: TokenPayload) {
+    return this.standupService.findById(id, user.keyspace);
   }
 
   @Delete(':id')
-  @UseGuards(TokenGuard)
-  @ApiSecurity('token')
+  @UseGuards(JWTGuard, ScopesGuard)
+  @ApiBearerAuth()
+  @Scopes(ScopesDictionary.WRITE)
   @HttpCode(204)
   @ApiHeader({ name: 'User-Uid', required: true })
   @ApiHeader({ name: 'Platform', required: true })
-  deleteStandup(@Param('id') id: string, @AuthorObject() author: Author) {
-    return this.standupService.deleteStandup(id, author);
+  deleteStandup(
+    @Param('id') id: string,
+    @AuthorObject() author: Author,
+    @User() user: TokenPayload,
+  ) {
+    return this.standupService.deleteStandup(id, author, user.keyspace);
   }
 }

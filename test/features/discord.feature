@@ -2,7 +2,7 @@
 Feature: discord module
 
     Scenario: add a new user
-        Given authorisation
+        Given authorization with Writing-Scopes
         And make a POST request to "/discord" with:
             | bio     | "This is a GitHub Campus Expert"                                                              |
             | author  | {"platform":"discord","uid":"hubber"}                                                         |
@@ -12,7 +12,7 @@ Feature: discord module
             | documentId | "TYPE:ID" |
 
     Scenario: get list of users
-        Given authorisation
+        Given authorization with Writing-Scopes
         And make a POST request to "/discord" with:
             | bio     | "This is a GitHub Campus Expert"                                                              |
             | author  | {"platform":"discord","uid":"hubber"}                                                         |
@@ -29,7 +29,7 @@ Feature: discord module
             | createdOn | "TYPE:DATE"                                                                                   |
 
     Scenario: add an empty user
-        Given authorisation
+        Given authorization with Writing-Scopes
         And make a POST request to "/discord" with:
             | test | "test" |
         Then the response status code should be 400
@@ -40,7 +40,7 @@ Feature: discord module
             | author should not be empty |
 
     Scenario: update a user
-        Given authorisation
+        Given authorization with Writing-Scopes
         And make a POST request to "/discord" with:
             | bio     | "This is a GitHub Campus Expert"                                                              |
             | author  | {"platform":"discord","uid":"hubber"}                                                         |
@@ -62,7 +62,7 @@ Feature: discord module
             | createdOn | "TYPE:DATE"                                                                                    |
 
     Scenario: update a user with wrong author
-        Given authorisation
+        Given authorization with Writing-Scopes
         And make a POST request to "/discord" with:
             | bio     | "This is a GitHub Campus Expert"                                                              |
             | author  | {"platform":"discord","uid":"hubber"}                                                         |
@@ -79,7 +79,7 @@ Feature: discord module
             | message    | "update failed: author doesn't match" |
 
     Scenario: delete a user
-        Given authorisation
+        Given authorization with Writing-Scopes
         And make a POST request to "/discord" with:
             | bio     | "This is a GitHub Campus Expert"                                                              |
             | author  | {"platform":"discord","uid":"hubber"}                                                         |
@@ -91,7 +91,7 @@ Feature: discord module
         Then the response status code should be 204
 
     Scenario: delete a user with wrong author
-        Given authorisation
+        Given authorization with Writing-Scopes
         And make a POST request to "/discord" with:
             | bio     | "This is a GitHub Campus Expert"                                                              |
             | author  | {"platform":"discord","uid":"hubber"}                                                         |
@@ -105,7 +105,7 @@ Feature: discord module
             | message    | "deletion failed: author doesn't match" |
 
     Scenario: delete non-existing user
-        Given authorisation
+        Given authorization with Writing-Scopes
         When make a DELETE request to "/discord/321"
         Then the response status code should be 404
         And the response should contain:
@@ -113,7 +113,7 @@ Feature: discord module
             | message    | "no discord-profile for 321 found" |
 
     Scenario: get user with authenticated request
-        Given authorisation
+        Given authorization with Writing-Scopes
         And make a POST request to "/discord" with:
             | bio     | "This is a GitHub Campus Expert"                                                              |
             | author  | {"platform":"discord","uid":"hubber"}                                                         |

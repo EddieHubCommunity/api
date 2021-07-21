@@ -4,6 +4,7 @@ export default class Context {
   public preRequest;
   public headers: { [field: string]: string } = {};
   public token;
+  public bearerToken: string;
   public documentId: string;
 
   public tableToObject(table) {
