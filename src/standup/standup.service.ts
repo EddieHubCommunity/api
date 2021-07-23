@@ -62,6 +62,12 @@ export class StandupService {
 
   deleteStandup(id: string, authorObject: Author, keyspaceName: string) {
     return this.astraService.get<Standup>(id, keyspaceName, 'standup').pipe(
+      catchError(() => {
+        throw new HttpException(
+          `no standup for ${id} found`,
+          HttpStatus.NOT_FOUND,
+        );
+      }),
       filter((data: Standup) => {
         if (!data) {
           throw new HttpException(
