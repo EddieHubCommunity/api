@@ -1,3 +1,12 @@
+## [0.6.12](https://github.com/EddieHubCommunity/api/compare/v0.6.11...v0.6.12) (2021-07-23)
+
+
+### Bug Fixes
+
+* temporary removed helmet ([#126](https://github.com/EddieHubCommunity/api/issues/126)) ([226a8b5](https://github.com/EddieHubCommunity/api/commit/226a8b58e98bd394f12cd8083648d0e74f9461a0))
+
+
+
 ## [0.6.11](https://github.com/EddieHubCommunity/api/compare/v0.6.10...v0.6.11) (2021-06-29)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * version numbers ([#138](https://github.com/EddieHubCommunity/api/issues/138)) ([318c368](https://github.com/EddieHubCommunity/api/commit/318c368c839fe54009717e926ed3a13b1d2eedce))
-
-
-
-## [0.6.7](https://github.com/EddieHubCommunity/api/compare/v0.6.6...v0.6.7) (2021-06-24)
-
-
-### Bug Fixes
-
-* no data, empty result ([#134](https://github.com/EddieHubCommunity/api/issues/134))  ([e94450b](https://github.com/EddieHubCommunity/api/commit/e94450b21b3dc93a447ab8468a107ef9f3b353d3))
 
 
 
