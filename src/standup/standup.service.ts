@@ -1,4 +1,4 @@
-import { AstraService, deleteItem } from '@cahllagerfeld/nestjs-astra';
+import { deleteItem, documentId } from '@cahllagerfeld/nestjs-astra';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { StandupDTO } from './dto/standup.dto';
 import { Standup } from './interfaces/standup.interface';
@@ -6,6 +6,7 @@ import { catchError, concatMap, filter } from 'rxjs/operators';
 import { Author } from '../auth/author-headers';
 import { ValidationService } from '../auth/header-validation.service';
 import { from } from 'rxjs';
+import { AstraService } from '../astra/astra.service';
 
 @Injectable()
 export class StandupService {
@@ -14,7 +15,7 @@ export class StandupService {
     private readonly validationService: ValidationService,
   ) {}
 
-  create(body: StandupDTO) {
+  create(body: StandupDTO, keyspaceName: string) {
     const { author, todayMessage, yesterdayMessage } = body;
 
     const newStandup: Standup = {
@@ -24,33 +25,43 @@ export class StandupService {
       createdOn: new Date(Date.now()),
     };
 
-    return this.astraService.create<Standup>(newStandup).pipe(
-      catchError(() => {
-        throw new HttpException(
-          'Creation didnt pass as expected',
-          HttpStatus.BAD_REQUEST,
-        );
+    return this.astraService
+      .create<Standup>(newStandup, keyspaceName, 'standup')
+      .pipe(
+        filter((data: documentId) => {
+          if (data === null) {
+            throw new HttpException(
+              'Creation didnt pass as expected',
+              HttpStatus.BAD_REQUEST,
+            );
+          }
+          return true;
+        }),
+      );
+  }
+
+  findAll(keyspaceName: string) {
+    return this.astraService
+      .find<Standup>(keyspaceName, 'standup')
+      .pipe(catchError(() => from([{}])));
+  }
+
+  findById(id: string, keyspaceName: string) {
+    return this.astraService.get<Standup>(id, keyspaceName, 'standup').pipe(
+      filter((data: Standup) => {
+        if (data === null) {
+          throw new HttpException(
+            `no standup for ${id} found`,
+            HttpStatus.NOT_FOUND,
+          );
+        }
+        return true;
       }),
     );
   }
 
-  findAll() {
-    return this.astraService.find<Standup>().pipe(catchError(() => from([{}])));
-  }
-
-  findById(id: string) {
-    return this.astraService.get<Standup>(id).pipe(
-      catchError(() => {
-        throw new HttpException(
-          `no standup for ${id} found`,
-          HttpStatus.NOT_FOUND,
-        );
-      }),
-    );
-  }
-
-  deleteStandup(id: string, authorObject: Author) {
-    return this.astraService.get<Standup>(id).pipe(
+  deleteStandup(id: string, authorObject: Author, keyspaceName: string) {
+    return this.astraService.get<Standup>(id, keyspaceName, 'standup').pipe(
       catchError(() => {
         throw new HttpException(
           `no standup for ${id} found`,
@@ -81,25 +92,25 @@ export class StandupService {
       }),
       concatMap(() =>
         this.astraService
-          .delete(id)
+          .delete(id, 'eddiehub', 'standup')
           .pipe(filter((data: deleteItem) => data.deleted === true)),
       ),
     );
   }
 
-  search(id: string) {
-    if (!id) {
+  search(uid: string, keyspaceName: string) {
+    if (!uid) {
       throw new HttpException(
         'Please provide search context',
         HttpStatus.BAD_REQUEST,
       );
     }
     return this.astraService
-      .find<Standup>({ 'author.uid': { $eq: id } })
+      .find<Standup>(keyspaceName, 'standup', { 'author.uid': { $eq: uid } })
       .pipe(
         catchError(() => {
           throw new HttpException(
-            `no standup for ${id} found`,
+            `no standup for ${uid} found`,
             HttpStatus.NOT_FOUND,
           );
         }),

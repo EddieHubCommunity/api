@@ -1,15 +1,12 @@
-import { AstraModule } from '@cahllagerfeld/nestjs-astra';
 import { Module } from '@nestjs/common';
+import { AstraService } from '../astra/astra.service';
 import { AuthModule } from '../auth/auth.module';
 import { CalendarController } from './calendar.controller';
 import { CalendarService } from './calendar.service';
 
 @Module({
-  imports: [
-    AuthModule,
-    AstraModule.forFeature({ namespace: 'eddiehub', collection: 'calendar' }),
-  ],
+  imports: [AuthModule],
   controllers: [CalendarController],
-  providers: [CalendarService],
+  providers: [CalendarService, AstraService],
 })
 export class CalendarModule {}

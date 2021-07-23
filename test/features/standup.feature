@@ -2,7 +2,7 @@
 Feature: Standup module
 
     Scenario: add a new standup
-        Given authorisation
+        Given authorization with Writing-Scopes
         And make a POST request to "/standup" with:
             | author           | {"platform":"discord","uid":"hubber"} |
             | yesterdayMessage | "Yesterday I did this"                |
@@ -12,7 +12,7 @@ Feature: Standup module
             | documentId | "TYPE:ID" |
 
     Scenario: search existing standup
-        Given authorisation
+        Given authorization with Writing-Scopes
         And make a POST request to "/standup" with:
             | author           | {"platform":"discord","uid":"hubber"} |
             | yesterdayMessage | "Yesterday I did this"                |
@@ -28,7 +28,7 @@ Feature: Standup module
             | createdOn        | "TYPE:DATE"                           |
 
     Scenario: search non-existing standup
-        Given authorisation
+        Given authorization with Writing-Scopes
         And make a POST request to "/standup" with:
             | author           | {"platform":"discord","uid":"hubber"} |
             | yesterdayMessage | "Yesterday I did this"                |
@@ -40,7 +40,7 @@ Feature: Standup module
         And  the response should be "{}"
 
     Scenario: provide no search context
-        Given authorisation
+        Given authorization with Writing-Scopes
         And make a POST request to "/standup" with:
             | author           | {"platform":"discord","uid":"hubber"} |
             | yesterdayMessage | "Yesterday I did this"                |
@@ -54,7 +54,7 @@ Feature: Standup module
             | message    | "Please provide search context" |
 
     Scenario: add an empty standup
-        Given authorisation
+        Given authorization with Writing-Scopes
         And make a POST request to "/standup" with:
             | test | "test" |
         Then the response status code should be 400
@@ -69,7 +69,7 @@ Feature: Standup module
             | todayMessage must be a string        |
 
     Scenario: delete standup
-        Given authorisation
+        Given authorization with Writing-Scopes
         And make a POST request to "/standup" with:
             | author           | {"platform":"discord","uid":"hubber"} |
             | yesterdayMessage | "Yesterday I did this"                |
@@ -82,7 +82,7 @@ Feature: Standup module
         Then the response status code should be 204
 
     Scenario: delete standup with wrong credentials
-        Given authorisation
+        Given authorization with Writing-Scopes
         And make a POST request to "/standup" with:
             | author           | {"platform":"discord","uid":"hubber"} |
             | yesterdayMessage | "Yesterday I did this"                |
@@ -96,7 +96,7 @@ Feature: Standup module
             | message    | "deletion failed: author doesn't match" |
 
     Scenario: delete non-existent standup
-        Given authorisation
+        Given authorization with Writing-Scopes
         And make a POST request to "/standup" with:
             | author           | {"platform":"discord","uid":"hubber"} |
             | yesterdayMessage | "Yesterday I did this"                |
@@ -110,7 +110,7 @@ Feature: Standup module
             | message    | "no standup for 66 found" |
 
     Scenario: get standup with authenticated request
-        Given authorisation
+        Given authorization with Writing-Scopes
         And make a POST request to "/standup" with:
             | author           | {"platform":"discord","uid":"hubber"} |
             | yesterdayMessage | "Yesterday I did this"                |
@@ -126,7 +126,7 @@ Feature: Standup module
             | createdOn        | "TYPE:DATE"                           |
 
     Scenario: create standup without authorization
-        Given make a POST request to "/standup" with:
+        When make a POST request to "/standup" with:
             | author           | {"platform":"discord","uid":"hubber"} |
             | yesterdayMessage | "Yesterday I did this"                |
             | todayMessage     | "Today I'll do this"                  |
