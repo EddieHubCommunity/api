@@ -2,7 +2,7 @@
 Feature: calendar module
 
     Scenario: add a new event
-        Given authorization with Writing-Scopes
+        Given authorization with "writing" permission
         When make a POST request to "/calendar" with:
             | name        | "Livestream XY"                       |
             | description | "descriptive Description"             |
@@ -27,7 +27,7 @@ Feature: calendar module
             | updatedOn   | "TYPE:DATE"                           |
 
     Scenario: get list of events
-        Given authorization with Writing-Scopes
+        Given authorization with "writing" permission
         When make a GET request to "/calendar"
         Then the response status code should be 200
         And the response should contain:
@@ -35,7 +35,7 @@ Feature: calendar module
             | ongoing | {} |
 
     Scenario: add an empty event
-        Given authorization with Writing-Scopes
+        Given authorization with "writing" permission
         And make a POST request to "/calendar" with:
             | test | "test" |
         Then the response status code should be 400
@@ -55,7 +55,7 @@ Feature: calendar module
             | endDate should not be empty                                   |
 
     Scenario: update an event
-        Given authorization with Writing-Scopes
+        Given authorization with "writing" permission
         When make a POST request to "/calendar" with:
             | name        | "Livestream XY"                       |
             | description | "descriptive Description"             |
@@ -91,7 +91,7 @@ Feature: calendar module
             | updatedOn   | "TYPE:DATE"                          |
 
     Scenario: update an event with wrong author
-        Given authorization with Writing-Scopes
+        Given authorization with "writing" permission
         When make a POST request to "/calendar" with:
             | name        | "Livestream XY"                       |
             | description | "descriptive Description"             |
@@ -116,7 +116,7 @@ Feature: calendar module
             | message    | "update failed: author doesn't match" |
 
     Scenario: update an non-existing event
-        Given authorization with Writing-Scopes
+        Given authorization with "writing" permission
         When make a PUT request to "/calendar/321" with:
             | name        | "Livestream YZ"                      |
             | description | "undescriptive Description"          |
@@ -131,7 +131,7 @@ Feature: calendar module
             | statusCode | 404                      |
 
     Scenario: delete an event
-        Given authorization with Writing-Scopes
+        Given authorization with "writing" permission
         When make a POST request to "/calendar" with:
             | name        | "Livestream XY"                       |
             | description | "descriptive Description"             |
@@ -148,7 +148,7 @@ Feature: calendar module
         Then the response status code should be 204
 
     Scenario: delete an event with wrong author
-        Given authorization with Writing-Scopes
+        Given authorization with "writing" permission
         When make a POST request to "/calendar" with:
             | name        | "Livestream XY"                       |
             | description | "descriptive Description"             |
@@ -166,7 +166,7 @@ Feature: calendar module
             | message    | "deletion failed: author doesn't match" |
 
     Scenario: delete non-existing event
-        Given authorization with Writing-Scopes
+        Given authorization with "writing" permission
         When make a DELETE request to "/calendar/321"
         Then the response status code should be 404
         And the response should contain:
@@ -174,7 +174,7 @@ Feature: calendar module
             | message    | "no event for 321 found" |
 
     Scenario: get event with authenticated request
-        Given authorization with Writing-Scopes
+        Given authorization with "writing" permission
         When make a POST request to "/calendar" with:
             | name        | "Livestream XY"                       |
             | description | "descriptive Description"             |
@@ -213,7 +213,7 @@ Feature: calendar module
             | message    | "Unauthorized" |
 
     Scenario: get sorted ongoing and future events
-        Given authorization with Writing-Scopes
+        Given authorization with "writing" permission
         And make a POST request to "/calendar" with:
             | name        | "Livestream XY"                       |
             | description | "descriptive Description"             |

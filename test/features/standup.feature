@@ -2,7 +2,7 @@
 Feature: Standup module
 
     Scenario: add a new standup
-        Given authorization with Writing-Scopes
+        Given authorization with "writing" permission
         And make a POST request to "/standup" with:
             | author           | {"platform":"discord","uid":"hubber"} |
             | yesterdayMessage | "Yesterday I did this"                |
@@ -12,14 +12,15 @@ Feature: Standup module
             | documentId | "TYPE:ID" |
 
     Scenario: search existing standup
-        Given authorization with Writing-Scopes
+        Given authorization with "writing" permission
         And make a POST request to "/standup" with:
             | author           | {"platform":"discord","uid":"hubber"} |
             | yesterdayMessage | "Yesterday I did this"                |
             | todayMessage     | "Today I'll do this"                  |
         Then the response should contain:
             | documentId | "TYPE:ID" |
-        Then  make a GET request to "/standup/search?uid=hubber"
+        Given authorization with "reading" permission
+        And  make a GET request to "/standup/search?uid=hubber"
         Then the response status code should be 200
         And the response in item where field "todayMessage" is equal to "Today I'll do this" should contain:
             | author           | {"platform":"discord","uid":"hubber"} |
@@ -28,7 +29,7 @@ Feature: Standup module
             | createdOn        | "TYPE:DATE"                           |
 
     Scenario: search non-existing standup
-        Given authorization with Writing-Scopes
+        Given authorization with "writing" permission
         And make a POST request to "/standup" with:
             | author           | {"platform":"discord","uid":"hubber"} |
             | yesterdayMessage | "Yesterday I did this"                |
@@ -40,7 +41,7 @@ Feature: Standup module
         And  the response should be "{}"
 
     Scenario: provide no search context
-        Given authorization with Writing-Scopes
+        Given authorization with "writing" permission
         And make a POST request to "/standup" with:
             | author           | {"platform":"discord","uid":"hubber"} |
             | yesterdayMessage | "Yesterday I did this"                |
@@ -54,7 +55,7 @@ Feature: Standup module
             | message    | "Please provide search context" |
 
     Scenario: add an empty standup
-        Given authorization with Writing-Scopes
+        Given authorization with "writing" permission
         And make a POST request to "/standup" with:
             | test | "test" |
         Then the response status code should be 400
@@ -69,7 +70,7 @@ Feature: Standup module
             | todayMessage must be a string        |
 
     Scenario: delete standup
-        Given authorization with Writing-Scopes
+        Given authorization with "writing" permission
         And make a POST request to "/standup" with:
             | author           | {"platform":"discord","uid":"hubber"} |
             | yesterdayMessage | "Yesterday I did this"                |
@@ -82,7 +83,7 @@ Feature: Standup module
         Then the response status code should be 204
 
     Scenario: delete standup with wrong credentials
-        Given authorization with Writing-Scopes
+        Given authorization with "writing" permission
         And make a POST request to "/standup" with:
             | author           | {"platform":"discord","uid":"hubber"} |
             | yesterdayMessage | "Yesterday I did this"                |
@@ -96,7 +97,7 @@ Feature: Standup module
             | message    | "deletion failed: author doesn't match" |
 
     Scenario: delete non-existent standup
-        Given authorization with Writing-Scopes
+        Given authorization with "writing" permission
         And make a POST request to "/standup" with:
             | author           | {"platform":"discord","uid":"hubber"} |
             | yesterdayMessage | "Yesterday I did this"                |
@@ -110,7 +111,7 @@ Feature: Standup module
             | message    | "no standup for 66 found" |
 
     Scenario: get standup with authenticated request
-        Given authorization with Writing-Scopes
+        Given authorization with "writing" permission
         And make a POST request to "/standup" with:
             | author           | {"platform":"discord","uid":"hubber"} |
             | yesterdayMessage | "Yesterday I did this"                |

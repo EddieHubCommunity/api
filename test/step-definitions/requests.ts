@@ -4,6 +4,7 @@ import { exec } from 'child_process';
 import { BeforeAll, setDefaultTimeout } from 'cucumber';
 import { before, binding, given, when } from 'cucumber-tsflow';
 import { sign } from 'jsonwebtoken';
+import { Scopes } from 'src/auth/decorators/scopes.decorator';
 import * as request from 'supertest';
 import { AppModule } from '../../src/app.module';
 import Context from '../support/world';
@@ -53,24 +54,18 @@ export class requests {
     await this.context.app.init();
   }
 
-  @given(/authorization with Reading-Scopes/)
-  public async generateReadToken() {
-    const token = sign(
-      { scopes: ['Data.Read'], serverId: 'eddiehub' },
-      process.env.SECRET,
-    );
-    this.context.bearerToken = token;
-  }
-
-  @given(/authorization with Writing-Scopes/)
-  public async generateWriteToken() {
-    const token = sign(
-      {
-        scopes: ['Data.Read', 'Data.Write'],
-        keyspace: 'eddiehub',
-      },
-      process.env.SECRET,
-    );
+  @given(/authorization with "([^"]*)" permission/)
+  public async generateReadToken(scope: string) {
+    let scopes = [];
+    switch (scope) {
+      case 'writing':
+        scopes = ['Data.Write', 'Data.Read'];
+        break;
+      case 'reading':
+        scopes = ['Data.Read'];
+        break;
+    }
+    const token = sign({ scopes, keyspace: 'eddiehub' }, process.env.SECRET);
     this.context.bearerToken = token;
   }
 
