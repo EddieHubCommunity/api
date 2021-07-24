@@ -36,7 +36,8 @@ Feature: Standup module
             | todayMessage     | "Today I'll do this"                  |
         Then the response should contain:
             | documentId | "TYPE:ID" |
-        Then  make a GET request to "/standup/search?uid=benjamin"
+        Given authorization with "reading" permission
+        And  make a GET request to "/standup/search?uid=benjamin"
         Then the response status code should be 200
         And  the response should be "{}"
 
@@ -48,6 +49,7 @@ Feature: Standup module
             | todayMessage     | "Today I'll do this"                  |
         Then the response should contain:
             | documentId | "TYPE:ID" |
+        Given authorization with "reading" permission
         Then  make a GET request to "/standup/search"
         Then the response status code should be 400
         And  the response should contain:
@@ -77,6 +79,7 @@ Feature: Standup module
             | todayMessage     | "Today I'll do this"                  |
         Then the response should contain:
             | documentId | "TYPE:ID" |
+        Given authorization with "writing" permission
         Then set header "User-Uid" with value "hubber"
         Then set header "Platform" with value "discord"
         Then make a DELETE request to "/standup/{id}"
@@ -90,6 +93,7 @@ Feature: Standup module
             | todayMessage     | "Today I'll do this"                  |
         Then the response should contain:
             | documentId | "TYPE:ID" |
+        Given authorization with "writing" permission
         Then make a DELETE request to "/standup/{id}"
         Then the response status code should be 400
         And the response should contain:
@@ -104,6 +108,7 @@ Feature: Standup module
             | todayMessage     | "Today I'll do this"                  |
         Then the response should contain:
             | documentId | "TYPE:ID" |
+        Given authorization with "writing" permission
         Then make a DELETE request to "/standup/66"
         Then the response status code should be 404
         And  the response should contain:
@@ -118,6 +123,7 @@ Feature: Standup module
             | todayMessage     | "Today I'll do this"                  |
         Then the response should contain:
             | documentId | "TYPE:ID" |
+        Given authorization with "reading" permission
         When make a GET request to "/standup/{id}"
         Then the response status code should be 200
         And the response should contain:

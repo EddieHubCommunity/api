@@ -58,7 +58,7 @@ export class requests {
     let scopes = [];
     switch (scope) {
       case 'writing':
-        scopes = ['Data.Write', 'Data.Read'];
+        scopes = ['Data.Write'];
         break;
       case 'reading':
         scopes = ['Data.Read'];

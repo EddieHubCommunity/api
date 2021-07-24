@@ -13,6 +13,7 @@ Feature: calendar module
             | endDate     | "2021-01-01T00:00:00.000Z"            |
         And the response should contain:
             | documentId | "TYPE:ID" |
+        Given authorization with "reading" permission
         When make a GET request to "/calendar/{id}"
         Then the response status code should be 200
         And the response should contain:
@@ -27,7 +28,7 @@ Feature: calendar module
             | updatedOn   | "TYPE:DATE"                           |
 
     Scenario: get list of events
-        Given authorization with "writing" permission
+        Given authorization with "reading" permission
         When make a GET request to "/calendar"
         Then the response status code should be 200
         And the response should contain:
@@ -66,6 +67,7 @@ Feature: calendar module
             | endDate     | "2021-01-01T00:00:00.000Z"            |
         And the response should contain:
             | documentId | "TYPE:ID" |
+        Given authorization with "writing" permission
         Then set header "User-Uid" with value "hubber"
         Then set header "Platform" with value "discord"
         When make a PUT request to "/calendar/{id}" with:
@@ -77,6 +79,7 @@ Feature: calendar module
             | startDate   | "2021-01-01T00:00:00.000Z"           |
             | endDate     | "2021-01-01T00:00:00.000Z"           |
         Then the response status code should be 200
+        Given authorization with "reading" permission
         When make a GET request to "/calendar/{id}"
         Then the response status code should be 200
         And the response should contain:
@@ -102,6 +105,7 @@ Feature: calendar module
             | endDate     | "2021-01-01T00:00:00.000Z"            |
         And the response should contain:
             | documentId | "TYPE:ID" |
+        Given authorization with "writing" permission
         When make a PUT request to "/calendar/{id}" with:
             | name        | "Livestream YZ"                      |
             | description | "undescriptive Description"          |
@@ -142,6 +146,7 @@ Feature: calendar module
             | endDate     | "2021-01-01T00:00:00.000Z"            |
         And the response should contain:
             | documentId | "TYPE:ID" |
+        Given authorization with "writing" permission
         Then set header "User-Uid" with value "hubber"
         Then set header "Platform" with value "discord"
         When make a DELETE request to "/calendar/{id}"
@@ -159,6 +164,7 @@ Feature: calendar module
             | endDate     | "2021-01-01T00:00:00.000Z"            |
         And the response should contain:
             | documentId | "TYPE:ID" |
+        Given authorization with "writing" permission
         When make a DELETE request to "/calendar/{id}"
         Then the response status code should be 400
         And the response should contain:
@@ -185,6 +191,7 @@ Feature: calendar module
             | endDate     | "2021-01-01T00:00:00.000Z"            |
         And the response should contain:
             | documentId | "TYPE:ID" |
+        Given authorization with "reading" permission
         When make a GET request to "/calendar/{id}"
         Then the response status code should be 200
         And the response should contain:
@@ -230,6 +237,7 @@ Feature: calendar module
             | author      | {"platform":"discord","uid":"hubby"} |
             | startDate   | "2021-01-01T00:00:00.000Z"           |
             | endDate     | "2022-01-01T00:00:00.000Z"           |
+        Given authorization with "reading" permission
         When make a GET request to "/calendar"
         Then the response status code should be 200
         And the response property "future" has a subobject with a field "name" that is equal to "Livestream XY" should contain:
