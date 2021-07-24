@@ -4,7 +4,6 @@ import { exec } from 'child_process';
 import { BeforeAll, setDefaultTimeout } from 'cucumber';
 import { before, binding, given, when } from 'cucumber-tsflow';
 import { sign } from 'jsonwebtoken';
-import { Scopes } from 'src/auth/decorators/scopes.decorator';
 import * as request from 'supertest';
 import { AppModule } from '../../src/app.module';
 import Context from '../support/world';
@@ -54,6 +53,17 @@ export class requests {
     await this.context.app.init();
   }
 
+  @when(/restart app/)
+  public async restartApp(): Promise<void> {
+    const moduleFixture: TestingModule = await Test.createTestingModule({
+      imports: [AppModule],
+    }).compile();
+
+    this.context.app = moduleFixture.createNestApplication();
+    this.context.app.useGlobalPipes(new ValidationPipe({ transform: true }));
+    await this.context.app.init();
+  }
+
   @given(/authorization with "([^"]*)" permission/)
   public async generateReadToken(scope: string) {
     let scopes = [];
@@ -72,6 +82,11 @@ export class requests {
   @given(/authorisation/)
   public async authorisation() {
     this.context.token = 'abc';
+  }
+
+  @when(/add bearer token to the header/)
+  public async addBearerToken() {
+    this.context.bearerToken = this.context.response.body.accessToken;
   }
 
   @given(/make a GET request to "([^"]*)"/)
