@@ -105,6 +105,11 @@ export class requests {
     // ).get(url);
   }
 
+  @when(/clear the bearer token/)
+  public clearBearer() {
+    this.context.bearerToken = null;
+  }
+
   @when(/set header "([^"]*)" with value "([^"]*)"/)
   public async setHeader(field: string, value: string) {
     const headerObject = {};

@@ -145,3 +145,14 @@ Feature: discord module
         And the response should contain:
             | statusCode | 401            |
             | message    | "Unauthorized" |
+
+    Scenario: create a user with wrong permissions
+        Given authorization with "reading" permission
+        And make a POST request to "/discord" with:
+            | bio     | "This is a GitHub Campus Expert"                                                              |
+            | author  | {"platform":"discord","uid":"hubber"}                                                         |
+            | socials | {"discord":"khattakdev","github":"khattakdev","linkedin":"khattakdev","twitter":"khattakdev"} |
+        Then the response status code should be 403
+        And the response should contain:
+            | statusCode | 403         |
+            | message    | "Forbidden" |

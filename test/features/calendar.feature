@@ -260,3 +260,18 @@ Feature: calendar module
             | endDate     | "2022-01-01T00:00:00.000Z"           |
             | createdOn   | "TYPE:DATE"                          |
             | updatedOn   | "TYPE:DATE"                          |
+
+    Scenario: create event with wrong permissions
+        Given authorization with "reading" permission
+        And make a POST request to "/calendar" with:
+            | name        | "Livestream XY"                       |
+            | description | "descriptive Description"             |
+            | url         | "https://domain.com"                  |
+            | platform    | "YouTube"                             |
+            | author      | {"platform":"discord","uid":"hubber"} |
+            | startDate   | "2022-01-01T00:00:00.000Z"            |
+            | endDate     | "2023-01-01T00:00:00.000Z"            |
+        Then the response status code should be 403
+        And the response should contain:
+            | message    | "Forbidden" |
+            | statusCode | 403         |

@@ -201,3 +201,20 @@ Feature: github module
         And the response should contain:
             | statusCode | 401            |
             | message    | "Unauthorized" |
+
+    Scenario: create a githubprofile with wrong permissions
+        Given authorization with "reading" permission
+        And make a POST request to "/github" with:
+            | username     | "eddiehubber"              |
+            | bio          | "I love to code"           |
+            | avatarUrl    | "https://dummy.com/avatar" |
+            | followers    | 500                        |
+            | repos        | 32                         |
+            | event        | "push"                     |
+            | blog         | "https://www.myBlog.com"   |
+            | organization | "Eddiehub"                 |
+            | location     | "London"                   |
+        Then the response status code should be 403
+        And the response should contain:
+            | statusCode | 403         |
+            | message    | "Forbidden" |

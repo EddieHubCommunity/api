@@ -43,7 +43,7 @@ export class responses {
   }
 
   @then(
-    /the response status code should be (200|201|204|400|401|404|413|500|503)/,
+    /the response status code should be (200|201|204|400|401|403|404|413|500|503)/,
   )
   public statusResponse(status: string) {
     expect(this.context.response.status).to.equal(parseInt(status));

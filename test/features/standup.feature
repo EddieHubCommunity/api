@@ -141,3 +141,14 @@ Feature: Standup module
         And the response should contain:
             | statusCode | 401            |
             | message    | "Unauthorized" |
+
+    Scenario: create standup with wrong permissions
+        Given authorization with "reading" permission
+        And make a POST request to "/standup" with:
+            | author           | {"platform":"discord","uid":"hubber"} |
+            | yesterdayMessage | "Yesterday I did this"                |
+            | todayMessage     | "Today I'll do this"                  |
+        Then the response status code should be 403
+        And the response should contain:
+            | statusCode | 403         |
+            | message    | "Forbidden" |
