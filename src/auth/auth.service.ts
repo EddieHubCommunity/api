@@ -24,7 +24,6 @@ export class AuthService {
       clientId,
       keyspace: serverId,
       scopes,
-      tokenType,
     };
     if (!this.configCollection[serverId]) {
       this.configCollection[serverId] = { knownClients: [] };
@@ -37,7 +36,7 @@ export class AuthService {
     const signedToken = this.jwtService.sign(payload, { expiresIn: '1y' });
     const decoded: any = this.jwtService.decode(signedToken);
     const expiresIn: number = decoded.exp - Math.round(Date.now() / 1000);
-    return { ...payload, accessToken: signedToken, expiresIn };
+    return { ...payload, accessToken: signedToken, expiresIn, tokenType };
   }
 
   public validateClient(payload: TokenPayload): boolean {
