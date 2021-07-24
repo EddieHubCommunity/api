@@ -4,7 +4,6 @@ import { exec } from 'child_process';
 import { BeforeAll, setDefaultTimeout } from 'cucumber';
 import { before, binding, given, when } from 'cucumber-tsflow';
 import { sign } from 'jsonwebtoken';
-import { Scopes } from 'src/auth/decorators/scopes.decorator';
 import * as request from 'supertest';
 import { AppModule } from '../../src/app.module';
 import Context from '../support/world';

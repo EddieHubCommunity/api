@@ -1,32 +1,26 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Put,
-  Param,
+  Controller,
   Delete,
-  UseGuards,
+  Get,
   HttpCode,
+  Param,
+  Post,
+  Put,
+  UseGuards,
 } from '@nestjs/common';
-import {
-  ApiBearerAuth,
-  ApiHeader,
-  ApiSecurity,
-  ApiTags,
-} from '@nestjs/swagger';
-import { TokenGuard } from '../auth/token.strategy';
+import { ApiBearerAuth, ApiHeader, ApiTags } from '@nestjs/swagger';
 import { Author, AuthorObject } from '../auth/author-headers';
-import { DiscordService } from './discord.service';
-import { DiscordDTO } from './dto/discord.dto';
+import { Scopes } from '../auth/decorators/scopes.decorator';
 import { User } from '../auth/decorators/user.decorator';
+import { ScopesGuard } from '../auth/guards/scopes.guard';
 import {
   ScopesDictionary,
   TokenPayload,
 } from '../auth/interfaces/token-payload.interface';
 import { JWTGuard } from '../auth/jwt.strategy';
-import { ScopesGuard } from '../auth/guards/scopes.guard';
-import { Scopes } from '../auth/decorators/scopes.decorator';
+import { DiscordService } from './discord.service';
+import { DiscordDTO } from './dto/discord.dto';
 @ApiTags('Discord')
 @Controller('discord')
 export class DiscordController {
