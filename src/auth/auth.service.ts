@@ -10,7 +10,13 @@ export class AuthService {
   private configCollection: { [id: string]: { knownClients: string[] } } = {};
   constructor(private readonly jwtService: JwtService) {}
 
+  public getClientIds(keyspace: string) {
+    if (!this.configCollection[keyspace]) return {};
+    return { tokens: this.configCollection[keyspace]?.knownClients };
+  }
+
   public register(body: AuthDTO) {
+    const tokenType = 'bearer';
     const clientId = uuidv4();
     const { serverId, scopes } = body;
 
@@ -18,6 +24,7 @@ export class AuthService {
       clientId,
       keyspace: serverId,
       scopes,
+      tokenType,
     };
     if (!this.configCollection[serverId]) {
       this.configCollection[serverId] = { knownClients: [] };
