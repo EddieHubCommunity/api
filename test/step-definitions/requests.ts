@@ -79,9 +79,14 @@ export class requests {
     this.context.bearerToken = token;
   }
 
-  @given(/authorisation/)
+  @given(/^authorisation$/)
   public async authorisation() {
     this.context.token = 'abc';
+  }
+
+  @given(/^invalid authorisation$/)
+  public async invalidAuthorisation() {
+    this.context.token = 'xxx';
   }
 
   @when(/add bearer token to the header/)
