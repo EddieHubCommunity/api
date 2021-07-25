@@ -15,10 +15,10 @@ export class AuthService {
   public async register(body: AuthDTO) {
     const clientId = uuidv4();
     const { serverId, scopes } = body;
-    let tokens: String[] = [];
+    let tokens: string[] = [];
     try {
       tokens = await this.astraService
-        .get<String[]>('tokens', serverId, 'tokens')
+        .get<string[]>('tokens', serverId, 'tokens')
         .toPromise();
     } catch (e) {
       tokens = [];
@@ -42,10 +42,10 @@ export class AuthService {
 
   public async validateClient(payload: TokenPayload): Promise<boolean> {
     const { keyspace, clientId } = payload;
-    let tokens: String[];
+    let tokens: string[];
     try {
       tokens = await this.astraService
-        .get<String[]>('tokens', keyspace, 'tokens')
+        .get<string[]>('tokens', keyspace, 'tokens')
         .toPromise();
     } catch {
       return false;
@@ -57,7 +57,7 @@ export class AuthService {
   }
 
   public async removeClient(token: string): Promise<boolean> {
-    let tokens: String[] = null;
+    let tokens: string[] = null;
     if (!token)
       throw new HttpException('Please provide token', HttpStatus.BAD_REQUEST);
 
@@ -65,7 +65,7 @@ export class AuthService {
 
     try {
       tokens = await this.astraService
-        .get<String[]>('tokens', decoded.keyspace, 'tokens')
+        .get<string[]>('tokens', decoded.keyspace, 'tokens')
         .toPromise();
     } catch (e) {
       return;
