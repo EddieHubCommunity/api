@@ -31,6 +31,7 @@ Feature: github module
             | location     | "London"                   |
         And the response should contain:
             | documentId | "TYPE:ID" |
+        Given authorization with "reading" permission
         When make a GET request to "/github"
         Then the response status code should be 200
         And the response in item where field "username" is equal to "eddiehubber" should contain:
@@ -72,6 +73,7 @@ Feature: github module
             | location     | "London"                   |
         And the response should contain:
             | documentId | "TYPE:ID" |
+        Given authorization with "writing" permission
         When make a DELETE request to "/github/{id}"
         Then the response status code should be 204
 
@@ -89,6 +91,7 @@ Feature: github module
             | location     | "London"                   |
         And the response should contain:
             | documentId | "TYPE:ID" |
+        Given authorization with "writing" permission
         Then make a DELETE request to "/github/66"
         Then the response status code should be 404
         And the response should contain:
@@ -109,6 +112,7 @@ Feature: github module
             | location     | "London"                   |
         And the response should contain:
             | documentId | "TYPE:ID" |
+        Given authorization with "writing" permission
         Then make a PUT request to "/github/{id}" with:
             | username     | "eddiehubber"              |
             | bio          | "I love to code"           |
@@ -137,6 +141,7 @@ Feature: github module
             | location     | "London"                   |
         And the response should contain:
             | documentId | "TYPE:ID" |
+        Given authorization with "writing" permission
         Then make a PUT request to "/github/{id}" with:
             | username     | "eddiehubber"              |
             | bio          | "I love to code"           |
@@ -165,6 +170,7 @@ Feature: github module
             | location     | "London"                   |
         And the response should contain:
             | documentId | "TYPE:ID" |
+        Given authorization with "reading" permission
         When make a GET request to "/github/{id}"
         Then the response status code should be 200
         And the response should contain:
@@ -195,3 +201,20 @@ Feature: github module
         And the response should contain:
             | statusCode | 401            |
             | message    | "Unauthorized" |
+
+    Scenario: create a githubprofile with wrong permissions
+        Given authorization with "reading" permission
+        And make a POST request to "/github" with:
+            | username     | "eddiehubber"              |
+            | bio          | "I love to code"           |
+            | avatarUrl    | "https://dummy.com/avatar" |
+            | followers    | 500                        |
+            | repos        | 32                         |
+            | event        | "push"                     |
+            | blog         | "https://www.myBlog.com"   |
+            | organization | "Eddiehub"                 |
+            | location     | "London"                   |
+        Then the response status code should be 403
+        And the response should contain:
+            | statusCode | 403         |
+            | message    | "Forbidden" |

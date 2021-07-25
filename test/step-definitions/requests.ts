@@ -69,7 +69,7 @@ export class requests {
     let scopes = [];
     switch (scope) {
       case 'writing':
-        scopes = ['Data.Write', 'Data.Read'];
+        scopes = ['Data.Write'];
         break;
       case 'reading':
         scopes = ['Data.Read'];
@@ -119,6 +119,11 @@ export class requests {
     // this.context.preRequest = await request(
     //   this.context.app.getHttpServer(),
     // ).get(url);
+  }
+
+  @when(/clear the bearer token/)
+  public clearBearer() {
+    this.context.bearerToken = null;
   }
 
   @when(/set header "([^"]*)" with value "([^"]*)"/)

@@ -10,7 +10,13 @@ export class AuthService {
   private configCollection: { [id: string]: { knownClients: string[] } } = {};
   constructor(private readonly jwtService: JwtService) {}
 
+  public getClientIds(keyspace: string) {
+    if (!this.configCollection[keyspace]) return {};
+    return { tokens: this.configCollection[keyspace]?.knownClients };
+  }
+
   public register(body: AuthDTO) {
+    const tokenType = 'bearer';
     const clientId = uuidv4();
     const { serverId, scopes } = body;
 
@@ -30,7 +36,7 @@ export class AuthService {
     const signedToken = this.jwtService.sign(payload, { expiresIn: '1y' });
     const decoded: any = this.jwtService.decode(signedToken);
     const expiresIn: number = decoded.exp - Math.round(Date.now() / 1000);
-    return { ...payload, accessToken: signedToken, expiresIn };
+    return { ...payload, accessToken: signedToken, expiresIn, tokenType };
   }
 
   public validateClient(payload: TokenPayload): boolean {

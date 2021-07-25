@@ -6,12 +6,12 @@ import { deleteItem, documentId } from '@cahllagerfeld/nestjs-astra';
 import { forkJoin, from, Observable } from 'rxjs';
 import { Author } from '../auth/author-headers';
 import { ValidationService } from '../auth/header-validation.service';
-import { AstraService } from '../astra/astra.service';
+import { AstraService as AstraApiService } from '../astra/astra.service';
 
 @Injectable()
 export class CalendarService {
   constructor(
-    private readonly astraService: AstraService,
+    private readonly astraService: AstraApiService,
     private readonly validationService: ValidationService,
   ) {}
 
