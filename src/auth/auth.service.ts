@@ -3,29 +3,38 @@ import { TokenPayload } from './interfaces/token-payload.interface';
 import { JwtService } from '@nestjs/jwt';
 import { v4 as uuidv4 } from 'uuid';
 import { AuthDTO } from './dto/auth.dto';
+import { AstraService } from '../astra/astra.service';
 
 @Injectable()
 export class AuthService {
   //TODO move configCollection to database => own ConfigDataModule
   private configCollection: { [id: string]: { knownClients: string[] } } = {};
-  constructor(private readonly jwtService: JwtService) {}
+  constructor(
+    private readonly jwtService: JwtService,
+    private readonly astraService: AstraService,
+  ) {}
 
-  public register(body: AuthDTO) {
+  public async register(body: AuthDTO) {
     const clientId = uuidv4();
     const { serverId, scopes } = body;
+    let tokens: String[] = [];
+    try {
+      tokens = await this.astraService
+        .get<String[]>('Benjamin', serverId, 'tokens')
+        .toPromise();
+    } catch (e) {
+      tokens = [];
+    }
 
     const payload: TokenPayload = {
       clientId,
       keyspace: serverId,
       scopes,
     };
-    if (!this.configCollection[serverId]) {
-      this.configCollection[serverId] = { knownClients: [] };
-    }
-    this.configCollection[serverId].knownClients = [
-      ...this.configCollection[serverId].knownClients,
-      clientId,
-    ];
+    tokens = [...tokens, clientId];
+    await this.astraService
+      .replace('Benjamin', tokens, serverId, 'tokens')
+      .toPromise();
     //TODO token-expiry
     const signedToken = this.jwtService.sign(payload, { expiresIn: '1y' });
     const decoded: any = this.jwtService.decode(signedToken);
