@@ -79,13 +79,18 @@ export class requests {
     this.context.bearerToken = token;
   }
 
-  @given(/authorisation/)
+  @given(/^authorisation$/)
   public async authorisation() {
     this.context.token = 'abc';
   }
 
+  @given(/^invalid authorisation$/)
+  public async invalidAuthorisation() {
+    this.context.token = 'xxx';
+  }
+
   @when(/add bearer token to the header/)
-  public async addBearerToken() {
+  public addBearerToken() {
     this.context.bearerToken = this.context.response.body.accessToken;
   }
 
@@ -115,10 +120,6 @@ export class requests {
       post.set('Authorization', `Bearer ${this.context.bearerToken}`);
     }
     this.context.response = await post.send(this.context.tableToObject(table));
-
-    // this.context.preRequest = await request(
-    //   this.context.app.getHttpServer(),
-    // ).get(url);
   }
 
   @when(/clear the bearer token/)
@@ -171,6 +172,6 @@ export class requests {
       deleteReq.set('Authorization', `Bearer ${this.context.bearerToken}`);
     }
 
-    this.context.response = await deleteReq.send();
+    this.context.response = await deleteReq.send({});
   }
 }

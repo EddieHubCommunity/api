@@ -1,17 +1,17 @@
 import { JwtModule } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
-import { AuthService } from './auth.service';
+import { TokensService } from './tokens.service';
 
 describe('AuthService', () => {
-  let service: AuthService;
+  let service: TokensService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [JwtModule.register({ secret: 'Test' })],
-      providers: [AuthService],
+      providers: [TokensService],
     }).compile();
 
-    service = module.get<AuthService>(AuthService);
+    service = module.get<TokensService>(TokensService);
   });
 
   it('should be defined', () => {
