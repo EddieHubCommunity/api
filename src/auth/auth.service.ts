@@ -7,8 +7,6 @@ import { AstraService } from '../astra/astra.service';
 
 @Injectable()
 export class AuthService {
-  //TODO move configCollection to database => own ConfigDataModule
-  private configCollection: { [id: string]: { knownClients: string[] } } = {};
   constructor(
     private readonly jwtService: JwtService,
     private readonly astraService: AstraService,
@@ -20,7 +18,7 @@ export class AuthService {
     let tokens: String[] = [];
     try {
       tokens = await this.astraService
-        .get<String[]>('Benjamin', serverId, 'tokens')
+        .get<String[]>('tokens', serverId, 'tokens')
         .toPromise();
     } catch (e) {
       tokens = [];
@@ -33,7 +31,7 @@ export class AuthService {
     };
     tokens = [...tokens, clientId];
     await this.astraService
-      .replace('Benjamin', tokens, serverId, 'tokens')
+      .replace('tokens', tokens, serverId, 'tokens')
       .toPromise();
     //TODO token-expiry
     const signedToken = this.jwtService.sign(payload, { expiresIn: '1y' });
@@ -42,33 +40,48 @@ export class AuthService {
     return { ...payload, accessToken: signedToken, expiresIn };
   }
 
-  public validateClient(payload: TokenPayload): boolean {
+  public async validateClient(payload: TokenPayload): Promise<boolean> {
     const { keyspace, clientId } = payload;
-    if (
-      this.configCollection[keyspace] &&
-      this.configCollection[keyspace].knownClients.includes(clientId)
-    ) {
+    let tokens: String[];
+    try {
+      tokens = await this.astraService
+        .get<String[]>('tokens', keyspace, 'tokens')
+        .toPromise();
+    } catch {
+      return false;
+    }
+    if (tokens && tokens.includes(clientId)) {
       return true;
     }
     return false;
   }
 
-  public removeClient(token: string) {
+  public async removeClient(token: string): Promise<boolean> {
+    let tokens: String[] = null;
     if (!token)
       throw new HttpException('Please provide token', HttpStatus.BAD_REQUEST);
 
     const decoded = this.jwtService.decode(token) as TokenPayload;
 
     try {
-      this.configCollection[
-        decoded.keyspace
-      ].knownClients = this.configCollection[
-        decoded.keyspace
-      ].knownClients.filter((client) => client !== decoded.clientId);
-      console.log(this.configCollection);
-      return;
+      tokens = await this.astraService
+        .get<String[]>('tokens', decoded.keyspace, 'tokens')
+        .toPromise();
     } catch (e) {
-      throw new HttpException('Invalid client id', HttpStatus.BAD_REQUEST);
+      return;
     }
+
+    tokens = tokens.filter((clientID) => clientID !== decoded.clientId);
+    try {
+      await this.astraService
+        .replace('tokens', tokens, decoded.keyspace, 'tokens')
+        .toPromise();
+    } catch (e) {
+      throw new HttpException(
+        'Deleting Token went wrong',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+    return;
   }
 }
