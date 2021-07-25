@@ -29,7 +29,6 @@ export class AuthController {
   @Post()
   @UseGuards(TokenGuard)
   @ApiSecurity('token')
-  // @ApiHeader({ name: 'keyspace', description: 'Keyspace', required: true })
   register(@Body() body: AuthDTO) {
     return this.authService.register(body);
   }
