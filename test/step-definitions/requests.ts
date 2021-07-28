@@ -99,10 +99,6 @@ export class requests {
       post.set('Authorization', `Bearer ${this.context.bearerToken}`);
     }
     this.context.response = await post.send(this.context.tableToObject(table));
-
-    // this.context.preRequest = await request(
-    //   this.context.app.getHttpServer(),
-    // ).get(url);
   }
 
   @when(/clear the bearer token/)
