@@ -1,3 +1,12 @@
+# [0.7.0](https://github.com/EddieHubCommunity/api/compare/v0.6.13...v0.7.0) (2021-07-31)
+
+
+### Features
+
+* namespaces for data ([#168](https://github.com/EddieHubCommunity/api/issues/168)) ([0f90839](https://github.com/EddieHubCommunity/api/commit/0f90839df47e63396db3ed014f3bc857c7380849)), closes [#137](https://github.com/EddieHubCommunity/api/issues/137) [#137](https://github.com/EddieHubCommunity/api/issues/137)
+
+
+
 ## [0.6.13](https://github.com/EddieHubCommunity/api/compare/v0.6.12...v0.6.13) (2021-07-23)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * tests for local+astradb ([#138](https://github.com/EddieHubCommunity/api/issues/138)) ([738a710](https://github.com/EddieHubCommunity/api/commit/738a7105325a65662319acd3f4875e16491247d6))
-
-
-
-## [0.6.9](https://github.com/EddieHubCommunity/api/compare/v0.6.8...v0.6.9) (2021-06-28)
-
-
-### Bug Fixes
-
-* rename author-headers ([#144](https://github.com/EddieHubCommunity/api/issues/144))  ([6c39d57](https://github.com/EddieHubCommunity/api/commit/6c39d57826dc61f5149ee39d6d9e916bc4952e15))
 
 
 
