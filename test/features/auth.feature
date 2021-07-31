@@ -80,6 +80,7 @@ Feature: auth module
     #         | clientId | "xxxxxxxx" |
     #     Then the response status code should be 400
 
+    # TODO: Fix Delete Token Test
     Scenario: delete token
         Given authorisation
         When make a POST request to "/auth" with:
