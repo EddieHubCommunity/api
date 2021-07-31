@@ -69,13 +69,16 @@ export class requests {
     let scopes = [];
     switch (scope) {
       case 'writing':
-        scopes = ['Data.Write', 'Data.Read'];
+        scopes = ['Data.Write'];
         break;
       case 'reading':
         scopes = ['Data.Read'];
         break;
     }
-    const token = sign({ scopes, keyspace: 'eddiehub' }, process.env.SECRET);
+    const token = sign(
+      { scopes, keyspace: 'eddiehub' },
+      process.env.JWT_SECRET,
+    );
     this.context.bearerToken = token;
   }
 
@@ -120,10 +123,11 @@ export class requests {
       post.set('Authorization', `Bearer ${this.context.bearerToken}`);
     }
     this.context.response = await post.send(this.context.tableToObject(table));
+  }
 
-    // this.context.preRequest = await request(
-    //   this.context.app.getHttpServer(),
-    // ).get(url);
+  @when(/clear the bearer token/)
+  public clearBearer() {
+    this.context.bearerToken = null;
   }
 
   @when(/set header "([^"]*)" with value "([^"]*)"/)

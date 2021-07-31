@@ -6,12 +6,12 @@ import { catchError, concatMap, filter } from 'rxjs/operators';
 import { Author } from '../auth/author-headers';
 import { ValidationService } from '../auth/header-validation.service';
 import { from } from 'rxjs';
-import { AstraService } from '../astra/astra.service';
+import { AstraService as AstraApiService } from '../astra/astra.service';
 
 @Injectable()
 export class StandupService {
   constructor(
-    private readonly astraService: AstraService,
+    private readonly astraService: AstraApiService,
     private readonly validationService: ValidationService,
   ) {}
 

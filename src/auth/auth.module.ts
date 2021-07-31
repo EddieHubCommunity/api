@@ -13,7 +13,7 @@ import { AstraService } from '../astra/astra.service';
     JwtModule.registerAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
-        secret: configService.get('SECRET'),
+        secret: configService.get('JWT_SECRET'),
       }),
       inject: [ConfigService],
     }),

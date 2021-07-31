@@ -6,14 +6,14 @@ import { GeocodingService } from './geocoding.service';
 import { deleteItem, documentId } from '@cahllagerfeld/nestjs-astra';
 import { from, Observable } from 'rxjs';
 import { catchError, concatMap, filter } from 'rxjs/operators';
-import { AstraService } from '../astra/astra.service';
+import { AstraService as AstraApiService } from '../astra/astra.service';
 
 @Injectable()
 export class GithubService {
   constructor(
     private readonly mappingService: CommunitystatsMappingService,
     private readonly geocodingService: GeocodingService,
-    private readonly astraService: AstraService,
+    private readonly astraService: AstraApiService,
   ) {}
 
   async create(body: GithubDTO, keyspaceName: string): Promise<documentId> {

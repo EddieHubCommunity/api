@@ -6,12 +6,11 @@ import { ValidationService } from '../auth/header-validation.service';
 import { Author } from '../auth/author-headers';
 import { DiscordDTO } from './dto/discord.dto';
 import { DiscordProfile } from './interfaces/discord.interface';
-import { AstraService } from '../astra/astra.service';
-
+import { AstraService as AstraApiService } from '../astra/astra.service';
 @Injectable()
 export class DiscordService {
   constructor(
-    private readonly astraService: AstraService,
+    private readonly astraService: AstraApiService,
     private readonly validationService: ValidationService,
   ) {}
 
