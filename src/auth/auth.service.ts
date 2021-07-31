@@ -79,4 +79,17 @@ export class AuthService {
 
     return deleteSuccess;
   }
+
+  public async getClientIds(keyspace: string) {
+    let clients;
+    try {
+      clients = await this.astraService.find(keyspace, 'tokens').toPromise();
+    } catch (error) {
+      throw new HttpException(
+        'Clients couldnt be retrieved',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+    return { clients: Object.keys(clients) };
+  }
 }
