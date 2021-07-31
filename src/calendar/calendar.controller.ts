@@ -9,9 +9,16 @@ import {
   Put,
   UseGuards,
 } from '@nestjs/common';
-import { ApiHeader, ApiSecurity, ApiTags } from '@nestjs/swagger';
-import { TokenGuard } from '../auth/token.strategy';
+import { ApiBearerAuth, ApiHeader, ApiTags } from '@nestjs/swagger';
 import { Author, AuthorObject } from '../auth/author-headers';
+import { Scopes } from '../auth/decorators/scopes.decorator';
+import { User } from '../auth/decorators/user.decorator';
+import { ScopesGuard } from '../auth/guards/scopes.guard';
+import {
+  ScopesDictionary,
+  TokenPayload,
+} from '../auth/interfaces/token-payload.interface';
+import { JWTGuard } from '../auth/jwt.strategy';
 import { CalendarService } from './calendar.service';
 import { CalendarEventDTO } from './dto/calendar.dto';
 
@@ -21,42 +28,56 @@ export class CalendarController {
   constructor(private readonly service: CalendarService) {}
 
   @Post()
-  @UseGuards(TokenGuard)
-  @ApiSecurity('token')
-  create(@Body() calendarEvent: CalendarEventDTO) {
-    return this.service.createCalendarEvent(calendarEvent);
+  @ApiBearerAuth()
+  @UseGuards(JWTGuard, ScopesGuard)
+  @Scopes(ScopesDictionary.WRITE)
+  create(@Body() calendarEvent: CalendarEventDTO, @User() user: TokenPayload) {
+    return this.service.createCalendarEvent(calendarEvent, user.keyspace);
   }
 
   @Get()
-  findAll() {
-    return this.service.findAllEvents();
+  @ApiBearerAuth()
+  @UseGuards(JWTGuard, ScopesGuard)
+  @Scopes(ScopesDictionary.READ)
+  findAll(@User() user: TokenPayload) {
+    return this.service.findAllEvents(user.keyspace);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.service.findOne(id);
+  @ApiBearerAuth()
+  @UseGuards(JWTGuard, ScopesGuard)
+  @Scopes(ScopesDictionary.READ)
+  findOne(@Param('id') id: string, @User() user: TokenPayload) {
+    return this.service.findOne(id, user.keyspace);
   }
 
   @Put(':id')
-  @UseGuards(TokenGuard)
-  @ApiSecurity('token')
+  @ApiBearerAuth()
+  @UseGuards(JWTGuard, ScopesGuard)
+  @Scopes(ScopesDictionary.WRITE)
   @ApiHeader({ name: 'User-Uid', required: true })
   @ApiHeader({ name: 'Platform', required: true })
   updateOne(
     @Param('id') id: string,
     @Body() calendarEvent: CalendarEventDTO,
     @AuthorObject() author: Author,
+    @User() user: TokenPayload,
   ) {
-    return this.service.updateOne(id, calendarEvent, author);
+    return this.service.updateOne(id, calendarEvent, author, user.keyspace);
   }
 
   @Delete(':id')
-  @UseGuards(TokenGuard)
+  @ApiBearerAuth()
+  @UseGuards(JWTGuard, ScopesGuard)
+  @Scopes(ScopesDictionary.WRITE)
   @HttpCode(204)
-  @ApiSecurity('token')
   @ApiHeader({ name: 'User-Uid', required: true })
   @ApiHeader({ name: 'Platform', required: true })
-  remove(@Param('id') id: string, @AuthorObject() author: Author) {
-    return this.service.remove(id, author);
+  remove(
+    @Param('id') id: string,
+    @AuthorObject() author: Author,
+    @User() user: TokenPayload,
+  ) {
+    return this.service.remove(id, author, user.keyspace);
   }
 }

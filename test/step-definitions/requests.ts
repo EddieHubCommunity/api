@@ -1,11 +1,12 @@
-import { binding, given, when, before } from 'cucumber-tsflow';
+import { ValidationPipe } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
-import * as request from 'supertest';
 import { exec } from 'child_process';
+import { BeforeAll, setDefaultTimeout } from 'cucumber';
+import { before, binding, given, when } from 'cucumber-tsflow';
+import { sign } from 'jsonwebtoken';
+import * as request from 'supertest';
 import { AppModule } from '../../src/app.module';
 import Context from '../support/world';
-import { ValidationPipe } from '@nestjs/common';
-import { BeforeAll, setDefaultTimeout } from 'cucumber';
 
 setDefaultTimeout(60 * 1000);
 
@@ -52,6 +53,24 @@ export class requests {
     await this.context.app.init();
   }
 
+  @given(/authorization with "([^"]*)" permission/)
+  public async generateReadToken(scope: string) {
+    let scopes = [];
+    switch (scope) {
+      case 'writing':
+        scopes = ['Data.Write'];
+        break;
+      case 'reading':
+        scopes = ['Data.Read'];
+        break;
+    }
+    const token = sign(
+      { scopes, keyspace: 'eddiehub' },
+      process.env.JWT_SECRET,
+    );
+    this.context.bearerToken = token;
+  }
+
   @given(/authorisation/)
   public async authorisation() {
     this.context.token = 'abc';
@@ -60,9 +79,13 @@ export class requests {
   @given(/make a GET request to "([^"]*)"/)
   public async getRequest(url: string) {
     url = this.prepareURL(url);
-    this.context.response = await request(this.context.app.getHttpServer()).get(
-      url,
-    );
+
+    const get = request(this.context.app.getHttpServer()).get(url);
+
+    if (this.context.bearerToken) {
+      get.set('Authorization', `Bearer ${this.context.bearerToken}`);
+    }
+    this.context.response = await get.send();
   }
 
   @given(/make a POST request to "([^"]*)" with:/)
@@ -75,11 +98,15 @@ export class requests {
       post.set('Client-Token', this.context.token);
     }
 
+    if (this.context.bearerToken) {
+      post.set('Authorization', `Bearer ${this.context.bearerToken}`);
+    }
     this.context.response = await post.send(this.context.tableToObject(table));
+  }
 
-    this.context.preRequest = await request(
-      this.context.app.getHttpServer(),
-    ).get(url);
+  @when(/clear the bearer token/)
+  public clearBearer() {
+    this.context.bearerToken = null;
   }
 
   @when(/set header "([^"]*)" with value "([^"]*)"/)
@@ -101,6 +128,10 @@ export class requests {
       putReq.set(this.context.headers);
     }
 
+    if (this.context.bearerToken) {
+      putReq.set('Authorization', `Bearer ${this.context.bearerToken}`);
+    }
+
     this.context.response = await putReq.send(
       this.context.tableToObject(table),
     );
@@ -117,6 +148,10 @@ export class requests {
 
     if (this.context.headers) {
       deleteReq.set(this.context.headers);
+    }
+
+    if (this.context.bearerToken) {
+      deleteReq.set('Authorization', `Bearer ${this.context.bearerToken}`);
     }
 
     this.context.response = await deleteReq.send();

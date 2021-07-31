@@ -4,7 +4,15 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AppModule } from '../../src/app.module';
 import Context from '../support/world';
 import { getRegex } from '../support/regexes';
-import { ValidationPipe } from '@nestjs/common';
+import {
+  ExecutionContext,
+  UnauthorizedException,
+  ValidationPipe,
+} from '@nestjs/common';
+import { JWTGuard } from '../../src/auth/jwt.strategy';
+import { TokenPayload } from '../../src/auth/interfaces/token-payload.interface';
+import { decode } from 'jsonwebtoken';
+import { Request } from 'express';
 
 @binding([Context])
 export class responses {
@@ -14,7 +22,20 @@ export class responses {
   public async before(): Promise<void> {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
-    }).compile();
+    })
+      .overrideGuard(JWTGuard)
+      .useValue({
+        canActivate: (ctx: ExecutionContext) => {
+          const req: Request = ctx.switchToHttp().getRequest();
+          if (req.headers.authorization) {
+            const accessToken = req.headers.authorization.split(' ')[1];
+            req.user = decode(accessToken) as TokenPayload;
+            return true;
+          }
+          throw new UnauthorizedException();
+        },
+      })
+      .compile();
 
     this.context.app = moduleFixture.createNestApplication();
     this.context.app.useGlobalPipes(new ValidationPipe({ transform: true }));
@@ -22,7 +43,7 @@ export class responses {
   }
 
   @then(
-    /the response status code should be (200|201|204|400|401|404|413|500|503)/,
+    /the response status code should be (200|201|204|400|401|403|404|413|500|503)/,
   )
   public statusResponse(status: string) {
     expect(this.context.response.status).to.equal(parseInt(status));

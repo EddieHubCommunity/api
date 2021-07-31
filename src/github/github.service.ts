@@ -3,30 +3,27 @@ import { CommunityStats, GithubProfile } from './interfaces/github.interface';
 import { GithubDTO } from './dto/github.dto';
 import { CommunitystatsMappingService } from './communitystats-mapping.service';
 import { GeocodingService } from './geocoding.service';
-import {
-  AstraService,
-  deleteItem,
-  documentId,
-} from '@cahllagerfeld/nestjs-astra';
+import { deleteItem, documentId } from '@cahllagerfeld/nestjs-astra';
 import { from, Observable } from 'rxjs';
 import { catchError, concatMap, filter } from 'rxjs/operators';
+import { AstraService as AstraApiService } from '../astra/astra.service';
 
 @Injectable()
 export class GithubService {
   constructor(
     private readonly mappingService: CommunitystatsMappingService,
     private readonly geocodingService: GeocodingService,
-    private readonly astraService: AstraService,
+    private readonly astraService: AstraApiService,
   ) {}
 
-  async create(body: GithubDTO): Promise<documentId> {
+  async create(body: GithubDTO, keyspaceName: string): Promise<documentId> {
     let newGithubProfile: GithubProfile;
     let creationResponse;
     try {
       newGithubProfile = await this.createGithub(body);
 
       creationResponse = await this.astraService
-        .create<GithubProfile>(newGithubProfile)
+        .create<GithubProfile>(newGithubProfile, keyspaceName, 'github')
         .toPromise();
     } catch (e) {
       throw new HttpException(
@@ -38,24 +35,30 @@ export class GithubService {
     return creationResponse;
   }
 
-  findAll() {
+  findAll(keyspaceName: string) {
     return this.astraService
-      .find<GithubProfile>()
+      .find<GithubProfile>(keyspaceName, 'github')
       .pipe(catchError(() => from([{}])));
   }
 
-  findOne(id: string): Observable<GithubProfile> {
-    return this.astraService.get<GithubProfile>(id).pipe(
-      catchError(() => {
-        throw new HttpException(
-          `no github-profile for ${id} found`,
-          HttpStatus.NOT_FOUND,
-        );
-      }),
-    );
+  findOne(id: string, keyspaceName: string): Observable<GithubProfile> {
+    return this.astraService
+      .get<GithubProfile>(id, keyspaceName, 'github')
+      .pipe(
+        catchError(() => {
+          throw new HttpException(
+            `no github-profile for ${id} found`,
+            HttpStatus.NOT_FOUND,
+          );
+        }),
+      );
   }
 
-  async update(id: string, body: GithubDTO): Promise<documentId> {
+  async update(
+    id: string,
+    body: GithubDTO,
+    keyspaceName: string,
+  ): Promise<documentId> {
     const {
       username,
       bio,
@@ -70,7 +73,9 @@ export class GithubService {
 
     let oldDocument;
     try {
-      oldDocument = await this.astraService.get<GithubProfile>(id).toPromise();
+      oldDocument = await this.astraService
+        .get<GithubProfile>(id, keyspaceName, 'github')
+        .toPromise();
     } catch (e) {
       throw new HttpException(
         `no github-profile for ${id} found`,
@@ -118,7 +123,7 @@ export class GithubService {
     let updateResponse;
     try {
       updateResponse = await this.astraService
-        .replace<GithubProfile>(id, updateGithubProfile)
+        .replace<GithubProfile>(id, updateGithubProfile, keyspaceName, 'github')
         .toPromise();
     } catch (e) {
       throw new HttpException(
@@ -130,30 +135,32 @@ export class GithubService {
     return updateResponse;
   }
 
-  remove(id: string): Observable<deleteItem> {
-    return this.astraService.get<GithubProfile>(id).pipe(
-      catchError(() => {
-        throw new HttpException(
-          `no github-profile for ${id} found`,
-          HttpStatus.NOT_FOUND,
-        );
-      }),
-      filter((data) => {
-        if (!data) {
+  remove(id: string, keyspaceName: string): Observable<deleteItem> {
+    return this.astraService
+      .get<GithubProfile>(id, keyspaceName, 'github')
+      .pipe(
+        catchError(() => {
           throw new HttpException(
             `no github-profile for ${id} found`,
             HttpStatus.NOT_FOUND,
           );
-        }
+        }),
+        filter((data) => {
+          if (!data) {
+            throw new HttpException(
+              `no github-profile for ${id} found`,
+              HttpStatus.NOT_FOUND,
+            );
+          }
 
-        return true;
-      }),
-      concatMap(() =>
-        this.astraService
-          .delete(id)
-          .pipe(filter((data: deleteItem) => data.deleted === true)),
-      ),
-    );
+          return true;
+        }),
+        concatMap(() =>
+          this.astraService
+            .delete(id, keyspaceName, 'github')
+            .pipe(filter((data: deleteItem) => data.deleted === true)),
+        ),
+      );
   }
 
   private async createGithub(body: GithubDTO): Promise<GithubProfile> {
