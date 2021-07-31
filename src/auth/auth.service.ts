@@ -15,24 +15,23 @@ export class AuthService {
   public async register(body: AuthDTO) {
     const clientId = uuidv4();
     const { serverId, scopes } = body;
-    let tokens: string[] = [];
-    try {
-      tokens = await this.astraService
-        .get<string[]>('tokens', serverId, 'tokens')
-        .toPromise();
-    } catch (e) {
-      tokens = [];
-    }
 
     const payload: TokenPayload = {
       clientId,
       keyspace: serverId,
       scopes,
     };
-    tokens = [...tokens, clientId];
-    await this.astraService
-      .replace('tokens', tokens, serverId, 'tokens')
-      .toPromise();
+    try {
+      await this.astraService
+        .create({ clientId }, serverId, 'tokens', clientId)
+        .toPromise();
+    } catch (error) {
+      throw new HttpException(
+        "Token coundn't be created in the database",
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+
     //TODO token-expiry
     const signedToken = this.jwtService.sign(payload, { expiresIn: '1y' });
     const decoded: any = this.jwtService.decode(signedToken);
@@ -42,46 +41,42 @@ export class AuthService {
 
   public async validateClient(payload: TokenPayload): Promise<boolean> {
     const { keyspace, clientId } = payload;
-    let tokens: string[];
+    let token: string = null;
     try {
-      tokens = await this.astraService
-        .get<string[]>('tokens', keyspace, 'tokens')
+      token = await this.astraService
+        .get<string>(clientId, keyspace, 'tokens')
         .toPromise();
     } catch {
       return false;
     }
-    if (tokens && tokens.includes(clientId)) {
-      return true;
+    if (!token) {
+      return false;
     }
-    return false;
+    return true;
   }
 
-  public async removeClient(token: string): Promise<boolean> {
-    let tokens: string[] = null;
+  public async removeClient(token: string) {
+    let deleteSuccess = false;
+    let clientId: string;
+    let keyspace: string;
+
     if (!token)
       throw new HttpException('Please provide token', HttpStatus.BAD_REQUEST);
-
-    const decoded = this.jwtService.decode(token) as TokenPayload;
-
     try {
-      tokens = await this.astraService
-        .get<string[]>('tokens', decoded.keyspace, 'tokens')
-        .toPromise();
-    } catch (e) {
-      return;
-    }
-
-    tokens = tokens.filter((clientID) => clientID !== decoded.clientId);
-    try {
-      await this.astraService
-        .replace('tokens', tokens, decoded.keyspace, 'tokens')
-        .toPromise();
-    } catch (e) {
+      ({ clientId, keyspace } = this.jwtService.verify<TokenPayload>(token));
+    } catch (error) {
       throw new HttpException(
-        'Deleting Token went wrong',
-        HttpStatus.INTERNAL_SERVER_ERROR,
+        "Token couldn't be verified",
+        HttpStatus.BAD_REQUEST,
       );
     }
-    return;
+    try {
+      await this.astraService.delete(clientId, keyspace, 'tokens').toPromise();
+      deleteSuccess = true;
+    } catch (error) {
+      throw new Error("Token couldn't be deleted");
+    }
+
+    return deleteSuccess;
   }
 }
