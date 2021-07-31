@@ -64,7 +64,10 @@ export class requests {
         scopes = ['Data.Read'];
         break;
     }
-    const token = sign({ scopes, keyspace: 'eddiehub' }, process.env.SECRET);
+    const token = sign(
+      { scopes, keyspace: 'eddiehub' },
+      process.env.JWT_SECRET,
+    );
     this.context.bearerToken = token;
   }
 

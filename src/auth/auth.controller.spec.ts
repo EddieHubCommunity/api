@@ -8,7 +8,7 @@ describe('AuthController', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [JwtModule.register({ secret: 'Test' })],
+      imports: [JwtModule.register({ secret: 'test-secret' })],
       controllers: [AuthController],
       providers: [AuthService],
     }).compile();
