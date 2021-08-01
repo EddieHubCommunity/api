@@ -36,8 +36,11 @@ export class requests {
   constructor(protected context: Context) {}
 
   private prepareURL(url: string): string {
-    if (/\/{id}/.test(url)) {
+    if (/{id}/.test(url)) {
       url = url.replace(/{id}/, this.context.documentId);
+    }
+    if (/{bearer}/.test(url)) {
+      url = url.replace(/{bearer}/, this.context.bearerToken);
     }
     return url;
   }

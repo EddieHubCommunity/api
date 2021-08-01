@@ -4,11 +4,12 @@ import {
   Delete,
   Get,
   HttpCode,
+  Param,
   Post,
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { ApiQuery, ApiSecurity, ApiTags } from '@nestjs/swagger';
+import { ApiParam, ApiQuery, ApiSecurity, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { AuthDTO } from './dto/auth.dto';
 import { TokenGuard } from './token.strategy';
@@ -18,22 +19,22 @@ import { TokenGuard } from './token.strategy';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Get()
+  @Get('token/:keyspace')
   @UseGuards(TokenGuard)
   @ApiSecurity('token')
-  @ApiQuery({ name: 'keyspace', required: true })
-  getTokens(@Query('keyspace') keyspace: string) {
+  @ApiParam({ name: 'keyspace', required: true })
+  getTokens(@Param('keyspace') keyspace: string) {
     return this.authService.getClientIds(keyspace);
   }
 
-  @Post()
+  @Post('token')
   @UseGuards(TokenGuard)
   @ApiSecurity('token')
   register(@Body() body: AuthDTO) {
     return this.authService.register(body);
   }
 
-  @Delete()
+  @Delete('token')
   @UseGuards(TokenGuard)
   @ApiSecurity('token')
   @ApiQuery({

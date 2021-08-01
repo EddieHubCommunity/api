@@ -9,7 +9,7 @@ Feature: auth module
 
     # Scenario: get list of all tokens in my keyspace
     #     Given authorisation
-    #     And make a POST request to "/auth/tokens" with:
+    #     And make a POST request to "/auth" with:
     #         | serverId | "eddiehub"    |
     #         | scopes   | ["Data.Read"] |
     #     When make a GET request to "/auth/tokens/eddiehub"
@@ -17,21 +17,21 @@ Feature: auth module
     #     And  the response should be "[{\"serverId\":\"eddiehub\", \"scopes\":\"[\"Data.Read\"]\"}]"
 
     Scenario: fail to create a token with no authorisation
-        When make a POST request to "/auth" with:
+        When make a POST request to "/auth/token" with:
             | serverId | "eddiehub"    |
             | scopes   | ["Data.Read"] |
         Then the response status code should be 401
 
     Scenario: fail to create a token with invalid authorisation
         Given invalid authorisation
-        When make a POST request to "/auth" with:
+        When make a POST request to "/auth/token" with:
             | serverId | "eddiehub"    |
             | scopes   | ["Data.Read"] |
         Then the response status code should be 401
 
     Scenario: create a token successfully
         Given authorisation
-        When make a POST request to "/auth" with:
+        When make a POST request to "/auth/token" with:
             | serverId | "eddiehub"    |
             | scopes   | ["Data.Read"] |
         Then the response status code should be 201
@@ -44,7 +44,7 @@ Feature: auth module
 
     Scenario: use the token
         Given authorisation
-        When make a POST request to "/auth" with:
+        When make a POST request to "/auth/token" with:
             | serverId | "eddiehub"    |
             | scopes   | ["Data.Read"] |
         Then the response status code should be 201
@@ -58,36 +58,35 @@ Feature: auth module
         And make a GET request to "/calendar"
         Then the response status code should be 200
 
-# Scenario: validate token
-#     Given authorisation
-#     When make a POST request to "/auth" with:
-#         | serverId | "eddiehub"    |
-#         | scopes   | ["Data.Read"] |
-#     Then the response status code should be 201
-#     When make a POST request to "/auth/tokens/validate" with:
-#         | keyspace | "eddiehub"   |
-#         | clientId | "{clientId}" |
-#     Then the response status code should be 200
+    # Scenario: validate token
+    #     Given authorisation
+    #     When make a POST request to "/auth" with:
+    #         | serverId | "eddiehub"    |
+    #         | scopes   | ["Data.Read"] |
+    #     Then the response status code should be 201
+    #     When make a POST request to "/auth/tokens/validate" with:
+    #         | keyspace | "eddiehub"   |
+    #         | clientId | "{clientId}" |
+    #     Then the response status code should be 200
 
-# Scenario: invalid validation of token
-#     Given authorisation
-#     When make a POST request to "/auth" with:
-#         | serverId | "eddiehub"    |
-#         | scopes   | ["Data.Read"] |
-#     Then the response status code should be 201
-#     When make a POST request to "/auth/validate" with:
-#         | keyspace | "eddiehub" |
-#         | clientId | "xxxxxxxx" |
-#     Then the response status code should be 400
+    # Scenario: invalid validation of token
+    #     Given authorisation
+    #     When make a POST request to "/auth" with:
+    #         | serverId | "eddiehub"    |
+    #         | scopes   | ["Data.Read"] |
+    #     Then the response status code should be 201
+    #     When make a POST request to "/auth/validate" with:
+    #         | keyspace | "eddiehub" |
+    #         | clientId | "xxxxxxxx" |
+    #     Then the response status code should be 400
 
-# TODO: Fix Delete Token Test
-# Scenario: delete token
-#     Given authorisation
-#     When make a POST request to "/auth" with:
-#         | serverId | "eddiehub"    |
-#         | scopes   | ["Data.Read"] |
-#     Then the response status code should be 201
-#     When make a DELETE request to "/auth/{clientId}" with:
-#         | serverId | "eddiehub"    |
-#         | scopes   | ["Data.Read"] |
-#     Then the response status code should be 204
+
+    Scenario: delete token
+        Given authorisation
+        When make a POST request to "/auth/token" with:
+            | serverId | "eddiehub"    |
+            | scopes   | ["Data.Read"] |
+        Then the response status code should be 201
+        Then add bearer token to the header
+        When make a DELETE request to "/auth/token?token={bearer}"
+        Then the response status code should be 204
