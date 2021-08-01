@@ -92,4 +92,13 @@ export class AuthService {
     }
     return { clients: Object.keys(clients) };
   }
+
+  public validateToken(token: string) {
+    try {
+      this.jwtService.verify(token);
+      return { valid: true };
+    } catch (error) {
+      return { valid: false };
+    }
+  }
 }

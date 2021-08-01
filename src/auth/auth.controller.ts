@@ -9,9 +9,15 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { ApiParam, ApiQuery, ApiSecurity, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBody,
+  ApiParam,
+  ApiQuery,
+  ApiSecurity,
+  ApiTags,
+} from '@nestjs/swagger';
 import { AuthService } from './auth.service';
-import { AuthDTO } from './dto/auth.dto';
+import { AuthDTO, TokenValidationDTO } from './dto/auth.dto';
 import { TokenGuard } from './token.strategy';
 
 @ApiTags('Auth')
@@ -45,5 +51,10 @@ export class AuthController {
   @HttpCode(204)
   deleteClient(@Query() query) {
     return this.authService.removeClient(query.token);
+  }
+
+  @Post('validate')
+  validateToken(@Body() body: TokenValidationDTO) {
+    return this.authService.validateToken(body.token);
   }
 }

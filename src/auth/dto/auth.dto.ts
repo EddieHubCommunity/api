@@ -20,3 +20,10 @@ export class AuthDTO {
   @ApiProperty({ required: true })
   serverId: string;
 }
+
+export class TokenValidationDTO {
+  @IsNotEmpty()
+  @IsString()
+  @ApiProperty({ required: true })
+  token: string;
+}
