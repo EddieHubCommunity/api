@@ -117,6 +117,12 @@ export class requests {
     url = this.prepareURL(url);
 
     const post = request(this.context.app.getHttpServer()).post(url);
+    let body = this.context.tableToObject(table);
+    Object.keys(body).forEach((key) => {
+      if (/{BEARER}/.test(body[key])) {
+        body[key] = this.context.bearerToken;
+      }
+    });
 
     if (this.context.token) {
       post.set('Client-Token', this.context.token);
@@ -125,7 +131,7 @@ export class requests {
     if (this.context.bearerToken) {
       post.set('Authorization', `Bearer ${this.context.bearerToken}`);
     }
-    this.context.response = await post.send(this.context.tableToObject(table));
+    this.context.response = await post.send(body);
   }
 
   @when(/clear the bearer token/)

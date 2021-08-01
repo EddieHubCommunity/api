@@ -7,15 +7,11 @@ import {
   Param,
   Post,
   Query,
+  Res,
   UseGuards,
 } from '@nestjs/common';
-import {
-  ApiBody,
-  ApiParam,
-  ApiQuery,
-  ApiSecurity,
-  ApiTags,
-} from '@nestjs/swagger';
+import { ApiParam, ApiQuery, ApiSecurity, ApiTags } from '@nestjs/swagger';
+import { Response } from 'express';
 import { AuthService } from './auth.service';
 import { AuthDTO, TokenValidationDTO } from './dto/auth.dto';
 import { TokenGuard } from './token.strategy';
@@ -54,7 +50,7 @@ export class AuthController {
   }
 
   @Post('validate')
-  validateToken(@Body() body: TokenValidationDTO) {
-    return this.authService.validateToken(body.token);
+  validateToken(@Body() body: TokenValidationDTO, @Res() response: Response) {
+    this.authService.validateToken(body.token, response);
   }
 }

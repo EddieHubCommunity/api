@@ -4,6 +4,7 @@ import { JwtService } from '@nestjs/jwt';
 import { v4 as uuidv4 } from 'uuid';
 import { AuthDTO } from './dto/auth.dto';
 import { AstraService } from '../astra/astra.service';
+import { Response } from 'express';
 
 @Injectable()
 export class AuthService {
@@ -93,12 +94,12 @@ export class AuthService {
     return { clients: Object.keys(clients) };
   }
 
-  public validateToken(token: string) {
+  public validateToken(token: string, response: Response) {
     try {
       this.jwtService.verify(token);
-      return { valid: true };
+      response.status(HttpStatus.OK).json({ valid: true });
     } catch (error) {
-      return { valid: false };
+      response.status(HttpStatus.BAD_REQUEST).json({ valid: false });
     }
   }
 }

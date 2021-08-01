@@ -58,27 +58,31 @@ Feature: auth module
         And make a GET request to "/calendar"
         Then the response status code should be 200
 
-    # Scenario: validate token
-    #     Given authorisation
-    #     When make a POST request to "/auth" with:
-    #         | serverId | "eddiehub"    |
-    #         | scopes   | ["Data.Read"] |
-    #     Then the response status code should be 201
-    #     When make a POST request to "/auth/tokens/validate" with:
-    #         | keyspace | "eddiehub"   |
-    #         | clientId | "{clientId}" |
-    #     Then the response status code should be 200
+    Scenario: validate token
+        Given authorisation
+        When make a POST request to "/auth/token" with:
+            | serverId | "eddiehub"    |
+            | scopes   | ["Data.Read"] |
+        Then the response status code should be 201
+        Then add bearer token to the header
+        When make a POST request to "/auth/validate" with:
+            | token | "{BEARER}" |
+        Then the response status code should be 200
+        And the response should contain:
+            | valid | true |
 
-    # Scenario: invalid validation of token
-    #     Given authorisation
-    #     When make a POST request to "/auth" with:
-    #         | serverId | "eddiehub"    |
-    #         | scopes   | ["Data.Read"] |
-    #     Then the response status code should be 201
-    #     When make a POST request to "/auth/validate" with:
-    #         | keyspace | "eddiehub" |
-    #         | clientId | "xxxxxxxx" |
-    #     Then the response status code should be 400
+    Scenario: invalid validation of token
+        Given authorisation
+        When make a POST request to "/auth/token" with:
+            | serverId | "eddiehub"    |
+            | scopes   | ["Data.Read"] |
+        Then the response status code should be 201
+        Then add bearer token to the header
+        When make a POST request to "/auth/validate" with:
+            | token | "XXXXX" |
+        Then the response status code should be 400
+        And the response should contain:
+            | valid | false |
 
 
     Scenario: delete token
