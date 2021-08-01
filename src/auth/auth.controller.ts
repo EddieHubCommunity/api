@@ -19,7 +19,7 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Get()
-  @ApiSecurity('token')
+  @UseGuards(TokenGuard)
   @ApiSecurity('token')
   @ApiQuery({ name: 'keyspace', required: true })
   getTokens(@Query('keyspace') keyspace: string) {
