@@ -50,6 +50,8 @@ export class AuthController {
   }
 
   @Post('validate')
+  @UseGuards(TokenGuard)
+  @ApiSecurity('token')
   validateToken(@Body() body: TokenValidationDTO, @Res() response: Response) {
     this.authService.validateToken(body.token, response);
   }
