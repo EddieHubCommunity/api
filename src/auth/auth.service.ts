@@ -86,10 +86,7 @@ export class AuthService {
     try {
       clients = await this.astraService.find(keyspace, 'tokens').toPromise();
     } catch (error) {
-      throw new HttpException(
-        'Clients couldnt be retrieved',
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
+      return { clients: [] };
     }
     return { clients: Object.keys(clients) };
   }

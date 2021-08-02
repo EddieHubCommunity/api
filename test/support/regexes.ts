@@ -10,6 +10,9 @@ const jwt = new RegExp(
 const versionRegex = new RegExp(
   /Currently running version: \d{1,3}.\d{1,3}.\d{1,3}/,
 );
+const v4 = new RegExp(
+  /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i,
+);
 
 export function getRegex(type: string): RegExp {
   switch (type) {
@@ -28,6 +31,8 @@ export function getRegex(type: string): RegExp {
       return versionRegex;
     case 'TYPE:JWT':
       return jwt;
+    case 'TYPE:UUID':
+      return v4;
     default:
       break;
   }

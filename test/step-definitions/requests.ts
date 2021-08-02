@@ -109,6 +109,10 @@ export class requests {
     if (this.context.bearerToken) {
       get.set('Authorization', `Bearer ${this.context.bearerToken}`);
     }
+
+    if (this.context.token) {
+      get.set('Client-Token', this.context.token);
+    }
     this.context.response = await get.send();
   }
 

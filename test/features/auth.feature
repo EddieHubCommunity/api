@@ -1,20 +1,21 @@
 @auth
 Feature: auth module
 
-    # Scenario: get list of all tokens in invalid keyspace
-    #     Given authorisation
-    #     When make a GET request to "/auth/invalid-keyspace"
-    #     Then the response status code should be 200
-    #     And  the response should be "[]"
+    Scenario: get list of all tokens in invalid keyspace
+        Given authorisation
+        When make a GET request to "/auth/token/invalid-keyspace"
+        Then the response status code should be 200
+        And  the response should contain:
+            | clients | [] |
 
-    # Scenario: get list of all tokens in my keyspace
-    #     Given authorisation
-    #     And make a POST request to "/auth" with:
-    #         | serverId | "eddiehub"    |
-    #         | scopes   | ["Data.Read"] |
-    #     When make a GET request to "/auth/tokens/eddiehub"
-    #     Then the response status code should be 200
-    #     And  the response should be "[{\"serverId\":\"eddiehub\", \"scopes\":\"[\"Data.Read\"]\"}]"
+    Scenario: get list of all tokens in my keyspace
+        Given authorisation
+        And make a POST request to "/auth/token" with:
+            | serverId | "eddiehub"    |
+            | scopes   | ["Data.Read"] |
+        When make a GET request to "/auth/token/eddiehub"
+        Then the response status code should be 200
+        And  the response property "clients" should be of type "TYPE:UUID"
 
     Scenario: fail to create a token with no authorisation
         When make a POST request to "/auth/token" with:
