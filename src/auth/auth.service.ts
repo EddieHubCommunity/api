@@ -91,7 +91,7 @@ export class AuthService {
     return { clients: Object.keys(clients) };
   }
 
-  public validateToken(token: string, response: Response) {
+  public validateToken(token: string) {
     try {
       this.jwtService.verify(token);
       return true;

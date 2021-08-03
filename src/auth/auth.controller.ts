@@ -54,9 +54,10 @@ export class AuthController {
   @UseGuards(TokenGuard)
   @ApiSecurity('token')
   validateToken(@Body() body: TokenValidationDTO, @Res() response: Response) {
-    const valid = this.authService.validateToken(body.token, response);
+    const valid = this.authService.validateToken(body.token);
     if (!valid) {
       response.status(HttpStatus.BAD_REQUEST).json({ valid });
+      return;
     }
     response.status(HttpStatus.OK).json({ valid });
   }
