@@ -94,9 +94,9 @@ export class AuthService {
   public validateToken(token: string, response: Response) {
     try {
       this.jwtService.verify(token);
-      response.status(HttpStatus.OK).json({ valid: true });
+      return true;
     } catch (error) {
-      response.status(HttpStatus.BAD_REQUEST).json({ valid: false });
+      return false;
     }
   }
 }

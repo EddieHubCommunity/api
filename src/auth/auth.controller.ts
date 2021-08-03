@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   HttpCode,
+  HttpStatus,
   Param,
   Post,
   Query,
@@ -53,6 +54,10 @@ export class AuthController {
   @UseGuards(TokenGuard)
   @ApiSecurity('token')
   validateToken(@Body() body: TokenValidationDTO, @Res() response: Response) {
-    this.authService.validateToken(body.token, response);
+    const valid = this.authService.validateToken(body.token, response);
+    if (!valid) {
+      response.status(HttpStatus.BAD_REQUEST).json({ valid });
+    }
+    response.status(HttpStatus.OK).json({ valid });
   }
 }
