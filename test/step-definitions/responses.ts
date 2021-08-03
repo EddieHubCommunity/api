@@ -1,18 +1,17 @@
-import { binding, then, before } from 'cucumber-tsflow';
-import { expect } from 'chai';
-import { Test, TestingModule } from '@nestjs/testing';
-import { AppModule } from '../../src/app.module';
-import Context from '../support/world';
-import { getRegex } from '../support/regexes';
 import {
   ExecutionContext,
   UnauthorizedException,
   ValidationPipe,
 } from '@nestjs/common';
-import { JWTGuard } from '../../src/auth/jwt.strategy';
-import { TokenPayload } from '../../src/auth/interfaces/token-payload.interface';
+import { Test, TestingModule } from '@nestjs/testing';
+import { expect } from 'chai';
+import { before, binding, then } from 'cucumber-tsflow';
 import { decode } from 'jsonwebtoken';
-import { Request } from 'express';
+import { AppModule } from '../../src/app.module';
+import { TokenPayload } from '../../src/auth/interfaces/token-payload.interface';
+import { JWTGuard } from '../../src/auth/jwt.strategy';
+import { getRegex } from '../support/regexes';
+import Context from '../support/world';
 
 @binding([Context])
 export class responses {
@@ -26,7 +25,7 @@ export class responses {
       .overrideGuard(JWTGuard)
       .useValue({
         canActivate: (ctx: ExecutionContext) => {
-          const req: Request = ctx.switchToHttp().getRequest();
+          const req = ctx.switchToHttp().getRequest();
           if (req.headers.authorization) {
             const accessToken = req.headers.authorization.split(' ')[1];
             req.user = decode(accessToken) as TokenPayload;

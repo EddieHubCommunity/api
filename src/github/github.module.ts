@@ -1,4 +1,5 @@
-import { HttpModule, Module } from '@nestjs/common';
+import { HttpModule } from '@nestjs/axios';
+import { Module } from '@nestjs/common';
 import { AstraService as AstraApiService } from '../astra/astra.service';
 import { AuthModule } from '../auth/auth.module';
 import { CommunitystatsMappingService } from './communitystats-mapping.service';

@@ -1,8 +1,9 @@
 import { AstraModule } from '@cahllagerfeld/nestjs-astra';
-import { HttpModule } from '@nestjs/common';
+import { HttpModule } from '@nestjs/axios';
 import { ConfigModule } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AstraConfigService } from '../astra/astra-config.service';
+import { AstraService } from '../astra/astra.service';
 import { AuthModule } from '../auth/auth.module';
 import { CommunitystatsMappingService } from './communitystats-mapping.service';
 import { GeocodingService } from './geocoding.service';
@@ -33,6 +34,7 @@ describe('GithubController', () => {
         GithubService,
         CommunitystatsMappingService,
         GeocodingService,
+        AstraService,
       ],
     }).compile();
 

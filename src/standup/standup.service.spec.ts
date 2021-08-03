@@ -2,6 +2,7 @@ import { AstraModule } from '@cahllagerfeld/nestjs-astra';
 import { ConfigModule } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AstraConfigService } from '../astra/astra-config.service';
+import { AstraService } from '../astra/astra.service';
 import { AuthModule } from '../auth/auth.module';
 import { StandupService } from './standup.service';
 
@@ -23,7 +24,7 @@ describe('StandupService', () => {
           collection: 'standup',
         }),
       ],
-      providers: [StandupService],
+      providers: [StandupService, AstraService],
     }).compile();
 
     service = module.get<StandupService>(StandupService);

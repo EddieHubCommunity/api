@@ -1,4 +1,4 @@
-import { HttpService } from '@nestjs/common';
+import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
 import { KeyspaceInterceptor } from './keyspace.interceptor';
 import { KeyspaceService } from './keyspace.service';
