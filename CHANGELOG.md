@@ -1,3 +1,12 @@
+# [0.9.0](https://github.com/EddieHubCommunity/api/compare/v0.8.0...v0.9.0) (2021-08-03)
+
+
+### Features
+
+* tokens to DataStax DB ([#173](https://github.com/EddieHubCommunity/api/issues/173)) ([a117d93](https://github.com/EddieHubCommunity/api/commit/a117d9302fb7b6c37181a28010e92f775c93b871)), closes [#137](https://github.com/EddieHubCommunity/api/issues/137) [#165](https://github.com/EddieHubCommunity/api/issues/165) [#165](https://github.com/EddieHubCommunity/api/issues/165)
+
+
+
 # [0.8.0](https://github.com/EddieHubCommunity/api/compare/v0.7.0...v0.8.0) (2021-07-31)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * temporary removed helmet ([#126](https://github.com/EddieHubCommunity/api/issues/126)) ([226a8b5](https://github.com/EddieHubCommunity/api/commit/226a8b58e98bd394f12cd8083648d0e74f9461a0))
-
-
-
-## [0.6.11](https://github.com/EddieHubCommunity/api/compare/v0.6.10...v0.6.11) (2021-06-29)
-
-
-### Bug Fixes
-
-* command typo ([#154](https://github.com/EddieHubCommunity/api/issues/154)) ([60b63b0](https://github.com/EddieHubCommunity/api/commit/60b63b0abc1be175c204070076fb08ee042d63fa))
 
 
 
