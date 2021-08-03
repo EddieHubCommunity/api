@@ -13,6 +13,7 @@ export class TokenStrategy extends PassportStrategy(
     super({
       tokenHeader: 'Client-Token',
       tokenQuery: 'Client-Token',
+      tokenField: 'Client-Token',
       passReqToCallback: true,
     });
   }

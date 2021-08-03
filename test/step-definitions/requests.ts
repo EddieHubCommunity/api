@@ -36,14 +36,28 @@ export class requests {
   constructor(protected context: Context) {}
 
   private prepareURL(url: string): string {
-    if (/\/{id}/.test(url)) {
+    if (/{id}/.test(url)) {
       url = url.replace(/{id}/, this.context.documentId);
+    }
+    if (/{bearer}/.test(url)) {
+      url = url.replace(/{bearer}/, this.context.bearerToken);
     }
     return url;
   }
 
   @before()
   public async before(): Promise<void> {
+    const moduleFixture: TestingModule = await Test.createTestingModule({
+      imports: [AppModule],
+    }).compile();
+
+    this.context.app = moduleFixture.createNestApplication();
+    this.context.app.useGlobalPipes(new ValidationPipe({ transform: true }));
+    await this.context.app.init();
+  }
+
+  @when(/restart app/)
+  public async restartApp(): Promise<void> {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
     }).compile();
@@ -71,9 +85,19 @@ export class requests {
     this.context.bearerToken = token;
   }
 
-  @given(/authorisation/)
+  @given(/^authorisation$/)
   public async authorisation() {
     this.context.token = 'abc';
+  }
+
+  @given(/^invalid authorisation$/)
+  public async invalidAuthorisation() {
+    this.context.token = 'xxx';
+  }
+
+  @when(/add bearer token to the header/)
+  public async addBearerToken() {
+    this.context.bearerToken = this.context.response.body.accessToken;
   }
 
   @given(/make a GET request to "([^"]*)"/)
@@ -85,6 +109,10 @@ export class requests {
     if (this.context.bearerToken) {
       get.set('Authorization', `Bearer ${this.context.bearerToken}`);
     }
+
+    if (this.context.token) {
+      get.set('Client-Token', this.context.token);
+    }
     this.context.response = await get.send();
   }
 
@@ -93,6 +121,12 @@ export class requests {
     url = this.prepareURL(url);
 
     const post = request(this.context.app.getHttpServer()).post(url);
+    const body = this.context.tableToObject(table);
+    Object.keys(body).forEach((key) => {
+      if (/{BEARER}/.test(body[key])) {
+        body[key] = this.context.bearerToken;
+      }
+    });
 
     if (this.context.token) {
       post.set('Client-Token', this.context.token);
@@ -101,7 +135,7 @@ export class requests {
     if (this.context.bearerToken) {
       post.set('Authorization', `Bearer ${this.context.bearerToken}`);
     }
-    this.context.response = await post.send(this.context.tableToObject(table));
+    this.context.response = await post.send(body);
   }
 
   @when(/clear the bearer token/)

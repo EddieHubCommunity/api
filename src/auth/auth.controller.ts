@@ -4,13 +4,17 @@ import {
   Delete,
   Get,
   HttpCode,
+  HttpStatus,
+  Param,
   Post,
   Query,
+  Res,
   UseGuards,
 } from '@nestjs/common';
-import { ApiQuery, ApiSecurity, ApiTags } from '@nestjs/swagger';
+import { ApiParam, ApiQuery, ApiSecurity, ApiTags } from '@nestjs/swagger';
+import { Response } from 'express';
 import { AuthService } from './auth.service';
-import { AuthDTO } from './dto/auth.dto';
+import { AuthDTO, TokenValidationDTO } from './dto/auth.dto';
 import { TokenGuard } from './token.strategy';
 
 @ApiTags('Auth')
@@ -18,22 +22,22 @@ import { TokenGuard } from './token.strategy';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Get()
+  @Get('token/:keyspace')
   @UseGuards(TokenGuard)
   @ApiSecurity('token')
-  @ApiQuery({ name: 'keyspace', required: true })
-  getTokens(@Query('keyspace') keyspace: string) {
+  @ApiParam({ name: 'keyspace', required: true })
+  getTokens(@Param('keyspace') keyspace: string) {
     return this.authService.getClientIds(keyspace);
   }
 
-  @Post()
+  @Post('token')
   @UseGuards(TokenGuard)
   @ApiSecurity('token')
   register(@Body() body: AuthDTO) {
     return this.authService.register(body);
   }
 
-  @Delete()
+  @Delete('token')
   @UseGuards(TokenGuard)
   @ApiSecurity('token')
   @ApiQuery({
@@ -44,5 +48,17 @@ export class AuthController {
   @HttpCode(204)
   deleteClient(@Query() query) {
     return this.authService.removeClient(query.token);
+  }
+
+  @Post('validate')
+  @UseGuards(TokenGuard)
+  @ApiSecurity('token')
+  validateToken(@Body() body: TokenValidationDTO, @Res() response: Response) {
+    const valid = this.authService.validateToken(body.token);
+    if (!valid) {
+      response.status(HttpStatus.BAD_REQUEST).json({ valid });
+      return;
+    }
+    response.status(HttpStatus.OK).json({ valid });
   }
 }

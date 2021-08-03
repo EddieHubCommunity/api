@@ -195,4 +195,15 @@ export class responses {
     }
     expect(responseString).to.equal(text);
   }
+
+  @then(
+    /the response property "([^"]*)" should have a collection of type "([^"]*)"/,
+  )
+  public validateArrayProperty(property: string, type: string) {
+    const responseProperty = JSON.parse(this.context.response.text)[property];
+    const regex = getRegex(type);
+    if (responseProperty instanceof Array) {
+      responseProperty.every((element) => expect(element).to.match(regex));
+    }
+  }
 }

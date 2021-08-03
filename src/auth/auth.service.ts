@@ -3,20 +3,17 @@ import { TokenPayload } from './interfaces/token-payload.interface';
 import { JwtService } from '@nestjs/jwt';
 import { v4 as uuidv4 } from 'uuid';
 import { AuthDTO } from './dto/auth.dto';
+import { AstraService } from '../astra/astra.service';
+import { Response } from 'express';
 
 @Injectable()
 export class AuthService {
-  //TODO move configCollection to database => own ConfigDataModule
-  private configCollection: { [id: string]: { knownClients: string[] } } = {};
-  constructor(private readonly jwtService: JwtService) {}
+  constructor(
+    private readonly jwtService: JwtService,
+    private readonly astraService: AstraService,
+  ) {}
 
-  public getClientIds(keyspace: string) {
-    if (!this.configCollection[keyspace]) return {};
-    return { tokens: this.configCollection[keyspace]?.knownClients };
-  }
-
-  public register(body: AuthDTO) {
-    const tokenType = 'bearer';
+  public async register(body: AuthDTO) {
     const clientId = uuidv4();
     const { serverId, scopes } = body;
 
@@ -25,47 +22,81 @@ export class AuthService {
       keyspace: serverId,
       scopes,
     };
-    if (!this.configCollection[serverId]) {
-      this.configCollection[serverId] = { knownClients: [] };
+    try {
+      await this.astraService
+        .create({ clientId }, serverId, 'tokens', clientId)
+        .toPromise();
+    } catch (error) {
+      throw new HttpException(
+        "Token coundn't be created in the database",
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
-    this.configCollection[serverId].knownClients = [
-      ...this.configCollection[serverId].knownClients,
-      clientId,
-    ];
+
     //TODO token-expiry
     const signedToken = this.jwtService.sign(payload, { expiresIn: '1y' });
     const decoded: any = this.jwtService.decode(signedToken);
     const expiresIn: number = decoded.exp - Math.round(Date.now() / 1000);
-    return { ...payload, accessToken: signedToken, expiresIn, tokenType };
+    return { ...payload, accessToken: signedToken, expiresIn };
   }
 
-  public validateClient(payload: TokenPayload): boolean {
+  public async validateClient(payload: TokenPayload): Promise<boolean> {
     const { keyspace, clientId } = payload;
-    if (
-      this.configCollection[keyspace] &&
-      this.configCollection[keyspace].knownClients.includes(clientId)
-    ) {
-      return true;
+    let token: string = null;
+    try {
+      token = await this.astraService
+        .get<string>(clientId, keyspace, 'tokens')
+        .toPromise();
+    } catch {
+      return false;
     }
-    return false;
+    if (!token) {
+      return false;
+    }
+    return true;
   }
 
-  public removeClient(token: string) {
+  public async removeClient(token: string) {
+    let deleteSuccess = false;
+    let clientId: string;
+    let keyspace: string;
+
     if (!token)
       throw new HttpException('Please provide token', HttpStatus.BAD_REQUEST);
-
-    const decoded = this.jwtService.decode(token) as TokenPayload;
-
     try {
-      this.configCollection[
-        decoded.keyspace
-      ].knownClients = this.configCollection[
-        decoded.keyspace
-      ].knownClients.filter((client) => client !== decoded.clientId);
-      console.log(this.configCollection);
-      return;
-    } catch (e) {
-      throw new HttpException('Invalid client id', HttpStatus.BAD_REQUEST);
+      ({ clientId, keyspace } = this.jwtService.verify<TokenPayload>(token));
+    } catch (error) {
+      throw new HttpException(
+        "Token couldn't be verified",
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    try {
+      await this.astraService.delete(clientId, keyspace, 'tokens').toPromise();
+      deleteSuccess = true;
+    } catch (error) {
+      throw new Error("Token couldn't be deleted");
+    }
+
+    return deleteSuccess;
+  }
+
+  public async getClientIds(keyspace: string) {
+    let clients;
+    try {
+      clients = await this.astraService.find(keyspace, 'tokens').toPromise();
+    } catch (error) {
+      return { clients: [] };
+    }
+    return { clients: Object.keys(clients) };
+  }
+
+  public validateToken(token: string) {
+    try {
+      this.jwtService.verify(token);
+      return true;
+    } catch (error) {
+      return false;
     }
   }
 }
