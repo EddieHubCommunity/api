@@ -15,7 +15,7 @@ Feature: auth module
             | scopes   | ["Data.Read"] |
         When make a GET request to "/auth/token/eddiehub"
         Then the response status code should be 200
-        And  the response property "clients" should be of type "TYPE:UUID"
+        And  the response property "clients" should have a collection of type "TYPE:UUID"
 
     Scenario: fail to create a token with no authorisation
         When make a POST request to "/auth/token" with:
