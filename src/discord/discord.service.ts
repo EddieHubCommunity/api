@@ -18,7 +18,6 @@ export class DiscordService {
     createDiscordDto: DiscordDTO,
     keyspaceName: string,
   ): Observable<documentId> {
-    console.log(keyspaceName);
     const discordUser: DiscordProfile = {
       author: { ...createDiscordDto.author },
       bio: createDiscordDto.bio,
