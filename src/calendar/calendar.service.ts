@@ -115,15 +115,8 @@ export class CalendarService {
 
     const updateEvent = { ...oldDocument };
 
-    const {
-      description,
-      name,
-      platform,
-      url,
-      author,
-      startDate,
-      endDate,
-    } = calendarDTO;
+    const { description, name, platform, url, author, startDate, endDate } =
+      calendarDTO;
 
     if (name) {
       updateEvent.name = name;
