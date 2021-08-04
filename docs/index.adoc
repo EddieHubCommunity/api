@@ -1,0 +1,5 @@
+= Eddiehub API Documentation
+:source-highlighter: highlightjs
+:highlightjs-languages: typescript
+
+
