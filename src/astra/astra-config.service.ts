@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import {
-  AstraDatastaxConfig,
-  AstraLocalConfig,
+  AstraConfig,
+  StargateConfig,
   DatastaxOptionsFactory,
 } from '@cahllagerfeld/nestjs-astra';
 import { ConfigService } from '@nestjs/config';
@@ -9,7 +9,7 @@ import { ConfigService } from '@nestjs/config';
 @Injectable()
 export class AstraConfigService implements DatastaxOptionsFactory {
   constructor(private readonly config: ConfigService) {}
-  createDatastaxOptions(): AstraLocalConfig | AstraDatastaxConfig {
+  createDatastaxOptions(): AstraConfig | StargateConfig {
     if (this.config.get('STARGATE_BASEURL')) {
       if (this.config.get('STARGATE_AUTH_TOKEN')) {
         return {

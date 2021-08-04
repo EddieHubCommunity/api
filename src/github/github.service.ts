@@ -97,10 +97,11 @@ export class GithubService {
       updateGithubProfile.repos = repos;
     }
     if (event) {
-      updateGithubProfile.communityStats = this.mappingService.mapCommunityState(
-        event,
-        updateGithubProfile.communityStats,
-      );
+      updateGithubProfile.communityStats =
+        this.mappingService.mapCommunityState(
+          event,
+          updateGithubProfile.communityStats,
+        );
     }
     if (followers) {
       updateGithubProfile.followers = followers;

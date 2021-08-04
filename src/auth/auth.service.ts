@@ -4,7 +4,6 @@ import { JwtService } from '@nestjs/jwt';
 import { v4 as uuidv4 } from 'uuid';
 import { AuthDTO } from './dto/auth.dto';
 import { AstraService } from '../astra/astra.service';
-import { Response } from 'express';
 
 @Injectable()
 export class AuthService {

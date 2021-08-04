@@ -5,6 +5,7 @@ import { DiscordService } from './discord.service';
 import { ConfigModule } from '@nestjs/config';
 import { AstraModule } from '@cahllagerfeld/nestjs-astra';
 import { AstraConfigService } from '../astra/astra-config.service';
+import { AstraService } from '../astra/astra.service';
 
 describe('DiscordController', () => {
   let controller: DiscordController;
@@ -25,7 +26,7 @@ describe('DiscordController', () => {
         }),
       ],
       controllers: [DiscordController],
-      providers: [DiscordService],
+      providers: [DiscordService, AstraService],
     }).compile();
 
     controller = module.get<DiscordController>(DiscordController);
