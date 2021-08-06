@@ -19,7 +19,7 @@ jobs:
         run: npm run docs
 
       - name: deploy
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/issue-161'
         uses: JamesIves/github-pages-deploy-action@4.1.4
         with:
           branch: gh-pages
