@@ -1,3 +1,12 @@
+# [0.10.0](https://github.com/EddieHubCommunity/api/compare/v0.9.1...v0.10.0) (2021-08-06)
+
+
+### Features
+
+* documentation with asciidoc ([#161](https://github.com/EddieHubCommunity/api/issues/161)) ([2101b2f](https://github.com/EddieHubCommunity/api/commit/2101b2f30aa16bb85a0432651f26404f5bef6709))
+
+
+
 ## [0.9.1](https://github.com/EddieHubCommunity/api/compare/v0.9.0...v0.9.1) (2021-08-04)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * namespaces for data ([#168](https://github.com/EddieHubCommunity/api/issues/168)) ([0f90839](https://github.com/EddieHubCommunity/api/commit/0f90839df47e63396db3ed014f3bc857c7380849)), closes [#137](https://github.com/EddieHubCommunity/api/issues/137) [#137](https://github.com/EddieHubCommunity/api/issues/137)
-
-
-
-## [0.6.13](https://github.com/EddieHubCommunity/api/compare/v0.6.12...v0.6.13) (2021-07-23)
-
-
-### Bug Fixes
-
-* helmet is back ([#126](https://github.com/EddieHubCommunity/api/issues/126)) ([23418c3](https://github.com/EddieHubCommunity/api/commit/23418c3246163170cb64014937e516280731dffc))
 
 
 
