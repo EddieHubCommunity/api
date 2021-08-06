@@ -1,7 +1,6 @@
 = Eddiehub API Documentation
+:toc: auto
 :source-highlighter: highlightjs
 :highlightjs-languages: typescript
 
-== Authentication
-
-=== Tokens
+include::readme.adoc[]
