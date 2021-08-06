@@ -1,3 +1,12 @@
+## [0.10.1](https://github.com/EddieHubCommunity/api/compare/v0.10.0...v0.10.1) (2021-08-06)
+
+
+### Bug Fixes
+
+* run docs for all changes ([#161](https://github.com/EddieHubCommunity/api/issues/161)) ([ea31159](https://github.com/EddieHubCommunity/api/commit/ea311594386f6dbaf5bb6ab9471bb6a3cfe17007))
+
+
+
 # [0.10.0](https://github.com/EddieHubCommunity/api/compare/v0.9.1...v0.10.0) (2021-08-06)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * issue forms ([#164](https://github.com/EddieHubCommunity/api/issues/164)) ([a0c13c1](https://github.com/EddieHubCommunity/api/commit/a0c13c1dff59c9fb2bc96c856a876c46d925f0e9))
-
-
-
-# [0.7.0](https://github.com/EddieHubCommunity/api/compare/v0.6.13...v0.7.0) (2021-07-31)
-
-
-### Features
-
-* namespaces for data ([#168](https://github.com/EddieHubCommunity/api/issues/168)) ([0f90839](https://github.com/EddieHubCommunity/api/commit/0f90839df47e63396db3ed014f3bc857c7380849)), closes [#137](https://github.com/EddieHubCommunity/api/issues/137) [#137](https://github.com/EddieHubCommunity/api/issues/137)
 
 
 
