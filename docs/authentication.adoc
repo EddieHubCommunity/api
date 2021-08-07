@@ -27,4 +27,4 @@ There are several steps required to get a Bearer-Token to make authorized calls 
 
 1. Send a `POST` request to `/auth/token`. For that request an API-Token is required.
 2. The response will contain a singed `accesstoken` and several additional info
-3. This accesstoken can be used as Bearer Token for the other Endpoints.
+3. This accesstoken can be used as Bearer-Token for the other Endpoints.
