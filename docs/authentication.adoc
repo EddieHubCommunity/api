@@ -2,7 +2,7 @@
 
 There are two authentication-methods within the API. The following chapter shall give an overview on how to create and then use the generated tokens for making requests to the API. +
 
-Please take a look at the Swagger-Documentation of the API to see which tokens needs to be provided for using which endpoint or how the Body-Payload for the different endpoints need to look like.
+Please take a look at the Swagger-Documentation of the API to see which tokens needs to be provided for using which endpoint or how the Body-Payload for the different endpoints need to look like. The Swagger-Documentation can be reached with the following path `<base-url>/swagger`
 
 === Tokens
 
@@ -18,7 +18,8 @@ The API uses two kinds of tokens.
 ** Client-ID is a unique UUID, which gets generated when generating a new token
 ** The token isn't valid forever, it will expire after some time
 ** The **Keyspace** is the ServerID of the Discord-Bot which consumes the API
-** **!IMPORTANT** currently Datastax Astra isn't able to generate a new Keyspace on the fly. Therefor the keyspace needs to be created manually before being able to use a new one.
+
+IMPORTANT: currently Datastax Astra isn't able to generate a new Keyspace on the fly. Therefor the keyspace needs to be created manually before being able to use a new one.
 
 
 === Authentication-Flow
