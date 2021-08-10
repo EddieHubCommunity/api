@@ -1,3 +1,12 @@
+## [0.10.2](https://github.com/EddieHubCommunity/api/compare/v0.10.1...v0.10.2) (2021-08-10)
+
+
+### Bug Fixes
+
+* 200 instead of 400 ([#185](https://github.com/EddieHubCommunity/api/issues/185)) ([66603a3](https://github.com/EddieHubCommunity/api/commit/66603a3f862f38a460bd3b6bcd186ecf662dd5d1))
+
+
+
 ## [0.10.1](https://github.com/EddieHubCommunity/api/compare/v0.10.0...v0.10.1) (2021-08-06)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * tokens to DataStax DB ([#173](https://github.com/EddieHubCommunity/api/issues/173)) ([a117d93](https://github.com/EddieHubCommunity/api/commit/a117d9302fb7b6c37181a28010e92f775c93b871)), closes [#137](https://github.com/EddieHubCommunity/api/issues/137) [#165](https://github.com/EddieHubCommunity/api/issues/165) [#165](https://github.com/EddieHubCommunity/api/issues/165)
-
-
-
-# [0.8.0](https://github.com/EddieHubCommunity/api/compare/v0.7.0...v0.8.0) (2021-07-31)
-
-
-### Features
-
-* issue forms ([#164](https://github.com/EddieHubCommunity/api/issues/164)) ([a0c13c1](https://github.com/EddieHubCommunity/api/commit/a0c13c1dff59c9fb2bc96c856a876c46d925f0e9))
 
 
 
