@@ -4,15 +4,12 @@ import {
   Delete,
   Get,
   HttpCode,
-  HttpStatus,
   Param,
   Post,
   Query,
-  Res,
   UseGuards,
 } from '@nestjs/common';
 import { ApiParam, ApiQuery, ApiSecurity, ApiTags } from '@nestjs/swagger';
-import { Response } from 'express';
 import { AuthService } from './auth.service';
 import { AuthDTO, TokenValidationDTO } from './dto/auth.dto';
 import { TokenGuard } from './token.strategy';
@@ -53,12 +50,9 @@ export class AuthController {
   @Post('validate')
   @UseGuards(TokenGuard)
   @ApiSecurity('token')
-  validateToken(@Body() body: TokenValidationDTO, @Res() response: Response) {
+  @HttpCode(200)
+  validateToken(@Body() body: TokenValidationDTO) {
     const valid = this.authService.validateToken(body.token);
-    if (!valid) {
-      response.status(HttpStatus.BAD_REQUEST).json({ valid });
-      return;
-    }
-    response.status(HttpStatus.OK).json({ valid });
+    return { valid };
   }
 }
