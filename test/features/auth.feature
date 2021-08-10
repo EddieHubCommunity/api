@@ -81,7 +81,7 @@ Feature: auth module
         Then add bearer token to the header
         When make a POST request to "/auth/validate" with:
             | token | "XXXXX" |
-        Then the response status code should be 400
+        Then the response status code should be 200
         And the response should contain:
             | valid | false |
 
