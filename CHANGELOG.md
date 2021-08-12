@@ -1,3 +1,12 @@
+## [0.10.3](https://github.com/EddieHubCommunity/api/compare/v0.10.2...v0.10.3) (2021-08-12)
+
+
+### Bug Fixes
+
+* deleting token dont validate exp ([#184](https://github.com/EddieHubCommunity/api/issues/184)) ([bd0fd5c](https://github.com/EddieHubCommunity/api/commit/bd0fd5cfdecf72ad9e9b9c2383eabe8023a81146))
+
+
+
 ## [0.10.2](https://github.com/EddieHubCommunity/api/compare/v0.10.1...v0.10.2) (2021-08-10)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * updated dependencies ([#62](https://github.com/EddieHubCommunity/api/issues/62)) ([914b39f](https://github.com/EddieHubCommunity/api/commit/914b39f0ad15ca846a45364d16e35d60c5dccde9))
-
-
-
-# [0.9.0](https://github.com/EddieHubCommunity/api/compare/v0.8.0...v0.9.0) (2021-08-03)
-
-
-### Features
-
-* tokens to DataStax DB ([#173](https://github.com/EddieHubCommunity/api/issues/173)) ([a117d93](https://github.com/EddieHubCommunity/api/commit/a117d9302fb7b6c37181a28010e92f775c93b871)), closes [#137](https://github.com/EddieHubCommunity/api/issues/137) [#165](https://github.com/EddieHubCommunity/api/issues/165) [#165](https://github.com/EddieHubCommunity/api/issues/165)
 
 
 
