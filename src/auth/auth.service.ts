@@ -63,7 +63,7 @@ export class AuthService {
     if (!token)
       throw new HttpException('Please provide token', HttpStatus.BAD_REQUEST);
     try {
-      ({ clientId, keyspace } = this.jwtService.verify<TokenPayload>(token));
+      ({ clientId, keyspace } = this.jwtService.verify<TokenPayload>(token, {ignoreExpiration: true}));
     } catch (error) {
       throw new HttpException(
         "Token couldn't be verified",
