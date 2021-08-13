@@ -7,7 +7,7 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 COPY .npmrc .npmrc
 
-RUN echo "//npm.pkg.github.com/:_authToken=${github_token}" > ~/.npmrc
+RUN run: export GH_TOKEN="${github_token}"
 RUN npm install --ignore-scripts
 RUN rm -f .npmrc
 
