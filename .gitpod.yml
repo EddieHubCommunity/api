@@ -1,13 +1,12 @@
 # List the start up tasks. Learn more https://www.gitpod.io/docs/config-start-tasks/
 tasks:
-  - name: Install npm depdencies 
+  - name: Install npm depdencies & Setup Docker
     init: |
       npm i -g npm
       npm install
-    command: |
-      npm run start:dev
+      docker-compose up
   - name: Run project
-    before: docker-compose up
+    command: npm run start:dev
 
 github:
   prebuilds:
