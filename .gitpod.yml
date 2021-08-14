@@ -4,9 +4,9 @@ tasks:
     init: |
       npm i -g npm
       npm install
-    command: npm run start:dev
-  - name: Setup Docker
-    command: docker-compose up
+    command: |
+      npm i -g npm
+      docker-compose up
 
 github:
   prebuilds:
