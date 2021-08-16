@@ -7,6 +7,10 @@ tasks:
     command: |
       npm i -g npm
       docker-compose up
+  - name: run App
+    command: |
+      delay 30
+      npm run start:dev
 
 github:
   prebuilds:
