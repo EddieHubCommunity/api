@@ -6,11 +6,12 @@ tasks:
       npm install
     command: |
       npm i -g npm
-      docker-compose up
-  - name: run App
-    command: |
-      delay 30
+      sleep 30
       npm run start:dev
+  - name: Docker
+    command: |
+      docker-compose up
+      
 
 github:
   prebuilds:
