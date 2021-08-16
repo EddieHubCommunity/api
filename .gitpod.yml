@@ -6,10 +6,7 @@ tasks:
       npm install
     command: |
       npm i -g npm
-      gp await-port 8080
-      npm run start:dev
-  - name: docker-compose
-    command: docker-compose up
+      docker-compose up
 
 github:
   prebuilds:
