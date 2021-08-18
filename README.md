@@ -7,6 +7,7 @@
 
 Stargate - sign up with GitHub login for [FREE on DataStax Stargate](http://links.eddiejaoude.io/t/CiEQRydj4GdT) and get a NoSQL DB up in minutes with approximately `30 million reads, 5 million writes, and 40GB of storage per month for free` (Docker container also available)
 
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/EddieHubCommunity/api)
 ## Description
 
 An API to manage our community data
