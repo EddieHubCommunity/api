@@ -29,12 +29,15 @@ $ npm install
 ```
 
 ## Running the app locally
-For connecting to Datastax Astra or a local stargate docker container the `nestjs-astra`-package is required. Its hosted in the Github-Package-Repository. For this reason you need to add the following sample to your local `.npmrc`.
+For connecting to Datastax Astra or a local stargate docker container the `nestjs-astra`-package is required. Its hosted in the Github-Package-Repository. For this reason you need to have an environment-variable called `GH_TOKEN`.
 ```
-//npm.pkg.github.com/:_authToken=<Your personal Token>
+export GH_TOKEN=<Your token>
 ```
 The Token can be generated in Github and needs the permission `package - read`. After this step you can run `npm install` as usual.
 
+When using gitpod, you can set environment-variables under the following link `https://gitpod.io/variables`. You can even scope the variable to a specific project.
+
+For connecting the API against the database you can use `docker-compose`
 ```bash
 # database
 $ docker-compose up
