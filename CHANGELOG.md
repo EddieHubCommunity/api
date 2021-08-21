@@ -1,3 +1,12 @@
+## [0.11.1](https://github.com/EddieHubCommunity/api/compare/v0.11.0...v0.11.1) (2021-08-21)
+
+
+### Bug Fixes
+
+* adjust docker-action ([#189](https://github.com/EddieHubCommunity/api/issues/189)) ([95896e4](https://github.com/EddieHubCommunity/api/commit/95896e4a631eaefa6ed3bac854262650240fffc1))
+
+
+
 # [0.11.0](https://github.com/EddieHubCommunity/api/compare/v0.10.3...v0.11.0) (2021-08-21)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * run docs for all changes ([#161](https://github.com/EddieHubCommunity/api/issues/161)) ([ea31159](https://github.com/EddieHubCommunity/api/commit/ea311594386f6dbaf5bb6ab9471bb6a3cfe17007))
-
-
-
-# [0.10.0](https://github.com/EddieHubCommunity/api/compare/v0.9.1...v0.10.0) (2021-08-06)
-
-
-### Features
-
-* documentation with asciidoc ([#161](https://github.com/EddieHubCommunity/api/issues/161)) ([2101b2f](https://github.com/EddieHubCommunity/api/commit/2101b2f30aa16bb85a0432651f26404f5bef6709))
 
 
 
