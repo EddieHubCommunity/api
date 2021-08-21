@@ -1,3 +1,12 @@
+# [0.11.0](https://github.com/EddieHubCommunity/api/compare/v0.10.3...v0.11.0) (2021-08-21)
+
+
+### Features
+
+* gitpodify project ([#189](https://github.com/EddieHubCommunity/api/issues/189)) ([8141b53](https://github.com/EddieHubCommunity/api/commit/8141b53482bc63e1987af538db803bfd90a9578f))
+
+
+
 ## [0.10.3](https://github.com/EddieHubCommunity/api/compare/v0.10.2...v0.10.3) (2021-08-12)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * documentation with asciidoc ([#161](https://github.com/EddieHubCommunity/api/issues/161)) ([2101b2f](https://github.com/EddieHubCommunity/api/commit/2101b2f30aa16bb85a0432651f26404f5bef6709))
-
-
-
-## [0.9.1](https://github.com/EddieHubCommunity/api/compare/v0.9.0...v0.9.1) (2021-08-04)
-
-
-### Bug Fixes
-
-* updated dependencies ([#62](https://github.com/EddieHubCommunity/api/issues/62)) ([914b39f](https://github.com/EddieHubCommunity/api/commit/914b39f0ad15ca846a45364d16e35d60c5dccde9))
 
 
 
