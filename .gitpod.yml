@@ -5,7 +5,7 @@ tasks:
       npm i -g npm
       npm install
     command: |
-      gp await-port 9042
+      sleep 45
       npm run start:dev
   - name: Docker
     init: |
