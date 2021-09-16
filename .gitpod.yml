@@ -5,10 +5,11 @@ tasks:
       npm i -g npm
       npm install
     command: |
-      npm i -g npm
-      sleep 30
+      gp await-port 9042
       npm run start:dev
   - name: Docker
+    init: |
+      docker pull stargateio/stargate-3_11:v1.0.29
     command: |
       docker-compose up
       
