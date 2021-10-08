@@ -1,3 +1,12 @@
+## [0.11.3](https://github.com/EddieHubCommunity/api/compare/v0.11.2...v0.11.3) (2021-10-08)
+
+
+### Bug Fixes
+
+* typo ([#204](https://github.com/EddieHubCommunity/api/issues/204)) ([3457f90](https://github.com/EddieHubCommunity/api/commit/3457f901bfea9b534e7b67bbd766c85a66463dcb))
+
+
+
 ## [0.11.2](https://github.com/EddieHubCommunity/api/compare/v0.11.1...v0.11.2) (2021-10-08)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * deleting token dont validate exp ([#184](https://github.com/EddieHubCommunity/api/issues/184)) ([bd0fd5c](https://github.com/EddieHubCommunity/api/commit/bd0fd5cfdecf72ad9e9b9c2383eabe8023a81146))
-
-
-
-## [0.10.2](https://github.com/EddieHubCommunity/api/compare/v0.10.1...v0.10.2) (2021-08-10)
-
-
-### Bug Fixes
-
-* 200 instead of 400 ([#185](https://github.com/EddieHubCommunity/api/issues/185)) ([66603a3](https://github.com/EddieHubCommunity/api/commit/66603a3f862f38a460bd3b6bcd186ecf662dd5d1))
 
 
 
