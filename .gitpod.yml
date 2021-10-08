@@ -3,9 +3,9 @@ tasks:
   - name: Install npm depdencies
     init: |
       npm i -g npm
-      npm install
     command: |
-      sleep 45
+      npm i
+      sleep 30
       npm run start:dev
   - name: Docker
     init: |
