@@ -1,3 +1,12 @@
+## [0.11.2](https://github.com/EddieHubCommunity/api/compare/v0.11.1...v0.11.2) (2021-10-08)
+
+
+### Bug Fixes
+
+* use discord uid ([#201](https://github.com/EddieHubCommunity/api/issues/201)) ([8ab30c0](https://github.com/EddieHubCommunity/api/commit/8ab30c0d221fda565b3cf8b137f57ecf1bbde8c5))
+
+
+
 ## [0.11.1](https://github.com/EddieHubCommunity/api/compare/v0.11.0...v0.11.1) (2021-08-21)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * 200 instead of 400 ([#185](https://github.com/EddieHubCommunity/api/issues/185)) ([66603a3](https://github.com/EddieHubCommunity/api/commit/66603a3f862f38a460bd3b6bcd186ecf662dd5d1))
-
-
-
-## [0.10.1](https://github.com/EddieHubCommunity/api/compare/v0.10.0...v0.10.1) (2021-08-06)
-
-
-### Bug Fixes
-
-* run docs for all changes ([#161](https://github.com/EddieHubCommunity/api/issues/161)) ([ea31159](https://github.com/EddieHubCommunity/api/commit/ea311594386f6dbaf5bb6ab9471bb6a3cfe17007))
 
 
 
