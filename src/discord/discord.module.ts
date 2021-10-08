@@ -3,10 +3,11 @@ import { DiscordService } from './discord.service';
 import { DiscordController } from './discord.controller';
 import { AuthModule } from '../auth/auth.module';
 import { AstraService as AstraApiService } from '../astra/astra.service';
+import { AstraApiModule } from '../astra/astra-api.module';
 
 @Module({
-  imports: [AuthModule],
+  imports: [AuthModule, AstraApiModule],
   controllers: [DiscordController],
   providers: [DiscordService, AstraApiService],
 })
-export class DiscordModule {}
+export class DiscordModule { }

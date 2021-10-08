@@ -8,8 +8,10 @@ import {
   Post,
   Put,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiHeader, ApiTags } from '@nestjs/swagger';
+import { KeyspaceInterceptor } from '../astra/keyspace.interceptor';
 import { Author, AuthorObject } from '../auth/author-headers';
 import { Scopes } from '../auth/decorators/scopes.decorator';
 import { User } from '../auth/decorators/user.decorator';
@@ -23,6 +25,7 @@ import { DiscordService } from './discord.service';
 import { DiscordDTO } from './dto/discord.dto';
 @ApiTags('Discord')
 @Controller('discord')
+@UseInterceptors(KeyspaceInterceptor)
 export class DiscordController {
   constructor(private readonly discordService: DiscordService) {}
 

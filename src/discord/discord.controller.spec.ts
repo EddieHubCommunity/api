@@ -6,6 +6,7 @@ import { ConfigModule } from '@nestjs/config';
 import { AstraModule } from '@cahllagerfeld/nestjs-astra';
 import { AstraConfigService } from '../astra/astra-config.service';
 import { AstraService } from '../astra/astra.service';
+import { AstraApiModule } from '../astra/astra-api.module';
 
 describe('DiscordController', () => {
   let controller: DiscordController;
@@ -13,6 +14,7 @@ describe('DiscordController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
+        AstraApiModule,
         AuthModule,
         ConfigModule.forRoot({
           isGlobal: true,

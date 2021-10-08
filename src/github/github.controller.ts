@@ -8,8 +8,10 @@ import {
   Post,
   Put,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { KeyspaceInterceptor } from '../astra/keyspace.interceptor';
 import { Scopes } from '../auth/decorators/scopes.decorator';
 import { User } from '../auth/decorators/user.decorator';
 import { ScopesGuard } from '../auth/guards/scopes.guard';
@@ -22,8 +24,9 @@ import { GithubDTO } from './dto/github.dto';
 import { GithubService } from './github.service';
 @ApiTags('Github')
 @Controller('github')
+@UseInterceptors(KeyspaceInterceptor)
 export class GithubController {
-  constructor(private readonly githubService: GithubService) {}
+  constructor(private readonly githubService: GithubService) { }
   @Post()
   @UseGuards(JWTGuard, ScopesGuard)
   @ApiBearerAuth()

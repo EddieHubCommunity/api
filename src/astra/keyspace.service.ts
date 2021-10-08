@@ -47,6 +47,7 @@ export class KeyspaceService {
     const url = `${this.getUrl()}/v2/schemas/keyspaces`;
     const postBody = { name: serverId };
 
+    if(!this.config.get('ASTRA_DATABASE_ID')){
     await this.http
       .post(url, postBody, {
         headers: {
@@ -55,5 +56,6 @@ export class KeyspaceService {
         },
       })
       .toPromise();
+    }
   }
 }

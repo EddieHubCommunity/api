@@ -8,8 +8,10 @@ import {
   Post,
   Put,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiHeader, ApiTags } from '@nestjs/swagger';
+import { KeyspaceInterceptor } from '../astra/keyspace.interceptor';
 import { Author, AuthorObject } from '../auth/author-headers';
 import { Scopes } from '../auth/decorators/scopes.decorator';
 import { User } from '../auth/decorators/user.decorator';
@@ -23,9 +25,10 @@ import { CalendarService } from './calendar.service';
 import { CalendarEventDTO } from './dto/calendar.dto';
 
 @Controller('calendar')
+@UseInterceptors(KeyspaceInterceptor)
 @ApiTags('Calendar')
 export class CalendarController {
-  constructor(private readonly service: CalendarService) {}
+  constructor(private readonly service: CalendarService) { }
 
   @Post()
   @ApiBearerAuth()

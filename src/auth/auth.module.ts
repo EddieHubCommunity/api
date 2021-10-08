@@ -7,9 +7,10 @@ import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './jwt.strategy';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AstraService } from '../astra/astra.service';
+import { AstraApiModule } from '../astra/astra-api.module';
 
 @Module({
-  imports: [
+  imports: [AstraApiModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
@@ -28,4 +29,4 @@ import { AstraService } from '../astra/astra.service';
   exports: [ValidationService],
   controllers: [AuthController],
 })
-export class AuthModule {}
+export class AuthModule { }

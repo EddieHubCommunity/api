@@ -2,6 +2,7 @@ import { AstraModule } from '@cahllagerfeld/nestjs-astra';
 import { HttpModule } from '@nestjs/axios';
 import { ConfigModule } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
+import { AstraApiModule } from '../astra/astra-api.module';
 import { AstraConfigService } from '../astra/astra-config.service';
 import { AstraService } from '../astra/astra.service';
 import { AuthModule } from '../auth/auth.module';
@@ -16,6 +17,7 @@ describe('GithubController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
+        AstraApiModule,
         HttpModule,
         AuthModule,
         AstraModule.forRootAsync({
