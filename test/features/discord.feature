@@ -9,7 +9,7 @@ Feature: discord module
             | socials | {"discord":"khattakdev","github":"khattakdev","linkedin":"khattakdev","twitter":"khattakdev"} |
         Then the response status code should be 201
         And the response should contain:
-            | documentId | "TYPE:ID" |
+            | documentId | "hubber" |
 
     Scenario: get list of users
         Given authorization with "writing" permission
@@ -18,7 +18,7 @@ Feature: discord module
             | author  | {"platform":"discord","uid":"hubber"}                                                         |
             | socials | {"discord":"khattakdev","github":"khattakdev","linkedin":"khattakdev","twitter":"khattakdev"} |
         Then the response should contain:
-            | documentId | "TYPE:ID" |
+            | documentId | "hubber" |
         Given authorization with "reading" permission
         When make a GET request to "/discord"
         Then the response status code should be 200
@@ -47,15 +47,15 @@ Feature: discord module
             | author  | {"platform":"discord","uid":"hubber"}                                                         |
             | socials | {"discord":"khattakdev","github":"khattakdev","linkedin":"khattakdev","twitter":"khattakdev"} |
         Then the response should contain:
-            | documentId | "TYPE:ID" |
+            | documentId | "hubber" |
         Given authorization with "writing" permission
         When set header "User-Uid" with value "hubber"
-        Then make a PUT request to "/discord/{id}" with:
+        Then make a PUT request to "/discord/hubber" with:
             | author  | {"platform":"discord","uid":"hubby"} |
             | bio     | "Updated user bio"                   |
             | socials | {"discord":"update-user"}            |
         Given authorization with "reading" permission
-        When make a GET request to "/discord/{id}"
+        When make a GET request to "/discord/hubber"
         Then the response status code should be 200
         And the response should contain:
             | bio       | "Updated user bio"                                                                             |
@@ -71,9 +71,9 @@ Feature: discord module
             | author  | {"platform":"discord","uid":"hubber"}                                                         |
             | socials | {"discord":"khattakdev","github":"khattakdev","linkedin":"khattakdev","twitter":"khattakdev"} |
         Then the response should contain:
-            | documentId | "TYPE:ID" |
+            | documentId | "hubber" |
         Given authorization with "writing" permission
-        When make a PUT request to "/discord/{id}" with:
+        When make a PUT request to "/discord/hubber" with:
             | author  | {"platform":"discord","uid":"hubby"} |
             | bio     | "Updated user bio"                   |
             | socials | {"discord":"update-user"}            |
@@ -89,10 +89,10 @@ Feature: discord module
             | author  | {"platform":"discord","uid":"hubber"}                                                         |
             | socials | {"discord":"khattakdev","github":"khattakdev","linkedin":"khattakdev","twitter":"khattakdev"} |
         Then the response should contain:
-            | documentId | "TYPE:ID" |
+            | documentId | "hubber" |
         Given authorization with "writing" permission
         Then set header "User-Uid" with value "hubber"
-        When make a DELETE request to "/discord/{id}"
+        When make a DELETE request to "/discord/hubber"
         Then the response status code should be 204
 
     Scenario: delete a user with wrong author
@@ -102,9 +102,9 @@ Feature: discord module
             | author  | {"platform":"discord","uid":"hubber"}                                                         |
             | socials | {"discord":"khattakdev","github":"khattakdev","linkedin":"khattakdev","twitter":"khattakdev"} |
         Then the response should contain:
-            | documentId | "TYPE:ID" |
+            | documentId | "hubber" |
         Given authorization with "writing" permission
-        When make a DELETE request to "/discord/{id}"
+        When make a DELETE request to "/discord/hubber"
         Then the response status code should be 400
         And the response should contain:
             | statusCode | 400                                     |
@@ -125,9 +125,9 @@ Feature: discord module
             | author  | {"platform":"discord","uid":"hubber"}                                                         |
             | socials | {"discord":"khattakdev","github":"khattakdev","linkedin":"khattakdev","twitter":"khattakdev"} |
         Then the response should contain:
-            | documentId | "TYPE:ID" |
+            | documentId | "hubber" |
         Given authorization with "reading" permission
-        When make a GET request to "/discord/{id}"
+        When make a GET request to "/discord/hubber"
         Then the response status code should be 200
         And the response should contain:
             | bio       | "This is a GitHub Campus Expert"                                                              |

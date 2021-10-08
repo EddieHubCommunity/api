@@ -27,7 +27,12 @@ export class DiscordService {
     };
 
     return this.astraService
-      .create<DiscordProfile>(discordUser, keyspaceName, 'discord')
+      .create<DiscordProfile>(
+        discordUser,
+        keyspaceName,
+        'discord',
+        discordUser.author.uid,
+      )
       .pipe(
         catchError(() => {
           throw new HttpException(
