@@ -1,6 +1,6 @@
 == Contribution
 
-For contributing to the API **docker** and the cloned **code-base** is required. 
+For contributing to the API, **docker** and the cloned **code-base** are required.
 One of the dependencies to run the API is a Stargate-Container which represents the database. This service needs to run next to the actual API. +
 
 There are multiple ways to make the contribution
@@ -9,7 +9,7 @@ There are multiple ways to make the contribution
 * From the cloud with **Gitpod**
 
 === Local Environment
-When running the API on your local machine, its required to run docker.
+When running the API on your local machine, it's required to run docker.
 
 1. Clone the Repo
 2. Install your dependencies with `npm install`
@@ -18,9 +18,9 @@ When running the API on your local machine, its required to run docker.
 
 === Gitpod
 
-Gitpod is a Service, which provides development-environments in the cloud. In case no plan is purchased the reguar `Opensource License` allows to use the service for 50 hours per month for free. +
-All that needs to be done, is logging in to their service with a valid Github-Account.
+Gitpod is a Service, which provides development environments in the cloud. In case no plan is purchased the reguar `Opensource License` allows to use the service for 50 hours per month for free. +
+All that needs to be done, is logging in to their service with a valid GitHub account.
 
 1. [OPTIONAL] Install the Browser Extension from Gitpod. https://chrome.google.com/webstore/detail/gitpod-always-ready-to-co/dodmmooeoklaejobgleioelladacbeki[Chrome] https://addons.mozilla.org/de/firefox/addon/gitpod/[Firefox]
-2. Just hit the Gitpod-Button in the Readme-File. Everything is spin up automatically.
-3. When finished your contribution just close the workspace
+2. Just hit the Gitpod button in the `README` file. Everything will spin up automatically.
+3. When you're finished with your contribution just close the workspace
