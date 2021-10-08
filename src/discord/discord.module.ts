@@ -10,4 +10,4 @@ import { AstraApiModule } from '../astra/astra-api.module';
   controllers: [DiscordController],
   providers: [DiscordService, AstraApiService],
 })
-export class DiscordModule { }
+export class DiscordModule {}

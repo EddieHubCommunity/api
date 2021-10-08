@@ -18,4 +18,4 @@ import { GithubService } from './github.service';
     AstraApiService,
   ],
 })
-export class GithubModule { }
+export class GithubModule {}

@@ -8,16 +8,13 @@ import {
   Post,
   Query,
   UseGuards,
-  UseInterceptors,
 } from '@nestjs/common';
 import { ApiParam, ApiQuery, ApiSecurity, ApiTags } from '@nestjs/swagger';
-import { KeyspaceInterceptor } from '../astra/keyspace.interceptor';
 import { AuthService } from './auth.service';
 import { AuthDTO, TokenValidationDTO } from './dto/auth.dto';
 import { TokenGuard } from './token.strategy';
 
 @ApiTags('Auth')
-@UseInterceptors(KeyspaceInterceptor)
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}

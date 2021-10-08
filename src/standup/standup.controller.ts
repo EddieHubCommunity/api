@@ -28,7 +28,7 @@ import { StandupService } from './standup.service';
 @Controller('standup')
 @UseInterceptors(KeyspaceInterceptor)
 export class StandupController {
-  constructor(private readonly standupService: StandupService) { }
+  constructor(private readonly standupService: StandupService) {}
 
   @Post()
   @UseGuards(JWTGuard, ScopesGuard)

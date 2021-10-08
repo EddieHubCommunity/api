@@ -8,4 +8,4 @@ import { KeyspaceInterceptor } from './keyspace.interceptor';
   providers: [KeyspaceService, KeyspaceInterceptor],
   exports: [KeyspaceService],
 })
-export class AstraApiModule { }
+export class AstraApiModule {}

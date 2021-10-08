@@ -26,7 +26,7 @@ import { GithubService } from './github.service';
 @Controller('github')
 @UseInterceptors(KeyspaceInterceptor)
 export class GithubController {
-  constructor(private readonly githubService: GithubService) { }
+  constructor(private readonly githubService: GithubService) {}
   @Post()
   @UseGuards(JWTGuard, ScopesGuard)
   @ApiBearerAuth()

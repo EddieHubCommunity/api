@@ -10,4 +10,4 @@ import { CalendarService } from './calendar.service';
   controllers: [CalendarController],
   providers: [CalendarService, AstraApiService],
 })
-export class CalendarModule { }
+export class CalendarModule {}

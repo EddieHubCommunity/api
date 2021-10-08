@@ -28,7 +28,7 @@ import { CalendarEventDTO } from './dto/calendar.dto';
 @UseInterceptors(KeyspaceInterceptor)
 @ApiTags('Calendar')
 export class CalendarController {
-  constructor(private readonly service: CalendarService) { }
+  constructor(private readonly service: CalendarService) {}
 
   @Post()
   @ApiBearerAuth()

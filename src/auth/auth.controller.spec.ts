@@ -2,7 +2,6 @@ import { AstraModule } from '@cahllagerfeld/nestjs-astra';
 import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
-import { AstraApiModule } from '../astra/astra-api.module';
 import { AstraConfigService } from '../astra/astra-config.service';
 import { AstraService } from '../astra/astra.service';
 import { AuthController } from './auth.controller';
@@ -14,7 +13,6 @@ describe('AuthController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
-        AstraApiModule,
         ConfigModule.forRoot({
           isGlobal: true,
         }),

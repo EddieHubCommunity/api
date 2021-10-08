@@ -10,7 +10,8 @@ import { AstraService } from '../astra/astra.service';
 import { AstraApiModule } from '../astra/astra-api.module';
 
 @Module({
-  imports: [AstraApiModule,
+  imports: [
+    AstraApiModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
@@ -29,4 +30,4 @@ import { AstraApiModule } from '../astra/astra-api.module';
   exports: [ValidationService],
   controllers: [AuthController],
 })
-export class AuthModule { }
+export class AuthModule {}

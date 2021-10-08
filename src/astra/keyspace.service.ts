@@ -47,15 +47,15 @@ export class KeyspaceService {
     const url = `${this.getUrl()}/v2/schemas/keyspaces`;
     const postBody = { name: serverId };
 
-    if(!this.config.get('ASTRA_DATABASE_ID')){
-    await this.http
-      .post(url, postBody, {
-        headers: {
-          'X-Cassandra-Token': authToken,
-          'Content-Type': 'application/json',
-        },
-      })
-      .toPromise();
+    if (!this.config.get('ASTRA_DATABASE_ID')) {
+      await this.http
+        .post(url, postBody, {
+          headers: {
+            'X-Cassandra-Token': authToken,
+            'Content-Type': 'application/json',
+          },
+        })
+        .toPromise();
     }
   }
 }
