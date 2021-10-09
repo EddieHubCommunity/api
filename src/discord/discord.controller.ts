@@ -6,7 +6,8 @@ import {
   HttpCode,
   Param,
   Patch,
-  Post, UseGuards
+  Post,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiHeader, ApiTags } from '@nestjs/swagger';
 import { Author, AuthorObject } from '../auth/author-headers';
@@ -15,7 +16,7 @@ import { User } from '../auth/decorators/user.decorator';
 import { ScopesGuard } from '../auth/guards/scopes.guard';
 import {
   ScopesDictionary,
-  TokenPayload
+  TokenPayload,
 } from '../auth/interfaces/token-payload.interface';
 import { JWTGuard } from '../auth/jwt.strategy';
 import { DiscordService } from './discord.service';
