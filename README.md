@@ -10,7 +10,7 @@ Stargate - sign up with GitHub login for [FREE on DataStax Stargate](http://link
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/EddieHubCommunity/api)
 ## Description
 
-An API to manage our community data
+An API to manage our #EddieHub community data. Documentation https://eddiehubcommunity.github.io/api/
 
 ## Rules
 
