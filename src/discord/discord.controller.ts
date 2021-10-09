@@ -5,9 +5,8 @@ import {
   Get,
   HttpCode,
   Param,
-  Post,
-  Put,
-  UseGuards,
+  Patch,
+  Post, UseGuards
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiHeader, ApiTags } from '@nestjs/swagger';
 import { Author, AuthorObject } from '../auth/author-headers';
@@ -16,7 +15,7 @@ import { User } from '../auth/decorators/user.decorator';
 import { ScopesGuard } from '../auth/guards/scopes.guard';
 import {
   ScopesDictionary,
-  TokenPayload,
+  TokenPayload
 } from '../auth/interfaces/token-payload.interface';
 import { JWTGuard } from '../auth/jwt.strategy';
 import { DiscordService } from './discord.service';
@@ -50,7 +49,7 @@ export class DiscordController {
     return this.discordService.findOne(id, user.keyspace);
   }
 
-  @Put(':id')
+  @Patch(':id')
   @UseGuards(JWTGuard, ScopesGuard)
   @ApiBearerAuth()
   @Scopes(ScopesDictionary.WRITE)

@@ -5,9 +5,8 @@ import {
   Get,
   HttpCode,
   Param,
-  Post,
-  Put,
-  UseGuards,
+  Patch,
+  Post, UseGuards
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Scopes } from '../auth/decorators/scopes.decorator';
@@ -15,7 +14,7 @@ import { User } from '../auth/decorators/user.decorator';
 import { ScopesGuard } from '../auth/guards/scopes.guard';
 import {
   ScopesDictionary,
-  TokenPayload,
+  TokenPayload
 } from '../auth/interfaces/token-payload.interface';
 import { JWTGuard } from '../auth/jwt.strategy';
 import { GithubDTO } from './dto/github.dto';
@@ -23,7 +22,7 @@ import { GithubService } from './github.service';
 @ApiTags('Github')
 @Controller('github')
 export class GithubController {
-  constructor(private readonly githubService: GithubService) {}
+  constructor(private readonly githubService: GithubService) { }
   @Post()
   @UseGuards(JWTGuard, ScopesGuard)
   @ApiBearerAuth()
@@ -48,7 +47,7 @@ export class GithubController {
     return this.githubService.findOne(id, user.keyspace);
   }
 
-  @Put(':id')
+  @Patch(':id')
   @UseGuards(JWTGuard, ScopesGuard)
   @ApiBearerAuth()
   @Scopes(ScopesDictionary.WRITE)

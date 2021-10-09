@@ -70,7 +70,7 @@ Feature: calendar module
         Given authorization with "writing" permission
         Then set header "User-Uid" with value "hubber"
         Then set header "Platform" with value "discord"
-        When make a PUT request to "/calendar/{id}" with:
+        When make a Patch request to "/calendar/{id}" with:
             | name        | "Livestream YZ"                      |
             | description | "undescriptive Description"          |
             | url         | "https://mydomain.com"               |
@@ -106,7 +106,7 @@ Feature: calendar module
         And the response should contain:
             | documentId | "TYPE:ID" |
         Given authorization with "writing" permission
-        When make a PUT request to "/calendar/{id}" with:
+        When make a Patch request to "/calendar/{id}" with:
             | name        | "Livestream YZ"                      |
             | description | "undescriptive Description"          |
             | url         | "https://mydomain.com"               |
@@ -121,7 +121,7 @@ Feature: calendar module
 
     Scenario: update an non-existing event
         Given authorization with "writing" permission
-        When make a PUT request to "/calendar/321" with:
+        When make a Patch request to "/calendar/321" with:
             | name        | "Livestream YZ"                      |
             | description | "undescriptive Description"          |
             | url         | "https://mydomain.com"               |
