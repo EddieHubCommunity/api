@@ -112,3 +112,6 @@ To use Authentication the token needs to be passed in the `token`-header of the 
 [MIT licensed](LICENSE).
 
 ## MADE WITH :heart: BY EDDIEHUBBERS :sparkles::sparkles:
+<a href = "https://github.com/EddieHubCommunity/api/graphs/contributors">
+  <img src = "https://contrib.rocks/image?repo=EddieHubCommunity/api"/>
+</a>
