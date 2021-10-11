@@ -9,7 +9,7 @@ tasks:
       npm run start:dev
   - name: Docker
     init: |
-      docker pull stargateio/stargate-3_11:v1.0.29
+      docker-compose pull
     command: |
       docker-compose up
       
@@ -23,6 +23,9 @@ github:
     addCheck: true
     addComment: false
     addBadge: true
+
+image:
+  file: .gitpod.dockerfile
 
 vscode:
   extensions:
