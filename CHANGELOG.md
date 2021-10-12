@@ -1,3 +1,12 @@
+## [0.11.5](https://github.com/EddieHubCommunity/api/compare/v0.11.4...v0.11.5) (2021-10-12)
+
+
+### Bug Fixes
+
+* put to patch ([#208](https://github.com/EddieHubCommunity/api/issues/208)) ([65656cf](https://github.com/EddieHubCommunity/api/commit/65656cfaae436df6576a456a4b7ef397bb674853))
+
+
+
 ## [0.11.4](https://github.com/EddieHubCommunity/api/compare/v0.11.3...v0.11.4) (2021-10-12)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * adjust docker-action ([#189](https://github.com/EddieHubCommunity/api/issues/189)) ([95896e4](https://github.com/EddieHubCommunity/api/commit/95896e4a631eaefa6ed3bac854262650240fffc1))
-
-
-
-# [0.11.0](https://github.com/EddieHubCommunity/api/compare/v0.10.3...v0.11.0) (2021-08-21)
-
-
-### Features
-
-* gitpodify project ([#189](https://github.com/EddieHubCommunity/api/issues/189)) ([8141b53](https://github.com/EddieHubCommunity/api/commit/8141b53482bc63e1987af538db803bfd90a9578f))
 
 
 
