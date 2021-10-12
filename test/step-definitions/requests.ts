@@ -150,10 +150,10 @@ export class requests {
     this.context.headers = { ...this.context.headers, ...headerObject };
   }
 
-  @when(/make a PUT request to "([^"]*)" with:/)
+  @when(/make a Patch request to "([^"]*)" with:/)
   public async putRequest(url: string, table: { rawTable: [] }) {
     url = this.prepareURL(url);
-    const putReq = request(this.context.app.getHttpServer()).put(url);
+    const putReq = request(this.context.app.getHttpServer()).patch(url);
 
     if (this.context.token) {
       putReq.set('Client-Token', this.context.token);

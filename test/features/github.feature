@@ -113,7 +113,7 @@ Feature: github module
         And the response should contain:
             | documentId | "TYPE:ID" |
         Given authorization with "writing" permission
-        Then make a PUT request to "/github/{id}" with:
+        Then make a Patch request to "/github/{id}" with:
             | username     | "eddiehubber"              |
             | bio          | "I love to code"           |
             | avatarUrl    | "https://dummy.com/avatar" |
@@ -142,7 +142,7 @@ Feature: github module
         And the response should contain:
             | documentId | "TYPE:ID" |
         Given authorization with "writing" permission
-        Then make a PUT request to "/github/{id}" with:
+        Then make a Patch request to "/github/{id}" with:
             | username     | "eddiehubber"              |
             | bio          | "I love to code"           |
             | avatarUrl    | "https://dummy.com/avatar" |

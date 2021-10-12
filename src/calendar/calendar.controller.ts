@@ -5,8 +5,8 @@ import {
   Get,
   HttpCode,
   Param,
+  Patch,
   Post,
-  Put,
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiHeader, ApiTags } from '@nestjs/swagger';
@@ -51,7 +51,7 @@ export class CalendarController {
     return this.service.findOne(id, user.keyspace);
   }
 
-  @Put(':id')
+  @Patch(':id')
   @ApiBearerAuth()
   @UseGuards(JWTGuard, ScopesGuard)
   @Scopes(ScopesDictionary.WRITE)

@@ -50,7 +50,7 @@ Feature: discord module
             | documentId | "hubber" |
         Given authorization with "writing" permission
         When set header "User-Uid" with value "hubber"
-        Then make a PUT request to "/discord/hubber" with:
+        Then make a Patch request to "/discord/hubber" with:
             | author  | {"platform":"discord","uid":"hubby"} |
             | bio     | "Updated user bio"                   |
             | socials | {"discord":"update-user"}            |
@@ -73,7 +73,7 @@ Feature: discord module
         Then the response should contain:
             | documentId | "hubber" |
         Given authorization with "writing" permission
-        When make a PUT request to "/discord/hubber" with:
+        When make a Patch request to "/discord/hubber" with:
             | author  | {"platform":"discord","uid":"hubby"} |
             | bio     | "Updated user bio"                   |
             | socials | {"discord":"update-user"}            |
