@@ -1,3 +1,12 @@
+## [0.11.4](https://github.com/EddieHubCommunity/api/compare/v0.11.3...v0.11.4) (2021-10-12)
+
+
+### Bug Fixes
+
+* optimise gitpod ([#192](https://github.com/EddieHubCommunity/api/issues/192)) ([709f658](https://github.com/EddieHubCommunity/api/commit/709f658e2759552319e7d1fd9bae2c53fe9f1058))
+
+
+
 ## [0.11.3](https://github.com/EddieHubCommunity/api/compare/v0.11.2...v0.11.3) (2021-10-08)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * gitpodify project ([#189](https://github.com/EddieHubCommunity/api/issues/189)) ([8141b53](https://github.com/EddieHubCommunity/api/commit/8141b53482bc63e1987af538db803bfd90a9578f))
-
-
-
-## [0.10.3](https://github.com/EddieHubCommunity/api/compare/v0.10.2...v0.10.3) (2021-08-12)
-
-
-### Bug Fixes
-
-* deleting token dont validate exp ([#184](https://github.com/EddieHubCommunity/api/issues/184)) ([bd0fd5c](https://github.com/EddieHubCommunity/api/commit/bd0fd5cfdecf72ad9e9b9c2383eabe8023a81146))
 
 
 
