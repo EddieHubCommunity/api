@@ -1,3 +1,5 @@
 include::authentication.adoc[]
 
 include::contribution.adoc[]
+
+include::index.adoc[]
