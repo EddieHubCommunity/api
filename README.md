@@ -111,4 +111,9 @@ To use Authentication the token needs to be passed in the `token`-header of the 
 
 [MIT licensed](LICENSE).
 
+## Socials
+
+Join our Discord community [here](http://discord.eddiehub.org/)
+Subscribe our YouTube channel [here](https://www.youtube.com/user/eddiejaoude)
+
 ## MADE WITH :heart: BY EDDIEHUBBERS :sparkles::sparkles:
