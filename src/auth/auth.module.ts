@@ -6,7 +6,6 @@ import { AuthService } from './auth.service';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './jwt.strategy';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { AstraService } from '../astra/astra.service';
 
 @Module({
   imports: [
@@ -23,7 +22,6 @@ import { AstraService } from '../astra/astra.service';
     ValidationService,
     AuthService,
     JwtStrategy,
-    AstraService,
   ],
   exports: [ValidationService],
   controllers: [AuthController],

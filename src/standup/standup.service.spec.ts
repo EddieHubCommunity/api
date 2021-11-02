@@ -1,8 +1,5 @@
-import { AstraModule } from '@cahllagerfeld/nestjs-astra';
 import { ConfigModule } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
-import { AstraConfigService } from '../astra/astra-config.service';
-import { AstraService } from '../astra/astra.service';
 import { AuthModule } from '../auth/auth.module';
 import { StandupService } from './standup.service';
 
@@ -16,15 +13,8 @@ describe('StandupService', () => {
         ConfigModule.forRoot({
           isGlobal: true,
         }),
-        AstraModule.forRootAsync({
-          useClass: AstraConfigService,
-        }),
-        AstraModule.forFeature({
-          namespace: 'eddiehub',
-          collection: 'standup',
-        }),
       ],
-      providers: [StandupService, AstraService],
+      providers: [StandupService],
     }).compile();
 
     service = module.get<StandupService>(StandupService);

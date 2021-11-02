@@ -11,7 +11,6 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiHeader, ApiQuery, ApiTags } from '@nestjs/swagger';
-import { KeyspaceInterceptor } from '../astra/keyspace.interceptor';
 import { Author, AuthorObject } from '../auth/author-headers';
 import { Scopes } from '../auth/decorators/scopes.decorator';
 import { User } from '../auth/decorators/user.decorator';
@@ -27,23 +26,21 @@ import { StandupService } from './standup.service';
 @ApiTags('Standup')
 @Controller('standup')
 export class StandupController {
-  constructor(private readonly standupService: StandupService) {}
+  constructor(private readonly standupService: StandupService) { }
 
   @Post()
   @UseGuards(JWTGuard, ScopesGuard)
   @ApiBearerAuth()
   @Scopes(ScopesDictionary.WRITE)
   createStandup(@Body() body: StandupDTO, @User() user: TokenPayload) {
-    return this.standupService.create(body, user.keyspace);
+    ;
   }
 
   @Get()
   @ApiBearerAuth()
-  @UseInterceptors(KeyspaceInterceptor)
   @UseGuards(JWTGuard, ScopesGuard)
   @Scopes(ScopesDictionary.READ)
   findAllStandups(@User() user) {
-    return this.standupService.findAll(user.keyspace);
   }
 
   @Get('search')
@@ -52,7 +49,6 @@ export class StandupController {
   @UseGuards(JWTGuard, ScopesGuard)
   @Scopes(ScopesDictionary.READ)
   search(@Query('uid') uid: string, @User() user: TokenPayload) {
-    return this.standupService.search(uid, user.keyspace);
   }
 
   @Get(':id')
@@ -61,7 +57,6 @@ export class StandupController {
   @UseGuards(JWTGuard, ScopesGuard)
   @Scopes(ScopesDictionary.READ)
   findById(@Param('id') id: string, @User() user: TokenPayload) {
-    return this.standupService.findById(id, user.keyspace);
   }
 
   @Delete(':id')
@@ -76,6 +71,5 @@ export class StandupController {
     @AuthorObject() author: Author,
     @User() user: TokenPayload,
   ) {
-    return this.standupService.deleteStandup(id, author, user.keyspace);
   }
 }

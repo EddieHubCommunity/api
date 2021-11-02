@@ -8,15 +8,10 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { LoggerMiddleware } from './logger/logger.middleware';
 import { CalendarModule } from './calendar/calendar.module';
-import { AstraModule } from '@cahllagerfeld/nestjs-astra';
-import { AstraConfigService } from './astra/astra-config.service';
 
 @Module({
   imports: [
     AuthModule,
-    AstraModule.forRootAsync({
-      useClass: AstraConfigService,
-    }),
     DiscordModule,
     StandupModule,
     GithubModule,
