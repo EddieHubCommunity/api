@@ -10,30 +10,9 @@ import Context from '../support/world';
 
 setDefaultTimeout(60 * 1000);
 
-BeforeAll(async () => {
-  if (process.env.STARGATE_BASEURL) {
-    await new Promise((resolve) => {
-      exec('npm run stargate:keyspace:delete', (error, stdout, stderr) => {
-        if (error) {
-          console.warn(error);
-        }
-        resolve(stdout ? stdout : stderr);
-      });
-    });
-    await new Promise((resolve) => {
-      exec('npm run stargate:keyspace:create', (error, stdout, stderr) => {
-        if (error) {
-          console.warn(error);
-        }
-        resolve(stdout ? stdout : stderr);
-      });
-    });
-  }
-});
-
 @binding([Context])
 export class requests {
-  constructor(protected context: Context) {}
+  constructor(protected context: Context) { }
 
   private prepareURL(url: string): string {
     if (/{id}/.test(url)) {

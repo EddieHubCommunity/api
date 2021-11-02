@@ -7,7 +7,5 @@ export class GithubService {
   constructor(
     private readonly mappingService: CommunitystatsMappingService,
     private readonly geocodingService: GeocodingService,
-  ) { }
-
-
+  ) {}
 }

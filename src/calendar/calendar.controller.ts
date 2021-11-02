@@ -31,25 +31,19 @@ export class CalendarController {
   @ApiBearerAuth()
   @UseGuards(JWTGuard, ScopesGuard)
   @Scopes(ScopesDictionary.WRITE)
-  create(@Body() calendarEvent: CalendarEventDTO, @User() user: TokenPayload) {
-    return this.service.createCalendarEvent(calendarEvent, user.keyspace);
-  }
+  create(@Body() calendarEvent: CalendarEventDTO, @User() user: TokenPayload) {}
 
   @Get()
   @ApiBearerAuth()
   @UseGuards(JWTGuard, ScopesGuard)
   @Scopes(ScopesDictionary.READ)
-  findAll(@User() user: TokenPayload) {
-    return this.service.findAllEvents(user.keyspace);
-  }
+  findAll(@User() user: TokenPayload) {}
 
   @Get(':id')
   @ApiBearerAuth()
   @UseGuards(JWTGuard, ScopesGuard)
   @Scopes(ScopesDictionary.READ)
-  findOne(@Param('id') id: string, @User() user: TokenPayload) {
-    return this.service.findOne(id, user.keyspace);
-  }
+  findOne(@Param('id') id: string, @User() user: TokenPayload) {}
 
   @Patch(':id')
   @ApiBearerAuth()
@@ -62,9 +56,7 @@ export class CalendarController {
     @Body() calendarEvent: CalendarEventDTO,
     @AuthorObject() author: Author,
     @User() user: TokenPayload,
-  ) {
-    return this.service.updateOne(id, calendarEvent, author, user.keyspace);
-  }
+  ) {}
 
   @Delete(':id')
   @ApiBearerAuth()
@@ -77,7 +69,5 @@ export class CalendarController {
     @Param('id') id: string,
     @AuthorObject() author: Author,
     @User() user: TokenPayload,
-  ) {
-    return this.service.remove(id, author, user.keyspace);
-  }
+  ) {}
 }

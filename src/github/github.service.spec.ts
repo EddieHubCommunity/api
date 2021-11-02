@@ -17,7 +17,6 @@ describe('GithubService', () => {
         ConfigModule.forRoot({
           isGlobal: true,
         }),
-
       ],
       providers: [
         GithubService,

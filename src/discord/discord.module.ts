@@ -8,4 +8,4 @@ import { AuthModule } from '../auth/auth.module';
   controllers: [DiscordController],
   providers: [DiscordService],
 })
-export class DiscordModule { }
+export class DiscordModule {}

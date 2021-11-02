@@ -17,12 +17,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       inject: [ConfigService],
     }),
   ],
-  providers: [
-    TokenStrategy,
-    ValidationService,
-    AuthService,
-    JwtStrategy,
-  ],
+  providers: [TokenStrategy, ValidationService, AuthService, JwtStrategy],
   exports: [ValidationService],
   controllers: [AuthController],
 })

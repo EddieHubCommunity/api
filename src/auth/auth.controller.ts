@@ -23,16 +23,12 @@ export class AuthController {
   @UseGuards(TokenGuard)
   @ApiSecurity('token')
   @ApiParam({ name: 'keyspace', required: true })
-  getTokens(@Param('keyspace') keyspace: string) {
-    return this.authService.getClientIds(keyspace);
-  }
+  getTokens(@Param('keyspace') keyspace: string) {}
 
   @Post('token')
   @UseGuards(TokenGuard)
   @ApiSecurity('token')
-  register(@Body() body: AuthDTO) {
-    return this.authService.register(body);
-  }
+  register(@Body() body: AuthDTO) {}
 
   @Delete('token')
   @UseGuards(TokenGuard)
@@ -43,16 +39,11 @@ export class AuthController {
     required: true,
   })
   @HttpCode(204)
-  deleteClient(@Query() query) {
-    return this.authService.removeClient(query.token);
-  }
+  deleteClient(@Query() query) {}
 
   @Post('validate')
   @UseGuards(TokenGuard)
   @ApiSecurity('token')
   @HttpCode(200)
-  validateToken(@Body() body: TokenValidationDTO) {
-    const valid = this.authService.validateToken(body.token);
-    return { valid };
-  }
+  validateToken(@Body() body: TokenValidationDTO) {}
 }

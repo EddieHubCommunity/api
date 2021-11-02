@@ -28,25 +28,19 @@ export class GithubController {
   @UseGuards(JWTGuard, ScopesGuard)
   @ApiBearerAuth()
   @Scopes(ScopesDictionary.WRITE)
-  async create(@Body() body: GithubDTO, @User() user: TokenPayload) {
-    return await this.githubService.create(body, user.keyspace);
-  }
+  async create(@Body() body: GithubDTO, @User() user: TokenPayload) {}
 
   @Get()
   @UseGuards(JWTGuard, ScopesGuard)
   @ApiBearerAuth()
   @Scopes(ScopesDictionary.READ)
-  findAll(@User() user: TokenPayload) {
-    return this.githubService.findAll(user.keyspace);
-  }
+  findAll(@User() user: TokenPayload) {}
 
   @Get(':id')
   @UseGuards(JWTGuard, ScopesGuard)
   @ApiBearerAuth()
   @Scopes(ScopesDictionary.READ)
-  findOne(@Param('id') id: string, @User() user: TokenPayload) {
-    return this.githubService.findOne(id, user.keyspace);
-  }
+  findOne(@Param('id') id: string, @User() user: TokenPayload) {}
 
   @Patch(':id')
   @UseGuards(JWTGuard, ScopesGuard)
@@ -57,16 +51,12 @@ export class GithubController {
     @Param('id') id: string,
     @Body() body: GithubDTO,
     @User() user: TokenPayload,
-  ) {
-    return await this.githubService.update(id, body, user.keyspace);
-  }
+  ) {}
 
   @Delete(':id')
   @UseGuards(JWTGuard, ScopesGuard)
   @ApiBearerAuth()
   @Scopes(ScopesDictionary.WRITE)
   @HttpCode(204)
-  remove(@Param('id') id: string, @User() user: TokenPayload) {
-    return this.githubService.remove(id, user.keyspace);
-  }
+  remove(@Param('id') id: string, @User() user: TokenPayload) {}
 }

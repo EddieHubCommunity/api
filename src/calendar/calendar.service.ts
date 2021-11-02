@@ -3,7 +3,5 @@ import { ValidationService } from '../auth/header-validation.service';
 
 @Injectable()
 export class CalendarService {
-  constructor(
-    private readonly validationService: ValidationService,
-  ) { }
+  constructor(private readonly validationService: ValidationService) {}
 }

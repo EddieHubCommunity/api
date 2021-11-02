@@ -30,25 +30,19 @@ export class DiscordController {
   @UseGuards(JWTGuard, ScopesGuard)
   @ApiBearerAuth()
   @Scopes(ScopesDictionary.WRITE)
-  create(@Body() createDiscordDto: DiscordDTO, @User() user: TokenPayload) {
-    return this.discordService.create(createDiscordDto, user.keyspace);
-  }
+  create(@Body() createDiscordDto: DiscordDTO, @User() user: TokenPayload) {}
 
   @Get()
   @UseGuards(JWTGuard, ScopesGuard)
   @ApiBearerAuth()
   @Scopes(ScopesDictionary.READ)
-  findAll(@User() user: TokenPayload) {
-    return this.discordService.findAll(user.keyspace);
-  }
+  findAll(@User() user: TokenPayload) {}
 
   @Get(':id')
   @UseGuards(JWTGuard, ScopesGuard)
   @ApiBearerAuth()
   @Scopes(ScopesDictionary.READ)
-  findOne(@Param('id') id: string, @User() user: TokenPayload) {
-    return this.discordService.findOne(id, user.keyspace);
-  }
+  findOne(@Param('id') id: string, @User() user: TokenPayload) {}
 
   @Patch(':id')
   @UseGuards(JWTGuard, ScopesGuard)
@@ -60,14 +54,7 @@ export class DiscordController {
     @Body() updateDiscordDto: DiscordDTO,
     @AuthorObject() author: Author,
     @User() user: TokenPayload,
-  ) {
-    return this.discordService.update(
-      id,
-      updateDiscordDto,
-      author,
-      user.keyspace,
-    );
-  }
+  ) {}
 
   @Delete(':id')
   @HttpCode(204)
@@ -79,7 +66,5 @@ export class DiscordController {
     @Param('id') id: string,
     @AuthorObject() author: Author,
     @User() user: TokenPayload,
-  ) {
-    return this.discordService.remove(id, author, user.keyspace);
-  }
+  ) {}
 }

@@ -1,6 +1,6 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { AuthGuard, PassportStrategy } from '@nestjs/passport';
-import { Strategy, ExtractJwt } from 'passport-jwt';
+import { ExtractJwt, Strategy } from 'passport-jwt';
 import { AuthService } from './auth.service';
 import { TokenPayload } from './interfaces/token-payload.interface';
 
@@ -14,8 +14,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
   validate(payload: TokenPayload): TokenPayload {
-    if (!this.authService.validateClient(payload))
-      throw new UnauthorizedException();
     return payload;
   }
 }
