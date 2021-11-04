@@ -1,19 +1,16 @@
 import {
-  ExecutionContext,
-  UnauthorizedException,
-  ValidationPipe,
+  ValidationPipe
 } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { expect } from 'chai';
 import { before, binding, then } from 'cucumber-tsflow';
-import { decode } from 'jsonwebtoken';
 import { AppModule } from '../../src/app.module';
 import { getRegex } from '../support/regexes';
 import Context from '../support/world';
 
 @binding([Context])
 export class responses {
-  constructor(protected context: Context) {}
+  constructor(protected context: Context) { }
 
   @before()
   public async before(): Promise<void> {
