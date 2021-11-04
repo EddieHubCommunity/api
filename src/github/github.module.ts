@@ -1,20 +1,19 @@
 import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
-import { AstraService as AstraApiService } from '../astra/astra.service';
-import { AuthModule } from '../auth/auth.module';
+import { TokenStrategy } from '../auth/token.strategy';
 import { CommunitystatsMappingService } from './communitystats-mapping.service';
 import { GeocodingService } from './geocoding.service';
 import { GithubController } from './github.controller';
 import { GithubService } from './github.service';
 
 @Module({
-  imports: [HttpModule, AuthModule],
+  imports: [HttpModule],
   controllers: [GithubController],
   providers: [
     GithubService,
     CommunitystatsMappingService,
     GeocodingService,
-    AstraApiService,
+    TokenStrategy,
   ],
 })
 export class GithubModule {}

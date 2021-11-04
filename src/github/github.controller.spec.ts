@@ -1,10 +1,6 @@
-import { AstraModule } from '@cahllagerfeld/nestjs-astra';
 import { HttpModule } from '@nestjs/axios';
 import { ConfigModule } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
-import { AstraConfigService } from '../astra/astra-config.service';
-import { AstraService } from '../astra/astra.service';
-import { AuthModule } from '../auth/auth.module';
 import { CommunitystatsMappingService } from './communitystats-mapping.service';
 import { GeocodingService } from './geocoding.service';
 import { GithubController } from './github.controller';
@@ -17,14 +13,6 @@ describe('GithubController', () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
         HttpModule,
-        AuthModule,
-        AstraModule.forRootAsync({
-          useClass: AstraConfigService,
-        }),
-        AstraModule.forFeature({
-          namespace: 'eddiehub',
-          collection: 'github',
-        }),
         ConfigModule.forRoot({
           isGlobal: true,
         }),
@@ -34,7 +22,6 @@ describe('GithubController', () => {
         GithubService,
         CommunitystatsMappingService,
         GeocodingService,
-        AstraService,
       ],
     }).compile();
 

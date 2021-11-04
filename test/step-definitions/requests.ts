@@ -1,39 +1,16 @@
 import { ValidationPipe } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
-import { exec } from 'child_process';
-import { BeforeAll, setDefaultTimeout } from 'cucumber';
+import { setDefaultTimeout } from 'cucumber';
 import { before, binding, given, when } from 'cucumber-tsflow';
-import { sign } from 'jsonwebtoken';
 import * as request from 'supertest';
 import { AppModule } from '../../src/app.module';
 import Context from '../support/world';
 
 setDefaultTimeout(60 * 1000);
 
-BeforeAll(async () => {
-  if (process.env.STARGATE_BASEURL) {
-    await new Promise((resolve) => {
-      exec('npm run stargate:keyspace:delete', (error, stdout, stderr) => {
-        if (error) {
-          console.warn(error);
-        }
-        resolve(stdout ? stdout : stderr);
-      });
-    });
-    await new Promise((resolve) => {
-      exec('npm run stargate:keyspace:create', (error, stdout, stderr) => {
-        if (error) {
-          console.warn(error);
-        }
-        resolve(stdout ? stdout : stderr);
-      });
-    });
-  }
-});
-
 @binding([Context])
 export class requests {
-  constructor(protected context: Context) {}
+  constructor(protected context: Context) { }
 
   private prepareURL(url: string): string {
     if (/{id}/.test(url)) {
@@ -67,23 +44,6 @@ export class requests {
     await this.context.app.init();
   }
 
-  @given(/authorization with "([^"]*)" permission/)
-  public async generateReadToken(scope: string) {
-    let scopes = [];
-    switch (scope) {
-      case 'writing':
-        scopes = ['Data.Write'];
-        break;
-      case 'reading':
-        scopes = ['Data.Read'];
-        break;
-    }
-    const token = sign(
-      { scopes, keyspace: 'eddiehub' },
-      process.env.JWT_SECRET,
-    );
-    this.context.bearerToken = token;
-  }
 
   @given(/^authorisation$/)
   public async authorisation() {

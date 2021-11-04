@@ -7,7 +7,7 @@ import { UniqueTokenStrategy } from 'passport-unique-token';
 @Injectable()
 export class TokenStrategy extends PassportStrategy(
   UniqueTokenStrategy,
-  'discordGithub-strategy',
+  'unique-token-strategy',
 ) {
   constructor(private config: ConfigService) {
     super({
@@ -33,4 +33,4 @@ export class TokenStrategy extends PassportStrategy(
     return done(null, userObject ? userObject : token);
   }
 }
-export const TokenGuard = AuthGuard('discordGithub-strategy');
+export const TokenGuard = AuthGuard('unique-token-strategy');

@@ -1,9 +1,5 @@
-import { AstraModule } from '@cahllagerfeld/nestjs-astra';
 import { ConfigModule } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
-import { AstraConfigService } from '../astra/astra-config.service';
-import { AstraService } from '../astra/astra.service';
-import { AuthModule } from '../auth/auth.module';
 import { CalendarController } from './calendar.controller';
 import { CalendarService } from './calendar.service';
 
@@ -13,20 +9,12 @@ describe('CalendarController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
-        AuthModule,
         ConfigModule.forRoot({
           isGlobal: true,
         }),
-        AstraModule.forRootAsync({
-          useClass: AstraConfigService,
-        }),
-        AstraModule.forFeature({
-          namespace: 'eddiehub',
-          collection: 'standup',
-        }),
       ],
       controllers: [CalendarController],
-      providers: [CalendarService, AstraService],
+      providers: [CalendarService],
     }).compile();
 
     controller = module.get<CalendarController>(CalendarController);

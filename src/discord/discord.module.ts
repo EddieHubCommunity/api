@@ -1,12 +1,10 @@
 import { Module } from '@nestjs/common';
 import { DiscordService } from './discord.service';
 import { DiscordController } from './discord.controller';
-import { AuthModule } from '../auth/auth.module';
-import { AstraService as AstraApiService } from '../astra/astra.service';
+import { TokenStrategy } from '../auth/token.strategy';
 
 @Module({
-  imports: [AuthModule],
   controllers: [DiscordController],
-  providers: [DiscordService, AstraApiService],
+  providers: [DiscordService, TokenStrategy],
 })
 export class DiscordModule {}
