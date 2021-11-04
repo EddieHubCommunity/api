@@ -5,13 +5,11 @@ import { DiscordModule } from './discord/discord.module';
 import { StandupModule } from './standup/standup.module';
 import { GithubModule } from './github/github.module';
 import { ConfigModule } from '@nestjs/config';
-import { AuthModule } from './auth/auth.module';
 import { LoggerMiddleware } from './logger/logger.middleware';
 import { CalendarModule } from './calendar/calendar.module';
 
 @Module({
   imports: [
-    AuthModule,
     DiscordModule,
     StandupModule,
     GithubModule,

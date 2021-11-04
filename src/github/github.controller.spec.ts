@@ -1,7 +1,6 @@
 import { HttpModule } from '@nestjs/axios';
 import { ConfigModule } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
-import { AuthModule } from '../auth/auth.module';
 import { CommunitystatsMappingService } from './communitystats-mapping.service';
 import { GeocodingService } from './geocoding.service';
 import { GithubController } from './github.controller';
@@ -14,7 +13,6 @@ describe('GithubController', () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
         HttpModule,
-        AuthModule,
         ConfigModule.forRoot({
           isGlobal: true,
         }),

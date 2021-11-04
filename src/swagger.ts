@@ -10,10 +10,4 @@ export const swaggerConfig = new DocumentBuilder()
     name: 'Client-Token',
     description: 'Token for writing data',
   })
-  .addBearerAuth({
-    type: 'http',
-    scheme: 'bearer',
-    bearerFormat: 'JWT',
-    description: 'Token for getting Data',
-  })
   .build();

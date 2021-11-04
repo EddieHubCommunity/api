@@ -8,33 +8,18 @@ import { expect } from 'chai';
 import { before, binding, then } from 'cucumber-tsflow';
 import { decode } from 'jsonwebtoken';
 import { AppModule } from '../../src/app.module';
-import { TokenPayload } from '../../src/auth/interfaces/token-payload.interface';
-import { JWTGuard } from '../../src/auth/jwt.strategy';
 import { getRegex } from '../support/regexes';
 import Context from '../support/world';
 
 @binding([Context])
 export class responses {
-  constructor(protected context: Context) {}
+  constructor(protected context: Context) { }
 
   @before()
   public async before(): Promise<void> {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
-    })
-      .overrideGuard(JWTGuard)
-      .useValue({
-        canActivate: (ctx: ExecutionContext) => {
-          const req = ctx.switchToHttp().getRequest();
-          if (req.headers.authorization) {
-            const accessToken = req.headers.authorization.split(' ')[1];
-            req.user = decode(accessToken) as TokenPayload;
-            return true;
-          }
-          throw new UnauthorizedException();
-        },
-      })
-      .compile();
+    }).compile();
 
     this.context.app = moduleFixture.createNestApplication();
     this.context.app.useGlobalPipes(new ValidationPipe({ transform: true }));

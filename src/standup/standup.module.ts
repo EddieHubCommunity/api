@@ -1,11 +1,10 @@
 import { Module } from '@nestjs/common';
-import { AuthModule } from '../auth/auth.module';
+import { TokenStrategy } from '../auth/token.strategy';
 import { StandupController } from './standup.controller';
 import { StandupService } from './standup.service';
 
 @Module({
-  imports: [AuthModule],
   controllers: [StandupController],
-  providers: [StandupService],
+  providers: [StandupService, TokenStrategy],
 })
-export class StandupModule {}
+export class StandupModule { }

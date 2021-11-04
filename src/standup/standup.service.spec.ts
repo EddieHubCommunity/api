@@ -1,6 +1,5 @@
 import { ConfigModule } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
-import { AuthModule } from '../auth/auth.module';
 import { StandupService } from './standup.service';
 
 describe('StandupService', () => {
@@ -9,7 +8,6 @@ describe('StandupService', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
-        AuthModule,
         ConfigModule.forRoot({
           isGlobal: true,
         }),
