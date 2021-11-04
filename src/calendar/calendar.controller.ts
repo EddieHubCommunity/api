@@ -7,7 +7,7 @@ import {
   Param,
   Patch,
   Post,
-  UseGuards
+  UseGuards,
 } from '@nestjs/common';
 import { ApiHeader, ApiSecurity, ApiTags } from '@nestjs/swagger';
 import { Author, AuthorObject } from '../auth/author-headers';
@@ -18,18 +18,18 @@ import { CalendarEventDTO } from './dto/calendar.dto';
 @Controller('calendar')
 @ApiTags('Calendar')
 export class CalendarController {
-  constructor(private readonly service: CalendarService) { }
+  constructor(private readonly service: CalendarService) {}
 
   @Post()
   @UseGuards(TokenGuard)
   @ApiSecurity('token')
-  create(@Body() calendarEvent: CalendarEventDTO) { }
+  create(@Body() calendarEvent: CalendarEventDTO) {}
 
   @Get()
-  findAll() { }
+  findAll() {}
 
   @Get(':id')
-  findOne(@Param('id') id: string) { }
+  findOne(@Param('id') id: string) {}
 
   @Patch(':id')
   @UseGuards(TokenGuard)
@@ -40,7 +40,7 @@ export class CalendarController {
     @Param('id') id: string,
     @Body() calendarEvent: CalendarEventDTO,
     @AuthorObject() author: Author,
-  ) { }
+  ) {}
 
   @Delete(':id')
   @HttpCode(204)
@@ -48,8 +48,5 @@ export class CalendarController {
   @ApiSecurity('token')
   @ApiHeader({ name: 'User-Uid', required: true })
   @ApiHeader({ name: 'Platform', required: true })
-  remove(
-    @Param('id') id: string,
-    @AuthorObject() author: Author,
-  ) { }
+  remove(@Param('id') id: string, @AuthorObject() author: Author) {}
 }

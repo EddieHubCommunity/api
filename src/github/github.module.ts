@@ -9,6 +9,11 @@ import { GithubService } from './github.service';
 @Module({
   imports: [HttpModule],
   controllers: [GithubController],
-  providers: [GithubService, CommunitystatsMappingService, GeocodingService, TokenStrategy],
+  providers: [
+    GithubService,
+    CommunitystatsMappingService,
+    GeocodingService,
+    TokenStrategy,
+  ],
 })
-export class GithubModule { }
+export class GithubModule {}

@@ -7,4 +7,4 @@ import { TokenStrategy } from '../auth/token.strategy';
   controllers: [DiscordController],
   providers: [DiscordService, TokenStrategy],
 })
-export class DiscordModule { }
+export class DiscordModule {}

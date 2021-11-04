@@ -13,7 +13,7 @@ import Context from '../support/world';
 
 @binding([Context])
 export class responses {
-  constructor(protected context: Context) { }
+  constructor(protected context: Context) {}
 
   @before()
   public async before(): Promise<void> {

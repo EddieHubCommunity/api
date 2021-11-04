@@ -7,4 +7,4 @@ import { StandupService } from './standup.service';
   controllers: [StandupController],
   providers: [StandupService, TokenStrategy],
 })
-export class StandupModule { }
+export class StandupModule {}

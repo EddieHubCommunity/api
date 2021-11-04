@@ -7,7 +7,7 @@ import {
   Param,
   Patch,
   Post,
-  UseGuards
+  UseGuards,
 } from '@nestjs/common';
 import { ApiSecurity, ApiTags } from '@nestjs/swagger';
 import { TokenGuard } from '../auth/token.strategy';
@@ -16,30 +16,27 @@ import { GithubService } from './github.service';
 @ApiTags('Github')
 @Controller('github')
 export class GithubController {
-  constructor(private readonly githubService: GithubService) { }
+  constructor(private readonly githubService: GithubService) {}
   @Post()
   @UseGuards(TokenGuard)
   @ApiSecurity('token')
-  async create(@Body() body: GithubDTO) { }
+  async create(@Body() body: GithubDTO) {}
 
   @Get()
-  findAll() { }
+  findAll() {}
 
   @Get(':id')
-  findOne(@Param('id') id: string) { }
+  findOne(@Param('id') id: string) {}
 
   @Patch(':id')
   @HttpCode(200)
   @UseGuards(TokenGuard)
   @ApiSecurity('token')
-  async update(
-    @Param('id') id: string,
-    @Body() body: GithubDTO,
-  ) { }
+  async update(@Param('id') id: string, @Body() body: GithubDTO) {}
 
   @Delete(':id')
   @HttpCode(204)
   @UseGuards(TokenGuard)
   @ApiSecurity('token')
-  remove(@Param('id') id: string) { }
+  remove(@Param('id') id: string) {}
 }
