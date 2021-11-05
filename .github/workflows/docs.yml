@@ -16,7 +16,6 @@ jobs:
       - name: install dependencies
         run: npm ci
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
       - name: build docs
         run: npm run docs

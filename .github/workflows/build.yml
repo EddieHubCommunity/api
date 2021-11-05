@@ -15,7 +15,6 @@ jobs:
       - name: install dependencies
         run: npm ci
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
       - name: lint check
         run: npm run lint
@@ -33,7 +32,6 @@ jobs:
       - name: install dependencies
         run: npm ci
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
       - name: run build
         run: npm run build
@@ -65,7 +63,6 @@ jobs:
       - name: install dependencies
         run: npm ci
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
       - name: run unit tests
         run: npm run test
