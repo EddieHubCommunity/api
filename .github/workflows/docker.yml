@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     services:
-      stargate:
+      mongo:
         image: mongo
         ports:
           - 27017:27017
