@@ -7,9 +7,14 @@ import { GithubModule } from './github/github.module';
 import { ConfigModule } from '@nestjs/config';
 import { LoggerMiddleware } from './logger/logger.middleware';
 import { CalendarModule } from './calendar/calendar.module';
+import { MongooseModule } from '@nestjs/mongoose';
+import { MongooseConfigService } from './environment/mongo-config.service';
 
 @Module({
   imports: [
+    MongooseModule.forRootAsync({
+      useClass: MongooseConfigService
+    }),
     DiscordModule,
     StandupModule,
     GithubModule,
