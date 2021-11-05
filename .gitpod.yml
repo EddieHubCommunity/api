@@ -1,15 +1,10 @@
 # List the start up tasks. Learn more https://www.gitpod.io/docs/config-start-tasks/
 tasks:
   - name: Install npm depdencies
-    init: |
-      npm i -g npm
-    command: |
-      npm i
-      sleep 30
+    init: npm i
+      gp await-port 27017
       npm run start:dev
   - name: Docker
-    init: |
-      docker-compose pull
     command: |
       docker-compose up
       
