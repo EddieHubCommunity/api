@@ -20,7 +20,7 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "cucumber-js -p default",
+    "test:e2e": "cucumber-js -p default --exit",
     "postinstall": "ncp ./.env.example ./.env"
   },
   "dependencies": {
@@ -29,12 +29,14 @@
     "@nestjs/config": "^1.0.0",
     "@nestjs/core": "^8.0.4",
     "@nestjs/mapped-types": "^1.0.0",
+    "@nestjs/mongoose": "^9.0.1",
     "@nestjs/passport": "^8.0.0",
     "@nestjs/platform-express": "^8.0.4",
     "@nestjs/swagger": "^5.0.4",
     "class-transformer": "^0.4.0",
     "class-validator": "^0.13.1",
     "helmet": "^4.6.0",
+    "mongoose": "^6.0.12",
     "passport": "^0.4.1",
     "passport-unique-token": "^3.0.0",
     "reflect-metadata": "^0.1.13",

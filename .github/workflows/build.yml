@@ -15,7 +15,6 @@ jobs:
       - name: install dependencies
         run: npm ci
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
       - name: lint check
         run: npm run lint
@@ -33,7 +32,6 @@ jobs:
       - name: install dependencies
         run: npm ci
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
       - name: run build
         run: npm run build
@@ -44,16 +42,15 @@ jobs:
       packages: read
     runs-on: ubuntu-latest
     services:
-      stargate:
-        image: stargateio/stargate-3_11:v1.0.25
+      mongo:
+        image: mongo
+        options: >-
+          --health-cmd mongo
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
         ports:
-          - 8080:8080
-          - 8081:8081
-          - 8082:8082
-        env:
-          CLUSTER_NAME: stargate
-          CLUSTER_VERSION: 3.11
-          DEVELOPER_MODE: true
+          - 27017:27017
     strategy:
       matrix:
         node-version: [16.x]
@@ -66,7 +63,6 @@ jobs:
       - name: install dependencies
         run: npm ci
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
       - name: run unit tests
         run: npm run test
