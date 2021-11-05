@@ -2,6 +2,7 @@
 tasks:
   - name: Install npm depdencies
     init: npm i
+    command: |
       gp await-port 27017
       npm run start:dev
   - name: Docker
