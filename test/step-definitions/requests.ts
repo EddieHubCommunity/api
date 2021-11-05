@@ -10,7 +10,7 @@ setDefaultTimeout(60 * 1000);
 
 @binding([Context])
 export class requests {
-  constructor(protected context: Context) { }
+  constructor(protected context: Context) {}
 
   private prepareURL(url: string): string {
     if (/{id}/.test(url)) {
@@ -43,7 +43,6 @@ export class requests {
     this.context.app.useGlobalPipes(new ValidationPipe({ transform: true }));
     await this.context.app.init();
   }
-
 
   @given(/^authorisation$/)
   public async authorisation() {

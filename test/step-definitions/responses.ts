@@ -1,6 +1,4 @@
-import {
-  ValidationPipe
-} from '@nestjs/common';
+import { ValidationPipe } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { expect } from 'chai';
 import { before, binding, then } from 'cucumber-tsflow';
@@ -10,7 +8,7 @@ import Context from '../support/world';
 
 @binding([Context])
 export class responses {
-  constructor(protected context: Context) { }
+  constructor(protected context: Context) {}
 
   @before()
   public async before(): Promise<void> {

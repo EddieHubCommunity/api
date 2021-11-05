@@ -13,7 +13,7 @@ import { MongooseConfigService } from './environment/mongo-config.service';
 @Module({
   imports: [
     MongooseModule.forRootAsync({
-      useClass: MongooseConfigService
+      useClass: MongooseConfigService,
     }),
     DiscordModule,
     StandupModule,
