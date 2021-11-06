@@ -20,6 +20,9 @@ export class Standup extends Document {
 
   @Prop({ type: StandupAuthor, required: true })
   author: StandupAuthor;
+
+  @Prop()
+  createdOn: string;
 }
 
 export const StandupSchema = SchemaFactory.createForClass(Standup);

@@ -14,7 +14,10 @@ export class StandupService {
   async createStandup(
     createStandUpDTO: StandupDTO,
   ): Promise<Standup & { _id: any }> {
-    const createdStandup = new this.standUpModel(createStandUpDTO);
+    const createdStandup = new this.standUpModel({
+      ...createStandUpDTO,
+      ...{ createdOn: new Date().toISOString() },
+    });
     return createdStandup.save();
   }
 

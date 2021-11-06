@@ -1,15 +1,19 @@
-#@standup
-# Feature: Standup module
+@standup
+Feature: Standup module
 
-#     Scenario: add a new standup
-#         Given authorization with "writing" permission
-#         And make a POST request to "/standup" with:
-#             | author           | {"platform":"discord","uid":"hubber"} |
-#             | yesterdayMessage | "Yesterday I did this"                |
-#             | todayMessage     | "Today I'll do this"                  |
-#         Then the response status code should be 201
-#         And the response should contain:
-#             | documentId | "TYPE:ID" |
+    Scenario: add a new standup
+        Given authorisation
+        And make a POST request to "/standup" with:
+            | author           | {"platform":"discord","uid":"hubber"} |
+            | yesterdayMessage | "Yesterday I did this"                |
+            | todayMessage     | "Today I'll do this"                  |
+        Then the response status code should be 201
+        And the response should contain:
+            | author           | {"platform":"discord","uid":"hubber"} |
+            | todayMessage     | "Today I'll do this"                  |
+            | yesterdayMessage | "Yesterday I did this"                |
+            | createdOn        | "TYPE:DATE"                           |
+            | _id              | "TYPE:ID"                             |
 
 #     Scenario: search existing standup
 #         Given authorization with "writing" permission

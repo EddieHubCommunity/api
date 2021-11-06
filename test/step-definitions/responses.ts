@@ -6,6 +6,7 @@ import { after, before, binding, then } from 'cucumber-tsflow';
 import { AppModule } from '../../src/app.module';
 import { getRegex } from '../support/regexes';
 import Context from '../support/world';
+import { Types } from 'mongoose';
 
 @binding([Context])
 export class responses {
@@ -91,7 +92,12 @@ export class responses {
     Object.keys(data).forEach((key) => {
       if (/TYPE:/.test(data[key])) {
         if (data[key] === 'TYPE:ID') {
+          const isValidID = Types.ObjectId.isValid(
+            JSON.parse(this.context.response.text)[key],
+          );
           this.context.documentId = JSON.parse(this.context.response.text)[key];
+          expect(isValidID).to.be.true;
+          return;
         }
         const regex = getRegex(data[key]);
         expect(JSON.parse(this.context.response.text)[key]).to.match(regex);
