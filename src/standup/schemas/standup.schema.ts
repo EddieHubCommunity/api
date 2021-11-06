@@ -1,28 +1,25 @@
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { Document } from 'mongoose'
-
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Document } from 'mongoose';
 
 @Schema({ _id: false })
 export class StandupAuthor extends Document {
-    @Prop()
-    platform: string;
+  @Prop()
+  platform: string;
 
-    @Prop()
-    uid: string;
+  @Prop()
+  uid: string;
 }
 
 @Schema()
 export class Standup extends Document {
+  @Prop()
+  todayMessage: string;
 
-    @Prop()
-    todayMessage: string;
+  @Prop()
+  yesterdayMessage: string;
 
-    @Prop()
-    yesterdayMessage: string;
-
-    @Prop({ type: StandupAuthor, required: true })
-    author: StandupAuthor
+  @Prop({ type: StandupAuthor, required: true })
+  author: StandupAuthor;
 }
 
-
-export const StandupSchema = SchemaFactory.createForClass(Standup)
+export const StandupSchema = SchemaFactory.createForClass(Standup);

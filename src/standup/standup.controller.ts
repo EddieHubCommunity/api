@@ -7,14 +7,9 @@ import {
   Param,
   Post,
   Query,
-  UseGuards
+  UseGuards,
 } from '@nestjs/common';
-import {
-  ApiHeader,
-  ApiQuery,
-  ApiSecurity,
-  ApiTags
-} from '@nestjs/swagger';
+import { ApiHeader, ApiQuery, ApiSecurity, ApiTags } from '@nestjs/swagger';
 import { Author, AuthorObject } from '../auth/author-headers';
 import { TokenGuard } from '../auth/token.strategy';
 import { StandupDTO } from './dto/standup.dto';
@@ -23,7 +18,7 @@ import { StandupService } from './standup.service';
 @ApiTags('Standup')
 @Controller('standup')
 export class StandupController {
-  constructor(private readonly standupService: StandupService) { }
+  constructor(private readonly standupService: StandupService) {}
 
   @Post()
   @UseGuards(TokenGuard)
@@ -34,16 +29,16 @@ export class StandupController {
 
   @Get()
   async findAllStandups() {
-    return await this.standupService.getAllStandups()
+    return await this.standupService.getAllStandups();
   }
 
   @Get('search')
   @ApiQuery({ name: 'uid', type: 'string' })
-  search(@Query('uid') uid: string) { }
+  search(@Query('uid') uid: string) {}
 
   @Get(':id')
   async findById(@Param('id') id: string) {
-    return await this.standupService.getStandupByID(id)
+    return await this.standupService.getStandupByID(id);
   }
 
   @Delete(':id')
@@ -53,6 +48,6 @@ export class StandupController {
   @ApiHeader({ name: 'User-Uid', required: true })
   @ApiHeader({ name: 'Platform', required: true })
   async deleteStandup(@Param('id') id: string, @AuthorObject() author: Author) {
-    return await this.standupService.deteleStanupByID(id, author)
+    return await this.standupService.deteleStanupByID(id, author);
   }
 }
