@@ -11,8 +11,8 @@ describe('StandupService', () => {
   let connection: Connection;
 
   afterEach(async () => {
-    await connection.close()
-  })
+    await connection.close();
+  });
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({

@@ -18,7 +18,7 @@ import { StandupService } from './standup.service';
 @ApiTags('Standup')
 @Controller('standup')
 export class StandupController {
-  constructor(private readonly standupService: StandupService) { }
+  constructor(private readonly standupService: StandupService) {}
 
   @Post()
   @UseGuards(TokenGuard)
@@ -35,7 +35,7 @@ export class StandupController {
   @Get('search')
   @ApiQuery({ name: 'uid', type: 'string' })
   async search(@Query('uid') uid: string) {
-    return await this.standupService.searchStandupsByUID(uid)
+    return await this.standupService.searchStandupsByUID(uid);
   }
 
   @Get(':id')

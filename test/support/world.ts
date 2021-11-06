@@ -1,4 +1,4 @@
-import { Connection } from "mongoose";
+import { Connection } from 'mongoose';
 
 export default class Context {
   public app;
@@ -6,7 +6,7 @@ export default class Context {
   public preRequest;
   public headers: { [field: string]: string } = {};
   public token;
-  public connection: Connection
+  public connection: Connection;
   public documentId: string;
 
   public tableToObject(table) {

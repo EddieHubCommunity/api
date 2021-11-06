@@ -9,11 +9,11 @@ import Context from '../support/world';
 
 @binding([Context])
 export class responses {
-  constructor(protected context: Context) { }
+  constructor(protected context: Context) {}
 
   @after()
   public async after(): Promise<void> {
-    await this.context.connection.close()
+    await this.context.connection.close();
   }
 
   @before()
@@ -26,8 +26,7 @@ export class responses {
     this.context.app.useGlobalPipes(new ValidationPipe({ transform: true }));
     await this.context.app.init();
     this.context.connection = await this.context.app.get(getConnectionToken());
-    await this.context.connection.dropDatabase()
-
+    await this.context.connection.dropDatabase();
   }
 
   @then(

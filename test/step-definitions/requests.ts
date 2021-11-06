@@ -11,7 +11,7 @@ setDefaultTimeout(60 * 1000);
 
 @binding([Context])
 export class requests {
-  constructor(protected context: Context) { }
+  constructor(protected context: Context) {}
 
   private prepareURL(url: string): string {
     if (/{id}/.test(url)) {
@@ -22,7 +22,7 @@ export class requests {
 
   @after()
   public async after(): Promise<void> {
-    await this.context.connection.close()
+    await this.context.connection.close();
   }
 
   @before()
@@ -35,7 +35,7 @@ export class requests {
     this.context.app.useGlobalPipes(new ValidationPipe({ transform: true }));
     await this.context.app.init();
     this.context.connection = await this.context.app.get(getConnectionToken());
-    await this.context.connection.dropDatabase()
+    await this.context.connection.dropDatabase();
   }
 
   @when(/restart app/)
