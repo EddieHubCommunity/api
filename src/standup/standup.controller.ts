@@ -7,17 +7,15 @@ import {
   Param,
   Post,
   Query,
-  UseGuards,
+  UseGuards
 } from '@nestjs/common';
 import {
-  ApiBearerAuth,
   ApiHeader,
   ApiQuery,
   ApiSecurity,
-  ApiTags,
+  ApiTags
 } from '@nestjs/swagger';
 import { Author, AuthorObject } from '../auth/author-headers';
-import { User } from '../auth/decorators/user.decorator';
 import { TokenGuard } from '../auth/token.strategy';
 import { StandupDTO } from './dto/standup.dto';
 import { StandupService } from './standup.service';
@@ -25,25 +23,28 @@ import { StandupService } from './standup.service';
 @ApiTags('Standup')
 @Controller('standup')
 export class StandupController {
-  constructor(private readonly standupService: StandupService) {}
+  constructor(private readonly standupService: StandupService) { }
 
   @Post()
   @UseGuards(TokenGuard)
   @ApiSecurity('token')
-  createStandup(@Body() body: StandupDTO) {
-    return body;
+  async createStandup(@Body() body: StandupDTO) {
+    return this.standupService.createStandup(body);
   }
 
   @Get()
-  findAllStandups(@User() user) {}
+  async findAllStandups() {
+    return await this.standupService.getAllStandups()
+  }
 
   @Get('search')
   @ApiQuery({ name: 'uid', type: 'string' })
-  search(@Query('uid') uid: string) {}
+  search(@Query('uid') uid: string) { }
 
   @Get(':id')
-  @ApiQuery({ name: 'uid', type: 'string' })
-  findById(@Param('id') id: string) {}
+  async findById(@Param('id') id: string) {
+    return await this.standupService.getStandupByID(id)
+  }
 
   @Delete(':id')
   @HttpCode(204)
@@ -51,5 +52,7 @@ export class StandupController {
   @ApiSecurity('token')
   @ApiHeader({ name: 'User-Uid', required: true })
   @ApiHeader({ name: 'Platform', required: true })
-  deleteStandup(@Param('id') id: string, @AuthorObject() author: Author) {}
+  async deleteStandup(@Param('id') id: string, @AuthorObject() author: Author) {
+    return await this.standupService.deteleStanupByID(id, author)
+  }
 }
