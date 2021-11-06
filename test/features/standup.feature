@@ -14,6 +14,7 @@ Feature: Standup module
             | yesterdayMessage | "Yesterday I did this"                |
             | createdOn        | "TYPE:DATE"                           |
             | _id              | "TYPE:ID"                             |
+            | __v              | 0                                     |
 
 #     Scenario: search existing standup
 #         Given authorization with "writing" permission
