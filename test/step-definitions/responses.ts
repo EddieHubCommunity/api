@@ -1,14 +1,20 @@
 import { ValidationPipe } from '@nestjs/common';
+import { getConnectionToken } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
 import { expect } from 'chai';
-import { before, binding, then } from 'cucumber-tsflow';
+import { after, before, binding, then } from 'cucumber-tsflow';
 import { AppModule } from '../../src/app.module';
 import { getRegex } from '../support/regexes';
 import Context from '../support/world';
 
 @binding([Context])
 export class responses {
-  constructor(protected context: Context) {}
+  constructor(protected context: Context) { }
+
+  @after()
+  public async after(): Promise<void> {
+    await this.context.connection.close()
+  }
 
   @before()
   public async before(): Promise<void> {
@@ -19,6 +25,9 @@ export class responses {
     this.context.app = moduleFixture.createNestApplication();
     this.context.app.useGlobalPipes(new ValidationPipe({ transform: true }));
     await this.context.app.init();
+    this.context.connection = await this.context.app.get(getConnectionToken());
+    await this.context.connection.dropDatabase()
+
   }
 
   @then(
