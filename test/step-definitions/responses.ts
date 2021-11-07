@@ -10,7 +10,7 @@ import { Types } from 'mongoose';
 
 @binding([Context])
 export class responses {
-  constructor(protected context: Context) { }
+  constructor(protected context: Context) {}
 
   @after()
   public async after(): Promise<void> {
@@ -29,7 +29,6 @@ export class responses {
     this.context.connection = await this.context.app.get(getConnectionToken());
     await this.context.connection.dropDatabase();
   }
-
 
   @then(
     /the response status code should be (200|201|204|400|401|403|404|413|500|503)/,
@@ -113,9 +112,9 @@ export class responses {
             const isValidID = Types.ObjectId.isValid(
               JSON.parse(this.context.response.text)[index][key],
             );
-            this.context.documentId = JSON.parse(this.context.response.text)[index][
-              key
-            ];
+            this.context.documentId = JSON.parse(this.context.response.text)[
+              index
+            ][key];
             expect(isValidID).to.be.true;
             break;
           default:

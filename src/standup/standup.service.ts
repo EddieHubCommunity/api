@@ -9,7 +9,7 @@ import { Standup } from './schemas/standup.schema';
 export class StandupService {
   constructor(
     @InjectModel(Standup.name) private readonly standUpModel: Model<Standup>,
-  ) { }
+  ) {}
 
   async createStandup(
     createStandUpDTO: StandupDTO,
@@ -26,7 +26,11 @@ export class StandupService {
   }
 
   async searchStandupsByUID(uid: string) {
-    if (!uid) throw new HttpException("Please provide search context", HttpStatus.BAD_REQUEST)
+    if (!uid)
+      throw new HttpException(
+        'Please provide search context',
+        HttpStatus.BAD_REQUEST,
+      );
     return await this.standUpModel.find({ 'author.uid': uid });
   }
 
@@ -40,7 +44,10 @@ export class StandupService {
       existingStandup = await this.standUpModel.findById(id);
     } catch (error) {
       console.log(error);
-      throw new HttpException(`Standup with ID ${id} not Found`, HttpStatus.NOT_FOUND);
+      throw new HttpException(
+        `Standup with ID ${id} not Found`,
+        HttpStatus.NOT_FOUND,
+      );
     }
     if (
       existingStandup.author.uid != author.uid ||
