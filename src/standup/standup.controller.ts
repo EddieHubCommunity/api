@@ -28,18 +28,18 @@ export class StandupController {
   }
 
   @Get()
-  async findAllStandups() {
+  async getAllStandups() {
     return await this.standupService.getAllStandups();
   }
 
   @Get('search')
   @ApiQuery({ name: 'uid', type: 'string' })
-  async search(@Query('uid') uid: string) {
+  async searchStandupsByUID(@Query('uid') uid: string) {
     return await this.standupService.searchStandupsByUID(uid);
   }
 
   @Get(':id')
-  async findById(@Param('id') id: string) {
+  async getStandupByID(@Param('id') id: string) {
     return await this.standupService.getStandupByID(id);
   }
 
@@ -49,7 +49,10 @@ export class StandupController {
   @ApiSecurity('token')
   @ApiHeader({ name: 'User-Uid', required: true })
   @ApiHeader({ name: 'Platform', required: true })
-  async deleteStandup(@Param('id') id: string, @AuthorObject() author: Author) {
+  async deteleStanupByID(
+    @Param('id') id: string,
+    @AuthorObject() author: Author,
+  ) {
     return await this.standupService.deteleStanupByID(id, author);
   }
 }
