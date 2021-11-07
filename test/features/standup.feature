@@ -2,12 +2,13 @@
 Feature: Standup module
 
     Scenario: add a new standup
-        Given authorisation
+        Given authorization
         And make a POST request to "/standup" with:
             | author           | {"platform":"discord","uid":"hubber"} |
             | yesterdayMessage | "Yesterday I did this"                |
             | todayMessage     | "Today I'll do this"                  |
         Then the response status code should be 201
+        When remove authorization
         And the response should contain:
             | author           | {"platform":"discord","uid":"hubber"} |
             | todayMessage     | "Today I'll do this"                  |
@@ -16,22 +17,22 @@ Feature: Standup module
             | _id              | "TYPE:ID"                             |
             | __v              | 0                                     |
 
-#     Scenario: search existing standup
-#         Given authorization with "writing" permission
-#         And make a POST request to "/standup" with:
-#             | author           | {"platform":"discord","uid":"hubber"} |
-#             | yesterdayMessage | "Yesterday I did this"                |
-#             | todayMessage     | "Today I'll do this"                  |
-#         Then the response should contain:
-#             | documentId | "TYPE:ID" |
-#         Given authorization with "reading" permission
-#         And  make a GET request to "/standup/search?uid=hubber"
-#         Then the response status code should be 200
-#         And the response in item where field "todayMessage" is equal to "Today I'll do this" should contain:
-#             | author           | {"platform":"discord","uid":"hubber"} |
-#             | todayMessage     | "Today I'll do this"                  |
-#             | yesterdayMessage | "Yesterday I did this"                |
-#             | createdOn        | "TYPE:DATE"                           |
+    Scenario: search existing standup
+        Given authorization
+        And make a POST request to "/standup" with:
+            | author           | {"platform":"discord","uid":"hubber"} |
+            | yesterdayMessage | "Yesterday I did this"                |
+            | todayMessage     | "Today I'll do this"                  |
+        Then the response status code should be 201
+        Then  make a GET request to "/standup/search?uid=hubber"
+        Then the response status code should be 200
+        And the response at index "0" should contain:
+            | author           | {"platform":"discord","uid":"hubber"} |
+            | todayMessage     | "Today I'll do this"                  |
+            | yesterdayMessage | "Yesterday I did this"                |
+            | createdOn        | "TYPE:DATE"                           |
+            | _id              | "TYPE:ID"                             |
+            | __v              | 0                                     |
 
 #     Scenario: search non-existing standup
 #         Given authorization with "writing" permission

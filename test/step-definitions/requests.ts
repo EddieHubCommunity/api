@@ -11,7 +11,7 @@ setDefaultTimeout(60 * 1000);
 
 @binding([Context])
 export class requests {
-  constructor(protected context: Context) {}
+  constructor(protected context: Context) { }
 
   private prepareURL(url: string): string {
     if (/{id}/.test(url)) {
@@ -49,14 +49,19 @@ export class requests {
     await this.context.app.init();
   }
 
-  @given(/^authorisation$/)
-  public async authorisation() {
+  @given(/^authorization$/)
+  public async authorization() {
     this.context.token = 'abc';
   }
 
-  @given(/^invalid authorisation$/)
-  public async invalidAuthorisation() {
+  @given(/^invalid authorization$/)
+  public async invalidAuthorization() {
     this.context.token = 'xxx';
+  }
+
+  @when(/remove authorization/)
+  public removeAuth() {
+    this.context.token = null
   }
 
   @given(/make a GET request to "([^"]*)"/)

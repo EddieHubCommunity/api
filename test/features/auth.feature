@@ -2,14 +2,14 @@
 # Feature: auth module
 
 #     Scenario: get list of all tokens in invalid keyspace
-#         Given authorisation
+#         Given authorization
 #         When make a GET request to "/auth/token/invalid-keyspace"
 #         Then the response status code should be 200
 #         And  the response should contain:
 #             | clients | [] |
 
 #     Scenario: get list of all tokens in my keyspace
-#         Given authorisation
+#         Given authorization
 #         And make a POST request to "/auth/token" with:
 #             | serverId | "eddiehub"    |
 #             | scopes   | ["Data.Read"] |
@@ -17,21 +17,21 @@
 #         Then the response status code should be 200
 #         And  the response property "clients" should have a collection of type "TYPE:UUID"
 
-#     Scenario: fail to create a token with no authorisation
+#     Scenario: fail to create a token with no authorization
 #         When make a POST request to "/auth/token" with:
 #             | serverId | "eddiehub"    |
 #             | scopes   | ["Data.Read"] |
 #         Then the response status code should be 401
 
-#     Scenario: fail to create a token with invalid authorisation
-#         Given invalid authorisation
+#     Scenario: fail to create a token with invalid authorization
+#         Given invalid authorization
 #         When make a POST request to "/auth/token" with:
 #             | serverId | "eddiehub"    |
 #             | scopes   | ["Data.Read"] |
 #         Then the response status code should be 401
 
 #     Scenario: create a token successfully
-#         Given authorisation
+#         Given authorization
 #         When make a POST request to "/auth/token" with:
 #             | serverId | "eddiehub"    |
 #             | scopes   | ["Data.Read"] |
@@ -44,7 +44,7 @@
 #             | expiresIn   | "TYPE:NUMBER" |
 
 #     Scenario: use the token
-#         Given authorisation
+#         Given authorization
 #         When make a POST request to "/auth/token" with:
 #             | serverId | "eddiehub"    |
 #             | scopes   | ["Data.Read"] |
@@ -60,7 +60,7 @@
 #         Then the response status code should be 200
 
 #     Scenario: validate token
-#         Given authorisation
+#         Given authorization
 #         When make a POST request to "/auth/token" with:
 #             | serverId | "eddiehub"    |
 #             | scopes   | ["Data.Read"] |
@@ -73,7 +73,7 @@
 #             | valid | true |
 
 #     Scenario: invalid validation of token
-#         Given authorisation
+#         Given authorization
 #         When make a POST request to "/auth/token" with:
 #             | serverId | "eddiehub"    |
 #             | scopes   | ["Data.Read"] |
@@ -87,7 +87,7 @@
 
 
 #     Scenario: delete token
-#         Given authorisation
+#         Given authorization
 #         When make a POST request to "/auth/token" with:
 #             | serverId | "eddiehub"    |
 #             | scopes   | ["Data.Read"] |
