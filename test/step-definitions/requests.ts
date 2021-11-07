@@ -17,6 +17,7 @@ export class requests {
     if (/{id}/.test(url)) {
       url = url.replace(/{id}/, this.context.documentId);
     }
+    console.log(url)
     return url;
   }
 
