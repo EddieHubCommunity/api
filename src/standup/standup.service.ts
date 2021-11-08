@@ -11,9 +11,7 @@ export class StandupService {
     @InjectModel(Standup.name) private readonly standUpModel: Model<Standup>,
   ) {}
 
-  async createStandup(
-    createStandUpDTO: StandupDTO,
-  ): Promise<Standup & { _id: any }> {
+  async create(createStandUpDTO: StandupDTO): Promise<Standup & { _id: any }> {
     const createdStandup = new this.standUpModel({
       ...createStandUpDTO,
       ...{ createdOn: new Date().toISOString() },
@@ -21,11 +19,11 @@ export class StandupService {
     return createdStandup.save();
   }
 
-  async getAllStandups(): Promise<(Standup & { _id: any })[]> {
+  async getAll(): Promise<(Standup & { _id: any })[]> {
     return await this.standUpModel.find();
   }
 
-  async searchStandupsByUID(uid: string) {
+  async searchByUID(uid: string) {
     if (!uid)
       throw new HttpException(
         'Please provide search context',
@@ -34,11 +32,11 @@ export class StandupService {
     return await this.standUpModel.find({ 'author.uid': uid });
   }
 
-  async getStandupByID(id: string) {
+  async getByID(id: string) {
     return await this.standUpModel.findById(id);
   }
 
-  async deteleStanupByID(id: string, author: Author) {
+  async deleteByID(id: string, author: Author) {
     let existingStandup = null;
     try {
       existingStandup = await this.standUpModel.findById(id);

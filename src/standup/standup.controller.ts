@@ -24,23 +24,23 @@ export class StandupController {
   @UseGuards(TokenGuard)
   @ApiSecurity('token')
   async createStandup(@Body() body: StandupDTO) {
-    return this.standupService.createStandup(body);
+    return this.standupService.create(body);
   }
 
   @Get()
   async getAllStandups() {
-    return await this.standupService.getAllStandups();
+    return await this.standupService.getAll();
   }
 
   @Get('search')
   @ApiQuery({ name: 'uid', type: 'string' })
   async searchStandupsByUID(@Query('uid') uid: string) {
-    return await this.standupService.searchStandupsByUID(uid);
+    return await this.standupService.searchByUID(uid);
   }
 
   @Get(':id')
   async getStandupByID(@Param('id') id: string) {
-    return await this.standupService.getStandupByID(id);
+    return await this.standupService.getByID(id);
   }
 
   @Delete(':id')
@@ -53,6 +53,6 @@ export class StandupController {
     @Param('id') id: string,
     @AuthorObject() author: Author,
   ) {
-    return await this.standupService.deteleStanupByID(id, author);
+    return await this.standupService.deleteByID(id, author);
   }
 }
