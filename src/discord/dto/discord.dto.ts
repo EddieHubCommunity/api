@@ -26,23 +26,20 @@ export class DiscordProfileAuthor {
 export class SocialsDTO {
   @IsString()
   @IsOptional()
-  @ApiProperty({ required: false })
-  discord?: string;
+  @ApiProperty({ required: true })
+  name: string;
 
   @IsString()
   @IsOptional()
-  @ApiProperty({ required: false })
-  twitter?: string;
+  @ApiProperty({ required: true })
+  url: string;
 
   @IsString()
   @IsOptional()
-  @ApiProperty({ required: false })
-  linkedin?: string;
+  @ApiProperty({ required: true })
+  platform: string;
 
-  @IsString()
-  @IsOptional()
-  @ApiProperty({ required: false })
-  github?: string;
+
 }
 
 export class DiscordDTO {
@@ -52,14 +49,19 @@ export class DiscordDTO {
   @Type(() => DiscordProfileAuthor)
   author: DiscordProfileAuthor;
 
+  @ApiProperty({ required: true })
+  @IsNotEmpty()
+  @IsString()
+  discordUID: string;
+
   @ApiProperty({ required: false })
   @IsOptional()
   @IsString()
   bio?: string;
 
-  @ApiProperty({ type: SocialsDTO, required: false })
+  @ApiProperty({ type: SocialsDTO, required: false, isArray: true })
   @Type(() => SocialsDTO)
   @ValidateNested()
   @IsOptional()
-  socials?: SocialsDTO;
+  socials?: SocialsDTO[];
 }
