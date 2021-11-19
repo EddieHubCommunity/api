@@ -6,7 +6,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Discord, DiscordSchema } from './schemas/discord.schema';
 
 @Module({
-  imports:[
+  imports: [
     MongooseModule.forFeature([{ name: Discord.name, schema: DiscordSchema }]),
   ],
   controllers: [DiscordController],

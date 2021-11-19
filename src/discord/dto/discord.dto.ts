@@ -38,8 +38,6 @@ export class SocialsDTO {
   @IsOptional()
   @ApiProperty({ required: true })
   platform: string;
-
-
 }
 
 export class DiscordDTO {
