@@ -22,13 +22,19 @@ export class DiscordController {
   @Post()
   @UseGuards(TokenGuard)
   @ApiSecurity('token')
-  create(@Body() createDiscordDto: DiscordDTO) {}
+  async create(@Body() createDiscordDto: DiscordDTO) {
+    return await this.discordService.create(createDiscordDto);
+  }
 
   @Get()
-  findAll() {}
+  async findAll() {
+    return await this.discordService.getAll();
+  }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {}
+  async findOne(@Param('id') id: string) {
+    return await this.discordService.searchByID(id);
+  }
 
   @Patch(':id')
   @UseGuards(TokenGuard)

@@ -36,6 +36,9 @@ export class Discord extends Document {
   @Prop()
   createdOn: string;
 
+  @Prop()
+  lastModifiedOn: string;
+
   @Prop({ type: Array })
   socials: DiscordSocials[];
 }
