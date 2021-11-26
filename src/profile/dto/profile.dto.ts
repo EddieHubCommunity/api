@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsNotEmpty, IsString, ValidateNested } from 'class-validator';
+import { IsArray, IsNotEmpty, IsString, ValidateNested } from 'class-validator';
 
 export class SocialItemDTO {
   @ApiProperty()
@@ -15,12 +15,12 @@ export class SocialItemDTO {
 }
 
 export class SocialsDTO {
-  @ApiProperty({ type:  SocialItemDTO })
+  @ApiProperty({ type: SocialItemDTO })
   @ValidateNested()
   @Type(() => SocialItemDTO)
   github: SocialItemDTO;
 
-  @ApiProperty({ type:  SocialItemDTO })
+  @ApiProperty({ type: SocialItemDTO })
   @ValidateNested()
   @Type(() => SocialItemDTO)
   twitter: SocialItemDTO;
@@ -30,34 +30,40 @@ export class SocialsDTO {
   @Type(() => SocialItemDTO)
   youtube: SocialItemDTO;
 
-  @ApiProperty({ type:  SocialItemDTO })
+  @ApiProperty({ type: SocialItemDTO })
   @ValidateNested()
   @Type(() => SocialItemDTO)
   Paypal: SocialItemDTO;
 
-  @ApiProperty({ type:  SocialItemDTO })
+  @ApiProperty({ type: SocialItemDTO })
   @ValidateNested()
   @Type(() => SocialItemDTO)
-  blog: SocialItemDTO;
+  blog: [SocialItemDTO];
 }
 
 export class MilestoneDTO {
   @ApiProperty()
+  @IsString()
   title: string;
 
   @ApiProperty()
+  @IsString()
   date: string;
 
   @ApiProperty()
+  @IsString()
   icon: string;
 
   @ApiProperty()
+  @IsString()
   color: string;
 
   @ApiProperty()
+  @IsString()
   description: string;
 
   @ApiProperty()
+  @IsString()
   url: string;
 }
 
@@ -77,6 +83,8 @@ export class ProfileDTO {
   @Type(() => SocialsDTO)
   profiles: SocialsDTO;
 
-  @ApiProperty()
+  @ApiProperty({ type: MilestoneDTO, isArray: true })
+  @IsArray()
+  @Type(() => MilestoneDTO)
   milestones: MilestoneDTO[];
 }
