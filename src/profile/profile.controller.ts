@@ -13,5 +13,7 @@ export class ProfileController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {}
+  async findOne(@Param('id') id: string) {
+    return await this.profileService.findByID(id);
+  }
 }

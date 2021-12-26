@@ -27,5 +27,9 @@ export class ProfileService {
     }
   }
 
-  public findByID(id: string) {}
+  public async findByID(id: string) {
+    if (!id)
+      throw new HttpException('Please provide an ID', HttpStatus.BAD_REQUEST);
+    return await this.profileModel.findById(id);
+  }
 }
