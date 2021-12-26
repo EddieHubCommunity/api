@@ -32,4 +32,8 @@ export class ProfileService {
       throw new HttpException('Please provide an ID', HttpStatus.BAD_REQUEST);
     return await this.profileModel.findById(id);
   }
+
+  public async findAll() {
+    return await this.profileModel.find();
+  }
 }

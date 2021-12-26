@@ -12,6 +12,11 @@ export class ProfileController {
     return await this.profileService.create(body);
   }
 
+  @Get()
+  async findAll() {
+    return await this.profileService.findAll();
+  }
+
   @Get(':id')
   async findOne(@Param('id') id: string) {
     return await this.profileService.findByID(id);
