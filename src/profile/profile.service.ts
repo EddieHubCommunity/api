@@ -36,4 +36,26 @@ export class ProfileService {
   public async findAll() {
     return await this.profileModel.find();
   }
+
+  public async deleteByID(id: string) {
+    let existingProfile = null;
+    if (!id)
+      throw new HttpException('Please provide an ID', HttpStatus.BAD_REQUEST);
+
+    try {
+      existingProfile = await this.profileModel.findById(id);
+      if (!existingProfile)
+        throw new HttpException(
+          `Profile for ${id} not found`,
+          HttpStatus.NOT_FOUND,
+        );
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        `Profile for ${id} not found`,
+        HttpStatus.NOT_FOUND,
+      );
+    }
+    return await this.profileModel.findByIdAndDelete(id);
+  }
 }
