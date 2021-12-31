@@ -11,6 +11,7 @@ import {
 } from './schema/user.schema';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
+import { GithubProfileService } from './github-profile.service';
 
 @Module({
   imports: [
@@ -21,6 +22,6 @@ import { UserService } from './user.service';
     ]),
   ],
   controllers: [UserController],
-  providers: [UserService, GeocodingService, TokenStrategy],
+  providers: [UserService, GeocodingService, TokenStrategy, GithubProfileService],
 })
 export class UserModule {}

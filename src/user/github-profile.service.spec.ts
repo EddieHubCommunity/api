@@ -12,11 +12,9 @@ import {
   UserModel,
   UserSchema,
 } from './schema/user.schema';
-import { UserController } from './user.controller';
-import { UserService } from './user.service';
 
-describe('UserController', () => {
-  let controller: UserController;
+describe('GithubProfileService', () => {
+  let service: GithubProfileService;
   let connection: Connection;
 
   afterEach(async () => {
@@ -38,15 +36,14 @@ describe('UserController', () => {
           isGlobal: true,
         }),
       ],
-      controllers: [UserController],
-      providers: [GeocodingService, UserService, GithubProfileService],
+      providers: [GithubProfileService, GeocodingService],
     }).compile();
 
-    controller = module.get<UserController>(UserController);
+    service = module.get<GithubProfileService>(GithubProfileService);
     connection = await module.get(getConnectionToken());
   });
 
   it('should be defined', () => {
-    expect(controller).toBeDefined();
+    expect(service).toBeDefined();
   });
 });

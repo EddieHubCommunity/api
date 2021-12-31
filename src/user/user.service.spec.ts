@@ -5,6 +5,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { Connection } from 'mongoose';
 import { MongooseConfigService } from '../environment/mongo-config.service';
 import { GeocodingService } from './geocoding.service';
+import { GithubProfileService } from './github-profile.service';
 import {
   GithubProfile,
   GithubProfileSchema,
@@ -36,7 +37,7 @@ describe('UserService', () => {
           isGlobal: true,
         }),
       ],
-      providers: [UserService, GeocodingService],
+      providers: [UserService, GeocodingService, GithubProfileService],
     }).compile();
 
     service = module.get<UserService>(UserService);
