@@ -1,3 +1,3 @@
 FROM gitpod/workspace-full
 
-RUN npm i -g npm
+RUN npm i -g npm @nestjs/cli
