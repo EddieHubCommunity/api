@@ -12,7 +12,7 @@ export class Location {
   long: number;
 }
 
-@Schema({ _id: false })
+@Schema({ _id: false, timestamps: false })
 export class GithubProfile extends Document {
   @Prop({ required: true })
   _id: string;
@@ -23,7 +23,7 @@ export class GithubProfile extends Document {
 
 export const GithubProfileSchema = SchemaFactory.createForClass(GithubProfile);
 
-@Schema({ _id: false })
+@Schema({ _id: false, timestamps: true })
 export class UserModel extends Document {
   @Prop({ required: true })
   _id: string;
@@ -39,12 +39,6 @@ export class UserModel extends Document {
 
   @Prop({ type: GithubProfileSchema })
   github: GithubProfile;
-
-  @Prop()
-  createdOn: string;
-
-  @Prop()
-  lastModifiedOn: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(UserModel);

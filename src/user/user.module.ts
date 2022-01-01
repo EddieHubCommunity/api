@@ -22,6 +22,11 @@ import { GithubProfileService } from './github-profile.service';
     ]),
   ],
   controllers: [UserController],
-  providers: [UserService, GeocodingService, TokenStrategy, GithubProfileService],
+  providers: [
+    UserService,
+    GeocodingService,
+    TokenStrategy,
+    GithubProfileService,
+  ],
 })
 export class UserModule {}

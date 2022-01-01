@@ -20,9 +20,10 @@ export class GithubProfileService {
   public async create(username: string) {
     const location = await lastValueFrom(
       this.getGithubProfile(username).pipe(
-        concatMap(async (location) =>
-          this.geocodingService.fetchCoordinates(location),
-        ),
+        concatMap(async (location) => {
+          if (!location) return;
+          return this.geocodingService.fetchCoordinates(location);
+        }),
       ),
     );
 
@@ -30,8 +31,15 @@ export class GithubProfileService {
       _id: username,
       location,
     });
-    await createdGithubProfile.save();
-    return createdGithubProfile;
+    try {
+      return await createdGithubProfile.save();
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  public async delete(username: string) {
+    return await this.githubModel.findByIdAndDelete(username);
   }
 
   private getGithubProfile(username: string) {
