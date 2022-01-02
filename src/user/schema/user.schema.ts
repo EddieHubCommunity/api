@@ -19,6 +19,12 @@ export class GithubProfile extends Document {
 
   @Prop({ type: Location })
   location: Location;
+
+  @Prop()
+  repos: number;
+
+  @Prop()
+  followers: number;
 }
 
 export const GithubProfileSchema = SchemaFactory.createForClass(GithubProfile);

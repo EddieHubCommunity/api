@@ -15,14 +15,19 @@ export class GithubProfileService {
     private readonly githubModel: Model<GithubProfile>,
     private readonly geocodingService: GeocodingService,
     private readonly httpService: HttpService,
-  ) {}
+  ) { }
 
   public async create(username: string) {
     const location = await lastValueFrom(
       this.getGithubProfile(username).pipe(
-        concatMap(async (location) => {
-          if (!location) return;
-          return this.geocodingService.fetchCoordinates(location);
+        concatMap(async (githubData) => {
+          Object.keys(githubData).forEach((key) => {
+            if (githubData[key] === null) {
+              delete githubData[key];
+            }
+          });
+          if (!githubData.location) return { ...githubData };
+          return { ...githubData, location: await this.geocodingService.fetchCoordinates(githubData.location) };
         }),
       ),
     );
@@ -39,7 +44,13 @@ export class GithubProfileService {
   }
 
   public async delete(username: string) {
-    return await this.githubModel.findByIdAndDelete(username);
+    try {
+      return await this.githubModel.findByIdAndDelete(username);
+    }
+    catch (error) {
+      console.log(error);
+      throw new HttpException(`Github-Profile for ${username} could not be deleted`, HttpStatus.INTERNAL_SERVER_ERROR)
+    }
   }
 
   private getGithubProfile(username: string) {
@@ -54,8 +65,13 @@ export class GithubProfileService {
         }),
         map((response) => response.data),
         map(
-          (githubProfileResponse: GithubProfileResponse) =>
-            githubProfileResponse.location,
+          (githubProfileResponse: GithubProfileResponse) => {
+            return {
+              location: githubProfileResponse.location,
+              repos: githubProfileResponse.public_repos,
+              followers: githubProfileResponse.followers
+            }
+          }
         ),
       );
   }
