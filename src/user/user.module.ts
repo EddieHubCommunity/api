@@ -12,6 +12,7 @@ import {
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import { GithubProfileService } from './github-profile.service';
+import { UserContextController } from './user-context.controller';
 
 @Module({
   imports: [
@@ -21,7 +22,7 @@ import { GithubProfileService } from './github-profile.service';
       { name: GithubProfile.name, schema: GithubProfileSchema },
     ]),
   ],
-  controllers: [UserController],
+  controllers: [UserController, UserContextController],
   providers: [
     UserService,
     GeocodingService,
