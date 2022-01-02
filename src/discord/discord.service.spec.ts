@@ -1,27 +1,24 @@
-// import { ConfigModule } from '@nestjs/config';
-// import { Test, TestingModule } from '@nestjs/testing';
-// import { DiscordService } from './discord.service';
+import { ConfigModule } from '@nestjs/config';
+import { Test, TestingModule } from '@nestjs/testing';
+import { DiscordService } from './discord.service';
 
-// describe('DiscordService', () => {
-//   let service: DiscordService;
+describe('DiscordService', () => {
+  let service: DiscordService;
 
-//   beforeEach(async () => {
-//     const module: TestingModule = await Test.createTestingModule({
-//       imports: [
-//         ConfigModule.forRoot({
-//           isGlobal: true,
-//         }),
-//       ],
-//       providers: [DiscordService],
-//     }).compile();
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      imports: [
+        ConfigModule.forRoot({
+          isGlobal: true,
+        }),
+      ],
+      providers: [DiscordService],
+    }).compile();
 
-//     service = module.get<DiscordService>(DiscordService);
-//   });
+    service = module.get<DiscordService>(DiscordService);
+  });
 
-//   it('should be defined', () => {
-//     expect(service).toBeDefined();
-//   });
-// });
-it('single test', () => {
-  expect(1 + 1).toBe(2);
+  it('should be defined', () => {
+    expect(service).toBeDefined();
+  });
 });
