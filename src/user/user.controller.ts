@@ -7,8 +7,10 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiSecurity, ApiTags } from '@nestjs/swagger';
+import { TokenGuard } from '../auth/token.strategy';
 import { CreateUserDTO } from './dto/create-user.dto';
 import { PatchUserDTO } from './dto/patch-user.dto';
 import { UserService } from './user.service';
@@ -19,6 +21,8 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
+  @UseGuards(TokenGuard)
+  @ApiSecurity('token')
   createUser(@Body() userDTO: CreateUserDTO) {
     return this.userService.create(userDTO);
   }
@@ -34,11 +38,15 @@ export class UserController {
   }
 
   @Patch(':id')
+  @UseGuards(TokenGuard)
+  @ApiSecurity('token')
   async patch(@Param('id') id: string, @Body() body: PatchUserDTO) {
     return await this.userService.patch(body, id);
   }
 
   @Delete(':id')
+  @UseGuards(TokenGuard)
+  @ApiSecurity('token')
   @HttpCode(204)
   async delete(@Param('id') id: string) {
     return await this.userService.delete(id);
