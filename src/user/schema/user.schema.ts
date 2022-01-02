@@ -37,8 +37,8 @@ export class UserModel extends Document {
   @Prop()
   type: string;
 
-  @Prop({ type: GithubProfileSchema })
-  github: GithubProfile;
+  @Prop({ ref: GithubProfile.name })
+  github: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(UserModel);

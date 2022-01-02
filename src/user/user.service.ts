@@ -26,7 +26,7 @@ export class UserService {
       avatar: userDTO.avatar,
       type: userDTO.type,
       bio: userDTO.bio,
-      github: githubProfile,
+      github: githubProfile?._id.toString(),
     });
 
     try {
@@ -67,21 +67,16 @@ export class UserService {
   }
 
   public async findAll() {
-    return await this.userModel.find();
+    return await this.userModel.find().populate('github');
   }
 
   public async findOne(id: string) {
-    return await this.userModel.findById(id);
+    return await this.userModel.findById(id).populate('github');
   }
 
   public async delete(id: string) {
     try {
-      const existingDocument = await this.userModel.findById(id);
-
-      if (existingDocument.github) {
-        await this.githubProfileService.delete(existingDocument.github._id);
-      }
-
+      await this.userModel.findById(id);
       return await this.userModel.findByIdAndDelete(id);
     } catch (error) {
       throw new HttpException(
