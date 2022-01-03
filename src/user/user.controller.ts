@@ -27,4 +27,20 @@ export class UserController {
   async findAll() {
     return await this.userService.findAll();
   }
+
+  @Get(':id')
+  async findOne(@Param('id') id: string) {
+    return await this.userService.findOne(id);
+  }
+
+  @Patch(':id')
+  async patch(@Param('id') id: string, @Body() body: PatchUserDTO) {
+    return await this.userService.patch(body, id);
+  }
+
+  @Delete(':id')
+  @HttpCode(204)
+  async delete(@Param('id') id: string) {
+    return await this.userService.delete(id);
+  }
 }
