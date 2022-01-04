@@ -30,7 +30,8 @@ export class UserService {
     });
 
     try {
-      return await createdUser.save();
+      const newUser =  await createdUser.save();
+      return await newUser.populate("github")
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
