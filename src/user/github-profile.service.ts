@@ -34,7 +34,7 @@ export class GithubProfileService {
 
     const createdGithubProfile = new this.githubModel({
       _id: username,
-      location,
+      ...location,
     });
     try {
       return await createdGithubProfile.save();
