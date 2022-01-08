@@ -11,7 +11,7 @@ export class UserService {
   constructor(
     private readonly githubProfileService: GithubProfileService,
     @InjectModel(UserModel.name) private readonly userModel: Model<UserModel>,
-  ) { }
+  ) {}
 
   public async create(userDTO: CreateUserDTO) {
     let githubProfile = null;
@@ -30,24 +30,28 @@ export class UserService {
     });
 
     try {
-      const newUser =  await createdUser.save();
-      return await newUser.populate("github")
+      const newUser = await createdUser.save();
+      return await newUser.populate('github');
     } catch (error) {
+      await this.githubProfileService.delete(githubProfile?._id.toString());
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
   public async patch(userDTO: PatchUserDTO, id: string) {
     let githubProfile = null;
-    let initial = null
+    let initial = null;
     try {
       initial = await this.userModel.findById(id);
     } catch (error) {
-      console.log(error)
-      throw new HttpException(`User with ID ${id} not found`, HttpStatus.NOT_FOUND)
+      console.log(error);
+      throw new HttpException(
+        `User with ID ${id} not found`,
+        HttpStatus.NOT_FOUND,
+      );
     }
     if (userDTO.githubUsername) {
-      await this.githubProfileService.delete(initial._id)
+      await this.githubProfileService.delete(initial._id);
       githubProfile = await this.githubProfileService.create(
         userDTO.githubUsername,
       );
