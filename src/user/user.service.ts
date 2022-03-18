@@ -24,7 +24,7 @@ export class UserService {
 
     try {
       const newUser = await createdUser.save();
-      return await newUser.populate('github');
+      return await newUser.populate('github', '-__v');
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -66,11 +66,11 @@ export class UserService {
   }
 
   public async findAll() {
-    return await this.userModel.find().populate('github');
+    return await this.userModel.find().populate('github', '-__v');
   }
 
   public async findOne(id: string) {
-    const user = await this.userModel.findById(id).populate('github');
+    const user = await this.userModel.findById(id).populate('github', '-__v');
     if (!user) {
       throw new HttpException(
         `No Document for ${id} found`,

@@ -34,7 +34,7 @@ interface GeocodedResponse {
 
 @Injectable()
 export class GeocodingService {
-  constructor(private http: HttpService) { }
+  constructor(private http: HttpService) {}
 
   async fetchCoordinates(location: string): Promise<GithubLocation> {
     const url = `https://nominatim.openstreetmap.org/?addressdetails=1&q=${encodeURIComponent(

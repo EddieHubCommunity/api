@@ -5,20 +5,22 @@ import { Model } from 'mongoose';
 import { catchError, concatMap, lastValueFrom } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { GeocodingService } from './geocoding.service';
-import { GithubProfileResponse } from '../user/interfaces/user.interfaces';
+import { GithubProfileResponse } from './interfaces/github-profile.interfaces';
 import { GithubProfileModel } from './schema/github-profile.schema';
+import { UserModel } from '../user/schema/user.schema';
 
 @Injectable()
 export class GithubProfileService {
   constructor(
+    @InjectModel(UserModel.name) private readonly userModel: Model<UserModel>,
     @InjectModel(GithubProfileModel.name)
     private readonly githubModel: Model<GithubProfileModel>,
     private readonly geocodingService: GeocodingService,
     private readonly httpService: HttpService,
   ) {}
 
-  public async create(username: string) {
-    const location = await lastValueFrom(
+  public async create(username: string, discord: string) {
+    const data = await lastValueFrom(
       this.getGithubProfile(username).pipe(
         concatMap(async (githubData) => {
           Object.keys(githubData).forEach((key) => {
@@ -26,22 +28,35 @@ export class GithubProfileService {
               delete githubData[key];
             }
           });
-          if (!githubData.location) return { ...githubData };
+          if (!githubData.location) return githubData;
           return {
-            ...githubData,
             location: await this.geocodingService.fetchCoordinates(
               githubData.location,
             ),
+            name: githubData.name,
           };
         }),
       ),
     );
 
     const createdGithubProfile = new this.githubModel({
-      _id: username,
-      ...location,
+      _id: data.name,
+      location: data.location,
     });
     try {
+      const user = await this.userModel.findByIdAndUpdate(
+        discord,
+        {
+          github: username,
+        },
+        { new: true },
+      );
+      if (!user) {
+        throw new HttpException(
+          `User with ID ${discord} not found`,
+          HttpStatus.NOT_FOUND,
+        );
+      }
       return await createdGithubProfile.save();
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -60,13 +75,65 @@ export class GithubProfileService {
     }
   }
 
+  public async updateOne(github: string, discord: string) {
+    try {
+      const user = await this.userModel.findByIdAndUpdate(
+        discord,
+        {
+          github: github,
+        },
+        { new: true },
+      );
+      if (!user) {
+        throw new HttpException(
+          `User with ID ${discord} not found`,
+          HttpStatus.NOT_FOUND,
+        );
+      }
+      const githubProfile = await this.githubModel.findById(github);
+      if (!githubProfile) {
+        throw new HttpException(
+          `Github-Profile with ID ${github} not found`,
+          HttpStatus.NOT_FOUND,
+        );
+      }
+      if (!githubProfile.location) return githubProfile;
+      return await this.githubModel.findByIdAndUpdate(
+        github,
+        {
+          location: await this.geocodingService.fetchCoordinates(
+            githubProfile.location.provided,
+          ),
+          $inc: {
+            __v: 1,
+          },
+        },
+        { new: true },
+      );
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  public async findOne(username: string) {
+    return await this.githubModel.findById(username);
+  }
+
+  public async findAll() {
+    return await this.githubModel.find();
+  }
+
+  public async deleteOne(username: string) {
+    return await this.githubModel.findByIdAndDelete(username);
+  }
+
   private getGithubProfile(username: string) {
     return this.httpService
       .get(`https://api.github.com/users/${username}`)
       .pipe(
-        catchError((error) => {
+        catchError(() => {
           throw new HttpException(
-            `Fetching profile for ${username} failed`,
+            `Github-Profile for ${username} could not be found`,
             HttpStatus.INTERNAL_SERVER_ERROR,
           );
         }),
@@ -74,8 +141,7 @@ export class GithubProfileService {
         map((githubProfileResponse: GithubProfileResponse) => {
           return {
             location: githubProfileResponse.location,
-            repos: githubProfileResponse.public_repos,
-            followers: githubProfileResponse.followers,
+            name: githubProfileResponse.login,
           };
         }),
       );

@@ -19,12 +19,6 @@ export class GithubProfileModel extends Document {
 
   @Prop({ type: Location })
   location: Location;
-
-  @Prop()
-  repos: number;
-
-  @Prop()
-  followers: number;
 }
 
 export const GithubProfileSchema =
