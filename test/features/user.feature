@@ -1,29 +1,7 @@
 @User
 
 Feature: User Module
-
-    Scenario: add a new user with githubprofile
-        Given authorization
-        And make a POST request to "/user" with:
-            | discordUsername | "hubber"                                   |
-            | githubUsername  | "nhcarrigan"                               |
-            | bio             | "My Name is Hubber"                        |
-            | avatar          | "https://github.com/EddieHubCommunity.png" |
-            | type            | "personal"                                 |
-        Then the response status code should be 201
-        And the response should contain:
-            | type   | "personal"                                 |
-            | avatar | "https://github.com/EddieHubCommunity.png" |
-            | _id    | "hubber"                                   |
-            | bio    | "My Name is Hubber"                        |
-        And the response in property "github" should contain:
-            | _id       | "nhcarrigan"                                                       |
-            | followers | "TYPE:NUMBER"                                                      |
-            | repos     | "TYPE:NUMBER"                                                      |
-            | location  | {"provided":"Washington, USA","lat":38.8950368,"long":-77.0365427} |
-            | __v       | 0                                                                  |
-
-    Scenario: add new user without githubprofile
+    Scenario: add new user
         Given authorization
         And make a POST request to "/user" with:
             | discordUsername | "hubber"                                   |

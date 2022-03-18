@@ -1,18 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsIn, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
-const types = ["personal", "community"]
+const types = ['personal', 'community'];
 
 export class CreateUserDTO {
   @IsString()
   @IsNotEmpty()
   @ApiProperty({ required: true })
   discordUsername: string;
-
-  @IsString()
-  @IsOptional()
-  @ApiProperty()
-  githubUsername: string;
 
   @IsString()
   @IsOptional()

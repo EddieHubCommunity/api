@@ -3,23 +3,16 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateUserDTO } from './dto/create-user.dto';
 import { PatchUserDTO } from './dto/patch-user.dto';
-import { GithubProfileService } from './github-profile.service';
 import { UserModel } from './schema/user.schema';
 
 @Injectable()
 export class UserService {
   constructor(
-    private readonly githubProfileService: GithubProfileService,
     @InjectModel(UserModel.name) private readonly userModel: Model<UserModel>,
   ) {}
 
   public async create(userDTO: CreateUserDTO) {
     let githubProfile = null;
-    if (userDTO.githubUsername) {
-      githubProfile = await this.githubProfileService.create(
-        userDTO.githubUsername,
-      );
-    }
 
     const createdUser = new this.userModel({
       _id: userDTO.discordUsername,
@@ -33,7 +26,6 @@ export class UserService {
       const newUser = await createdUser.save();
       return await newUser.populate('github');
     } catch (error) {
-      await this.githubProfileService.delete(githubProfile?._id.toString());
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
@@ -48,12 +40,6 @@ export class UserService {
       throw new HttpException(
         `User with ID ${id} not found`,
         HttpStatus.NOT_FOUND,
-      );
-    }
-    if (userDTO.githubUsername) {
-      await this.githubProfileService.delete(initial._id);
-      githubProfile = await this.githubProfileService.create(
-        userDTO.githubUsername,
       );
     }
     const patchDocument = {

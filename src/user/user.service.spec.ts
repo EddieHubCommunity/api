@@ -1,17 +1,13 @@
-import { HttpModule } from '@nestjs/axios';
 import { ConfigModule } from '@nestjs/config';
 import { getConnectionToken, MongooseModule } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
 import { Connection } from 'mongoose';
-import { MongooseConfigService } from '../environment/mongo-config.service';
-import { GeocodingService } from './geocoding.service';
-import { GithubProfileService } from './github-profile.service';
 import {
-  GithubProfile,
+  GithubProfileModel,
   GithubProfileSchema,
-  UserModel,
-  UserSchema,
-} from './schema/user.schema';
+} from '../github-profile/schema/github-profile.schema';
+import { MongooseConfigService } from '../environment/mongo-config.service';
+import { UserModel, UserSchema } from './schema/user.schema';
 import { UserService } from './user.service';
 
 describe('UserService', () => {
@@ -28,16 +24,15 @@ describe('UserService', () => {
         MongooseModule.forRootAsync({
           useClass: MongooseConfigService,
         }),
-        HttpModule,
         MongooseModule.forFeature([
           { name: UserModel.name, schema: UserSchema },
-          { name: GithubProfile.name, schema: GithubProfileSchema },
+          { name: GithubProfileModel.name, schema: GithubProfileSchema },
         ]),
         ConfigModule.forRoot({
           isGlobal: true,
         }),
       ],
-      providers: [UserService, GeocodingService, GithubProfileService],
+      providers: [UserService],
     }).compile();
 
     service = module.get<UserService>(UserService);

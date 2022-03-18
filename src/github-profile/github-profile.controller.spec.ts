@@ -1,20 +1,17 @@
-import { HttpModule } from '@nestjs/axios';
 import { ConfigModule } from '@nestjs/config';
 import { getConnectionToken, MongooseModule } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
-import { Connection } from 'mongoose';
 import { MongooseConfigService } from '../environment/mongo-config.service';
-import { GeocodingService } from './geocoding.service';
-import { GithubProfileService } from './github-profile.service';
+import { GithubProfileController } from './github-profile.controller';
+import { Connection } from 'mongoose';
 import {
-  GithubProfile,
+  GithubProfileModel,
   GithubProfileSchema,
-  UserModel,
-  UserSchema,
-} from './schema/user.schema';
+} from './schema/github-profile.schema';
+import { HttpModule } from '@nestjs/axios';
 
-describe('GithubProfileService', () => {
-  let service: GithubProfileService;
+describe('GithubProfileController', () => {
+  let controller: GithubProfileController;
   let connection: Connection;
 
   afterEach(async () => {
@@ -24,26 +21,25 @@ describe('GithubProfileService', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
+        HttpModule,
         MongooseModule.forRootAsync({
           useClass: MongooseConfigService,
         }),
-        HttpModule,
         MongooseModule.forFeature([
-          { name: UserModel.name, schema: UserSchema },
-          { name: GithubProfile.name, schema: GithubProfileSchema },
+          { name: GithubProfileModel.name, schema: GithubProfileSchema },
         ]),
         ConfigModule.forRoot({
           isGlobal: true,
         }),
       ],
-      providers: [GithubProfileService, GeocodingService],
+      controllers: [GithubProfileController],
     }).compile();
 
-    service = module.get<GithubProfileService>(GithubProfileService);
+    controller = module.get<GithubProfileController>(GithubProfileController);
     connection = await module.get(getConnectionToken());
   });
 
   it('should be defined', () => {
-    expect(service).toBeDefined();
+    expect(controller).toBeDefined();
   });
 });

@@ -1,13 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsIn, IsOptional, IsString } from 'class-validator';
 
-const types = ["personal", "community"]
+const types = ['personal', 'community'];
 export class PatchUserDTO {
-  @IsString()
-  @IsOptional()
-  @ApiProperty()
-  githubUsername: string;
-
   @IsString()
   @IsOptional()
   @ApiProperty()

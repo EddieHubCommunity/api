@@ -1,9 +1,3 @@
-export interface GithubLocation {
-  provided?: string;
-  lat?: number;
-  long?: number;
-}
-
 export interface GithubProfileResponse {
   login: string;
   id: number;

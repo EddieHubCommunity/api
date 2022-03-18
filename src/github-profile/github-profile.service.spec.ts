@@ -1,18 +1,18 @@
+import { HttpModule } from '@nestjs/axios';
 import { ConfigModule } from '@nestjs/config';
 import { getConnectionToken, MongooseModule } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
 import { Connection } from 'mongoose';
+import { MongooseConfigService } from '../environment/mongo-config.service';
+import { GeocodingService } from './geocoding.service';
+import { GithubProfileService } from './github-profile.service';
 import {
   GithubProfileModel,
   GithubProfileSchema,
-} from '../github-profile/schema/github-profile.schema';
-import { MongooseConfigService } from '../environment/mongo-config.service';
-import { UserModel, UserSchema } from './schema/user.schema';
-import { UserController } from './user.controller';
-import { UserService } from './user.service';
+} from './schema/github-profile.schema';
 
-describe('UserController', () => {
-  let controller: UserController;
+describe('GithubProfileService', () => {
+  let service: GithubProfileService;
   let connection: Connection;
 
   afterEach(async () => {
@@ -25,23 +25,22 @@ describe('UserController', () => {
         MongooseModule.forRootAsync({
           useClass: MongooseConfigService,
         }),
+        HttpModule,
         MongooseModule.forFeature([
-          { name: UserModel.name, schema: UserSchema },
           { name: GithubProfileModel.name, schema: GithubProfileSchema },
         ]),
         ConfigModule.forRoot({
           isGlobal: true,
         }),
       ],
-      controllers: [UserController],
-      providers: [UserService],
+      providers: [GithubProfileService, GeocodingService],
     }).compile();
 
-    controller = module.get<UserController>(UserController);
+    service = module.get<GithubProfileService>(GithubProfileService);
     connection = await module.get(getConnectionToken());
   });
 
   it('should be defined', () => {
-    expect(controller).toBeDefined();
+    expect(service).toBeDefined();
   });
 });

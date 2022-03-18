@@ -1,33 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { GithubProfileModel } from '../../github-profile/schema/github-profile.schema';
 import { Document } from 'mongoose';
-
-export class Location {
-  @Prop()
-  provided: string;
-
-  @Prop()
-  lat: number;
-
-  @Prop()
-  long: number;
-}
-
-@Schema({ _id: false, timestamps: false })
-export class GithubProfile extends Document {
-  @Prop({ required: true })
-  _id: string;
-
-  @Prop({ type: Location })
-  location: Location;
-
-  @Prop()
-  repos: number;
-
-  @Prop()
-  followers: number;
-}
-
-export const GithubProfileSchema = SchemaFactory.createForClass(GithubProfile);
 
 @Schema({ _id: false, timestamps: true })
 export class UserModel extends Document {
@@ -43,7 +16,7 @@ export class UserModel extends Document {
   @Prop()
   type: string;
 
-  @Prop({ ref: GithubProfile.name })
+  @Prop({ ref: GithubProfileModel.name })
   github: string;
 }
 

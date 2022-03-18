@@ -1,7 +1,7 @@
 import { HttpService } from '@nestjs/axios';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { AxiosResponse } from 'axios';
-import { GithubLocation } from './interfaces/user.interfaces';
+import { GithubLocation } from './interfaces/github-profile.interfaces';
 
 interface Address {
   tourism: string;
@@ -34,7 +34,7 @@ interface GeocodedResponse {
 
 @Injectable()
 export class GeocodingService {
-  constructor(private http: HttpService) {}
+  constructor(private http: HttpService) { }
 
   async fetchCoordinates(location: string): Promise<GithubLocation> {
     const url = `https://nominatim.openstreetmap.org/?addressdetails=1&q=${encodeURIComponent(

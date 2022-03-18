@@ -5,17 +5,17 @@ import { Model } from 'mongoose';
 import { catchError, concatMap, lastValueFrom } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { GeocodingService } from './geocoding.service';
-import { GithubProfileResponse } from './interfaces/user.interfaces';
-import { GithubProfile } from './schema/user.schema';
+import { GithubProfileResponse } from '../user/interfaces/user.interfaces';
+import { GithubProfileModel } from './schema/github-profile.schema';
 
 @Injectable()
 export class GithubProfileService {
   constructor(
-    @InjectModel(GithubProfile.name)
-    private readonly githubModel: Model<GithubProfile>,
+    @InjectModel(GithubProfileModel.name)
+    private readonly githubModel: Model<GithubProfileModel>,
     private readonly geocodingService: GeocodingService,
     private readonly httpService: HttpService,
-  ) { }
+  ) {}
 
   public async create(username: string) {
     const location = await lastValueFrom(
@@ -27,7 +27,12 @@ export class GithubProfileService {
             }
           });
           if (!githubData.location) return { ...githubData };
-          return { ...githubData, location: await this.geocodingService.fetchCoordinates(githubData.location) };
+          return {
+            ...githubData,
+            location: await this.geocodingService.fetchCoordinates(
+              githubData.location,
+            ),
+          };
         }),
       ),
     );
@@ -46,10 +51,12 @@ export class GithubProfileService {
   public async delete(username: string) {
     try {
       return await this.githubModel.findByIdAndDelete(username);
-    }
-    catch (error) {
+    } catch (error) {
       console.log(error);
-      throw new HttpException(`Github-Profile for ${username} could not be deleted`, HttpStatus.INTERNAL_SERVER_ERROR)
+      throw new HttpException(
+        `Github-Profile for ${username} could not be deleted`,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   }
 
@@ -64,15 +71,13 @@ export class GithubProfileService {
           );
         }),
         map((response) => response.data),
-        map(
-          (githubProfileResponse: GithubProfileResponse) => {
-            return {
-              location: githubProfileResponse.location,
-              repos: githubProfileResponse.public_repos,
-              followers: githubProfileResponse.followers
-            }
-          }
-        ),
+        map((githubProfileResponse: GithubProfileResponse) => {
+          return {
+            location: githubProfileResponse.location,
+            repos: githubProfileResponse.public_repos,
+            followers: githubProfileResponse.followers,
+          };
+        }),
       );
   }
 }

@@ -1,0 +1,22 @@
+import { HttpModule } from '@nestjs/axios';
+import { Module } from '@nestjs/common';
+import { MongooseModule } from '@nestjs/mongoose';
+import { GeocodingService } from './geocoding.service';
+import { GithubProfileController } from './github-profile.controller';
+import { GithubProfileService } from './github-profile.service';
+import {
+  GithubProfileModel,
+  GithubProfileSchema,
+} from './schema/github-profile.schema';
+
+@Module({
+  imports: [
+    HttpModule,
+    MongooseModule.forFeature([
+      { name: GithubProfileModel.name, schema: GithubProfileSchema },
+    ]),
+  ],
+  controllers: [GithubProfileController],
+  providers: [GithubProfileService, GeocodingService],
+})
+export class GithubProfileModule {}
