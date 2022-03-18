@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { getConnectionToken, MongooseModule } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
 import { Connection } from 'mongoose';
+import { UserModel, UserSchema } from '../user/schema/user.schema';
 import { MongooseConfigService } from '../environment/mongo-config.service';
 import { GeocodingService } from './geocoding.service';
 import { GithubProfileService } from './github-profile.service';
@@ -27,6 +28,7 @@ describe('GithubProfileService', () => {
         }),
         HttpModule,
         MongooseModule.forFeature([
+          { name: UserModel.name, schema: UserSchema },
           { name: GithubProfileModel.name, schema: GithubProfileSchema },
         ]),
         ConfigModule.forRoot({

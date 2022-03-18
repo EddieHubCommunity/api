@@ -9,6 +9,9 @@ import {
   GithubProfileSchema,
 } from './schema/github-profile.schema';
 import { HttpModule } from '@nestjs/axios';
+import { UserModel, UserSchema } from '../user/schema/user.schema';
+import { GithubProfileService } from './github-profile.service';
+import { GeocodingService } from './geocoding.service';
 
 describe('GithubProfileController', () => {
   let controller: GithubProfileController;
@@ -26,6 +29,7 @@ describe('GithubProfileController', () => {
           useClass: MongooseConfigService,
         }),
         MongooseModule.forFeature([
+          { name: UserModel.name, schema: UserSchema },
           { name: GithubProfileModel.name, schema: GithubProfileSchema },
         ]),
         ConfigModule.forRoot({
@@ -33,6 +37,7 @@ describe('GithubProfileController', () => {
         }),
       ],
       controllers: [GithubProfileController],
+      providers: [GithubProfileService, GeocodingService],
     }).compile();
 
     controller = module.get<GithubProfileController>(GithubProfileController);
