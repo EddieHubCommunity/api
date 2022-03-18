@@ -1,7 +1,7 @@
 import { ValidationPipe } from '@nestjs/common';
 import { getConnectionToken } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
-import { setDefaultTimeout } from 'cucumber';
+import { setDefaultTimeout } from '@cucumber/cucumber';
 import { after, before, binding, given, when } from 'cucumber-tsflow';
 import * as request from 'supertest';
 import { AppModule } from '../../src/app.module';
