@@ -70,7 +70,14 @@ export class UserService {
   }
 
   public async findOne(id: string) {
-    return await this.userModel.findById(id).populate('github');
+    const user = await this.userModel.findById(id).populate('github');
+    if (!user) {
+      throw new HttpException(
+        `No Document for ${id} found`,
+        HttpStatus.NOT_FOUND,
+      );
+    }
+    return user;
   }
 
   public async delete(id: string) {
