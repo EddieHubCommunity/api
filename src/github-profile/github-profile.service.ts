@@ -102,11 +102,15 @@ export class GithubProfileService {
         );
       }
       if (!githubProfile.location) {
-        return await this.githubModel.findByIdAndUpdate(github, {
-          $inc: {
-            __v: 1,
+        return await this.githubModel.findByIdAndUpdate(
+          github,
+          {
+            $inc: {
+              __v: 1,
+            },
           },
-        });
+          { new: true },
+        );
       }
       return await this.githubModel.findByIdAndUpdate(
         github,
