@@ -16,9 +16,9 @@ import { PatchUserDTO } from './dto/patch-user.dto';
 import { UserService } from './user.service';
 
 @ApiTags('User')
-@Controller('user')
+@Controller('users')
 export class UserController {
-  constructor(private readonly userService: UserService) { }
+  constructor(private readonly userService: UserService) {}
 
   @Post()
   @UseGuards(TokenGuard)

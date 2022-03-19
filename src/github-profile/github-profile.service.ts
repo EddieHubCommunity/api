@@ -67,8 +67,8 @@ export class GithubProfileService {
     try {
       await this.userModel.updateMany(
         { github: username },
-        { $unset: { github: 1} },
-     )
+        { $unset: { github: 1 } },
+      );
       return await this.githubModel.findByIdAndDelete(username);
     } catch (error) {
       console.log(error);
@@ -127,14 +127,14 @@ export class GithubProfileService {
     return await this.githubModel.find();
   }
 
-
   private getGithubProfile(username: string) {
     return this.httpService
       .get(`https://api.github.com/users/${username}`)
       .pipe(
-        catchError(() => {
+        catchError((e) => {
+          console.log(e.response.data);
           throw new HttpException(
-            `Github-Profile for ${username} could not be found`,
+            `Error when fetching Github-Profile for ${username}: ${e.response.data.message}`,
             HttpStatus.INTERNAL_SERVER_ERROR,
           );
         }),

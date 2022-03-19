@@ -3,7 +3,7 @@
 Feature: User Module
     Scenario: add new user
         Given authorization
-        And make a POST request to "/user" with:
+        And make a POST request to "/users" with:
             | discordUsername | "hubber"                                   |
             | bio             | "My Name is Hubber"                        |
             | avatar          | "https://github.com/EddieHubCommunity.png" |
@@ -17,13 +17,13 @@ Feature: User Module
 
     Scenario: get a specific user
         Given authorization
-        And make a POST request to "/user" with:
+        And make a POST request to "/users" with:
             | discordUsername | "hubber"                                   |
             | bio             | "My Name is Hubber"                        |
             | avatar          | "https://github.com/EddieHubCommunity.png" |
             | type            | "personal"                                 |
         When remove authorization
-        Then make a GET request to "/user/hubber"
+        Then make a GET request to "/users/hubber"
         Then the response status code should be 200
         And the response should contain:
             | type   | "personal"                                 |
@@ -33,13 +33,13 @@ Feature: User Module
 
     Scenario: get all users
         Given authorization
-        And make a POST request to "/user" with:
+        And make a POST request to "/users" with:
             | discordUsername | "hubber"                                   |
             | bio             | "My Name is Hubber"                        |
             | avatar          | "https://github.com/EddieHubCommunity.png" |
             | type            | "personal"                                 |
         When remove authorization
-        Then make a GET request to "/user"
+        Then make a GET request to "/users"
         Then the response status code should be 200
         And the response at index "0" should contain:
             | type   | "personal"                                 |
@@ -49,22 +49,22 @@ Feature: User Module
 
     Scenario: delete a specific user
         Given authorization
-        And make a POST request to "/user" with:
+        And make a POST request to "/users" with:
             | discordUsername | "hubber"                                   |
             | bio             | "My Name is Hubber"                        |
             | avatar          | "https://github.com/EddieHubCommunity.png" |
             | type            | "personal"                                 |
-        Then make a DELETE request to "/user/hubber"
+        Then make a DELETE request to "/users/hubber"
         Then the response status code should be 204
 
     Scenario: update a specific user
         Given authorization
-        And make a POST request to "/user" with:
+        And make a POST request to "/users" with:
             | discordUsername | "hubber"                                   |
             | bio             | "My Name is Hubber"                        |
             | avatar          | "https://github.com/EddieHubCommunity.png" |
             | type            | "personal"                                 |
-        Then make a PATCH request to "/user/hubber" with:
+        Then make a PATCH request to "/users/hubber" with:
             | bio    | "My Name is Eddie"             |
             | avatar | "https://github.com/eddie.png" |
         Then the response status code should be 200
@@ -75,7 +75,7 @@ Feature: User Module
             | avatar | "https://github.com/eddie.png" |
 
     Scenario: create a user without auth
-        Given  make a POST request to "/user" with:
+        Given  make a POST request to "/users" with:
             | discordUsername | "hubber"                                   |
             | bio             | "My Name is Hubber"                        |
             | avatar          | "https://github.com/EddieHubCommunity.png" |
