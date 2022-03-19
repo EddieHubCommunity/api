@@ -70,7 +70,6 @@ export class requests {
       discordUsername: 'hubber',
       bio: 'My Name is Hubber',
       avatar: 'https://github.com/EddieHubCommunity.png',
-      type: 'personal',
     };
     const post = request(this.context.app.getHttpServer()).post('/users');
     if (this.context.token) {

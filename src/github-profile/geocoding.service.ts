@@ -1,5 +1,5 @@
 import { HttpService } from '@nestjs/axios';
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { AxiosResponse } from 'axios';
 import { GithubLocation } from './interfaces/github-profile.interfaces';
 
@@ -55,7 +55,7 @@ export class GeocodingService {
         provided: location,
         lat: 0,
         long: 0,
-      }
+      };
     }
   }
 }

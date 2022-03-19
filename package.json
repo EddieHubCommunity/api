@@ -62,12 +62,13 @@
     "chai": "^4.3.4",
     "cucumber-tsflow": "^4.0.0-preview.7",
     "eslint": "^7.31.0",
-    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^3.4.0",
     "husky": "^7.0.1",
     "jest": "^27.0.6",
+    "lint-staged": "^12.3.7",
     "ncp": "^2.0.0",
-    "prettier": "^2.3.2",
+    "prettier": "^2.6.0",
     "supertest": "^6.1.4",
     "ts-jest": "^27.1.3",
     "ts-node": "^10.1.0",
@@ -89,5 +90,14 @@
     },
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
+  },
+  "lint-staged": {
+    "*.{ts}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.json": [
+      "prettier --write"
+    ]
   }
 }

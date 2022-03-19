@@ -13,9 +13,6 @@ export class UserModel extends Document {
   @Prop()
   avatar: string;
 
-  @Prop()
-  type: string;
-
   @Prop({ ref: GithubProfileModel.name })
   github: string;
 }

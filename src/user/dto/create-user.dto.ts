@@ -1,7 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsIn, IsNotEmpty, IsOptional, IsString } from 'class-validator';
-
-const types = ['personal', 'community'];
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CreateUserDTO {
   @IsString()
@@ -18,10 +16,4 @@ export class CreateUserDTO {
   @IsOptional()
   @ApiProperty()
   avatar: string;
-
-  @IsString()
-  @IsOptional()
-  @ApiProperty({ enum: types })
-  @IsIn(types)
-  type: string;
 }

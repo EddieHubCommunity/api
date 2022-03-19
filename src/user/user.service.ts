@@ -15,12 +15,11 @@ export class UserService {
   ) {}
 
   public async create(userDTO: CreateUserDTO) {
-    let githubProfile = null;
+    const githubProfile = null;
 
     const createdUser = new this.userModel({
       _id: userDTO.discordUsername,
       avatar: userDTO.avatar,
-      type: userDTO.type,
       bio: userDTO.bio,
       github: githubProfile?._id.toString(),
     });
@@ -34,12 +33,8 @@ export class UserService {
   }
 
   public async patch(userDTO: PatchUserDTO, id: string) {
-    let githubProfile = null;
-    let initial = null;
-    try {
-      initial = await this.userModel.findById(id);
-    } catch (error) {
-      console.log(error);
+    const user = await this.userModel.findById(id);
+    if (!user) {
       throw new HttpException(
         `User with ID ${id} not found`,
         HttpStatus.NOT_FOUND,
@@ -48,8 +43,6 @@ export class UserService {
     const patchDocument = {
       avatar: userDTO.avatar,
       bio: userDTO.bio,
-      type: userDTO.type,
-      github: githubProfile,
     };
 
     Object.keys(patchDocument).forEach((key) => {
@@ -85,7 +78,7 @@ export class UserService {
 
   public async delete(id: string) {
     try {
-     const existingDoc = await this.userModel.findById(id);
+      const existingDoc = await this.userModel.findById(id);
       await this.githubModel.findByIdAndDelete(existingDoc.github);
       return await this.userModel.findByIdAndDelete(id);
     } catch (error) {
