@@ -101,7 +101,13 @@ export class GithubProfileService {
           HttpStatus.NOT_FOUND,
         );
       }
-      if (!githubProfile.location) return githubProfile;
+      if (!githubProfile.location) {
+        return await this.githubModel.findByIdAndUpdate(github, {
+          $inc: {
+            __v: 1,
+          },
+        });
+      }
       return await this.githubModel.findByIdAndUpdate(
         github,
         {
