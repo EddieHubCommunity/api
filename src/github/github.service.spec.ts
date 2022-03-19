@@ -2,7 +2,6 @@ import { HttpModule } from '@nestjs/axios';
 import { ConfigModule } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 import { CommunitystatsMappingService } from './communitystats-mapping.service';
-import { GeocodingService } from './geocoding.service';
 import { GithubService } from './github.service';
 
 describe('GithubService', () => {
@@ -16,11 +15,7 @@ describe('GithubService', () => {
           isGlobal: true,
         }),
       ],
-      providers: [
-        GithubService,
-        CommunitystatsMappingService,
-        GeocodingService,
-      ],
+      providers: [GithubService, CommunitystatsMappingService],
     }).compile();
 
     service = module.get<GithubService>(GithubService);

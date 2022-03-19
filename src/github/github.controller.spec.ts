@@ -2,7 +2,6 @@ import { HttpModule } from '@nestjs/axios';
 import { ConfigModule } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 import { CommunitystatsMappingService } from './communitystats-mapping.service';
-import { GeocodingService } from './geocoding.service';
 import { GithubController } from './github.controller';
 import { GithubService } from './github.service';
 
@@ -18,11 +17,7 @@ describe('GithubController', () => {
         }),
       ],
       controllers: [GithubController],
-      providers: [
-        GithubService,
-        CommunitystatsMappingService,
-        GeocodingService,
-      ],
+      providers: [GithubService, CommunitystatsMappingService],
     }).compile();
 
     controller = module.get<GithubController>(GithubController);

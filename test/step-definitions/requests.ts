@@ -1,7 +1,7 @@
 import { ValidationPipe } from '@nestjs/common';
 import { getConnectionToken } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
-import { setDefaultTimeout } from 'cucumber';
+import { setDefaultTimeout } from '@cucumber/cucumber';
 import { after, before, binding, given, when } from 'cucumber-tsflow';
 import * as request from 'supertest';
 import { AppModule } from '../../src/app.module';
@@ -64,6 +64,21 @@ export class requests {
     this.context.token = null;
   }
 
+  @when(/I create a new user/)
+  public async createUser() {
+    const body = {
+      discordUsername: 'hubber',
+      bio: 'My Name is Hubber',
+      avatar: 'https://github.com/EddieHubCommunity.png',
+      type: 'personal',
+    };
+    const post = request(this.context.app.getHttpServer()).post('/users');
+    if (this.context.token) {
+      post.set('Client-Token', this.context.token);
+    }
+    await post.send(body);
+  }
+
   @given(/make a GET request to "([^"]*)"/)
   public async getRequest(url: string) {
     url = this.prepareURL(url);
@@ -97,8 +112,8 @@ export class requests {
     this.context.headers = { ...this.context.headers, ...headerObject };
   }
 
-  @when(/make a Patch request to "([^"]*)" with:/)
-  public async putRequest(url: string, table: { rawTable: [] }) {
+  @when(/make a PATCH request to "([^"]*)" with:/)
+  public async patchRequest(url: string, table: { rawTable: [] }) {
     url = this.prepareURL(url);
     const putReq = request(this.context.app.getHttpServer()).patch(url);
 
@@ -128,5 +143,23 @@ export class requests {
     }
 
     this.context.response = await deleteReq.send();
+  }
+
+  @when(/make a PUT request to "([^"]*)" with:/)
+  public async putRequestWithBody(url: string, table: { rawTable: [] }) {
+    url = this.prepareURL(url);
+    const putReq = request(this.context.app.getHttpServer()).put(url);
+
+    if (this.context.token) {
+      putReq.set('Client-Token', this.context.token);
+    }
+
+    if (this.context.headers) {
+      putReq.set(this.context.headers);
+    }
+
+    this.context.response = await putReq.send(
+      this.context.tableToObject(table),
+    );
   }
 }

@@ -9,6 +9,8 @@ import { LoggerMiddleware } from './logger/logger.middleware';
 import { CalendarModule } from './calendar/calendar.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MongooseConfigService } from './environment/mongo-config.service';
+import { UserModule } from './user/user.module';
+import { GithubProfileModule } from './github-profile/github-profile.module';
 
 @Module({
   imports: [
@@ -22,6 +24,8 @@ import { MongooseConfigService } from './environment/mongo-config.service';
       isGlobal: true,
     }),
     CalendarModule,
+    UserModule,
+    GithubProfileModule,
   ],
   controllers: [AppController],
   providers: [AppService],

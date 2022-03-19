@@ -30,19 +30,13 @@ export interface CommunityStats {
   workflowRun?: number;
 }
 
-export interface GithubLocation {
-  provided?: string;
-  lat?: number;
-  long?: number;
-}
-
 export interface GithubProfile {
   username: string;
   bio?: string;
   avatarUrl?: string;
   followers?: number;
   repos?: number;
-  location?: GithubLocation;
+  // location?: GithubLocation;
   organization?: string;
   blog?: string;
   communityStats?: CommunityStats;
