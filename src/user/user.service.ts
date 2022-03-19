@@ -33,8 +33,6 @@ export class UserService {
   }
 
   public async patch(userDTO: PatchUserDTO, id: string) {
-    const githubProfile = null;
-
     const user = await this.userModel.findById(id);
     if (!user) {
       throw new HttpException(
