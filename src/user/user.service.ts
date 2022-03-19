@@ -45,7 +45,6 @@ export class UserService {
     const patchDocument = {
       avatar: userDTO.avatar,
       bio: userDTO.bio,
-      type: userDTO.type,
     };
 
     Object.keys(patchDocument).forEach((key) => {
