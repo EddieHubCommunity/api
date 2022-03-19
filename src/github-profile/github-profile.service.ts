@@ -141,7 +141,6 @@ export class GithubProfileService {
   }
 
   public async createStat(username: string, data: CreateStatsDTO) {
-    const mappedEvent = this.mapEvent(data.event);
     return await this.githubModel.findByIdAndUpdate(
       username,
       {
