@@ -62,7 +62,7 @@
     "chai": "^4.3.4",
     "cucumber-tsflow": "^4.0.0-preview.7",
     "eslint": "^7.31.0",
-    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^3.4.0",
     "husky": "^7.0.1",
     "jest": "^27.0.6",
@@ -92,6 +92,12 @@
     "testEnvironment": "node"
   },
   "lint-staged": {
-    "*.{ts}": ["eslint --cache --fix", "prettier --write"]
+    "*.{ts}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.json": [
+      "prettier --write"
+    ]
   }
 }
