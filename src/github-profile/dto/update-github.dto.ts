@@ -1,9 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsOptional, IsString } from 'class-validator';
 
 export class UpdateGithubProfileDTO {
   @IsString()
-  @IsNotEmpty()
-  @ApiProperty({ required: true })
+  @IsOptional()
+  @ApiProperty({ required: false })
   discordUsername: string;
 }

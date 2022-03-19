@@ -47,18 +47,20 @@ export class GithubProfileService {
       stats: {},
     });
     try {
-      const user = await this.userModel.findByIdAndUpdate(
-        discord,
-        {
-          github: data.name,
-        },
-        { new: true },
-      );
-      if (!user) {
-        throw new HttpException(
-          `User with ID ${discord} not found`,
-          HttpStatus.NOT_FOUND,
+      if (discord) {
+        const user = await this.userModel.findByIdAndUpdate(
+          discord,
+          {
+            github: data.name,
+          },
+          { new: true },
         );
+        if (!user) {
+          throw new HttpException(
+            `User with ID ${discord} not found`,
+            HttpStatus.NOT_FOUND,
+          );
+        }
       }
       return await createdGithubProfile.save();
     } catch (error) {
@@ -92,10 +94,17 @@ export class GithubProfileService {
         { new: true },
       );
       if (!user) {
-        throw new HttpException(
-          `User with ID ${discord} not found`,
-          HttpStatus.NOT_FOUND,
-        );
+        if (!discord) {
+          await this.userModel.updateMany(
+            { github: github },
+            { $unset: { github: 1 } },
+          );
+        } else {
+          throw new HttpException(
+            `User with ID ${discord} not found`,
+            HttpStatus.NOT_FOUND,
+          );
+        }
       }
       const githubProfile = await this.githubModel.findById(github);
       if (!githubProfile) {
