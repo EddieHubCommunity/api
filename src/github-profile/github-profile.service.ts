@@ -8,6 +8,8 @@ import { GeocodingService } from './geocoding.service';
 import { GithubProfileResponse } from './interfaces/github-profile.interfaces';
 import { GithubProfileModel } from './schema/github-profile.schema';
 import { UserModel } from '../user/schema/user.schema';
+import { CreateStatsDTO } from './dto/create-stats.dto';
+import { eventMap } from './data/event-map';
 
 @Injectable()
 export class GithubProfileService {
@@ -42,6 +44,7 @@ export class GithubProfileService {
     const createdGithubProfile = new this.githubModel({
       _id: data.name,
       location: data.location,
+      stats: {},
     });
     try {
       const user = await this.userModel.findByIdAndUpdate(
@@ -137,6 +140,19 @@ export class GithubProfileService {
     return await this.githubModel.find();
   }
 
+  public async createStat(username: string, data: CreateStatsDTO) {
+    const mappedEvent = this.mapEvent(data.event);
+    return await this.githubModel.findByIdAndUpdate(
+      username,
+      {
+        $inc: {
+          [`stats.${this.mapEvent(data.event)}`]: 1,
+        },
+      },
+      { new: true },
+    );
+  }
+
   private getGithubProfile(username: string) {
     return this.httpService
       .get(`https://api.github.com/users/${username}`)
@@ -156,5 +172,18 @@ export class GithubProfileService {
           };
         }),
       );
+  }
+
+  private mapEvent(githubEvent: string): string {
+    let mappedValue: string;
+    try {
+      mappedValue = eventMap[githubEvent];
+    } catch {
+      throw new HttpException(
+        'Please Provide valid Githubevent',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    return mappedValue;
   }
 }
