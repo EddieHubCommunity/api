@@ -51,10 +51,11 @@ export class GeocodingService {
       };
       return locationObject;
     } catch {
-      throw new HttpException(
-        `Please provide a valid Location, ${location} seems to be invalid`,
-        HttpStatus.BAD_REQUEST,
-      );
+      return {
+        provided: location,
+        lat: 0,
+        long: 0,
+      }
     }
   }
 }

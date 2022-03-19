@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { GithubProfileModel } from '../github-profile/schema/github-profile.schema';
 import { CreateUserDTO } from './dto/create-user.dto';
 import { PatchUserDTO } from './dto/patch-user.dto';
 import { UserModel } from './schema/user.schema';
@@ -9,6 +10,8 @@ import { UserModel } from './schema/user.schema';
 export class UserService {
   constructor(
     @InjectModel(UserModel.name) private readonly userModel: Model<UserModel>,
+    @InjectModel(GithubProfileModel.name)
+    private readonly githubModel: Model<GithubProfileModel>,
   ) {}
 
   public async create(userDTO: CreateUserDTO) {
@@ -82,7 +85,8 @@ export class UserService {
 
   public async delete(id: string) {
     try {
-      await this.userModel.findById(id);
+     const existingDoc = await this.userModel.findById(id);
+      await this.githubModel.findByIdAndDelete(existingDoc.github);
       return await this.userModel.findByIdAndDelete(id);
     } catch (error) {
       throw new HttpException(

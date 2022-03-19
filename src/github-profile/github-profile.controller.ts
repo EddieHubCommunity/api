@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
   Param,
   Post,
   Put,
@@ -37,6 +38,7 @@ export class GithubProfileController {
 
   @Delete(':id')
   @UseGuards(TokenGuard)
+  @HttpCode(204)
   @ApiSecurity('token')
   deleteOne(@Param('id') id: string) {
     return this.githubService.deleteOne(id);

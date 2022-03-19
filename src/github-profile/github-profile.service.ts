@@ -47,7 +47,7 @@ export class GithubProfileService {
       const user = await this.userModel.findByIdAndUpdate(
         discord,
         {
-          github: username,
+          github: data.name,
         },
         { new: true },
       );
@@ -63,8 +63,12 @@ export class GithubProfileService {
     }
   }
 
-  public async delete(username: string) {
+  public async deleteOne(username: string) {
     try {
+      await this.userModel.updateMany(
+        { github: username },
+        { $unset: { github: 1} },
+     )
       return await this.githubModel.findByIdAndDelete(username);
     } catch (error) {
       console.log(error);
@@ -123,9 +127,6 @@ export class GithubProfileService {
     return await this.githubModel.find();
   }
 
-  public async deleteOne(username: string) {
-    return await this.githubModel.findByIdAndDelete(username);
-  }
 
   private getGithubProfile(username: string) {
     return this.httpService
