@@ -15,7 +15,7 @@ export class UserService {
   ) {}
 
   public async create(userDTO: CreateUserDTO) {
-    let githubProfile = null;
+    const githubProfile = null;
 
     const createdUser = new this.userModel({
       _id: userDTO.discordUsername,
@@ -34,10 +34,9 @@ export class UserService {
   }
 
   public async patch(userDTO: PatchUserDTO, id: string) {
-    let githubProfile = null;
-    let initial = null;
+    const githubProfile = null;
     try {
-      initial = await this.userModel.findById(id);
+      await this.userModel.findById(id);
     } catch (error) {
       console.log(error);
       throw new HttpException(
@@ -85,7 +84,7 @@ export class UserService {
 
   public async delete(id: string) {
     try {
-     const existingDoc = await this.userModel.findById(id);
+      const existingDoc = await this.userModel.findById(id);
       await this.githubModel.findByIdAndDelete(existingDoc.github);
       return await this.userModel.findByIdAndDelete(id);
     } catch (error) {
