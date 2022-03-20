@@ -95,11 +95,31 @@ Feature: Github module
             | event | "non-existing" |
         Then the response status code should be 400
 
- Scenario: get specific event for id
-     Given authorization
-     And I create a github profile
-     Then make a POST request to "/github/hubber/events" with:
-         | event | "workflow_dispatch" |
-     Then make a GET request to "/github/hubber/events"
-     Then the response status code should be 200
-     
+    Scenario: get specific event for user
+        Given authorization
+        And I create a github profile
+        Then make a POST request to "/github/hubber/events" with:
+            | event | "workflow_dispatch" |
+        Then make a GET request to "/github/hubber/events"
+        Then the response status code should be 200
+
+    Scenario: get all events
+        Given authorization
+        And I create a github profile
+        Then make a POST request to "/github/hubber/events" with:
+            | event | "workflow_dispatch" |
+        Then make a GET request to "/github/events"
+        Then the response status code should be 200
+        And the response at index "0" should contain:
+            | event | "workflow_dispatch" |
+
+    Scenario: get all events without authorization
+        Given authorization
+        And I create a github profile
+        Then remove authorization
+        Then make a POST request to "/github/hubber/events" with:
+            | event | "workflow_dispatch" |
+        Then the response status code should be 401
+        And the response should contain:
+            | statusCode | 401            |
+            | message    | "Unauthorized" |
