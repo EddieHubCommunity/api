@@ -11,7 +11,8 @@ import { UserModel } from '../user/schema/user.schema';
 import { CreateStatsDTO } from './dto/create-stats.dto';
 import { eventMap } from './data/event-map';
 import { GithubEventService } from './github-event.service';
-
+import { ConfigService } from '@nestjs/config';
+import { AxiosRequestConfig } from 'axios';
 @Injectable()
 export class GithubProfileService {
   constructor(
@@ -21,6 +22,7 @@ export class GithubProfileService {
     private readonly geocodingService: GeocodingService,
     private readonly httpService: HttpService,
     private readonly eventService: GithubEventService,
+    private readonly configService: ConfigService,
   ) {}
 
   public async create(username: string, discord: string) {
@@ -165,8 +167,11 @@ export class GithubProfileService {
   }
 
   private getGithubProfile(username: string) {
+    const githubToken = this.configService.get('GH_TOKEN');
+    const config: AxiosRequestConfig = { headers: {} };
+    if (githubToken) config.headers['Authorization'] = `token ${githubToken}`;
     return this.httpService
-      .get(`https://api.github.com/users/${username}`)
+      .get(`https://api.github.com/users/${username}`, config)
       .pipe(
         catchError((e) => {
           console.log(e.response.data);

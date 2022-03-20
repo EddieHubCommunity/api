@@ -42,29 +42,6 @@ export class responses {
     expect(this.context.response.text).to.equal(data);
   }
 
-  @then(/the response in property "([^"]*)" should contain:/)
-  public dataResponseItemTable(item: number, table: { rawTable: [] }) {
-    const data = this.context.tableToObject(table);
-    Object.keys(data).forEach((key) => {
-      if (/TYPE:/.test(data[key])) {
-        const regex = getRegex(data[key]);
-        expect(JSON.parse(this.context.response.text)[item][key]).to.match(
-          regex,
-        );
-      } else {
-        expect(JSON.parse(this.context.response.text)[item][key]).to.eql(
-          data[key],
-        );
-      }
-    });
-  }
-
-  @then(/the response property "([^"]*)" has items:/)
-  public dataResponsePropertyTable(property: string, table: { rawTable: [] }) {
-    const data = this.context.tableToArray(table);
-    expect(JSON.parse(this.context.response.text)[property]).to.eql(data);
-  }
-
   @then(/the response should contain:/)
   public dataResponseTable(table: { rawTable: [] }) {
     const data = this.context.tableToObject(table);

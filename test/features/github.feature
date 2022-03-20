@@ -1,5 +1,5 @@
-@github-profile
-Feature: Github Profile module
+@github
+Feature: Github module
 
     Scenario: add new github profile
         Given authorization
@@ -67,3 +67,39 @@ Feature: Github Profile module
         And the response should contain:
             | statusCode | 401            |
             | message    | "Unauthorized" |
+
+    Scenario: add event to a profile
+        Given authorization
+        And I create a github profile
+        Then make a POST request to "/github/hubber/events" with:
+            | event | "workflow_dispatch" |
+        Then the response status code should be 201
+        And the response should contain:
+            | stats | {"workflowDispatch": 1} |
+
+    Scenario: add event without authorization
+        Given authorization
+        And I create a github profile
+        Then remove authorization
+        Then make a POST request to "/github/hubber/events" with:
+            | event | "workflow_dispatch" |
+        Then the response status code should be 401
+        And the response should contain:
+            | statusCode | 401            |
+            | message    | "Unauthorized" |
+
+    Scenario: add non-existing event
+        Given authorization
+        And I create a github profile
+        Then make a POST request to "/github/hubber/events" with:
+            | event | "non-existing" |
+        Then the response status code should be 400
+
+ Scenario: get specific event for id
+     Given authorization
+     And I create a github profile
+     Then make a POST request to "/github/hubber/events" with:
+         | event | "workflow_dispatch" |
+     Then make a GET request to "/github/hubber/events"
+     Then the response status code should be 200
+     

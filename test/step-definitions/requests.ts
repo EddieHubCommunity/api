@@ -64,6 +64,18 @@ export class requests {
     this.context.token = null;
   }
 
+  @when(/I create a github profile/)
+  public async createGithubProfile() {
+    const body = {
+      githubUsername: 'hubber',
+    };
+    const post = request(this.context.app.getHttpServer()).post('/github');
+    if (this.context.token) {
+      post.set('Client-Token', this.context.token);
+    }
+    return await post.send(body);
+  }
+
   @when(/I create a new user/)
   public async createUser() {
     const body = {
