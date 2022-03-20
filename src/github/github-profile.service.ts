@@ -10,6 +10,7 @@ import { GithubProfileModel } from './schema/github-profile.schema';
 import { UserModel } from '../user/schema/user.schema';
 import { CreateStatsDTO } from './dto/create-stats.dto';
 import { eventMap } from './data/event-map';
+import { GithubEventService } from './github-event.service';
 
 @Injectable()
 export class GithubProfileService {
@@ -19,6 +20,7 @@ export class GithubProfileService {
     private readonly githubModel: Model<GithubProfileModel>,
     private readonly geocodingService: GeocodingService,
     private readonly httpService: HttpService,
+    private readonly eventService: GithubEventService,
   ) {}
 
   public async create(username: string, discord: string) {
@@ -149,7 +151,8 @@ export class GithubProfileService {
     return await this.githubModel.find();
   }
 
-  public async createStat(username: string, data: CreateStatsDTO) {
+  public async bumpEvent(username: string, data: CreateStatsDTO) {
+    await this.eventService.create(username, data.event);
     return await this.githubModel.findByIdAndUpdate(
       username,
       {

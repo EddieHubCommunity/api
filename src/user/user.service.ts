@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { GithubProfileModel } from '../github-profile/schema/github-profile.schema';
+import { GithubProfileModel } from '../github/schema/github-profile.schema';
 import { CreateUserDTO } from './dto/create-user.dto';
 import { PatchUserDTO } from './dto/patch-user.dto';
 import { UserModel } from './schema/user.schema';

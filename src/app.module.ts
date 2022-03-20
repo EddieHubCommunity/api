@@ -6,7 +6,7 @@ import { LoggerMiddleware } from './logger/logger.middleware';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MongooseConfigService } from './environment/mongo-config.service';
 import { UserModule } from './user/user.module';
-import { GithubProfileModule } from './github-profile/github-profile.module';
+import { GithubModule } from './github/github.module';
 
 @Module({
   imports: [
@@ -17,7 +17,7 @@ import { GithubProfileModule } from './github-profile/github-profile.module';
       isGlobal: true,
     }),
     UserModule,
-    GithubProfileModule,
+    GithubModule,
   ],
   controllers: [AppController],
   providers: [AppService],

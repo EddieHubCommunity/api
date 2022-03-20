@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { GithubProfileModel } from '../../github-profile/schema/github-profile.schema';
+import { GithubProfileModel } from '../../github/schema/github-profile.schema';
 import { Document } from 'mongoose';
 
 @Schema({ _id: false, timestamps: true })

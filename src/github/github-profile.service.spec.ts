@@ -11,6 +11,11 @@ import {
   GithubProfileModel,
   GithubProfileSchema,
 } from './schema/github-profile.schema';
+import {
+  GithubEventModel,
+  GithubEventSchema,
+} from './schema/github-event.schema';
+import { GithubEventService } from './github-event.service';
 
 describe('GithubProfileService', () => {
   let service: GithubProfileService;
@@ -29,13 +34,14 @@ describe('GithubProfileService', () => {
         HttpModule,
         MongooseModule.forFeature([
           { name: UserModel.name, schema: UserSchema },
+          { name: GithubEventModel.name, schema: GithubEventSchema },
           { name: GithubProfileModel.name, schema: GithubProfileSchema },
         ]),
         ConfigModule.forRoot({
           isGlobal: true,
         }),
       ],
-      providers: [GithubProfileService, GeocodingService],
+      providers: [GithubProfileService, GithubEventService, GeocodingService],
     }).compile();
 
     service = module.get<GithubProfileService>(GithubProfileService);

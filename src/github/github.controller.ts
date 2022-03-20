@@ -14,12 +14,27 @@ import { TokenGuard } from '../auth/token.strategy';
 import { CreateGithubProfileDTO } from './dto/create-github.dto';
 import { CreateStatsDTO } from './dto/create-stats.dto';
 import { UpdateGithubProfileDTO } from './dto/update-github.dto';
+import { GithubEventService } from './github-event.service';
 import { GithubProfileService } from './github-profile.service';
 
-@ApiTags('Github Profile')
+@ApiTags('Github')
 @Controller('github')
-export class GithubProfileController {
-  constructor(private readonly githubService: GithubProfileService) {}
+export class GithubController {
+  constructor(
+    private readonly githubService: GithubProfileService,
+    private readonly eventService: GithubEventService,
+  ) {}
+
+  @Get('events')
+  async getAllEvents() {
+    return await this.eventService.getAll();
+  }
+
+  @Get('events/:id')
+  async getOneEvent(@Param('id') id: string) {
+    return await this.eventService.getOne(id);
+  }
+
   @Post()
   @UseGuards(TokenGuard)
   @ApiSecurity('token')
@@ -52,10 +67,15 @@ export class GithubProfileController {
     return this.githubService.updateOne(id, body.discordUsername);
   }
 
-  @Post(':id/stats')
+  @Post(':id/events')
   @UseGuards(TokenGuard)
   @ApiSecurity('token')
   createStats(@Param('id') id: string, @Body() body: CreateStatsDTO) {
-    return this.githubService.createStat(id, body);
+    return this.githubService.bumpEvent(id, body);
+  }
+
+  @Get(':id/events')
+  async findStats(@Param('id') id: string) {
+    return await this.eventService.getByUsername(id);
   }
 }
