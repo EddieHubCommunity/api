@@ -12,7 +12,7 @@ import {
 import { ApiOperation, ApiSecurity, ApiTags } from '@nestjs/swagger';
 import { TokenGuard } from '../auth/token.strategy';
 import { CreateGithubProfileDTO } from './dto/create-github.dto';
-import { CreateStatsDTO } from './dto/create-stats.dto';
+import { CreateEventsDTO } from './dto/create-events.dto';
 import { UpdateGithubProfileDTO } from './dto/update-github.dto';
 import { GithubEventService } from './github-event.service';
 import { GithubProfileService } from './github-profile.service';
@@ -74,12 +74,12 @@ export class GithubController {
   @Post(':id/events')
   @UseGuards(TokenGuard)
   @ApiSecurity('token')
-  createStats(@Param('id') id: string, @Body() body: CreateStatsDTO) {
+  createEvents(@Param('id') id: string, @Body() body: CreateEventsDTO) {
     return this.githubService.bumpEvent(id, body);
   }
 
   @Get(':id/events')
-  async findStats(@Param('id') id: string) {
+  async findEvents(@Param('id') id: string) {
     return await this.eventService.getByUsername(id);
   }
 }

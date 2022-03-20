@@ -75,7 +75,7 @@ Feature: Github module
             | event | "workflow_dispatch" |
         Then the response status code should be 201
         And the response should contain:
-            | stats | {"workflowDispatch": 1} |
+            | events | {"workflowDispatch": 1} |
 
     Scenario: add event without authorization
         Given authorization

@@ -39,7 +39,7 @@ export interface GithubProfileResponse {
   updated_at: Date;
 }
 
-export interface CommunityStats {
+export interface CommunityEvents {
   workflowDispatch?: number;
   repositoryDispatch?: number;
   checkRun?: number;

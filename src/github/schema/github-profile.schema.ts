@@ -12,14 +12,14 @@ export class Location {
   long: number;
 }
 
-export class Stats {
+export class Events {
   @Prop(
     raw({
       type: Map,
       of: Number,
     }),
   )
-  stats?: Map<string, number> | null;
+  events?: Map<string, number> | null;
 }
 
 @Schema({ _id: false, timestamps: true })
@@ -30,8 +30,8 @@ export class GithubProfileModel extends Document {
   @Prop({ type: Location })
   location: Location;
 
-  @Prop({ type: Stats })
-  stats: Stats;
+  @Prop({ type: Events })
+  events: Events;
 }
 
 export const GithubProfileSchema =

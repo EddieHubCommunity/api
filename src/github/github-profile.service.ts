@@ -8,7 +8,7 @@ import { GeocodingService } from './geocoding.service';
 import { GithubProfileResponse } from './interfaces/github-profile.interfaces';
 import { GithubProfileModel } from './schema/github-profile.schema';
 import { UserModel } from '../user/schema/user.schema';
-import { CreateStatsDTO } from './dto/create-stats.dto';
+import { CreateEventsDTO } from './dto/create-events.dto';
 import { eventMap } from './data/event-map';
 import { GithubEventService } from './github-event.service';
 import { ConfigService } from '@nestjs/config';
@@ -48,7 +48,7 @@ export class GithubProfileService {
     const createdGithubProfile = new this.githubModel({
       _id: data.name,
       location: data.location,
-      stats: {},
+      events: {},
     });
     try {
       if (discord) {
@@ -153,13 +153,13 @@ export class GithubProfileService {
     return await this.githubModel.find();
   }
 
-  public async bumpEvent(username: string, data: CreateStatsDTO) {
+  public async bumpEvent(username: string, data: CreateEventsDTO) {
     await this.eventService.create(username, data.event);
     return await this.githubModel.findByIdAndUpdate(
       username,
       {
         $inc: {
-          [`stats.${this.mapEvent(data.event)}`]: 1,
+          [`events.${this.mapEvent(data.event)}`]: 1,
         },
       },
       { new: true },
