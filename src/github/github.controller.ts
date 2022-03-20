@@ -9,7 +9,7 @@ import {
   Put,
   UseGuards,
 } from '@nestjs/common';
-import { ApiSecurity, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiSecurity, ApiTags } from '@nestjs/swagger';
 import { TokenGuard } from '../auth/token.strategy';
 import { CreateGithubProfileDTO } from './dto/create-github.dto';
 import { CreateStatsDTO } from './dto/create-stats.dto';
@@ -25,6 +25,13 @@ export class GithubController {
     private readonly eventService: GithubEventService,
   ) {}
 
+  @Post()
+  @UseGuards(TokenGuard)
+  @ApiSecurity('token')
+  createOne(@Body() body: CreateGithubProfileDTO) {
+    return this.githubService.create(body.githubUsername, body.discordUsername);
+  }
+
   @Get('events')
   async getAllEvents() {
     return await this.eventService.getAll();
@@ -35,21 +42,14 @@ export class GithubController {
     return await this.eventService.getOne(id);
   }
 
-  @Post()
-  @UseGuards(TokenGuard)
-  @ApiSecurity('token')
-  createOne(@Body() body: CreateGithubProfileDTO) {
-    return this.githubService.create(body.githubUsername, body.discordUsername);
+  @Get()
+  findAll() {
+    return this.githubService.findAll();
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.githubService.findOne(id);
-  }
-
-  @Get()
-  findAll() {
-    return this.githubService.findAll();
   }
 
   @Delete(':id')
@@ -63,6 +63,10 @@ export class GithubController {
   @Put(':id')
   @UseGuards(TokenGuard)
   @ApiSecurity('token')
+  @ApiOperation({
+    summary:
+      'Link and Unlink Github Profiles with Users by providing a discordUsername that should be linked, or send an empty body for removing the link',
+  })
   updateOne(@Param('id') id: string, @Body() body: UpdateGithubProfileDTO) {
     return this.githubService.updateOne(id, body.discordUsername);
   }
