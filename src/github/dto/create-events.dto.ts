@@ -4,7 +4,7 @@ import { eventMap } from '../data/event-map';
 
 const events: string[] = Object.keys(eventMap);
 
-export class CreateEventsDTO {
+export class CreateEventDTO {
   @IsString()
   @IsNotEmpty()
   @ApiProperty({ required: true, enum: events })

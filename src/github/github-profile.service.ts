@@ -8,7 +8,7 @@ import { GeocodingService } from './geocoding.service';
 import { GithubProfileResponse } from './interfaces/github-profile.interfaces';
 import { GithubProfileModel } from './schema/github-profile.schema';
 import { UserModel } from '../user/schema/user.schema';
-import { CreateEventsDTO } from './dto/create-events.dto';
+import { CreateEventDTO } from './dto/create-events.dto';
 import { eventMap } from './data/event-map';
 import { GithubEventService } from './github-event.service';
 import { ConfigService } from '@nestjs/config';
@@ -153,7 +153,7 @@ export class GithubProfileService {
     return await this.githubModel.find();
   }
 
-  public async bumpEvent(username: string, data: CreateEventsDTO) {
+  public async bumpEvent(username: string, data: CreateEventDTO) {
     await this.eventService.create(username, data.event);
     return await this.githubModel.findByIdAndUpdate(
       username,
