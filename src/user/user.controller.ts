@@ -11,6 +11,7 @@ import {
 } from '@nestjs/common';
 import { ApiSecurity, ApiTags } from '@nestjs/swagger';
 import { TokenGuard } from '../auth/token.strategy';
+import { ConnectDTO } from './dto/connect.dto';
 import { CreateUserDTO } from './dto/create-user.dto';
 import { PatchUserDTO } from './dto/patch-user.dto';
 import { UserService } from './user.service';
@@ -50,5 +51,12 @@ export class UserController {
   @ApiSecurity('token')
   async delete(@Param('id') id: string) {
     return await this.userService.delete(id);
+  }
+
+  @Post(':id/connect')
+  @UseGuards(TokenGuard)
+  @ApiSecurity('token')
+  async connect(@Param('id') id: string, @Body() body: ConnectDTO) {
+    return await this.userService.connect(id, body.githubUsername);
   }
 }

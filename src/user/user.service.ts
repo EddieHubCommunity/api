@@ -82,10 +82,37 @@ export class UserService {
       await this.githubModel.findByIdAndDelete(existingDoc.github);
       return await this.userModel.findByIdAndDelete(id);
     } catch (error) {
+      throw new HttpException(`No User for ${id} found`, HttpStatus.NOT_FOUND);
+    }
+  }
+
+  public async connect(id: string, github?: string) {
+    const user = await this.userModel.findById(id);
+    if (!user) {
+      throw new HttpException(`No User for ${id} found`, HttpStatus.NOT_FOUND);
+    }
+    if (!github) {
+      return await this.userModel.findByIdAndUpdate(
+        id,
+        { $unset: { github: 1 } },
+        { new: true },
+      );
+    }
+    const githubProfile = await this.githubModel.findById(github);
+    if (!githubProfile) {
       throw new HttpException(
-        `No Document for ${id} found`,
+        `No Github-Profile for ${github} found`,
         HttpStatus.NOT_FOUND,
       );
     }
+    return await this.userModel
+      .findByIdAndUpdate(
+        id,
+        {
+          github: githubProfile._id,
+        },
+        { new: true },
+      )
+      .populate('github', '-__v');
   }
 }

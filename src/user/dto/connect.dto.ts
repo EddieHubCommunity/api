@@ -1,9 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsOptional, IsString } from 'class-validator';
 
-export class UpdateGithubProfileDTO {
+export class ConnectDTO {
   @IsString()
   @IsOptional()
   @ApiProperty({ required: false })
-  discordUsername: string;
+  githubUsername: string;
 }

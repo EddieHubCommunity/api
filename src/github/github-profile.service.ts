@@ -25,7 +25,7 @@ export class GithubProfileService {
     private readonly configService: ConfigService,
   ) {}
 
-  public async create(username: string, discord: string) {
+  public async create(username: string) {
     const data = await lastValueFrom(
       this.getGithubProfile(username).pipe(
         concatMap(async (githubData) => {
@@ -50,26 +50,7 @@ export class GithubProfileService {
       location: data.location,
       events: {},
     });
-    try {
-      if (discord) {
-        const user = await this.userModel.findByIdAndUpdate(
-          discord,
-          {
-            github: data.name,
-          },
-          { new: true },
-        );
-        if (!user) {
-          throw new HttpException(
-            `User with ID ${discord} not found`,
-            HttpStatus.NOT_FOUND,
-          );
-        }
-      }
-      return await createdGithubProfile.save();
-    } catch (error) {
-      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+    return await createdGithubProfile.save();
   }
 
   public async deleteOne(username: string) {
@@ -88,28 +69,8 @@ export class GithubProfileService {
     }
   }
 
-  public async updateOne(github: string, discord: string) {
+  public async updateOne(github: string) {
     try {
-      const user = await this.userModel.findByIdAndUpdate(
-        discord,
-        {
-          github: github,
-        },
-        { new: true },
-      );
-      if (!user) {
-        if (!discord) {
-          await this.userModel.updateMany(
-            { github: github },
-            { $unset: { github: 1 } },
-          );
-        } else {
-          throw new HttpException(
-            `User with ID ${discord} not found`,
-            HttpStatus.NOT_FOUND,
-          );
-        }
-      }
       const githubProfile = await this.githubModel.findById(github);
       if (!githubProfile) {
         throw new HttpException(
@@ -146,7 +107,14 @@ export class GithubProfileService {
   }
 
   public async findOne(username: string) {
-    return await this.githubModel.findById(username);
+    const github = await this.githubModel.findById(username);
+    if (!github) {
+      throw new HttpException(
+        `Github-Profile with ID ${username} not found`,
+        HttpStatus.NOT_FOUND,
+      );
+    }
+    return github;
   }
 
   public async findAll() {
@@ -154,8 +122,7 @@ export class GithubProfileService {
   }
 
   public async bumpEvent(username: string, data: CreateEventDTO) {
-    await this.eventService.create(username, data.event);
-    return await this.githubModel.findByIdAndUpdate(
+    const profile = await this.githubModel.findByIdAndUpdate(
       username,
       {
         $inc: {
@@ -164,6 +131,14 @@ export class GithubProfileService {
       },
       { new: true },
     );
+    if (!profile) {
+      throw new HttpException(
+        `Github-Profile with ID ${username} not found`,
+        HttpStatus.NOT_FOUND,
+      );
+    }
+    await this.eventService.create(username, data.event);
+    return profile;
   }
 
   private getGithubProfile(username: string) {
