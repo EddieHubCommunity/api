@@ -53,7 +53,7 @@ export class UserController {
     return await this.userService.delete(id);
   }
 
-  @Post(':id/connect')
+  @Post(':id/connect/github')
   @UseGuards(TokenGuard)
   @ApiSecurity('token')
   async connect(@Param('id') id: string, @Body() body: ConnectDTO) {

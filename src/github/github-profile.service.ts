@@ -122,23 +122,21 @@ export class GithubProfileService {
   }
 
   public async bumpEvent(username: string, data: CreateEventDTO) {
-    const profile = await this.githubModel.findByIdAndUpdate(
-      username,
-      {
-        $inc: {
-          [`events.${this.mapEvent(data.event)}`]: 1,
+    try {
+      await this.eventService.create(username, data.event);
+      await this.githubModel.findByIdAndUpdate(
+        username,
+        {
+          $inc: {
+            [`events.${this.mapEvent(data.event)}`]: 1,
+          },
         },
-      },
-      { new: true },
-    );
-    if (!profile) {
-      throw new HttpException(
-        `Github-Profile with ID ${username} not found`,
-        HttpStatus.NOT_FOUND,
+        { new: true },
       );
+      return { success: true };
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
-    await this.eventService.create(username, data.event);
-    return profile;
   }
 
   private getGithubProfile(username: string) {
