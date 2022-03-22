@@ -121,22 +121,38 @@ export class GithubProfileService {
     return await this.githubModel.find();
   }
 
-  public async bumpEvent(username: string, data: CreateEventDTO) {
-    try {
-      await this.eventService.create(username, data.event);
-      await this.githubModel.findByIdAndUpdate(
-        username,
-        {
-          $inc: {
-            [`events.${this.mapEvent(data.event)}`]: 1,
-          },
-        },
-        { new: true },
+  public async bumpEvent(data: CreateEventDTO) {
+    await this.eventService.create(data.githubUsername, data.event);
+    await this.bumpEddiehub(data.event);
+    const github = await this.githubModel.findById(data.githubUsername);
+    if (!github) {
+      throw new HttpException(
+        `Github-Profile with ID ${data.githubUsername} not found`,
+        HttpStatus.OK,
       );
-      return { success: true };
-    } catch (error) {
-      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+    return await this.githubModel.findByIdAndUpdate(
+      data.githubUsername,
+      {
+        $inc: {
+          [`events.${this.mapEvent(data.event)}`]: 1,
+        },
+      },
+      { new: true },
+    );
+  }
+
+  private async bumpEddiehub(event: string) {
+    const eddiehub = await this.githubModel.findOneAndUpdate(
+      { _id: 'EddieHubCommunity' },
+      {
+        $inc: {
+          [`events.${this.mapEvent(event)}`]: 1,
+        },
+      },
+      { new: true, upsert: true },
+    );
+    return eddiehub;
   }
 
   private getGithubProfile(username: string) {

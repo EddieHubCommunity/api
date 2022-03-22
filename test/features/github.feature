@@ -71,18 +71,20 @@ Feature: Github module
     Scenario: add event to a profile
         Given authorization
         And I create a github profile
-        Then make a POST request to "/github/hubber/events" with:
-            | event | "workflow_dispatch" |
+        Then make a POST request to "/github/events" with:
+            | githubUsername | "hubber"            |
+            | event          | "workflow_dispatch" |
         Then the response status code should be 201
         And the response should contain:
-            | success | true |
+            | events | {"workflowDispatch": 1} |
 
     Scenario: add event without authorization
         Given authorization
         And I create a github profile
         Then remove authorization
-        Then make a POST request to "/github/hubber/events" with:
-            | event | "workflow_dispatch" |
+        Then make a POST request to "/github/events" with:
+            | githubUsername | "hubber"            |
+            | event          | "workflow_dispatch" |
         Then the response status code should be 401
         And the response should contain:
             | statusCode | 401            |
@@ -91,8 +93,9 @@ Feature: Github module
     Scenario: add non-existing event
         Given authorization
         And I create a github profile
-        Then make a POST request to "/github/hubber/events" with:
-            | event | "non-existing" |
+        Then make a POST request to "/github/events" with:
+            | githubUsername | "hubber"       |
+            | event          | "non-existing" |
         Then the response status code should be 400
 
     Scenario: get specific event for user
@@ -106,8 +109,9 @@ Feature: Github module
     Scenario: get all events
         Given authorization
         And I create a github profile
-        Then make a POST request to "/github/hubber/events" with:
-            | event | "workflow_dispatch" |
+        Then make a POST request to "/github/events" with:
+            | githubUsername | "hubber"            |
+            | event          | "workflow_dispatch" |
         Then make a GET request to "/github/events"
         Then the response status code should be 200
         And the response at index "0" should contain:
@@ -117,8 +121,9 @@ Feature: Github module
         Given authorization
         And I create a github profile
         Then remove authorization
-        Then make a POST request to "/github/hubber/events" with:
-            | event | "workflow_dispatch" |
+        Then make a POST request to "/github/events" with:
+            | githubUsername | "hubber"            |
+            | event          | "workflow_dispatch" |
         Then the response status code should be 401
         And the response should contain:
             | statusCode | 401            |

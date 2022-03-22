@@ -36,6 +36,13 @@ export class GithubController {
     return await this.eventService.getAll();
   }
 
+  @Post('/events')
+  @UseGuards(TokenGuard)
+  @ApiSecurity('token')
+  createEvents(@Body() body: CreateEventDTO) {
+    return this.githubService.bumpEvent(body);
+  }
+
   @Get('events/:id')
   async getOneEvent(@Param('id') id: string) {
     return await this.eventService.getOne(id);
@@ -64,13 +71,6 @@ export class GithubController {
   @ApiSecurity('token')
   updateOne(@Param('id') id: string) {
     return this.githubService.updateOne(id);
-  }
-
-  @Post(':id/events')
-  @UseGuards(TokenGuard)
-  @ApiSecurity('token')
-  createEvents(@Param('id') id: string, @Body() body: CreateEventDTO) {
-    return this.githubService.bumpEvent(id, body);
   }
 
   @Get(':id/events')

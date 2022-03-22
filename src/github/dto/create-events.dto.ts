@@ -7,6 +7,11 @@ const events: string[] = Object.keys(eventMap);
 export class CreateEventDTO {
   @IsString()
   @IsNotEmpty()
+  @ApiProperty({ required: true })
+  githubUsername: string;
+
+  @IsString()
+  @IsNotEmpty()
   @ApiProperty({ required: true, enum: events })
   @IsIn(events)
   event: string;
