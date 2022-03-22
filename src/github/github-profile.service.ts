@@ -121,6 +121,10 @@ export class GithubProfileService {
     return await this.githubModel.find();
   }
 
+  public async findEddiehub() {
+    return await this.githubModel.findById('EddieHubCommunity');
+  }
+
   public async bumpEvent(data: CreateEventDTO) {
     await this.eventService.create(data.githubUsername, data.event);
     await this.bumpEddiehub(data.event);
