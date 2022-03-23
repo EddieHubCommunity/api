@@ -8,7 +8,11 @@ import { GeocodingService } from './geocoding.service';
 import { GithubProfileResponse } from './interfaces/github-profile.interfaces';
 import { GithubProfileModel } from './schema/github-profile.schema';
 import { UserModel } from '../user/schema/user.schema';
-
+import { CreateEventDTO } from './dto/create-events.dto';
+import { eventMap } from './data/event-map';
+import { GithubEventService } from './github-event.service';
+import { ConfigService } from '@nestjs/config';
+import { AxiosRequestConfig } from 'axios';
 @Injectable()
 export class GithubProfileService {
   constructor(
@@ -17,9 +21,11 @@ export class GithubProfileService {
     private readonly githubModel: Model<GithubProfileModel>,
     private readonly geocodingService: GeocodingService,
     private readonly httpService: HttpService,
+    private readonly eventService: GithubEventService,
+    private readonly configService: ConfigService,
   ) {}
 
-  public async create(username: string, discord: string) {
+  public async create(username: string) {
     const data = await lastValueFrom(
       this.getGithubProfile(username).pipe(
         concatMap(async (githubData) => {
@@ -42,25 +48,9 @@ export class GithubProfileService {
     const createdGithubProfile = new this.githubModel({
       _id: data.name,
       location: data.location,
+      events: {},
     });
-    try {
-      const user = await this.userModel.findByIdAndUpdate(
-        discord,
-        {
-          github: data.name,
-        },
-        { new: true },
-      );
-      if (!user) {
-        throw new HttpException(
-          `User with ID ${discord} not found`,
-          HttpStatus.NOT_FOUND,
-        );
-      }
-      return await createdGithubProfile.save();
-    } catch (error) {
-      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+    return await createdGithubProfile.save();
   }
 
   public async deleteOne(username: string) {
@@ -79,21 +69,8 @@ export class GithubProfileService {
     }
   }
 
-  public async updateOne(github: string, discord: string) {
+  public async updateOne(github: string) {
     try {
-      const user = await this.userModel.findByIdAndUpdate(
-        discord,
-        {
-          github: github,
-        },
-        { new: true },
-      );
-      if (!user) {
-        throw new HttpException(
-          `User with ID ${discord} not found`,
-          HttpStatus.NOT_FOUND,
-        );
-      }
       const githubProfile = await this.githubModel.findById(github);
       if (!githubProfile) {
         throw new HttpException(
@@ -130,16 +107,64 @@ export class GithubProfileService {
   }
 
   public async findOne(username: string) {
-    return await this.githubModel.findById(username);
+    const github = await this.githubModel.findById(username);
+    if (!github) {
+      throw new HttpException(
+        `Github-Profile with ID ${username} not found`,
+        HttpStatus.NOT_FOUND,
+      );
+    }
+    return github;
   }
 
   public async findAll() {
     return await this.githubModel.find();
   }
 
+  public async findEddiehub() {
+    return await this.githubModel.findById('EddieHubCommunity');
+  }
+
+  public async bumpEvent(data: CreateEventDTO) {
+    await this.eventService.create(data.githubUsername, data.event);
+    await this.bumpEddiehub(data.event);
+    const github = await this.githubModel.findById(data.githubUsername);
+    if (!github) {
+      throw new HttpException(
+        `Github-Profile with ID ${data.githubUsername} not found`,
+        HttpStatus.OK,
+      );
+    }
+    return await this.githubModel.findByIdAndUpdate(
+      data.githubUsername,
+      {
+        $inc: {
+          [`events.${this.mapEvent(data.event)}`]: 1,
+        },
+      },
+      { new: true },
+    );
+  }
+
+  private async bumpEddiehub(event: string) {
+    const eddiehub = await this.githubModel.findOneAndUpdate(
+      { _id: 'EddieHubCommunity' },
+      {
+        $inc: {
+          [`events.${this.mapEvent(event)}`]: 1,
+        },
+      },
+      { new: true, upsert: true },
+    );
+    return eddiehub;
+  }
+
   private getGithubProfile(username: string) {
+    const githubToken = this.configService.get('GH_TOKEN');
+    const config: AxiosRequestConfig = { headers: {} };
+    if (githubToken) config.headers['Authorization'] = `token ${githubToken}`;
     return this.httpService
-      .get(`https://api.github.com/users/${username}`)
+      .get(`https://api.github.com/users/${username}`, config)
       .pipe(
         catchError((e) => {
           console.log(e.response.data);
@@ -156,5 +181,18 @@ export class GithubProfileService {
           };
         }),
       );
+  }
+
+  private mapEvent(githubEvent: string): string {
+    let mappedValue: string;
+    try {
+      mappedValue = eventMap[githubEvent];
+    } catch {
+      throw new HttpException(
+        'Please Provide valid Githubevent',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    return mappedValue;
   }
 }

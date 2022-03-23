@@ -6,9 +6,4 @@ export class CreateGithubProfileDTO {
   @IsNotEmpty()
   @ApiProperty({ required: true })
   githubUsername: string;
-
-  @IsString()
-  @IsNotEmpty()
-  @ApiProperty({ required: true })
-  discordUsername: string;
 }

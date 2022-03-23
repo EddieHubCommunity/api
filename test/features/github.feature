@@ -1,220 +1,130 @@
-# @github
-# Feature: github module
+@github
+Feature: Github module
 
-#     Scenario: add a new githubprofile
-#         Given authorization with "writing" permission
-#         And make a POST request to "/github" with:
-#             | username     | "eddiehubber"              |
-#             | bio          | "I love to code"           |
-#             | avatarUrl    | "https://dummy.com/avatar" |
-#             | followers    | 500                        |
-#             | repos        | 32                         |
-#             | event        | "push"                     |
-#             | blog         | "https://www.myBlog.com"   |
-#             | organization | "Eddiehub"                 |
-#             | location     | "London"                   |
-#         Then the response status code should be 201
-#         And the response should contain:
-#             | documentId | "TYPE:ID" |
+    Scenario: add new github profile
+        Given authorization
+        And I create a new user
+        Then make a POST request to "/github" with:
+            | discordUsername | "hubber" |
+            | githubUsername  | "hubber" |
+        Then the response status code should be 201
+        And the response should contain:
+            | _id | "hubber" |
 
-#     Scenario: get list of githubprofiles
-#         Given authorization with "writing" permission
-#         And make a POST request to "/github" with:
-#             | username     | "eddiehubber"              |
-#             | bio          | "I love to code"           |
-#             | avatarUrl    | "https://dummy.com/avatar" |
-#             | followers    | 500                        |
-#             | repos        | 32                         |
-#             | event        | "push"                     |
-#             | blog         | "https://www.myBlog.com"   |
-#             | organization | "Eddiehub"                 |
-#             | location     | "London"                   |
-#         And the response should contain:
-#             | documentId | "TYPE:ID" |
-#         Given authorization with "reading" permission
-#         When make a GET request to "/github"
-#         Then the response status code should be 200
-#         And the response in item where field "username" is equal to "eddiehubber" should contain:
-#             | username       | "eddiehubber"                                               |
-#             | bio            | "I love to code"                                            |
-#             | avatarUrl      | "https://dummy.com/avatar"                                  |
-#             | followers      | 500                                                         |
-#             | repos          | 32                                                          |
-#             | communityStats | {"push":1}                                                  |
-#             | blog           | "https://www.myBlog.com"                                    |
-#             | organization   | "Eddiehub"                                                  |
-#             | location       | {"provided": "London","lat": 51.5073219,"long": -0.1276474} |
-#             | updatedOn      | "TYPE:DATE"                                                 |
-#             | createdOn      | "TYPE:DATE"                                                 |
 
-#     Scenario: add an empty githubprofile
-#         Given authorization with "writing" permission
-#         And make a POST request to "/github" with:
-#             | test | "test" |
-#         Then the response status code should be 400
-#         And the response should contain:
-#             | statusCode | 400           |
-#             | error      | "Bad Request" |
-#         And the response property "message" has items:
-#             | username must be a string    |
-#             | username should not be empty |
+    Scenario: get a specific github profile
+        Given authorization
+        And I create a new user
+        Then make a POST request to "/github" with:
+            | discordUsername | "hubber" |
+            | githubUsername  | "hubber" |
+        Then make a GET request to "/users/hubber"
+        Then the response status code should be 200
+        And the response should contain:
+            | _id | "hubber" |
 
-#     Scenario: delete a githubprofile
-#         Given authorization with "writing" permission
-#         And make a POST request to "/github" with:
-#             | username     | "eddiehubber"              |
-#             | bio          | "I love to code"           |
-#             | avatarUrl    | "https://dummy.com/avatar" |
-#             | followers    | 500                        |
-#             | repos        | 32                         |
-#             | event        | "push"                     |
-#             | blog         | "https://www.myBlog.com"   |
-#             | organization | "Eddiehub"                 |
-#             | location     | "London"                   |
-#         And the response should contain:
-#             | documentId | "TYPE:ID" |
-#         Given authorization with "writing" permission
-#         When make a DELETE request to "/github/{id}"
-#         Then the response status code should be 204
+    Scenario: get all github profiles
+        Given authorization
+        And I create a new user
+        Then make a POST request to "/github" with:
+            | discordUsername | "hubber" |
+            | githubUsername  | "hubber" |
+        Then make a GET request to "/github"
+        Then the response status code should be 200
+        And the response at index "0" should contain:
+            | _id | "hubber" |
 
-#     Scenario: delete non-existent githubprofile
-#         Given authorization with "writing" permission
-#         And make a POST request to "/github" with:
-#             | username     | "eddiehubber"              |
-#             | bio          | "I love to code"           |
-#             | avatarUrl    | "https://dummy.com/avatar" |
-#             | followers    | 500                        |
-#             | repos        | 32                         |
-#             | event        | "push"                     |
-#             | blog         | "https://www.myBlog.com"   |
-#             | organization | "Eddiehub"                 |
-#             | location     | "London"                   |
-#         And the response should contain:
-#             | documentId | "TYPE:ID" |
-#         Given authorization with "writing" permission
-#         Then make a DELETE request to "/github/66"
-#         Then the response status code should be 404
-#         And the response should contain:
-#             | statusCode | 404                              |
-#             | message    | "no github-profile for 66 found" |
+    Scenario: delete a specific github profile
+        Given authorization
+        And I create a new user
+        Then make a POST request to "/github" with:
+            | discordUsername | "hubber" |
+            | githubUsername  | "hubber" |
+        Then make a DELETE request to "/users/hubber"
+        Then the response status code should be 204
 
-#     Scenario: update githubprofile with previously used event
-#         Given authorization with "writing" permission
-#         And make a POST request to "/github" with:
-#             | username     | "eddiehubber"              |
-#             | bio          | "I love to code"           |
-#             | avatarUrl    | "https://dummy.com/avatar" |
-#             | followers    | 500                        |
-#             | repos        | 32                         |
-#             | event        | "push"                     |
-#             | blog         | "https://www.myBlog.com"   |
-#             | organization | "Eddiehub"                 |
-#             | location     | "London"                   |
-#         And the response should contain:
-#             | documentId | "TYPE:ID" |
-#         Given authorization with "writing" permission
-#         Then make a Patch request to "/github/{id}" with:
-#             | username     | "eddiehubber"              |
-#             | bio          | "I love to code"           |
-#             | avatarUrl    | "https://dummy.com/avatar" |
-#             | followers    | 500                        |
-#             | repos        | 32                         |
-#             | blog         | "https://www.myBlog.com"   |
-#             | organization | "Eddiehub"                 |
-#             | location     | "London"                   |
-#             | event        | "push"                     |
-#         Then the response status code should be 200
-#         And the response should contain:
-#             | documentId | "TYPE:ID" |
+    Scenario: update existing github profile
+        Given authorization
+        And I create a new user
+        Then make a POST request to "/github" with:
+            | discordUsername | "hubber" |
+            | githubUsername  | "hubber" |
+        Then make a PUT request to "/github/hubber" with:
+            | discordUsername | "hubber" |
+        Then the response status code should be 200
+        And the response should contain:
+            | _id | "hubber" |
+            | __v | 1        |
 
-#     Scenario: update githubprofile with previously unused event
-#         Given authorization with "writing" permission
-#         And make a POST request to "/github" with:
-#             | username     | "eddiehubber"              |
-#             | bio          | "I love to code"           |
-#             | avatarUrl    | "https://dummy.com/avatar" |
-#             | followers    | 500                        |
-#             | repos        | 32                         |
-#             | event        | "push"                     |
-#             | blog         | "https://www.myBlog.com"   |
-#             | organization | "Eddiehub"                 |
-#             | location     | "London"                   |
-#         And the response should contain:
-#             | documentId | "TYPE:ID" |
-#         Given authorization with "writing" permission
-#         Then make a Patch request to "/github/{id}" with:
-#             | username     | "eddiehubber"              |
-#             | bio          | "I love to code"           |
-#             | avatarUrl    | "https://dummy.com/avatar" |
-#             | followers    | 500                        |
-#             | repos        | 32                         |
-#             | blog         | "https://www.myBlog.com"   |
-#             | organization | "Eddiehub"                 |
-#             | location     | "London"                   |
-#             | event        | "label"                    |
-#         Then the response status code should be 200
-#         And the response should contain:
-#             | documentId | "TYPE:ID" |
+    Scenario: create github profile without auth
+        Given authorization
+        And I create a new user
+        Then remove authorization
+        Then make a POST request to "/github" with:
+            | discordUsername | "hubber" |
+            | githubUsername  | "hubber" |
+        Then the response status code should be 401
+        And the response should contain:
+            | statusCode | 401            |
+            | message    | "Unauthorized" |
 
-#     Scenario: get githubprofile with authenticated request
-#         Given authorization with "writing" permission
-#         And make a POST request to "/github" with:
-#             | username     | "eddiehubber"              |
-#             | bio          | "I love to code"           |
-#             | avatarUrl    | "https://dummy.com/avatar" |
-#             | followers    | 500                        |
-#             | repos        | 32                         |
-#             | event        | "push"                     |
-#             | blog         | "https://www.myBlog.com"   |
-#             | organization | "Eddiehub"                 |
-#             | location     | "London"                   |
-#         And the response should contain:
-#             | documentId | "TYPE:ID" |
-#         Given authorization with "reading" permission
-#         When make a GET request to "/github/{id}"
-#         Then the response status code should be 200
-#         And the response should contain:
-#             | username       | "eddiehubber"                                               |
-#             | bio            | "I love to code"                                            |
-#             | avatarUrl      | "https://dummy.com/avatar"                                  |
-#             | followers      | 500                                                         |
-#             | repos          | 32                                                          |
-#             | communityStats | {"push":1}                                                  |
-#             | blog           | "https://www.myBlog.com"                                    |
-#             | organization   | "Eddiehub"                                                  |
-#             | location       | {"provided": "London","lat": 51.5073219,"long": -0.1276474} |
-#             | updatedOn      | "TYPE:DATE"                                                 |
-#             | createdOn      | "TYPE:DATE"                                                 |
+    Scenario: add event to a profile
+        Given authorization
+        And I create a github profile
+        Then make a POST request to "/github/events" with:
+            | githubUsername | "hubber"            |
+            | event          | "workflow_dispatch" |
+        Then the response status code should be 201
+        And the response should contain:
+            | events | {"workflowDispatch": 1} |
 
-#     Scenario: create a githubprofile without authentication
-#         Given make a POST request to "/github" with:
-#             | username     | "eddiehubber"              |
-#             | bio          | "I love to code"           |
-#             | avatarUrl    | "https://dummy.com/avatar" |
-#             | followers    | 500                        |
-#             | repos        | 32                         |
-#             | event        | "push"                     |
-#             | blog         | "https://www.myBlog.com"   |
-#             | organization | "Eddiehub"                 |
-#             | location     | "London"                   |
-#         Then the response status code should be 401
-#         And the response should contain:
-#             | statusCode | 401            |
-#             | message    | "Unauthorized" |
+    Scenario: add event without authorization
+        Given authorization
+        And I create a github profile
+        Then remove authorization
+        Then make a POST request to "/github/events" with:
+            | githubUsername | "hubber"            |
+            | event          | "workflow_dispatch" |
+        Then the response status code should be 401
+        And the response should contain:
+            | statusCode | 401            |
+            | message    | "Unauthorized" |
 
-#     Scenario: create a githubprofile with wrong permissions
-#         Given authorization with "reading" permission
-#         And make a POST request to "/github" with:
-#             | username     | "eddiehubber"              |
-#             | bio          | "I love to code"           |
-#             | avatarUrl    | "https://dummy.com/avatar" |
-#             | followers    | 500                        |
-#             | repos        | 32                         |
-#             | event        | "push"                     |
-#             | blog         | "https://www.myBlog.com"   |
-#             | organization | "Eddiehub"                 |
-#             | location     | "London"                   |
-#         Then the response status code should be 403
-#         And the response should contain:
-#             | statusCode | 403         |
-#             | message    | "Forbidden" |
+    Scenario: add non-existing event
+        Given authorization
+        And I create a github profile
+        Then make a POST request to "/github/events" with:
+            | githubUsername | "hubber"       |
+            | event          | "non-existing" |
+        Then the response status code should be 400
+
+    Scenario: get specific event for user
+        Given authorization
+        And I create a github profile
+        Then make a POST request to "/github/hubber/events" with:
+            | event | "workflow_dispatch" |
+        Then make a GET request to "/github/hubber/events"
+        Then the response status code should be 200
+
+    Scenario: get all events
+        Given authorization
+        And I create a github profile
+        Then make a POST request to "/github/events" with:
+            | githubUsername | "hubber"            |
+            | event          | "workflow_dispatch" |
+        Then make a GET request to "/github/events"
+        Then the response status code should be 200
+        And the response at index "0" should contain:
+            | event | "workflow_dispatch" |
+
+    Scenario: get all events without authorization
+        Given authorization
+        And I create a github profile
+        Then remove authorization
+        Then make a POST request to "/github/events" with:
+            | githubUsername | "hubber"            |
+            | event          | "workflow_dispatch" |
+        Then the response status code should be 401
+        And the response should contain:
+            | statusCode | 401            |
+            | message    | "Unauthorized" |

@@ -7,7 +7,7 @@ import { UserService } from './user.service';
 import {
   GithubProfileModel,
   GithubProfileSchema,
-} from '../github-profile/schema/github-profile.schema';
+} from '../github/schema/github-profile.schema';
 
 @Module({
   imports: [

@@ -5,7 +5,7 @@ import { Connection } from 'mongoose';
 import {
   GithubProfileModel,
   GithubProfileSchema,
-} from '../github-profile/schema/github-profile.schema';
+} from '../github/schema/github-profile.schema';
 import { MongooseConfigService } from '../environment/mongo-config.service';
 import { UserModel, UserSchema } from './schema/user.schema';
 import { UserService } from './user.service';

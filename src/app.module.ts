@@ -1,25 +1,23 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { GithubModule } from './github/github.module';
 import { ConfigModule } from '@nestjs/config';
 import { LoggerMiddleware } from './logger/logger.middleware';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MongooseConfigService } from './environment/mongo-config.service';
 import { UserModule } from './user/user.module';
-import { GithubProfileModule } from './github-profile/github-profile.module';
+import { GithubModule } from './github/github.module';
 
 @Module({
   imports: [
     MongooseModule.forRootAsync({
       useClass: MongooseConfigService,
     }),
-    GithubModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),
     UserModule,
-    GithubProfileModule,
+    GithubModule,
   ],
   controllers: [AppController],
   providers: [AppService],
