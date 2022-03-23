@@ -12,7 +12,7 @@ export class GithubEventService {
 
   public async create(githubUsername: string, event: string) {
     const newEvent = new this.eventModel({
-      githubUsername,
+      githubUsername: githubUsername.toLowerCase(),
       event,
     });
     return await newEvent.save();
@@ -27,6 +27,8 @@ export class GithubEventService {
   }
 
   public async getByUsername(githubUsername: string) {
-    return await this.eventModel.find({ githubUsername });
+    return await this.eventModel.find({
+      githubUsername: githubUsername.toLowerCase(),
+    });
   }
 }

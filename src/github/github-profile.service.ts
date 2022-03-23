@@ -46,7 +46,7 @@ export class GithubProfileService {
     );
 
     const createdGithubProfile = new this.githubModel({
-      _id: data.name,
+      _id: data.name.toLowerCase(),
       location: data.location,
       events: {},
     });
@@ -59,7 +59,7 @@ export class GithubProfileService {
         { github: username },
         { $unset: { github: 1 } },
       );
-      return await this.githubModel.findByIdAndDelete(username);
+      return await this.githubModel.findByIdAndDelete(username.toLowerCase());
     } catch (error) {
       console.log(error);
       throw new HttpException(
@@ -71,7 +71,9 @@ export class GithubProfileService {
 
   public async updateOne(github: string) {
     try {
-      const githubProfile = await this.githubModel.findById(github);
+      const githubProfile = await this.githubModel.findById(
+        github.toLowerCase(),
+      );
       if (!githubProfile) {
         throw new HttpException(
           `Github-Profile with ID ${github} not found`,
@@ -107,7 +109,7 @@ export class GithubProfileService {
   }
 
   public async findOne(username: string) {
-    const github = await this.githubModel.findById(username);
+    const github = await this.githubModel.findById(username.toLowerCase());
     if (!github) {
       throw new HttpException(
         `Github-Profile with ID ${username} not found`,
@@ -126,9 +128,14 @@ export class GithubProfileService {
   }
 
   public async bumpEvent(data: CreateEventDTO) {
-    await this.eventService.create(data.githubUsername, data.event);
+    await this.eventService.create(
+      data.githubUsername.toLowerCase(),
+      data.event,
+    );
     await this.bumpEddiehub(data.event);
-    const github = await this.githubModel.findById(data.githubUsername);
+    const github = await this.githubModel.findById(
+      data.githubUsername.toLowerCase(),
+    );
     if (!github) {
       throw new HttpException(
         `Github-Profile with ID ${data.githubUsername} not found`,
@@ -136,7 +143,7 @@ export class GithubProfileService {
       );
     }
     return await this.githubModel.findByIdAndUpdate(
-      data.githubUsername,
+      data.githubUsername.toLowerCase(),
       {
         $inc: {
           [`events.${this.mapEvent(data.event)}`]: 1,
@@ -148,7 +155,7 @@ export class GithubProfileService {
 
   private async bumpEddiehub(event: string) {
     const eddiehub = await this.githubModel.findOneAndUpdate(
-      { _id: 'EddieHubCommunity' },
+      { _id: 'eddiehubcommunity' },
       {
         $inc: {
           [`events.${this.mapEvent(event)}`]: 1,
