@@ -21,7 +21,6 @@ export class GithubProfileService {
     private readonly githubModel: Model<GithubProfileModel>,
     private readonly geocodingService: GeocodingService,
     private readonly httpService: HttpService,
-    private readonly eventService: GithubEventService,
     private readonly configService: ConfigService,
   ) {}
 
@@ -126,7 +125,6 @@ export class GithubProfileService {
   }
 
   public async bumpEvent(data: CreateEventDTO) {
-    await this.eventService.create(data.githubUsername, data.event);
     await this.bumpEddiehub(data.event);
     const github = await this.githubModel.findById(data.githubUsername);
     if (!github) {

@@ -39,7 +39,8 @@ export class GithubController {
   @Post('events')
   @UseGuards(TokenGuard)
   @ApiSecurity('token')
-  createEvents(@Body() body: CreateEventDTO) {
+  async createEvents(@Body() body: CreateEventDTO) {
+    await this.eventService.create(body.githubUsername, body.event);
     return this.githubService.bumpEvent(body);
   }
 
@@ -53,7 +54,7 @@ export class GithubController {
     return this.githubService.findAll();
   }
 
-  @Get('eddiehub')
+  @Get('EddieHubCommunity')
   findEddiehub() {
     return this.githubService.findEddiehub();
   }
