@@ -38,5 +38,5 @@ spec:
           - name: GH_TOKEN
             valueFrom:
               secretKeyRef:
-                name: mongo-db-name
+                name: gh-token
                 key: GH_TOKEN
