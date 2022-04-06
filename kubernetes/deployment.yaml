@@ -20,28 +20,23 @@ spec:
         ports:
         - containerPort: 3000
         env:
-          - name: ASTRA_APPLICATION_TOKEN
-            valueFrom:
-              secretKeyRef:
-                name: astra-application-token
-                key: ASTRA_APPLICATION_TOKEN
-          - name: ASTRA_DATABASE_ID
-            valueFrom:
-              secretKeyRef:
-                name: astra-database-id
-                key: ASTRA_DATABASE_ID
-          - name: ASTRA_DATABASE_REGION
-            valueFrom:
-              secretKeyRef:
-                name: astra-database-region
-                key: ASTRA_DATABASE_REGION
           - name: APPROVED_TOKENS
             valueFrom:
               secretKeyRef:
                 name: approved-tokens
                 key: APPROVED_TOKENS
-          - name: JWT_SECRET
+          - name: MONGO_CONNECTION_STRING
             valueFrom:
               secretKeyRef:
-                name: jwt-secret
-                key: JWT_SECRET
+                name: mongo-connection-string
+                key: MONGO_CONNECTION_STRING
+          - name: MONGO_DB_NAME
+            valueFrom:
+              secretKeyRef:
+                name: mongo-db-name
+                key: MONGO_DB_NAME
+          - name: GH_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: mongo-db-name
+                key: GH_TOKEN
