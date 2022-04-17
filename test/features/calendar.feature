@@ -227,16 +227,16 @@ Feature: calendar module
             | url         | "https://domain.com"                  |
             | platform    | "YouTube"                             |
             | author      | {"platform":"discord","uid":"hubber"} |
-            | startDate   | "2022-01-01T00:00:00.000Z"            |
-            | endDate     | "2023-01-01T00:00:00.000Z"            |
+            | startDate   | "2023-01-01T00:00:00.000Z"            |
+            | endDate     | "2024-01-01T00:00:00.000Z"            |
         When make a POST request to "/calendar" with:
             | name        | "Livestream YZ"                      |
             | description | "undescriptive Description"          |
             | url         | "https://mydomain.com"               |
             | platform    | "Twitch"                             |
             | author      | {"platform":"discord","uid":"hubby"} |
-            | startDate   | "2021-01-01T00:00:00.000Z"           |
-            | endDate     | "2022-01-01T00:00:00.000Z"           |
+            | startDate   | "2022-01-01T00:00:00.000Z"           |
+            | endDate     | "2023-01-01T00:00:00.000Z"           |
         Given authorization with "reading" permission
         When make a GET request to "/calendar"
         Then the response status code should be 200
@@ -246,8 +246,8 @@ Feature: calendar module
             | url         | "https://domain.com"                  |
             | platform    | "YouTube"                             |
             | author      | {"platform":"discord","uid":"hubber"} |
-            | startDate   | "2022-01-01T00:00:00.000Z"            |
-            | endDate     | "2023-01-01T00:00:00.000Z"            |
+            | startDate   | "2023-01-01T00:00:00.000Z"            |
+            | endDate     | "2024-01-01T00:00:00.000Z"            |
             | createdOn   | "TYPE:DATE"                           |
             | updatedOn   | "TYPE:DATE"                           |
         And the response property "ongoing" has a subobject with a field "name" that is equal to "Livestream YZ" should contain:
@@ -256,8 +256,8 @@ Feature: calendar module
             | url         | "https://mydomain.com"               |
             | platform    | "Twitch"                             |
             | author      | {"platform":"discord","uid":"hubby"} |
-            | startDate   | "2021-01-01T00:00:00.000Z"           |
-            | endDate     | "2022-01-01T00:00:00.000Z"           |
+            | startDate   | "2022-01-01T00:00:00.000Z"           |
+            | endDate     | "2023-01-01T00:00:00.000Z"           |
             | createdOn   | "TYPE:DATE"                          |
             | updatedOn   | "TYPE:DATE"                          |
 
@@ -269,8 +269,8 @@ Feature: calendar module
             | url         | "https://domain.com"                  |
             | platform    | "YouTube"                             |
             | author      | {"platform":"discord","uid":"hubber"} |
-            | startDate   | "2022-01-01T00:00:00.000Z"            |
-            | endDate     | "2023-01-01T00:00:00.000Z"            |
+            | startDate   | "2023-01-01T00:00:00.000Z"            |
+            | endDate     | "2024-01-01T00:00:00.000Z"            |
         Then the response status code should be 403
         And the response should contain:
             | message    | "Forbidden" |
