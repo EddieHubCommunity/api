@@ -1,3 +1,12 @@
+## [0.11.6](https://github.com/EddieHubCommunity/api/compare/v0.11.5...v0.11.6) (2022-04-18)
+
+
+### Bug Fixes
+
+* date tests ([#267](https://github.com/EddieHubCommunity/api/issues/267)) ([87657be](https://github.com/EddieHubCommunity/api/commit/87657be71321630e7d8a66718b88b0e85a5e2858))
+
+
+
 ## [0.11.5](https://github.com/EddieHubCommunity/api/compare/v0.11.4...v0.11.5) (2021-10-12)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * use discord uid ([#201](https://github.com/EddieHubCommunity/api/issues/201)) ([8ab30c0](https://github.com/EddieHubCommunity/api/commit/8ab30c0d221fda565b3cf8b137f57ecf1bbde8c5))
-
-
-
-## [0.11.1](https://github.com/EddieHubCommunity/api/compare/v0.11.0...v0.11.1) (2021-08-21)
-
-
-### Bug Fixes
-
-* adjust docker-action ([#189](https://github.com/EddieHubCommunity/api/issues/189)) ([95896e4](https://github.com/EddieHubCommunity/api/commit/95896e4a631eaefa6ed3bac854262650240fffc1))
 
 
 
