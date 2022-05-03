@@ -130,7 +130,7 @@ export class GithubProfileService {
     if (!github) {
       throw new HttpException(
         `Github-Profile with ID ${data.githubUsername} not found`,
-        HttpStatus.OK,
+        HttpStatus.NOT_FOUND,
       );
     }
     return await this.githubModel.findByIdAndUpdate(
@@ -192,5 +192,10 @@ export class GithubProfileService {
       );
     }
     return mappedValue;
+  }
+
+  public async getUserFromDatabase(username: string) {
+    const github = await this.githubModel.findById(username);
+    return github;
   }
 }

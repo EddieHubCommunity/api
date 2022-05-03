@@ -15,6 +15,8 @@ import {
   GithubEventSchema,
 } from './schema/github-event.schema';
 import { GithubEventService } from './github-event.service';
+import { APP_GUARD } from '@nestjs/core';
+import { ThrottlerGuard } from '@nestjs/throttler';
 
 @Module({
   imports: [
@@ -31,6 +33,10 @@ import { GithubEventService } from './github-event.service';
     GithubEventService,
     GeocodingService,
     TokenStrategy,
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
   ],
 })
 export class GithubModule {}

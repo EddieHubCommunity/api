@@ -8,6 +8,8 @@ import {
   GithubProfileModel,
   GithubProfileSchema,
 } from '../github/schema/github-profile.schema';
+import { APP_GUARD } from '@nestjs/core';
+import { ThrottlerGuard } from '@nestjs/throttler';
 
 @Module({
   imports: [
@@ -17,6 +19,13 @@ import {
     ]),
   ],
   controllers: [UserController],
-  providers: [UserService, TokenStrategy],
+  providers: [
+    UserService,
+    TokenStrategy,
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
+  ],
 })
 export class UserModule {}

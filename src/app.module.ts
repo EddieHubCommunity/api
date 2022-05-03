@@ -7,9 +7,15 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { MongooseConfigService } from './environment/mongo-config.service';
 import { UserModule } from './user/user.module';
 import { GithubModule } from './github/github.module';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
+    ThrottlerModule.forRoot({
+      ttl: 60,
+      limit: 60,
+    }),
     MongooseModule.forRootAsync({
       useClass: MongooseConfigService,
     }),
@@ -20,7 +26,13 @@ import { GithubModule } from './github/github.module';
     GithubModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
+  ],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
