@@ -130,7 +130,7 @@ export class GithubProfileService {
     if (!github) {
       throw new HttpException(
         `Github-Profile with ID ${data.githubUsername} not found`,
-        HttpStatus.OK,
+        HttpStatus.NOT_FOUND,
       );
     }
     return await this.githubModel.findByIdAndUpdate(
