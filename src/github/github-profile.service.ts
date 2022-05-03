@@ -10,7 +10,6 @@ import { GithubProfileModel } from './schema/github-profile.schema';
 import { UserModel } from '../user/schema/user.schema';
 import { CreateEventDTO } from './dto/create-events.dto';
 import { eventMap } from './data/event-map';
-import { GithubEventService } from './github-event.service';
 import { ConfigService } from '@nestjs/config';
 import { AxiosRequestConfig } from 'axios';
 @Injectable()
