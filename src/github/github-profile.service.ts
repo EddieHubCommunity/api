@@ -193,4 +193,9 @@ export class GithubProfileService {
     }
     return mappedValue;
   }
+
+  public async getUserFromDatabase(username: string) {
+    const github = await this.githubModel.findById(username);
+    return github;
+  }
 }

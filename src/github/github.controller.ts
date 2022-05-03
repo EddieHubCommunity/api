@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   HttpCode,
+  HttpException,
   Param,
   Post,
   Put,
@@ -40,7 +41,13 @@ export class GithubController {
   @UseGuards(TokenGuard)
   @ApiSecurity('token')
   async createEvents(@Body() body: CreateEventDTO) {
-    await this.eventService.create(body.githubUsername, body.event);
+    const existingProfile = await this.githubService.getUserFromDatabase(
+      body.githubUsername,
+    );
+
+    if (existingProfile) {
+      await this.eventService.create(body.githubUsername, body.event);
+    }
     return this.githubService.bumpEvent(body);
   }
 
