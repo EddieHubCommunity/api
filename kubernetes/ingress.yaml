@@ -16,3 +16,13 @@ spec:
             name: eddiehub-api-service
             port:
               number: 3000
+  - host: "api.eddiehub.io"
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: eddiehub-api-service
+            port:
+              number: 3000
