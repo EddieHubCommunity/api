@@ -1,3 +1,19 @@
+# [0.12.0](https://github.com/EddieHubCommunity/api/compare/v0.11.5...v0.12.0) (2022-05-30)
+
+
+### Bug Fixes
+
+* date tests ([#267](https://github.com/EddieHubCommunity/api/issues/267)) ([87657be](https://github.com/EddieHubCommunity/api/commit/87657be71321630e7d8a66718b88b0e85a5e2858))
+* remove docs for stargate ([ea3858d](https://github.com/EddieHubCommunity/api/commit/ea3858d601815dff9fc294accd50cd5e46e6f22f))
+
+
+### Features
+
+* io domain has ssl support ([c261c1f](https://github.com/EddieHubCommunity/api/commit/c261c1fe3a352dfe06c12d2c7cff698ae9a04ec4))
+* mongo migration ([#231](https://github.com/EddieHubCommunity/api/issues/231)) ([eed2bd7](https://github.com/EddieHubCommunity/api/commit/eed2bd73ab3736c4806f8173f7d42efc06f2a75f)), closes [#226](https://github.com/EddieHubCommunity/api/issues/226) [#230](https://github.com/EddieHubCommunity/api/issues/230) [#232](https://github.com/EddieHubCommunity/api/issues/232) [#244](https://github.com/EddieHubCommunity/api/issues/244) [#252](https://github.com/EddieHubCommunity/api/issues/252) [#253](https://github.com/EddieHubCommunity/api/issues/253) [#258](https://github.com/EddieHubCommunity/api/issues/258) [#262](https://github.com/EddieHubCommunity/api/issues/262) [#264](https://github.com/EddieHubCommunity/api/issues/264) [#268](https://github.com/EddieHubCommunity/api/issues/268) [#269](https://github.com/EddieHubCommunity/api/issues/269)
+
+
+
 ## [0.11.5](https://github.com/EddieHubCommunity/api/compare/v0.11.4...v0.11.5) (2021-10-12)
 
 
@@ -31,15 +47,6 @@
 ### Bug Fixes
 
 * use discord uid ([#201](https://github.com/EddieHubCommunity/api/issues/201)) ([8ab30c0](https://github.com/EddieHubCommunity/api/commit/8ab30c0d221fda565b3cf8b137f57ecf1bbde8c5))
-
-
-
-## [0.11.1](https://github.com/EddieHubCommunity/api/compare/v0.11.0...v0.11.1) (2021-08-21)
-
-
-### Bug Fixes
-
-* adjust docker-action ([#189](https://github.com/EddieHubCommunity/api/issues/189)) ([95896e4](https://github.com/EddieHubCommunity/api/commit/95896e4a631eaefa6ed3bac854262650240fffc1))
 
 
 
