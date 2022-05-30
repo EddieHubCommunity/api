@@ -5,9 +5,8 @@
 [circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
 [circleci-url]: https://circleci.com/gh/nestjs/nest
 
-Stargate - sign up with GitHub login for [FREE on DataStax Stargate](http://links.eddiejaoude.io/t/CiEQRydj4GdT) and get a NoSQL DB up in minutes with approximately `30 million reads, 5 million writes, and 40GB of storage per month for free` (Docker container also available)
-
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/EddieHubCommunity/api)
+
 ## Description
 
 An API to manage our #EddieHub community data. Documentation https://eddiehubcommunity.github.io/api/
@@ -41,12 +40,6 @@ All that needs to be done, is logging in to their service with a valid GitHub ac
 $ npm install
 ```
 
-For connecting to Datastax Astra or a local stargate docker container the `nestjs-astra`-package is required. Its hosted in the Github-Package-Repository. For this reason you need to have an environment-variable called `GH_TOKEN`.
-```
-export GH_TOKEN=<Your token>
-```
-The Token can be generated in Github and needs the permission `package - read`. After this step you can run `npm install` as usual.
-
 When using gitpod, you can set environment-variables under the following link `https://gitpod.io/variables`. You can even scope the variable to a specific project.
 
 For connecting the API against the database you can use `docker-compose`
@@ -54,10 +47,6 @@ For connecting the API against the database you can use `docker-compose`
 # database
 $ docker-compose up
 ```
-
-*OR manually with docker `docker pull stargateio/stargate-3_11:v1.0.25`*
-
-**Note: if you do not have Docker locally, you can run it against your FREE cloud on AstraDB, by [signing up](http://links.eddiejaoude.io/t/CiEQRydj4GdT) for FREE! You will need to comment out the `stargate` environment variables in `.env` and add your Astra credentials**
 
 ```bash
 # development
