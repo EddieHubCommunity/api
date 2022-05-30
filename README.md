@@ -25,11 +25,22 @@ An API to manage our #EddieHub community data. Documentation https://eddiehubcom
 
 ## Installation
 
+### Gitpod
+
+Gitpod is a Service, which provides development environments in the cloud. In case no plan is purchased the reguar `Opensource License` allows to use the service for 50 hours per month for free. +
+
+All that needs to be done, is logging in to their service with a valid GitHub account.
+
+1. [OPTIONAL] Install the Browser Extension from Gitpod. https://chrome.google.com/webstore/detail/gitpod-always-ready-to-co/dodmmooeoklaejobgleioelladacbeki[Chrome] https://addons.mozilla.org/de/firefox/addon/gitpod/[Firefox]
+2. Just hit the Gitpod button in the `README` file. Everything will spin up automatically.
+3. When you're finished with your contribution just close the workspace
+
+## Running the app locally
+
 ```bash
 $ npm install
 ```
 
-## Running the app locally
 For connecting to Datastax Astra or a local stargate docker container the `nestjs-astra`-package is required. Its hosted in the Github-Package-Repository. For this reason you need to have an environment-variable called `GH_TOKEN`.
 ```
 export GH_TOKEN=<Your token>
@@ -58,6 +69,12 @@ $ npm run start:dev
 # production mode
 $ npm run start:prod
 ```
+
+### API-Token
+
+- The API-Token is a static token, which gets set in the environment-variables as `APPROVED_TOKENS`. 
+- This token is used to authenticate an 'admin-App' against the API. The API-Token is used to generate **Bearer-Tokens**. 
+- For generating more than one token they can be passed to the environment-variables as a comma-seperated list.
 
 ## Swagger docs
 

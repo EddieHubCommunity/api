@@ -3,9 +3,8 @@ let common = [
   '--require-module ts-node/register', // Load TypeScript module
   '--require test/step-definitions/**/*.ts', // Load step definitions
   '--format progress-bar', // Load custom formatter
-  '--format node_modules/cucumber-pretty', // Load custom formatter
+  '--format @cucumber/pretty-formatter',
+  '--publish-quiet'
 ].join(' ');
 
-module.exports = {
-  default: common,
-};
+module.exports = { default: common }     

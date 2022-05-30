@@ -1,6 +1,0 @@
-= Eddiehub API Documentation
-:toc: auto
-:source-highlighter: highlightjs
-:highlightjs-languages: typescript
-
-include::readme.adoc[]

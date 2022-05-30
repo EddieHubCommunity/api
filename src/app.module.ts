@@ -1,32 +1,38 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { DiscordModule } from './discord/discord.module';
-import { StandupModule } from './standup/standup.module';
-import { GithubModule } from './github/github.module';
 import { ConfigModule } from '@nestjs/config';
-import { AuthModule } from './auth/auth.module';
 import { LoggerMiddleware } from './logger/logger.middleware';
-import { CalendarModule } from './calendar/calendar.module';
-import { AstraModule } from '@cahllagerfeld/nestjs-astra';
-import { AstraConfigService } from './astra/astra-config.service';
+import { MongooseModule } from '@nestjs/mongoose';
+import { MongooseConfigService } from './environment/mongo-config.service';
+import { UserModule } from './user/user.module';
+import { GithubModule } from './github/github.module';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
-    AuthModule,
-    AstraModule.forRootAsync({
-      useClass: AstraConfigService,
+    ThrottlerModule.forRoot({
+      ttl: 60,
+      limit: 60,
     }),
-    DiscordModule,
-    StandupModule,
-    GithubModule,
+    MongooseModule.forRootAsync({
+      useClass: MongooseConfigService,
+    }),
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    CalendarModule,
+    UserModule,
+    GithubModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
+  ],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

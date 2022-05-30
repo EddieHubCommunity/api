@@ -5,68 +5,88 @@ import {
   Get,
   HttpCode,
   Param,
-  Patch,
   Post,
+  Put,
   UseGuards,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { Scopes } from '../auth/decorators/scopes.decorator';
-import { User } from '../auth/decorators/user.decorator';
-import { ScopesGuard } from '../auth/guards/scopes.guard';
-import {
-  ScopesDictionary,
-  TokenPayload,
-} from '../auth/interfaces/token-payload.interface';
-import { JWTGuard } from '../auth/jwt.strategy';
-import { GithubDTO } from './dto/github.dto';
-import { GithubService } from './github.service';
+import { ApiSecurity, ApiTags } from '@nestjs/swagger';
+import { TokenGuard } from '../auth/token.strategy';
+import { CreateGithubProfileDTO } from './dto/create-github.dto';
+import { CreateEventDTO } from './dto/create-events.dto';
+import { GithubEventService } from './github-event.service';
+import { GithubProfileService } from './github-profile.service';
+
 @ApiTags('Github')
 @Controller('github')
 export class GithubController {
-  constructor(private readonly githubService: GithubService) {}
+  constructor(
+    private readonly githubService: GithubProfileService,
+    private readonly eventService: GithubEventService,
+  ) {}
+
   @Post()
-  @UseGuards(JWTGuard, ScopesGuard)
-  @ApiBearerAuth()
-  @Scopes(ScopesDictionary.WRITE)
-  async create(@Body() body: GithubDTO, @User() user: TokenPayload) {
-    return await this.githubService.create(body, user.keyspace);
+  @UseGuards(TokenGuard)
+  @ApiSecurity('token')
+  createOne(@Body() body: CreateGithubProfileDTO) {
+    return this.githubService.create(body.githubUsername);
+  }
+
+  @Get('events')
+  async getAllEvents() {
+    return await this.eventService.getAll();
+  }
+
+  @Post('events')
+  @UseGuards(TokenGuard)
+  @ApiSecurity('token')
+  async createEvents(@Body() body: CreateEventDTO) {
+    const existingProfile = await this.githubService.getUserFromDatabase(
+      body.githubUsername,
+    );
+
+    if (existingProfile) {
+      await this.eventService.create(body.githubUsername, body.event);
+    }
+    return this.githubService.bumpEvent(body);
+  }
+
+  @Get('events/:id')
+  async getOneEvent(@Param('id') id: string) {
+    return await this.eventService.getOne(id);
   }
 
   @Get()
-  @UseGuards(JWTGuard, ScopesGuard)
-  @ApiBearerAuth()
-  @Scopes(ScopesDictionary.READ)
-  findAll(@User() user: TokenPayload) {
-    return this.githubService.findAll(user.keyspace);
+  findAll() {
+    return this.githubService.findAll();
+  }
+
+  @Get('EddieHubCommunity')
+  findEddiehub() {
+    return this.githubService.findEddiehub();
   }
 
   @Get(':id')
-  @UseGuards(JWTGuard, ScopesGuard)
-  @ApiBearerAuth()
-  @Scopes(ScopesDictionary.READ)
-  findOne(@Param('id') id: string, @User() user: TokenPayload) {
-    return this.githubService.findOne(id, user.keyspace);
-  }
-
-  @Patch(':id')
-  @UseGuards(JWTGuard, ScopesGuard)
-  @ApiBearerAuth()
-  @Scopes(ScopesDictionary.WRITE)
-  @HttpCode(200)
-  async update(
-    @Param('id') id: string,
-    @Body() body: GithubDTO,
-    @User() user: TokenPayload,
-  ) {
-    return await this.githubService.update(id, body, user.keyspace);
+  findOne(@Param('id') id: string) {
+    return this.githubService.findOne(id);
   }
 
   @Delete(':id')
-  @UseGuards(JWTGuard, ScopesGuard)
-  @ApiBearerAuth()
-  @Scopes(ScopesDictionary.WRITE)
+  @UseGuards(TokenGuard)
   @HttpCode(204)
-  remove(@Param('id') id: string, @User() user: TokenPayload) {
-    return this.githubService.remove(id, user.keyspace);
+  @ApiSecurity('token')
+  deleteOne(@Param('id') id: string) {
+    return this.githubService.deleteOne(id);
+  }
+
+  @Put(':id')
+  @UseGuards(TokenGuard)
+  @ApiSecurity('token')
+  updateOne(@Param('id') id: string) {
+    return this.githubService.updateOne(id);
+  }
+
+  @Get(':id/events')
+  async findEvents(@Param('id') id: string) {
+    return await this.eventService.getByUsername(id);
   }
 }

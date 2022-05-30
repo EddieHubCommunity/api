@@ -1,35 +1,13 @@
 import { ValidationPipe } from '@nestjs/common';
+import { getConnectionToken } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
-import { exec } from 'child_process';
-import { BeforeAll, setDefaultTimeout } from 'cucumber';
-import { before, binding, given, when } from 'cucumber-tsflow';
-import { sign } from 'jsonwebtoken';
+import { setDefaultTimeout } from '@cucumber/cucumber';
+import { after, before, binding, given, when } from 'cucumber-tsflow';
 import * as request from 'supertest';
 import { AppModule } from '../../src/app.module';
 import Context from '../support/world';
 
 setDefaultTimeout(60 * 1000);
-
-BeforeAll(async () => {
-  if (process.env.STARGATE_BASEURL) {
-    await new Promise((resolve) => {
-      exec('npm run stargate:keyspace:delete', (error, stdout, stderr) => {
-        if (error) {
-          console.warn(error);
-        }
-        resolve(stdout ? stdout : stderr);
-      });
-    });
-    await new Promise((resolve) => {
-      exec('npm run stargate:keyspace:create', (error, stdout, stderr) => {
-        if (error) {
-          console.warn(error);
-        }
-        resolve(stdout ? stdout : stderr);
-      });
-    });
-  }
-});
 
 @binding([Context])
 export class requests {
@@ -39,10 +17,12 @@ export class requests {
     if (/{id}/.test(url)) {
       url = url.replace(/{id}/, this.context.documentId);
     }
-    if (/{bearer}/.test(url)) {
-      url = url.replace(/{bearer}/, this.context.bearerToken);
-    }
     return url;
+  }
+
+  @after()
+  public async after(): Promise<void> {
+    await this.context.connection.close();
   }
 
   @before()
@@ -54,6 +34,8 @@ export class requests {
     this.context.app = moduleFixture.createNestApplication();
     this.context.app.useGlobalPipes(new ValidationPipe({ transform: true }));
     await this.context.app.init();
+    this.context.connection = await this.context.app.get(getConnectionToken());
+    await this.context.connection.dropDatabase();
   }
 
   @when(/restart app/)
@@ -67,37 +49,45 @@ export class requests {
     await this.context.app.init();
   }
 
-  @given(/authorization with "([^"]*)" permission/)
-  public async generateReadToken(scope: string) {
-    let scopes = [];
-    switch (scope) {
-      case 'writing':
-        scopes = ['Data.Write'];
-        break;
-      case 'reading':
-        scopes = ['Data.Read'];
-        break;
-    }
-    const token = sign(
-      { scopes, keyspace: 'eddiehub' },
-      process.env.JWT_SECRET,
-    );
-    this.context.bearerToken = token;
-  }
-
-  @given(/^authorisation$/)
-  public async authorisation() {
+  @given(/^authorization$/)
+  public async authorization() {
     this.context.token = 'abc';
   }
 
-  @given(/^invalid authorisation$/)
-  public async invalidAuthorisation() {
+  @given(/^invalid authorization$/)
+  public async invalidAuthorization() {
     this.context.token = 'xxx';
   }
 
-  @when(/add bearer token to the header/)
-  public async addBearerToken() {
-    this.context.bearerToken = this.context.response.body.accessToken;
+  @when(/remove authorization/)
+  public removeAuth() {
+    this.context.token = null;
+  }
+
+  @when(/I create a github profile/)
+  public async createGithubProfile() {
+    const body = {
+      githubUsername: 'hubber',
+    };
+    const post = request(this.context.app.getHttpServer()).post('/github');
+    if (this.context.token) {
+      post.set('Client-Token', this.context.token);
+    }
+    return await post.send(body);
+  }
+
+  @when(/I create a new user/)
+  public async createUser() {
+    const body = {
+      discordUsername: 'hubber',
+      bio: 'My Name is Hubber',
+      avatar: 'https://github.com/EddieHubCommunity.png',
+    };
+    const post = request(this.context.app.getHttpServer()).post('/users');
+    if (this.context.token) {
+      post.set('Client-Token', this.context.token);
+    }
+    await post.send(body);
   }
 
   @given(/make a GET request to "([^"]*)"/)
@@ -105,10 +95,6 @@ export class requests {
     url = this.prepareURL(url);
 
     const get = request(this.context.app.getHttpServer()).get(url);
-
-    if (this.context.bearerToken) {
-      get.set('Authorization', `Bearer ${this.context.bearerToken}`);
-    }
 
     if (this.context.token) {
       get.set('Client-Token', this.context.token);
@@ -122,25 +108,12 @@ export class requests {
 
     const post = request(this.context.app.getHttpServer()).post(url);
     const body = this.context.tableToObject(table);
-    Object.keys(body).forEach((key) => {
-      if (/{BEARER}/.test(body[key])) {
-        body[key] = this.context.bearerToken;
-      }
-    });
 
     if (this.context.token) {
       post.set('Client-Token', this.context.token);
     }
 
-    if (this.context.bearerToken) {
-      post.set('Authorization', `Bearer ${this.context.bearerToken}`);
-    }
     this.context.response = await post.send(body);
-  }
-
-  @when(/clear the bearer token/)
-  public clearBearer() {
-    this.context.bearerToken = null;
   }
 
   @when(/set header "([^"]*)" with value "([^"]*)"/)
@@ -150,8 +123,8 @@ export class requests {
     this.context.headers = { ...this.context.headers, ...headerObject };
   }
 
-  @when(/make a Patch request to "([^"]*)" with:/)
-  public async putRequest(url: string, table: { rawTable: [] }) {
+  @when(/make a PATCH request to "([^"]*)" with:/)
+  public async patchRequest(url: string, table: { rawTable: [] }) {
     url = this.prepareURL(url);
     const putReq = request(this.context.app.getHttpServer()).patch(url);
 
@@ -160,10 +133,6 @@ export class requests {
     }
     if (this.context.headers) {
       putReq.set(this.context.headers);
-    }
-
-    if (this.context.bearerToken) {
-      putReq.set('Authorization', `Bearer ${this.context.bearerToken}`);
     }
 
     this.context.response = await putReq.send(
@@ -184,10 +153,24 @@ export class requests {
       deleteReq.set(this.context.headers);
     }
 
-    if (this.context.bearerToken) {
-      deleteReq.set('Authorization', `Bearer ${this.context.bearerToken}`);
+    this.context.response = await deleteReq.send();
+  }
+
+  @when(/make a PUT request to "([^"]*)" with:/)
+  public async putRequestWithBody(url: string, table: { rawTable: [] }) {
+    url = this.prepareURL(url);
+    const putReq = request(this.context.app.getHttpServer()).put(url);
+
+    if (this.context.token) {
+      putReq.set('Client-Token', this.context.token);
     }
 
-    this.context.response = await deleteReq.send();
+    if (this.context.headers) {
+      putReq.set(this.context.headers);
+    }
+
+    this.context.response = await putReq.send(
+      this.context.tableToObject(table),
+    );
   }
 }

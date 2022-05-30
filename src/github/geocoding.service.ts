@@ -1,7 +1,7 @@
 import { HttpService } from '@nestjs/axios';
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { AxiosResponse } from 'axios';
-import { GithubLocation } from './interfaces/github.interface';
+import { GithubLocation } from './interfaces/github-profile.interfaces';
 
 interface Address {
   tourism: string;
@@ -51,10 +51,11 @@ export class GeocodingService {
       };
       return locationObject;
     } catch {
-      throw new HttpException(
-        'Please provide a valid Location',
-        HttpStatus.BAD_REQUEST,
-      );
+      return {
+        provided: location,
+        lat: 0,
+        long: 0,
+      };
     }
   }
 }

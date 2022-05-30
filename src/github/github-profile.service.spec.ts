@@ -1,25 +1,24 @@
+import { HttpModule } from '@nestjs/axios';
 import { ConfigModule } from '@nestjs/config';
 import { getConnectionToken, MongooseModule } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
-import { MongooseConfigService } from '../environment/mongo-config.service';
-import { GithubController } from './github.controller';
 import { Connection } from 'mongoose';
+import { UserModel, UserSchema } from '../user/schema/user.schema';
+import { MongooseConfigService } from '../environment/mongo-config.service';
+import { GeocodingService } from './geocoding.service';
+import { GithubProfileService } from './github-profile.service';
 import {
   GithubProfileModel,
   GithubProfileSchema,
 } from './schema/github-profile.schema';
-import { HttpModule } from '@nestjs/axios';
-import { UserModel, UserSchema } from '../user/schema/user.schema';
-import { GithubProfileService } from './github-profile.service';
-import { GeocodingService } from './geocoding.service';
-import { GithubEventService } from './github-event.service';
 import {
   GithubEventModel,
   GithubEventSchema,
 } from './schema/github-event.schema';
+import { GithubEventService } from './github-event.service';
 
-describe('GithubProfileController', () => {
-  let controller: GithubController;
+describe('GithubProfileService', () => {
+  let service: GithubProfileService;
   let connection: Connection;
 
   afterEach(async () => {
@@ -29,10 +28,10 @@ describe('GithubProfileController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
-        HttpModule,
         MongooseModule.forRootAsync({
           useClass: MongooseConfigService,
         }),
+        HttpModule,
         MongooseModule.forFeature([
           { name: UserModel.name, schema: UserSchema },
           { name: GithubEventModel.name, schema: GithubEventSchema },
@@ -42,15 +41,14 @@ describe('GithubProfileController', () => {
           isGlobal: true,
         }),
       ],
-      controllers: [GithubController],
       providers: [GithubProfileService, GithubEventService, GeocodingService],
     }).compile();
 
-    controller = module.get<GithubController>(GithubController);
+    service = module.get<GithubProfileService>(GithubProfileService);
     connection = await module.get(getConnectionToken());
   });
 
   it('should be defined', () => {
-    expect(controller).toBeDefined();
+    expect(service).toBeDefined();
   });
 });
