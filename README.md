@@ -32,7 +32,7 @@ All that needs to be done, is logging in to their service with a valid GitHub ac
 
 1. [OPTIONAL] Install the Browser Extension from Gitpod. https://chrome.google.com/webstore/detail/gitpod-always-ready-to-co/dodmmooeoklaejobgleioelladacbeki[Chrome] https://addons.mozilla.org/de/firefox/addon/gitpod/[Firefox]
 2. Just hit the Gitpod button in the `README` file. Everything will spin up automatically.
-3. When you're finished with your contribution just close the workspace
+3. When you're finished with your contribution just close the workspace.
 
 ## Running the app locally
 
