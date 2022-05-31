@@ -1,3 +1,12 @@
+## [0.12.1](https://github.com/EddieHubCommunity/api/compare/v0.12.0...v0.12.1) (2022-05-31)
+
+
+### Bug Fixes
+
+* mongo crt mount ([2dcd5ea](https://github.com/EddieHubCommunity/api/commit/2dcd5eada27ce94489c1b00f3b1f59d39bf32124))
+
+
+
 # [0.12.0](https://github.com/EddieHubCommunity/api/compare/v0.11.5...v0.12.0) (2022-05-30)
 
 
@@ -38,15 +47,6 @@
 ### Bug Fixes
 
 * typo ([#204](https://github.com/EddieHubCommunity/api/issues/204)) ([3457f90](https://github.com/EddieHubCommunity/api/commit/3457f901bfea9b534e7b67bbd766c85a66463dcb))
-
-
-
-## [0.11.2](https://github.com/EddieHubCommunity/api/compare/v0.11.1...v0.11.2) (2021-10-08)
-
-
-### Bug Fixes
-
-* use discord uid ([#201](https://github.com/EddieHubCommunity/api/issues/201)) ([8ab30c0](https://github.com/EddieHubCommunity/api/commit/8ab30c0d221fda565b3cf8b137f57ecf1bbde8c5))
 
 
 
