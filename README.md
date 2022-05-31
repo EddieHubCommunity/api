@@ -96,7 +96,7 @@ When set to `true` the App will Log every incoming request.
 
 Authentication is handled via an environment-variable called `APPROVED_TOKENS`.
 The approved tokens which are validated by the API are put there.
-In case there should be multiple tokens, for multiple clients, they need to be **comma-seperated**.
+In case there should be multiple tokens, for multiple clients, they need to be **comma-separated**.
 
 To use Authentication the token needs to be passed in the `token`-header of the client-request.
 
