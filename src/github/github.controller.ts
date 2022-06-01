@@ -45,7 +45,10 @@ export class GithubController {
     );
 
     if (existingProfile) {
-      await this.eventService.create(body.githubUsername, body.event);
+      await this.eventService.create(
+        body.githubUsername,
+        this.githubService.mapEvent(body.event),
+      );
     }
     return this.githubService.bumpEvent(body);
   }

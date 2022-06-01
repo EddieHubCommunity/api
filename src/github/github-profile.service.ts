@@ -180,7 +180,7 @@ export class GithubProfileService {
       );
   }
 
-  private mapEvent(githubEvent: string): string {
+  public mapEvent(githubEvent: string): string {
     let mappedValue: string;
     try {
       mappedValue = eventMap[githubEvent];
