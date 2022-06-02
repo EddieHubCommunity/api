@@ -9,7 +9,7 @@ import { GithubProfileResponse } from './interfaces/github-profile.interfaces';
 import { GithubProfileModel } from './schema/github-profile.schema';
 import { UserModel } from '../user/schema/user.schema';
 import { CreateEventDTO } from './dto/create-events.dto';
-import { eventMap } from './data/event-map';
+import { mapEvent } from './data/event-map';
 import { ConfigService } from '@nestjs/config';
 import { AxiosRequestConfig } from 'axios';
 @Injectable()
@@ -136,7 +136,7 @@ export class GithubProfileService {
       data.githubUsername,
       {
         $inc: {
-          [`events.${this.mapEvent(data.event)}`]: 1,
+          [`events.${mapEvent(data.event)}`]: 1,
         },
       },
       { new: true },
@@ -148,7 +148,7 @@ export class GithubProfileService {
       { _id: 'EddieHubCommunity' },
       {
         $inc: {
-          [`events.${this.mapEvent(event)}`]: 1,
+          [`events.${mapEvent(event)}`]: 1,
         },
       },
       { new: true, upsert: true },
@@ -178,19 +178,6 @@ export class GithubProfileService {
           };
         }),
       );
-  }
-
-  private mapEvent(githubEvent: string): string {
-    let mappedValue: string;
-    try {
-      mappedValue = eventMap[githubEvent];
-    } catch {
-      throw new HttpException(
-        'Please Provide valid Githubevent',
-        HttpStatus.BAD_REQUEST,
-      );
-    }
-    return mappedValue;
   }
 
   public async getUserFromDatabase(username: string) {

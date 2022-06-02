@@ -15,6 +15,7 @@ import { CreateGithubProfileDTO } from './dto/create-github.dto';
 import { CreateEventDTO } from './dto/create-events.dto';
 import { GithubEventService } from './github-event.service';
 import { GithubProfileService } from './github-profile.service';
+import { mapEvent } from './data/event-map';
 
 @ApiTags('Github')
 @Controller('github')
@@ -45,7 +46,7 @@ export class GithubController {
     );
 
     if (existingProfile) {
-      await this.eventService.create(body.githubUsername, body.event);
+      await this.eventService.create(body.githubUsername, mapEvent(body.event));
     }
     return this.githubService.bumpEvent(body);
   }

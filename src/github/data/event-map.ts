@@ -1,3 +1,5 @@
+import { HttpException, HttpStatus } from '@nestjs/common';
+
 export const eventMap = {
   workflow_dispatch: 'workflowDispatch',
   repository_dispatch: 'repositoryDispatch',
@@ -29,3 +31,16 @@ export const eventMap = {
   watch: 'watch',
   workflow_run: 'workflowRun',
 };
+
+export function mapEvent(githubEvent: string): string {
+  let mappedValue: string;
+  try {
+    mappedValue = eventMap[githubEvent];
+  } catch {
+    throw new HttpException(
+      'Please Provide valid Githubevent',
+      HttpStatus.BAD_REQUEST,
+    );
+  }
+  return mappedValue;
+}
