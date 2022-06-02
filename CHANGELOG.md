@@ -1,3 +1,12 @@
+## [0.12.2](https://github.com/EddieHubCommunity/api/compare/v0.12.1...v0.12.2) (2022-06-02)
+
+
+### Bug Fixes
+
+* mapping for all events ([#272](https://github.com/EddieHubCommunity/api/issues/272)) ([5c0f9ce](https://github.com/EddieHubCommunity/api/commit/5c0f9cecdb913287a9332c871db35bc6c027b003))
+
+
+
 ## [0.12.1](https://github.com/EddieHubCommunity/api/compare/v0.12.0...v0.12.1) (2022-05-31)
 
 
@@ -38,15 +47,6 @@
 ### Bug Fixes
 
 * optimise gitpod ([#192](https://github.com/EddieHubCommunity/api/issues/192)) ([709f658](https://github.com/EddieHubCommunity/api/commit/709f658e2759552319e7d1fd9bae2c53fe9f1058))
-
-
-
-## [0.11.3](https://github.com/EddieHubCommunity/api/compare/v0.11.2...v0.11.3) (2021-10-08)
-
-
-### Bug Fixes
-
-* typo ([#204](https://github.com/EddieHubCommunity/api/issues/204)) ([3457f90](https://github.com/EddieHubCommunity/api/commit/3457f901bfea9b534e7b67bbd766c85a66463dcb))
 
 
 
