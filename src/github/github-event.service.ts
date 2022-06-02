@@ -29,4 +29,8 @@ export class GithubEventService {
   public async getByUsername(githubUsername: string) {
     return await this.eventModel.find({ githubUsername });
   }
+
+  public async deleteByUsername(githubUsername: string) {
+    return await this.eventModel.deleteMany({ githubUsername });
+  }
 }
