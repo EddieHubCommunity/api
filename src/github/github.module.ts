@@ -38,5 +38,6 @@ import { ThrottlerGuard } from '@nestjs/throttler';
       useClass: ThrottlerGuard,
     },
   ],
+  exports: [GithubProfileService, GeocodingService, GithubEventService],
 })
 export class GithubModule {}
