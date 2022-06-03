@@ -9,7 +9,7 @@
 
 ## Description
 
-An API to manage our #EddieHub community data. Documentation https://eddiehubcommunity.github.io/api/
+An API to manage our #EddieHub community data.<br>Documentation https://eddiehubcommunity.github.io/api/
 
 ## Rules
 
@@ -26,7 +26,7 @@ An API to manage our #EddieHub community data. Documentation https://eddiehubcom
 
 ### Gitpod
 
-Gitpod is a Service, which provides development environments in the cloud. In case no plan is purchased the reguar `Opensource License` allows to use the service for 50 hours per month for free. +
+Gitpod is a Service, which provides development environments in the cloud. In case no plan is purchased the reguar `Opensource License` allows to use the service for 50 hours per month for free.
 
 All that needs to be done, is logging in to their service with a valid GitHub account.
 
