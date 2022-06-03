@@ -1,3 +1,12 @@
+# [0.13.0](https://github.com/EddieHubCommunity/api/compare/v0.12.2...v0.13.0) (2022-06-03)
+
+
+### Features
+
+* remove events if user deletes ([#277](https://github.com/EddieHubCommunity/api/issues/277)) ([ac900fe](https://github.com/EddieHubCommunity/api/commit/ac900fe332a23dc9a683ca49b015d8434f2529bf))
+
+
+
 ## [0.12.2](https://github.com/EddieHubCommunity/api/compare/v0.12.1...v0.12.2) (2022-06-02)
 
 
@@ -38,15 +47,6 @@
 ### Bug Fixes
 
 * put to patch ([#208](https://github.com/EddieHubCommunity/api/issues/208)) ([65656cf](https://github.com/EddieHubCommunity/api/commit/65656cfaae436df6576a456a4b7ef397bb674853))
-
-
-
-## [0.11.4](https://github.com/EddieHubCommunity/api/compare/v0.11.3...v0.11.4) (2021-10-12)
-
-
-### Bug Fixes
-
-* optimise gitpod ([#192](https://github.com/EddieHubCommunity/api/issues/192)) ([709f658](https://github.com/EddieHubCommunity/api/commit/709f658e2759552319e7d1fd9bae2c53fe9f1058))
 
 
 
