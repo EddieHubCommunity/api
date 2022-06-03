@@ -75,8 +75,9 @@ export class GithubController {
   @UseGuards(TokenGuard)
   @HttpCode(204)
   @ApiSecurity('token')
-  deleteOne(@Param('id') id: string) {
-    return this.githubService.deleteOne(id);
+  async deleteOne(@Param('id') id: string) {
+    await this.githubService.deleteOne(id);
+    return this.eventService.deleteByUsername(id);
   }
 
   @Put(':id')
