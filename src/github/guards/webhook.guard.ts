@@ -1,6 +1,11 @@
-import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
+import {
+  Injectable,
+  CanActivate,
+  ExecutionContext,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { Observable } from 'rxjs';
-import crypto from 'crypto';
+import * as crypto from 'crypto';
 
 @Injectable()
 export class GithubWebhookGuard implements CanActivate {
@@ -19,7 +24,7 @@ export class GithubWebhookGuard implements CanActivate {
       'utf8',
     );
     if (sig.length !== digest.length || !crypto.timingSafeEqual(digest, sig)) {
-      return false;
+      throw new UnauthorizedException();
     }
     return true;
   }
