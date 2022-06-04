@@ -49,7 +49,7 @@ export class GithubController {
     if (existingProfile) {
       createdObject = await this.eventService.create(
         body.githubUsername,
-        body.event,
+        mapEvent(body.event),
         true,
       );
     }
