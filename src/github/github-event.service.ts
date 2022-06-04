@@ -40,10 +40,6 @@ export class GithubEventService {
     return await newEvent.save();
   }
 
-  public async getAllPopulated() {
-    return await this.eventModel.find().populate('githubUsername', '-__v');
-  }
-
   public async getAll() {
     return await this.eventModel.find();
   }
