@@ -53,7 +53,6 @@ export class GithubController {
         true,
       );
     }
-    console.log(createdObject);
     if (createdObject) {
       this.eventService.emitEvent(createdObject);
     }
