@@ -17,6 +17,7 @@ import {
 import { GithubEventService } from './github-event.service';
 import { APP_GUARD } from '@nestjs/core';
 import { ThrottlerGuard } from '@nestjs/throttler';
+import { EventGateway } from './event.gateway';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { ThrottlerGuard } from '@nestjs/throttler';
     GithubProfileService,
     GithubEventService,
     GeocodingService,
+    EventGateway,
     TokenStrategy,
     {
       provide: APP_GUARD,

@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { Subject } from 'rxjs';
 import { GithubEventModel } from './schema/github-event.schema';
 
 @Injectable()
@@ -9,6 +10,17 @@ export class GithubEventService {
     @InjectModel(GithubEventModel.name)
     private readonly eventModel: Model<GithubEventModel>,
   ) {}
+
+  /**
+   * An RXJS Subject that may act as a bridge, e.g. between Controller(s) and Gateway(s)
+   */
+  private readonly eventSubject = new Subject();
+
+  public readonly eventObservable = this.eventSubject.asObservable();
+
+  public emitEvent(event): void {
+    this.eventSubject.next(event);
+  }
 
   public async create(githubUsername: string, event: string) {
     const newEvent = new this.eventModel({

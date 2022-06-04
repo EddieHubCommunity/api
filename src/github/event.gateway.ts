@@ -1,8 +1,5 @@
-import {
-  WebSocketGateway,
-  SubscribeMessage,
-  MessageBody,
-} from '@nestjs/websockets';
+import { SubscribeMessage, WebSocketGateway } from '@nestjs/websockets';
+import { map } from 'rxjs/operators';
 import { GithubEventService } from './github-event.service';
 
 @WebSocketGateway({
@@ -13,16 +10,12 @@ import { GithubEventService } from './github-event.service';
 export class EventGateway {
   constructor(private readonly eventService: GithubEventService) {}
 
-  @SubscribeMessage('createMap')
-  create(@MessageBody() createMapDto) {
-    console.log(createMapDto);
-    return '';
-  }
-
-  @SubscribeMessage('findAllMap')
-  async findAll() {
-    const response = await this.eventService.getAllPopulated();
-    console.log(response);
-    return response;
+  @SubscribeMessage('event')
+  findAll() {
+    return this.eventService.eventObservable.pipe(
+      map((event) => {
+        return { event: 'events', data: event };
+      }),
+    );
   }
 }

@@ -45,10 +45,17 @@ export class GithubController {
       body.githubUsername,
     );
 
+    let createdObject = null;
     if (existingProfile) {
-      await this.eventService.create(body.githubUsername, mapEvent(body.event));
+      createdObject = await this.eventService.create(
+        body.githubUsername,
+        body.event,
+      );
     }
-    return this.githubService.bumpEvent(body);
+    if (createdObject) {
+      this.eventService.emitEvent(createdObject);
+    }
+    return await this.githubService.bumpEvent(body);
   }
 
   @Get('events/:id')
