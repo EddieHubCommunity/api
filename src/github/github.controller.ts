@@ -16,6 +16,7 @@ import { CreateEventDTO } from './dto/create-events.dto';
 import { GithubEventService } from './github-event.service';
 import { GithubProfileService } from './github-profile.service';
 import { mapEvent } from './data/event-map';
+import { GithubWebhookGuard } from './guards/webhook.guard';
 
 @ApiTags('Github')
 @Controller('github')
@@ -49,6 +50,13 @@ export class GithubController {
       await this.eventService.create(body.githubUsername, mapEvent(body.event));
     }
     return this.githubService.bumpEvent(body);
+  }
+
+  @Post('events/webhook')
+  @UseGuards(GithubWebhookGuard)
+  @ApiSecurity('github-webhook')
+  async createEventByWebhook() {
+    return 'dummy';
   }
 
   @Get('events/:id')
