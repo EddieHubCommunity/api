@@ -22,11 +22,21 @@ export class GithubEventService {
     this.eventSubject.next(event);
   }
 
-  public async create(githubUsername: string, event: string) {
+  public async create(
+    githubUsername: string,
+    event: string,
+    populate: boolean,
+  ) {
     const newEvent = new this.eventModel({
       githubUsername,
       event,
     });
+
+    if (populate) {
+      const createdEvent = await newEvent.save();
+      return await createdEvent.populate('githubUsername', '-__v');
+    }
+
     return await newEvent.save();
   }
 

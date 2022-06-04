@@ -50,8 +50,10 @@ export class GithubController {
       createdObject = await this.eventService.create(
         body.githubUsername,
         body.event,
+        true,
       );
     }
+    console.log(createdObject);
     if (createdObject) {
       this.eventService.emitEvent(createdObject);
     }
