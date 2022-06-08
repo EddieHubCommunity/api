@@ -6,6 +6,7 @@ import {
   HttpCode,
   Param,
   Post,
+  Headers,
   Put,
   UseGuards,
 } from '@nestjs/common';
@@ -55,8 +56,19 @@ export class GithubController {
   @Post('events/webhook')
   @UseGuards(GithubWebhookGuard)
   @ApiSecurity('github-webhook')
-  async createEventByWebhook() {
-    return 'dummy';
+  async createEventByWebhook(@Body() body, @Headers() headers) {
+    const eventName = headers['x-github-event'];
+    const existingProfile = await this.githubService.getUserFromDatabase(
+      body.sender.login,
+    );
+
+    if (existingProfile) {
+      await this.eventService.create(body.sender.login, mapEvent(eventName));
+    }
+    return await this.githubService.bumpEvent({
+      event: eventName,
+      githubUsername: body.sender.login,
+    });
   }
 
   @Get('events/:id')
