@@ -1,3 +1,12 @@
+## [0.16.8](https://github.com/EddieHubCommunity/api/compare/v0.16.7...v0.16.8) (2022-06-09)
+
+
+### Bug Fixes
+
+* debugging ([638169b](https://github.com/EddieHubCommunity/api/commit/638169b7a12bc94511ff9f27c9d65c049d5bd3db))
+
+
+
 ## [0.16.7](https://github.com/EddieHubCommunity/api/compare/v0.16.6...v0.16.7) (2022-06-09)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * websocket polling ([eef6ec9](https://github.com/EddieHubCommunity/api/commit/eef6ec9408b556e811ee4c94e64cbf30406f9da0))
-
-
-
-## [0.16.3](https://github.com/EddieHubCommunity/api/compare/v0.16.2...v0.16.3) (2022-06-09)
-
-
-### Bug Fixes
-
-* rolling update kube ([f8db5e6](https://github.com/EddieHubCommunity/api/commit/f8db5e64b60357a365d567d46355ad58e7b2e2fa))
 
 
 
