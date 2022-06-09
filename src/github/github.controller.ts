@@ -6,6 +6,7 @@ import {
   HttpCode,
   Param,
   Post,
+  Headers,
   Put,
   UseGuards,
 } from '@nestjs/common';
@@ -16,6 +17,7 @@ import { CreateEventDTO } from './dto/create-events.dto';
 import { GithubEventService } from './github-event.service';
 import { GithubProfileService } from './github-profile.service';
 import { mapEvent } from './data/event-map';
+import { GithubWebhookGuard } from './guards/webhook.guard';
 
 @ApiTags('Github')
 @Controller('github')
@@ -45,10 +47,44 @@ export class GithubController {
       body.githubUsername,
     );
 
+    let createdObject = null;
     if (existingProfile) {
-      await this.eventService.create(body.githubUsername, mapEvent(body.event));
+      createdObject = await this.eventService.create(
+        body.githubUsername,
+        mapEvent(body.event),
+        true,
+      );
     }
-    return this.githubService.bumpEvent(body);
+    if (createdObject) {
+      this.eventService.emitEvent(createdObject);
+    }
+    return await this.githubService.bumpEvent(body);
+  }
+
+  @Post('events/webhook')
+  @UseGuards(GithubWebhookGuard)
+  @ApiSecurity('github-webhook')
+  async createEventByWebhook(@Body() body, @Headers() headers) {
+    const eventName = headers['x-github-event'];
+    const existingProfile = await this.githubService.getUserFromDatabase(
+      body.sender.login,
+    );
+
+    let createdObject = null;
+    if (existingProfile) {
+      createdObject = await this.eventService.create(
+        body.sender.login,
+        mapEvent(eventName),
+        true,
+      );
+    }
+    if (createdObject) {
+      this.eventService.emitEvent(createdObject);
+    }
+    return await this.githubService.bumpEvent({
+      event: eventName,
+      githubUsername: body.sender.login,
+    });
   }
 
   @Get('events/:id')
