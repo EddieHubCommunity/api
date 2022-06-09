@@ -11,14 +11,14 @@ spec:
     rollingUpdate:
       maxSurge: 100%
       maxUnavailable: 50%
-  # readinessProbe:
-  #   periodSeconds: 15
-  #   timeoutSeconds: 2
-  #   successThreshold: 2
-  #   failureThreshold: 2
-  #   httpGet:
-  #     path: /
-  #     port: 80
+  readinessProbe:
+    periodSeconds: 15
+    timeoutSeconds: 2
+    successThreshold: 2
+    failureThreshold: 2
+    httpGet:
+      path: /
+      port: 80
   selector:
     matchLabels:
       app: eddiehub-api
