@@ -1,3 +1,12 @@
+## [0.16.5](https://github.com/EddieHubCommunity/api/compare/v0.16.4...v0.16.5) (2022-06-09)
+
+
+### Bug Fixes
+
+* event map handling ([#282](https://github.com/EddieHubCommunity/api/issues/282)) ([8d25761](https://github.com/EddieHubCommunity/api/commit/8d257618640b3c6f664728bb4a3e77f7331ffb58))
+
+
+
 ## [0.16.4](https://github.com/EddieHubCommunity/api/compare/v0.16.3...v0.16.4) (2022-06-09)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * transport to websockets ([439fcb2](https://github.com/EddieHubCommunity/api/commit/439fcb244f5fed2e392510fbb6bb3f2a4e7eac8a))
-
-
-
-# [0.16.0](https://github.com/EddieHubCommunity/api/compare/v0.15.1...v0.16.0) (2022-06-09)
-
-
-### Features
-
-* increase scaling ([568a5ef](https://github.com/EddieHubCommunity/api/commit/568a5effc76000bf085aa2cef34ba266ffd4ed85))
 
 
 
