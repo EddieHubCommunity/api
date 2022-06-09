@@ -1,3 +1,12 @@
+## [0.16.7](https://github.com/EddieHubCommunity/api/compare/v0.16.6...v0.16.7) (2022-06-09)
+
+
+### Bug Fixes
+
+* readinessProbe ([51670e0](https://github.com/EddieHubCommunity/api/commit/51670e072fd6f5596744af53d9588d3717e53713))
+
+
+
 ## [0.16.6](https://github.com/EddieHubCommunity/api/compare/v0.16.5...v0.16.6) (2022-06-09)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * rolling update kube ([f8db5e6](https://github.com/EddieHubCommunity/api/commit/f8db5e64b60357a365d567d46355ad58e7b2e2fa))
-
-
-
-## [0.16.2](https://github.com/EddieHubCommunity/api/compare/v0.16.1...v0.16.2) (2022-06-09)
-
-
-### Bug Fixes
-
-* deploy strategy ([3202b51](https://github.com/EddieHubCommunity/api/commit/3202b512711f6f1d4f41ba9f7997a1eb0a71ab0e))
 
 
 
