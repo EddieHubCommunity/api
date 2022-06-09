@@ -15,12 +15,12 @@ import { GithubEventService } from './github-event.service';
 export class EventGateway {
   constructor(private readonly eventService: GithubEventService) {}
 
-  @SubscribeMessage('event')
+  @SubscribeMessage('github-event')
   findAll(): Observable<WsResponse<any>> {
     return this.eventService.eventObservable.pipe(
       filter((event) => !!event),
       map((event) => {
-        return { event: 'events', data: event };
+        return { event: 'events/github', data: event };
       }),
     );
   }

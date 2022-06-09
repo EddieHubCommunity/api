@@ -70,8 +70,16 @@ export class GithubController {
       body.sender.login,
     );
 
+    let createdObject = null;
     if (existingProfile) {
-      await this.eventService.create(body.sender.login, mapEvent(eventName));
+      createdObject = await this.eventService.create(
+        body.sender.login,
+        mapEvent(eventName),
+        true,
+      );
+    }
+    if (createdObject) {
+      this.eventService.emitEvent(createdObject);
     }
     return await this.githubService.bumpEvent({
       event: eventName,
