@@ -33,10 +33,9 @@ export const eventMap = {
 };
 
 export function mapEvent(githubEvent: string): string {
-  let mappedValue: string;
-  try {
-    mappedValue = eventMap[githubEvent];
-  } catch {
+  const mappedValue = eventMap[githubEvent];
+
+  if (!mappedValue) {
     throw new HttpException(
       'Please Provide valid Githubevent',
       HttpStatus.BAD_REQUEST,
