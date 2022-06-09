@@ -1,3 +1,12 @@
+## [0.15.1](https://github.com/EddieHubCommunity/api/compare/v0.15.0...v0.15.1) (2022-06-09)
+
+
+### Bug Fixes
+
+* increase rate limit ([6f29bb7](https://github.com/EddieHubCommunity/api/commit/6f29bb71febf50b7d2b5355ad9fe0b8ea6d8e6b0))
+
+
+
 # [0.15.0](https://github.com/EddieHubCommunity/api/compare/v0.14.0...v0.15.0) (2022-06-09)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * mapping for all events ([#272](https://github.com/EddieHubCommunity/api/issues/272)) ([5c0f9ce](https://github.com/EddieHubCommunity/api/commit/5c0f9cecdb913287a9332c871db35bc6c027b003))
-
-
-
-## [0.12.1](https://github.com/EddieHubCommunity/api/compare/v0.12.0...v0.12.1) (2022-05-31)
-
-
-### Bug Fixes
-
-* mongo crt mount ([2dcd5ea](https://github.com/EddieHubCommunity/api/commit/2dcd5eada27ce94489c1b00f3b1f59d39bf32124))
 
 
 
