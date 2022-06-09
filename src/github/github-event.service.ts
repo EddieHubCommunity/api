@@ -19,6 +19,7 @@ export class GithubEventService {
   public readonly eventObservable = this.eventSubject.asObservable();
 
   public emitEvent(event): void {
+    console.log(event); // @TODO remove
     this.eventSubject.next(event);
   }
 

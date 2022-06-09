@@ -5,7 +5,7 @@ metadata:
   labels:
     app: eddiehub-api
 spec:
-  replicas: 5
+  replicas: 1
   strategy:
     type: RollingUpdate
     rollingUpdate:
