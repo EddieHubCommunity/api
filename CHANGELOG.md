@@ -1,3 +1,12 @@
+## [0.16.6](https://github.com/EddieHubCommunity/api/compare/v0.16.5...v0.16.6) (2022-06-09)
+
+
+### Bug Fixes
+
+* readiness kube ([2b064bf](https://github.com/EddieHubCommunity/api/commit/2b064bf83624c98ef63f660e6833d0a6bae25753))
+
+
+
 ## [0.16.5](https://github.com/EddieHubCommunity/api/compare/v0.16.4...v0.16.5) (2022-06-09)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * deploy strategy ([3202b51](https://github.com/EddieHubCommunity/api/commit/3202b512711f6f1d4f41ba9f7997a1eb0a71ab0e))
-
-
-
-## [0.16.1](https://github.com/EddieHubCommunity/api/compare/v0.16.0...v0.16.1) (2022-06-09)
-
-
-### Bug Fixes
-
-* transport to websockets ([439fcb2](https://github.com/EddieHubCommunity/api/commit/439fcb244f5fed2e392510fbb6bb3f2a4e7eac8a))
 
 
 
