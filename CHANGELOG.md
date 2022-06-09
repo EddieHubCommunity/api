@@ -1,3 +1,12 @@
+# [0.16.0](https://github.com/EddieHubCommunity/api/compare/v0.15.1...v0.16.0) (2022-06-09)
+
+
+### Features
+
+* increase scaling ([568a5ef](https://github.com/EddieHubCommunity/api/commit/568a5effc76000bf085aa2cef34ba266ffd4ed85))
+
+
+
 ## [0.15.1](https://github.com/EddieHubCommunity/api/compare/v0.15.0...v0.15.1) (2022-06-09)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * remove events if user deletes ([#277](https://github.com/EddieHubCommunity/api/issues/277)) ([ac900fe](https://github.com/EddieHubCommunity/api/commit/ac900fe332a23dc9a683ca49b015d8434f2529bf))
-
-
-
-## [0.12.2](https://github.com/EddieHubCommunity/api/compare/v0.12.1...v0.12.2) (2022-06-02)
-
-
-### Bug Fixes
-
-* mapping for all events ([#272](https://github.com/EddieHubCommunity/api/issues/272)) ([5c0f9ce](https://github.com/EddieHubCommunity/api/commit/5c0f9cecdb913287a9332c871db35bc6c027b003))
 
 
 
