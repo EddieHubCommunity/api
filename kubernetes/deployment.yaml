@@ -48,3 +48,8 @@ spec:
                 secretKeyRef:
                   name: gh-token
                   key: GH_TOKEN
+            - name: API_WEBHOOK_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: api-webhook-secret
+                  key: API_WEBHOOK_SECRET
