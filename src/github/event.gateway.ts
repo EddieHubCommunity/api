@@ -11,7 +11,7 @@ import { GithubEventService } from './github-event.service';
   cors: {
     origin: '*',
   },
-  transports: ['websocket'],
+  transports: ['websocket', 'polling'],
 })
 export class EventGateway {
   constructor(private readonly eventService: GithubEventService) {}
