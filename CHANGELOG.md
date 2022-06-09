@@ -1,3 +1,12 @@
+## [0.16.1](https://github.com/EddieHubCommunity/api/compare/v0.16.0...v0.16.1) (2022-06-09)
+
+
+### Bug Fixes
+
+* transport to websockets ([439fcb2](https://github.com/EddieHubCommunity/api/commit/439fcb244f5fed2e392510fbb6bb3f2a4e7eac8a))
+
+
+
 # [0.16.0](https://github.com/EddieHubCommunity/api/compare/v0.15.1...v0.16.0) (2022-06-09)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * data via webhook ([#281](https://github.com/EddieHubCommunity/api/issues/281)) ([28375f1](https://github.com/EddieHubCommunity/api/commit/28375f11a27339875d363fa875ce8847cd8c20c3)), closes [#280](https://github.com/EddieHubCommunity/api/issues/280)
-
-
-
-# [0.13.0](https://github.com/EddieHubCommunity/api/compare/v0.12.2...v0.13.0) (2022-06-03)
-
-
-### Features
-
-* remove events if user deletes ([#277](https://github.com/EddieHubCommunity/api/issues/277)) ([ac900fe](https://github.com/EddieHubCommunity/api/commit/ac900fe332a23dc9a683ca49b015d8434f2529bf))
 
 
 
