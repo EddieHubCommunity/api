@@ -1,3 +1,12 @@
+## [0.16.4](https://github.com/EddieHubCommunity/api/compare/v0.16.3...v0.16.4) (2022-06-09)
+
+
+### Bug Fixes
+
+* websocket polling ([eef6ec9](https://github.com/EddieHubCommunity/api/commit/eef6ec9408b556e811ee4c94e64cbf30406f9da0))
+
+
+
 ## [0.16.3](https://github.com/EddieHubCommunity/api/compare/v0.16.2...v0.16.3) (2022-06-09)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * increase scaling ([568a5ef](https://github.com/EddieHubCommunity/api/commit/568a5effc76000bf085aa2cef34ba266ffd4ed85))
-
-
-
-## [0.15.1](https://github.com/EddieHubCommunity/api/compare/v0.15.0...v0.15.1) (2022-06-09)
-
-
-### Bug Fixes
-
-* increase rate limit ([6f29bb7](https://github.com/EddieHubCommunity/api/commit/6f29bb71febf50b7d2b5355ad9fe0b8ea6d8e6b0))
 
 
 
