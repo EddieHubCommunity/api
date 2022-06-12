@@ -9,11 +9,11 @@
 
 ## Description
 
-An API to manage our #EddieHub community data.<br>Documentation https://eddiehubcommunity.github.io/api/
+An API to manage our #EddieHub community data.<br>- [Documentation](https://eddiehubcommunity.github.io/api/)
 
 ## Rules
 
-- Commits follow the standard [Conventional Commit](https://www.conventionalcommits.org/en/v1.0.0/)
+- Commits follow the standard [Conventional Commit](https://www.conventionalcommits.org/en/v1.0.0/).
 - Branches should be named as `issue-<issue no>` (e.g. [NestJs](https://github.com/EddieHubCommunity/api/issues/12) issue number is 12)
 
 ## Requirements
@@ -42,7 +42,7 @@ $ npm install
 
 When using gitpod, you can set environment-variables under the following link `https://gitpod.io/variables`. You can even scope the variable to a specific project.
 
-For connecting the API against the database you can use `docker-compose`
+For connecting the API against the database you can use `docker-compose`.
 ```bash
 # database
 $ docker-compose up
@@ -119,7 +119,7 @@ To use Authentication the token needs to be passed in the `token`-header of the 
 
 ## Socials
 
-Join our Discord community [here](http://discord.eddiehub.org/)
-Subscribe our YouTube channel [here](https://www.youtube.com/user/eddiejaoude)
+- Join our [Discord community](http://discord.eddiehub.org/).<br>
+- Subscribe our [YouTube channel](https://www.youtube.com/user/eddiejaoude).
 
 ## MADE WITH :heart: BY EDDIEHUBBERS :sparkles::sparkles:
