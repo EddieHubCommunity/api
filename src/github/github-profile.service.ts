@@ -76,23 +76,28 @@ export class GithubProfileService {
           HttpStatus.NOT_FOUND,
         );
       }
-      if (!githubProfile.location) {
-        return await this.githubModel.findByIdAndUpdate(
-          github,
-          {
-            $inc: {
-              __v: 1,
-            },
-          },
-          { new: true },
-        );
-      }
+      const data = await lastValueFrom(
+        this.getGithubProfile(github).pipe(
+          concatMap(async (githubData) => {
+            Object.keys(githubData).forEach((key) => {
+              if (githubData[key] === null) {
+                delete githubData[key];
+              }
+            });
+            if (!githubData.location) return githubData;
+            return {
+              location: await this.geocodingService.fetchCoordinates(
+                githubData.location,
+              ),
+              name: githubData.name,
+            };
+          }),
+        ),
+      );
       return await this.githubModel.findByIdAndUpdate(
         github,
         {
-          location: await this.geocodingService.fetchCoordinates(
-            githubProfile.location.provided,
-          ),
+          location: data.location,
           $inc: {
             __v: 1,
           },
