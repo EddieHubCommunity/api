@@ -19,7 +19,6 @@ export class GithubEventService {
   public readonly eventObservable = this.eventSubject.asObservable();
 
   public emitEvent(event): void {
-    console.log(event); // @TODO remove
     this.eventSubject.next(event);
   }
 
@@ -41,8 +40,23 @@ export class GithubEventService {
     return await newEvent.save();
   }
 
-  public async getAll() {
-    return await this.eventModel.find();
+  public async getAll(offset = 0, limit = 10) {
+    const totalCount = await this.eventModel.countDocuments();
+    const pagination = {
+      offset: offset,
+      limit: limit,
+      previousOffset: offset - limit < 0 ? 0 : offset - limit,
+      nextOffset: offset + limit,
+      pageCount: Math.floor(totalCount / limit) + 1,
+      currentPage: Math.floor(offset / limit) + 1,
+      totalCount: totalCount,
+    };
+    const query = this.eventModel.find().skip(offset);
+    if (limit) {
+      query.limit(limit);
+    }
+    const result = await query;
+    return { items: result, meta: { pagination } };
   }
 
   public async getOne(id: string) {

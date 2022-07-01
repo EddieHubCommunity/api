@@ -108,4 +108,38 @@ export class responses {
       }
     });
   }
+
+  @then(/the reponse in property "([^"]*)" at index "([^"]*)" should contain:/)
+  public validateResponseProperty(
+    property: string,
+    index: string,
+    table: { rawTable: [] },
+  ) {
+    const data = this.context.tableToObject(table);
+    Object.keys(data).forEach((key) => {
+      if (/TYPE:/.test(data[key])) {
+        switch (data[key]) {
+          case 'TYPE:ID':
+            const isValidID = Types.ObjectId.isValid(
+              JSON.parse(this.context.response.text)[property][index][key],
+            );
+            this.context.documentId = JSON.parse(this.context.response.text)[
+              property
+            ][index][key];
+            expect(isValidID).to.be.true;
+            break;
+          default:
+            const regex = getRegex(data[key]);
+            expect(
+              JSON.parse(this.context.response.text)[property][index][key],
+            ).to.match(regex);
+            break;
+        }
+      } else {
+        expect(
+          JSON.parse(this.context.response.text)[property][index][key],
+        ).to.eql(data[key]);
+      }
+    });
+  }
 }

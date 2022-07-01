@@ -9,8 +9,9 @@ import {
   Headers,
   Put,
   UseGuards,
+  Query,
 } from '@nestjs/common';
-import { ApiSecurity, ApiTags } from '@nestjs/swagger';
+import { ApiQuery, ApiSecurity, ApiTags } from '@nestjs/swagger';
 import { TokenGuard } from '../auth/token.strategy';
 import { CreateGithubProfileDTO } from './dto/create-github.dto';
 import { CreateEventDTO } from './dto/create-events.dto';
@@ -18,6 +19,7 @@ import { GithubEventService } from './github-event.service';
 import { GithubProfileService } from './github-profile.service';
 import { mapEvent } from './data/event-map';
 import { GithubWebhookGuard } from './guards/webhook.guard';
+import { PaginationParams } from './interfaces/pagination-params';
 
 @ApiTags('Github')
 @Controller('github')
@@ -35,8 +37,20 @@ export class GithubController {
   }
 
   @Get('events')
-  async getAllEvents() {
-    return await this.eventService.getAll();
+  @ApiQuery({
+    name: 'limit',
+    type: Number,
+    required: false,
+    description: 'Limits the page size',
+  })
+  @ApiQuery({
+    name: 'offset',
+    type: Number,
+    required: false,
+    description: 'Amount of skipped Documents',
+  })
+  async getAllEvents(@Query() { offset, limit }: PaginationParams) {
+    return await this.eventService.getAll(offset, limit);
   }
 
   @Post('events')
