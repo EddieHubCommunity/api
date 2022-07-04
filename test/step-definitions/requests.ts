@@ -73,7 +73,7 @@ export class requests {
     if (this.context.token) {
       post.set('Client-Token', this.context.token);
     }
-    return await post.send(body);
+    return post.send(body);
   }
 
   @when(/I create a new user/)

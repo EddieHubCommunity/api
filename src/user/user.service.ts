@@ -51,7 +51,7 @@ export class UserService {
       }
     });
 
-    return await this.userModel.findByIdAndUpdate(
+    return this.userModel.findByIdAndUpdate(
       id,
       {
         $set: patchDocument,
@@ -62,7 +62,7 @@ export class UserService {
   }
 
   public async findAll() {
-    return await this.userModel.find().populate('github', '-__v');
+    return this.userModel.find().populate('github', '-__v');
   }
 
   public async findOne(id: string) {
@@ -92,7 +92,7 @@ export class UserService {
       throw new HttpException(`No User for ${id} found`, HttpStatus.NOT_FOUND);
     }
     if (!github) {
-      return await this.userModel.findByIdAndUpdate(
+      return this.userModel.findByIdAndUpdate(
         id,
         { $unset: { github: 1 } },
         { new: true },
@@ -105,7 +105,7 @@ export class UserService {
         HttpStatus.NOT_FOUND,
       );
     }
-    return await this.userModel
+    return this.userModel
       .findByIdAndUpdate(
         id,
         {

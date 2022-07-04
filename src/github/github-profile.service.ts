@@ -48,7 +48,7 @@ export class GithubProfileService {
       location: data.location,
       events: {},
     });
-    return await createdGithubProfile.save();
+    return createdGithubProfile.save();
   }
 
   public async deleteOne(username: string) {
@@ -121,11 +121,11 @@ export class GithubProfileService {
   }
 
   public async findAll() {
-    return await this.githubModel.find();
+    return this.githubModel.find();
   }
 
   public async findEddiehub() {
-    return await this.githubModel.findById('EddieHubCommunity');
+    return this.githubModel.findById('EddieHubCommunity');
   }
 
   public async bumpEvent(data: CreateEventDTO) {
@@ -137,7 +137,7 @@ export class GithubProfileService {
         HttpStatus.NOT_FOUND,
       );
     }
-    return await this.githubModel.findByIdAndUpdate(
+    return this.githubModel.findByIdAndUpdate(
       data.githubUsername,
       {
         $inc: {

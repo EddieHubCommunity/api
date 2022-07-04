@@ -30,19 +30,19 @@ export class UserController {
 
   @Get()
   async findAll() {
-    return await this.userService.findAll();
+    return this.userService.findAll();
   }
 
   @Get(':id')
   async findOne(@Param('id') id: string) {
-    return await this.userService.findOne(id);
+    return this.userService.findOne(id);
   }
 
   @Patch(':id')
   @UseGuards(TokenGuard)
   @ApiSecurity('token')
   async patch(@Param('id') id: string, @Body() body: PatchUserDTO) {
-    return await this.userService.patch(body, id);
+    return this.userService.patch(body, id);
   }
 
   @Delete(':id')
@@ -50,13 +50,13 @@ export class UserController {
   @UseGuards(TokenGuard)
   @ApiSecurity('token')
   async delete(@Param('id') id: string) {
-    return await this.userService.delete(id);
+    return this.userService.delete(id);
   }
 
   @Post(':id/connect/github')
   @UseGuards(TokenGuard)
   @ApiSecurity('token')
   async connect(@Param('id') id: string, @Body() body: ConnectDTO) {
-    return await this.userService.connect(id, body.githubUsername);
+    return this.userService.connect(id, body.githubUsername);
   }
 }

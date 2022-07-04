@@ -35,25 +35,25 @@ export class GithubEventService {
 
     if (populate) {
       const createdEvent = await newEvent.save();
-      return await createdEvent.populate('githubUsername', '-__v');
+      return createdEvent.populate('githubUsername', '-__v');
     }
 
-    return await newEvent.save();
+    return newEvent.save();
   }
 
   public async getAll() {
-    return await this.eventModel.find();
+    return this.eventModel.find();
   }
 
   public async getOne(id: string) {
-    return await this.eventModel.findById(id);
+    return this.eventModel.findById(id);
   }
 
   public async getByUsername(githubUsername: string) {
-    return await this.eventModel.find({ githubUsername });
+    return this.eventModel.find({ githubUsername });
   }
 
   public async deleteByUsername(githubUsername: string) {
-    return await this.eventModel.deleteMany({ githubUsername });
+    return this.eventModel.deleteMany({ githubUsername });
   }
 }

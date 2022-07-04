@@ -36,7 +36,7 @@ export class GithubController {
 
   @Get('events')
   async getAllEvents() {
-    return await this.eventService.getAll();
+    return this.eventService.getAll();
   }
 
   @Post('events')
@@ -58,7 +58,7 @@ export class GithubController {
     if (createdObject) {
       this.eventService.emitEvent(createdObject);
     }
-    return await this.githubService.bumpEvent(body);
+    return this.githubService.bumpEvent(body);
   }
 
   @Post('events/webhook')
@@ -81,7 +81,7 @@ export class GithubController {
     if (createdObject) {
       this.eventService.emitEvent(createdObject);
     }
-    return await this.githubService.bumpEvent({
+    return this.githubService.bumpEvent({
       event: eventName,
       githubUsername: body.sender.login,
     });
@@ -89,7 +89,7 @@ export class GithubController {
 
   @Get('events/:id')
   async getOneEvent(@Param('id') id: string) {
-    return await this.eventService.getOne(id);
+    return this.eventService.getOne(id);
   }
 
   @Get()
@@ -125,6 +125,6 @@ export class GithubController {
 
   @Get(':id/events')
   async findEvents(@Param('id') id: string) {
-    return await this.eventService.getByUsername(id);
+    return this.eventService.getByUsername(id);
   }
 }
