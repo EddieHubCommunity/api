@@ -38,7 +38,8 @@ export class GithubEventService {
       return createdEvent.populate('githubUsername', '-__v');
     }
 
-    return newEvent.save();
+    await newEvent.save();
+    return;
   }
 
   public async getAll() {
