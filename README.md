@@ -9,7 +9,7 @@
 
 ## Description
 
-An API to manage our #EddieHub community data.<br>Documentation https://eddiehubcommunity.github.io/api/
+An API to manage our #EddieHub community data.
 
 ## Rules
 
