@@ -79,7 +79,15 @@ export class GithubController {
       );
     }
     if (createdObject) {
-      this.eventService.emitEvent(createdObject);
+      const populatedObject = {
+        ...createdObject,
+        ...{
+          repoName: body.repository.full_name,
+          repoURL: body.html_url,
+          githubUserURL: body.sender.url,
+        },
+      };
+      this.eventService.emitEvent(populatedObject);
     }
     return await this.githubService.bumpEvent({
       event: eventName,
