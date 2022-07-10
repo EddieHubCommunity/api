@@ -1,3 +1,12 @@
+# [0.17.0](https://github.com/EddieHubCommunity/api/compare/v0.16.9...v0.17.0) (2022-07-10)
+
+
+### Features
+
+* populate websocket object ([#296](https://github.com/EddieHubCommunity/api/issues/296)) ([cf5c08a](https://github.com/EddieHubCommunity/api/commit/cf5c08a0322348642433ff8b30d5dc9cdea68c90))
+
+
+
 ## [0.16.9](https://github.com/EddieHubCommunity/api/compare/v0.16.8...v0.16.9) (2022-06-16)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * readiness kube ([2b064bf](https://github.com/EddieHubCommunity/api/commit/2b064bf83624c98ef63f660e6833d0a6bae25753))
-
-
-
-## [0.16.5](https://github.com/EddieHubCommunity/api/compare/v0.16.4...v0.16.5) (2022-06-09)
-
-
-### Bug Fixes
-
-* event map handling ([#282](https://github.com/EddieHubCommunity/api/issues/282)) ([8d25761](https://github.com/EddieHubCommunity/api/commit/8d257618640b3c6f664728bb4a3e77f7331ffb58))
 
 
 
