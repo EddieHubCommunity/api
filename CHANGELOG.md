@@ -1,3 +1,12 @@
+## [0.17.1](https://github.com/EddieHubCommunity/api/compare/v0.17.0...v0.17.1) (2022-07-10)
+
+
+### Bug Fixes
+
+* populated websocket object ([#297](https://github.com/EddieHubCommunity/api/issues/297)) ([25c2851](https://github.com/EddieHubCommunity/api/commit/25c28515be1f7feb11b84af8d70409146fb84b7a))
+
+
+
 # [0.17.0](https://github.com/EddieHubCommunity/api/compare/v0.16.9...v0.17.0) (2022-07-10)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * readinessProbe ([51670e0](https://github.com/EddieHubCommunity/api/commit/51670e072fd6f5596744af53d9588d3717e53713))
-
-
-
-## [0.16.6](https://github.com/EddieHubCommunity/api/compare/v0.16.5...v0.16.6) (2022-06-09)
-
-
-### Bug Fixes
-
-* readiness kube ([2b064bf](https://github.com/EddieHubCommunity/api/commit/2b064bf83624c98ef63f660e6833d0a6bae25753))
 
 
 

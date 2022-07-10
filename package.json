@@ -1,6 +1,6 @@
 {
   "name": "api",
-  "version": "0.17.0",
+  "version": "0.17.1",
   "description": "An API to manage our community data",
   "author": "EddieHubCommunity",
   "license": "MIT",
