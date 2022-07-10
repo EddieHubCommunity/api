@@ -80,12 +80,10 @@ export class GithubController {
     }
     if (createdObject) {
       const populatedObject = {
-        ...createdObject,
-        ...{
-          repoName: body.repository.full_name,
-          repoURL: body.html_url,
-          githubUserURL: body.sender.url,
-        },
+        ...createdObject.toObject(),
+        repoName: body.repository.full_name,
+        repoURL: body.html_url,
+        githubUserURL: body.sender.url,
       };
       this.eventService.emitEvent(populatedObject);
     }
