@@ -135,11 +135,11 @@ export class responses {
             ).to.match(regex);
             break;
         }
-      } else {
-        expect(
-          JSON.parse(this.context.response.text)[property][index][key],
-        ).to.eql(data[key]);
+        return;
       }
+      expect(
+        JSON.parse(this.context.response.text)[property][index][key],
+      ).to.eql(data[key]);
     });
   }
 }
