@@ -1,3 +1,12 @@
+# [0.18.0](https://github.com/EddieHubCommunity/api/compare/v0.17.2...v0.18.0) (2022-07-22)
+
+
+### Features
+
+* add pagination to endpoint ([#289](https://github.com/EddieHubCommunity/api/issues/289)) ([d9d6709](https://github.com/EddieHubCommunity/api/commit/d9d6709e23ec5dd3cc11274ae745a4d856c3b25c))
+
+
+
 ## [0.17.2](https://github.com/EddieHubCommunity/api/compare/v0.17.1...v0.17.2) (2022-07-10)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * location update ([#284](https://github.com/EddieHubCommunity/api/issues/284)) ([8f37d8b](https://github.com/EddieHubCommunity/api/commit/8f37d8b598bf8bbe5cc1cfc8704a258215f5f398))
-
-
-
-## [0.16.8](https://github.com/EddieHubCommunity/api/compare/v0.16.7...v0.16.8) (2022-06-09)
-
-
-### Bug Fixes
-
-* debugging ([638169b](https://github.com/EddieHubCommunity/api/commit/638169b7a12bc94511ff9f27c9d65c049d5bd3db))
 
 
 
