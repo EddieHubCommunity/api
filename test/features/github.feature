@@ -114,7 +114,7 @@ Feature: Github module
             | event          | "workflow_dispatch" |
         Then make a GET request to "/github/events"
         Then the response status code should be 200
-        And the response at index "0" should contain:
+        And the reponse in property "items" at index "0" should contain:
             | event | "workflowDispatch" |
 
     Scenario: get all events without authorization
