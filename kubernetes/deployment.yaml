@@ -34,10 +34,6 @@ spec:
       containers:
         - name: api
           image: ghcr.io/eddiehubcommunity/api:latest
-          volumeMounts:
-            - mountPath: '/etc/mongo/crt'
-              name: mongo-crt
-              readOnly: true
           ports:
             - containerPort: 3000
           env:
