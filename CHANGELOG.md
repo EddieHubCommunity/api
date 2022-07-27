@@ -1,3 +1,12 @@
+## [0.18.1](https://github.com/EddieHubCommunity/api/compare/v0.18.0...v0.18.1) (2022-07-27)
+
+
+### Bug Fixes
+
+* ingress for new k8s ([7734c82](https://github.com/EddieHubCommunity/api/commit/7734c82e775539a7026df4fb1cdc90019bde031b))
+
+
+
 # [0.18.0](https://github.com/EddieHubCommunity/api/compare/v0.17.2...v0.18.0) (2022-07-22)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * populate websocket object ([#296](https://github.com/EddieHubCommunity/api/issues/296)) ([cf5c08a](https://github.com/EddieHubCommunity/api/commit/cf5c08a0322348642433ff8b30d5dc9cdea68c90))
-
-
-
-## [0.16.9](https://github.com/EddieHubCommunity/api/compare/v0.16.8...v0.16.9) (2022-06-16)
-
-
-### Bug Fixes
-
-* location update ([#284](https://github.com/EddieHubCommunity/api/issues/284)) ([8f37d8b](https://github.com/EddieHubCommunity/api/commit/8f37d8b598bf8bbe5cc1cfc8704a258215f5f398))
 
 
 
