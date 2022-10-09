@@ -1,3 +1,12 @@
+## [0.18.2](https://github.com/EddieHubCommunity/api/compare/v0.18.1...v0.18.2) (2022-10-09)
+
+
+### Bug Fixes
+
+* deployment to DO apps ([ae2e19f](https://github.com/EddieHubCommunity/api/commit/ae2e19f85aa92eeeaf109c2643775390874aac54))
+
+
+
 ## [0.18.1](https://github.com/EddieHubCommunity/api/compare/v0.18.0...v0.18.1) (2022-07-27)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * populated websocket object ([#297](https://github.com/EddieHubCommunity/api/issues/297)) ([25c2851](https://github.com/EddieHubCommunity/api/commit/25c28515be1f7feb11b84af8d70409146fb84b7a))
-
-
-
-# [0.17.0](https://github.com/EddieHubCommunity/api/compare/v0.16.9...v0.17.0) (2022-07-10)
-
-
-### Features
-
-* populate websocket object ([#296](https://github.com/EddieHubCommunity/api/issues/296)) ([cf5c08a](https://github.com/EddieHubCommunity/api/commit/cf5c08a0322348642433ff8b30d5dc9cdea68c90))
 
 
 
