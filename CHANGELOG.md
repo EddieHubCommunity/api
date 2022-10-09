@@ -1,3 +1,12 @@
+## [0.18.4](https://github.com/EddieHubCommunity/api/compare/v0.18.3...v0.18.4) (2022-10-09)
+
+
+### Bug Fixes
+
+* mongo cert file ([27f41de](https://github.com/EddieHubCommunity/api/commit/27f41de3c8deaaf1f48bf511f5c9febe23fbb3db))
+
+
+
 ## [0.18.3](https://github.com/EddieHubCommunity/api/compare/v0.18.2...v0.18.3) (2022-10-09)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * add pagination to endpoint ([#289](https://github.com/EddieHubCommunity/api/issues/289)) ([d9d6709](https://github.com/EddieHubCommunity/api/commit/d9d6709e23ec5dd3cc11274ae745a4d856c3b25c))
-
-
-
-## [0.17.2](https://github.com/EddieHubCommunity/api/compare/v0.17.1...v0.17.2) (2022-07-10)
-
-
-### Bug Fixes
-
-* webhook properties([#298](https://github.com/EddieHubCommunity/api/issues/298)) ([682175c](https://github.com/EddieHubCommunity/api/commit/682175c54c2fee71d00d6f119c40f863ccdd92e7))
 
 
 
