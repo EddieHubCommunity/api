@@ -1,3 +1,12 @@
+## [0.18.5](https://github.com/EddieHubCommunity/api/compare/v0.18.4...v0.18.5) (2022-10-09)
+
+
+### Bug Fixes
+
+* mongo cert write file ([5f0a8cc](https://github.com/EddieHubCommunity/api/commit/5f0a8ccf75bf8a9fac0ec173479ff9f965a60b3d))
+
+
+
 ## [0.18.4](https://github.com/EddieHubCommunity/api/compare/v0.18.3...v0.18.4) (2022-10-09)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * ingress for new k8s ([7734c82](https://github.com/EddieHubCommunity/api/commit/7734c82e775539a7026df4fb1cdc90019bde031b))
-
-
-
-# [0.18.0](https://github.com/EddieHubCommunity/api/compare/v0.17.2...v0.18.0) (2022-07-22)
-
-
-### Features
-
-* add pagination to endpoint ([#289](https://github.com/EddieHubCommunity/api/issues/289)) ([d9d6709](https://github.com/EddieHubCommunity/api/commit/d9d6709e23ec5dd3cc11274ae745a4d856c3b25c))
 
 
 
