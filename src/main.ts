@@ -6,6 +6,9 @@ import { swaggerConfig } from './swagger';
 import * as helmet from 'helmet';
 
 async function bootstrap() {
+  // @TODO debugging DigitalOcean apps
+  console.log('DB', process.env.DATABASE_URL);
+
   const app = await NestFactory.create(AppModule);
 
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
