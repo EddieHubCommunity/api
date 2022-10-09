@@ -4,7 +4,7 @@ import { SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { swaggerConfig } from './swagger';
 import * as helmet from 'helmet';
-import fs from 'fs';
+import * as fs from 'fs';
 
 async function bootstrap() {
   // DigitalOcean Apps has cert as environment variable but Mongo needs a file path
