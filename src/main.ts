@@ -1,3 +1,4 @@
+import fs from 'fs';
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule } from '@nestjs/swagger';
@@ -6,8 +7,9 @@ import { swaggerConfig } from './swagger';
 import * as helmet from 'helmet';
 
 async function bootstrap() {
-  // @TODO debugging DigitalOcean apps
-  console.log('DB', process.env.CA_CERT);
+  // DigitalOcean Apps has cert as environment variable but Mongo needs a file path
+  // Write Mongo cert file to disk
+  fs.writeFileSync('cert.pem', process.env.CA_CERT!);
 
   const app = await NestFactory.create(AppModule);
 
