@@ -1,3 +1,12 @@
+## [0.18.6](https://github.com/EddieHubCommunity/api/compare/v0.18.5...v0.18.6) (2022-10-09)
+
+
+### Bug Fixes
+
+* fs import ([ae5872a](https://github.com/EddieHubCommunity/api/commit/ae5872a8907e51a1e56e6390a8da6d0c3c8fbeb1))
+
+
+
 ## [0.18.5](https://github.com/EddieHubCommunity/api/compare/v0.18.4...v0.18.5) (2022-10-09)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * deployment to DO apps ([ae2e19f](https://github.com/EddieHubCommunity/api/commit/ae2e19f85aa92eeeaf109c2643775390874aac54))
-
-
-
-## [0.18.1](https://github.com/EddieHubCommunity/api/compare/v0.18.0...v0.18.1) (2022-07-27)
-
-
-### Bug Fixes
-
-* ingress for new k8s ([7734c82](https://github.com/EddieHubCommunity/api/commit/7734c82e775539a7026df4fb1cdc90019bde031b))
 
 
 
