@@ -1,3 +1,12 @@
+## [0.18.3](https://github.com/EddieHubCommunity/api/compare/v0.18.2...v0.18.3) (2022-10-09)
+
+
+### Bug Fixes
+
+* deployment to DO apps ([ac4063e](https://github.com/EddieHubCommunity/api/commit/ac4063e20c90f014383c227e499f69644ec801b7))
+
+
+
 ## [0.18.2](https://github.com/EddieHubCommunity/api/compare/v0.18.1...v0.18.2) (2022-10-09)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * webhook properties([#298](https://github.com/EddieHubCommunity/api/issues/298)) ([682175c](https://github.com/EddieHubCommunity/api/commit/682175c54c2fee71d00d6f119c40f863ccdd92e7))
-
-
-
-## [0.17.1](https://github.com/EddieHubCommunity/api/compare/v0.17.0...v0.17.1) (2022-07-10)
-
-
-### Bug Fixes
-
-* populated websocket object ([#297](https://github.com/EddieHubCommunity/api/issues/297)) ([25c2851](https://github.com/EddieHubCommunity/api/commit/25c28515be1f7feb11b84af8d70409146fb84b7a))
 
 
 
