@@ -9,7 +9,7 @@
 
 ## Description
 
-An API to manage our #EddieHub community data.
+An API to manage our **EddieHub community data.**
 
 ## Rules
 
@@ -115,7 +115,7 @@ To use Authentication the token needs to be passed in the `token`-header of the 
 
 ## License
 
-[MIT licensed](LICENSE).
+[![GitHub](https://img.shields.io/github/license/EddieHubCommunity/api?style=social)](LICENSE).
 
 ## Socials
 
