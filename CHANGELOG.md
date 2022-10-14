@@ -1,3 +1,12 @@
+## [0.18.7](https://github.com/EddieHubCommunity/api/compare/v0.18.6...v0.18.7) (2022-10-14)
+
+
+### Bug Fixes
+
+* pem file only in prod ([0978e23](https://github.com/EddieHubCommunity/api/commit/0978e23b27c2fe4ef9ceece7383927058d5d5c82))
+
+
+
 ## [0.18.6](https://github.com/EddieHubCommunity/api/compare/v0.18.5...v0.18.6) (2022-10-09)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * deployment to DO apps ([ac4063e](https://github.com/EddieHubCommunity/api/commit/ac4063e20c90f014383c227e499f69644ec801b7))
-
-
-
-## [0.18.2](https://github.com/EddieHubCommunity/api/compare/v0.18.1...v0.18.2) (2022-10-09)
-
-
-### Bug Fixes
-
-* deployment to DO apps ([ae2e19f](https://github.com/EddieHubCommunity/api/commit/ae2e19f85aa92eeeaf109c2643775390874aac54))
 
 
 
