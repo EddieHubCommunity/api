@@ -9,7 +9,9 @@ import * as fs from 'fs';
 async function bootstrap() {
   // DigitalOcean Apps has cert as environment variable but Mongo needs a file path
   // Write Mongo cert file to disk
-  fs.writeFileSync('cert.pem', process.env.CA_CERT!);
+  if (process.env.CA_CERT) {
+    fs.writeFileSync('cert.pem', process.env.CA_CERT!);
+  }
 
   const app = await NestFactory.create(AppModule);
 
