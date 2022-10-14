@@ -1,3 +1,12 @@
+## [0.18.8](https://github.com/EddieHubCommunity/api/compare/v0.18.7...v0.18.8) (2022-10-14)
+
+
+### Bug Fixes
+
+* github action mongo ([8cc2068](https://github.com/EddieHubCommunity/api/commit/8cc2068c62e6c9ccb70dd30d7ceb1466ad17a5e8))
+
+
+
 ## [0.18.7](https://github.com/EddieHubCommunity/api/compare/v0.18.6...v0.18.7) (2022-10-14)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * mongo cert file ([27f41de](https://github.com/EddieHubCommunity/api/commit/27f41de3c8deaaf1f48bf511f5c9febe23fbb3db))
-
-
-
-## [0.18.3](https://github.com/EddieHubCommunity/api/compare/v0.18.2...v0.18.3) (2022-10-09)
-
-
-### Bug Fixes
-
-* deployment to DO apps ([ac4063e](https://github.com/EddieHubCommunity/api/commit/ac4063e20c90f014383c227e499f69644ec801b7))
 
 
 
