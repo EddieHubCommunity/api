@@ -88,7 +88,7 @@ $ npm run test:cov
 ## Logging
 
 Logging can be turned on by settings an environment-variable `DEBUG=true`.
-If this variables is not true or undefiend no Logs will be made.
+If this variables is not true or undefined no Logs will be made.
 
 When set to `true` the App will Log every incoming request.
 
