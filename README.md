@@ -14,7 +14,7 @@ An API to manage our #EddieHub community data.
 ## Rules
 
 - Commits follow the standard [Conventional Commit](https://www.conventionalcommits.org/en/v1.0.0/)
-- Branches should be named as `issue-<issue no>` (e.g. [NestJs](https://github.com/EddieHubCommunity/api/issues/12) issue number is 12)
+- Branches should be named as `issue-<issue no>` (e.g. [NestJS](https://github.com/EddieHubCommunity/api/issues/12) issue number is 12)
 
 ## Requirements
 
@@ -26,11 +26,11 @@ An API to manage our #EddieHub community data.
 
 ### Gitpod
 
-Gitpod is a Service, which provides development environments in the cloud. In case no plan is purchased the reguar `Opensource License` allows to use the service for 50 hours per month for free.
+Gitpod is a Service, which provides development environments in the cloud. In case no plan is purchased the regular `Opensource License` allows to use the service for 50 hours per month for free.
 
 All that needs to be done, is logging in to their service with a valid GitHub account.
 
-1. [OPTIONAL] Install the Browser Extension from Gitpod.<br>- [Chrome](https://chrome.google.com/webstore/detail/gitpod-always-ready-to-co/dodmmooeoklaejobgleioelladacbeki)<br>- [Firefox](https://addons.mozilla.org/de/firefox/addon/gitpod/)
+1. Install the Browser Extension from Gitpod. [**OPTIONAL**]<br>- [Chrome](https://chrome.google.com/webstore/detail/gitpod-always-ready-to-co/dodmmooeoklaejobgleioelladacbeki)<br>- [Firefox](https://addons.mozilla.org/de/firefox/addon/gitpod/) 
 2. Just hit the Gitpod button in the `README` file. Everything will spin up automatically.
 3. When you're finished with your contribution just close the workspace.
 
@@ -63,7 +63,7 @@ $ npm run start:prod
 
 - The API-Token is a static token, which gets set in the environment-variables as `APPROVED_TOKENS`. 
 - This token is used to authenticate an 'admin-App' against the API. The API-Token is used to generate **Bearer-Tokens**. 
-- For generating more than one token they can be passed to the environment-variables as a comma-seperated list.
+- For generating more than one token they can be passed to the environment-variables as a comma-separated list.
 
 ## Swagger docs
 
@@ -88,7 +88,7 @@ $ npm run test:cov
 ## Logging
 
 Logging can be turned on by settings an environment-variable `DEBUG=true`.
-If this variables is not true or undefined no Logs will be made.
+If this variable is not true or undefined no Logs will be made.
 
 When set to `true` the App will Log every incoming request.
 
@@ -119,7 +119,7 @@ To use Authentication the token needs to be passed in the `token`-header of the 
 
 ## Socials
 
-Join our Discord community [here](http://discord.eddiehub.org/)
-Subscribe our YouTube channel [here](https://www.youtube.com/user/eddiejaoude)
+- Join our Discord community [here](http://discord.eddiehub.org/)
+- Subscribe to our YouTube channel [here](https://www.youtube.com/user/eddiejaoude)
 
 ## MADE WITH :heart: BY EDDIEHUBBERS :sparkles::sparkles:
