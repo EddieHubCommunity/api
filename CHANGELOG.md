@@ -1,3 +1,12 @@
+## [0.18.10](https://github.com/EddieHubCommunity/api/compare/v0.18.9...v0.18.10) (2023-05-30)
+
+
+### Bug Fixes
+
+* grammar, typos & organized socials ([#315](https://github.com/EddieHubCommunity/api/issues/315)) ([6b05e8e](https://github.com/EddieHubCommunity/api/commit/6b05e8ed614f8cbb201b4e41c084277b69e2c9d2))
+
+
+
 ## [0.18.9](https://github.com/EddieHubCommunity/api/compare/v0.18.8...v0.18.9) (2022-10-18)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * fs import ([ae5872a](https://github.com/EddieHubCommunity/api/commit/ae5872a8907e51a1e56e6390a8da6d0c3c8fbeb1))
-
-
-
-## [0.18.5](https://github.com/EddieHubCommunity/api/compare/v0.18.4...v0.18.5) (2022-10-09)
-
-
-### Bug Fixes
-
-* mongo cert write file ([5f0a8cc](https://github.com/EddieHubCommunity/api/commit/5f0a8ccf75bf8a9fac0ec173479ff9f965a60b3d))
 
 
 
