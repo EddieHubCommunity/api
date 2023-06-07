@@ -122,4 +122,8 @@ To use Authentication the token needs to be passed in the `token`-header of the 
 - Join our Discord community [here](http://discord.eddiehub.org/)
 - Subscribe to our YouTube channel [here](https://www.youtube.com/user/eddiejaoude)
 
-## MADE WITH :heart: BY EDDIEHUBBERS :sparkles::sparkles:
+## Our Pledge
+
+We take participation in our community as a harassment-free experience for everyone and we pledge to act in ways to contribute to an open, welcoming, diverse and inclusive community.  
+
+If you have experienced or been made aware of unacceptable behaviour, please remember that you can report this.  Read our [Code of Conduct](https://github.com/EddieHubCommunity/api/blob/main/CODE_OF_CONDUCT.md).
