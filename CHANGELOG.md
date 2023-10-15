@@ -1,3 +1,12 @@
+# [0.19.0](https://github.com/EddieHubCommunity/api/compare/v0.18.10...v0.19.0) (2023-10-15)
+
+
+### Features
+
+* upgrade dependencies to latest versions and patch vulnerablities ([#318](https://github.com/EddieHubCommunity/api/issues/318)) ([2a3e828](https://github.com/EddieHubCommunity/api/commit/2a3e828bbcdeca7f42266582b9fcbe295c23f8bf))
+
+
+
 ## [0.18.10](https://github.com/EddieHubCommunity/api/compare/v0.18.9...v0.18.10) (2023-05-30)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * pem file only in prod ([0978e23](https://github.com/EddieHubCommunity/api/commit/0978e23b27c2fe4ef9ceece7383927058d5d5c82))
-
-
-
-## [0.18.6](https://github.com/EddieHubCommunity/api/compare/v0.18.5...v0.18.6) (2022-10-09)
-
-
-### Bug Fixes
-
-* fs import ([ae5872a](https://github.com/EddieHubCommunity/api/commit/ae5872a8907e51a1e56e6390a8da6d0c3c8fbeb1))
 
 
 
