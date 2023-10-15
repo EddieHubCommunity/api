@@ -13,8 +13,7 @@ import { APP_GUARD } from '@nestjs/core';
 @Module({
   imports: [
     ThrottlerModule.forRoot({
-      ttl: 1,
-      limit: 100,
+      throttlers: [{ limit: 100, ttl: 1 }],
     }),
     MongooseModule.forRootAsync({
       useClass: MongooseConfigService,
